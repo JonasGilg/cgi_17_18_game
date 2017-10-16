@@ -45,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CGI\Engine\Camera\Camera.cs" />
+    <Compile Include="CGI\Engine\GameObject\IRenderable.cs" />
+    <Compile Include="CGI\Engine\GameObject\IUpdatable.cs" />
+    <Compile Include="CGI\Engine\GameObject\GameObject3D.cs" />
     <Compile Include="CGI\Engine\Light\Light.cs" />
     <Compile Include="CGI\Engine\Material\Ambientdiffuse\AmbientDiffuseMaterial.cs" />
     <Compile Include="CGI\Engine\Material\BaseMaterial.cs" />

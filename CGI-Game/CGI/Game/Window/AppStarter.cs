@@ -4,6 +4,7 @@ using CGI.Engine.Material.Ambientdiffuse;
 using CGI.Engine.Material.Simpletexture;
 using CGI.Engine.Object3D;
 using CGI.Engine.Camera;
+using CGI.Engine.GameObject;
 using CGI.Engine.Texture;
 using OpenTK;
 using OpenTK.Graphics;
