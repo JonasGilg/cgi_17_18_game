@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace CGI.Engine.Object3D {
-	public class BaseObject3D {
+namespace Engine.Model {
+	public class Model3D {
 		// the transformation (position, rotation, scale) of the object
 		public Matrix4 Transformation = Matrix4.Identity;
 

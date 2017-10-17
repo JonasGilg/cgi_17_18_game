@@ -4,9 +4,9 @@ using System.Globalization;
 using System.IO;
 using OpenTK;
 
-namespace CGI.Engine.Object3D {
-	public class ObjLoaderObject3D : BaseObject3D {
-		public ObjLoaderObject3D(string filePath) {
+namespace Engine.Model {
+	public class ModelLoaderObject3D : Model3D {
+		public ModelLoaderObject3D(string filePath) {
 			Positions = new List<Vector3>();
 			Normals = new List<Vector3>();
 			UVs = new List<Vector2>();
