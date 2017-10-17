@@ -1,9 +1,9 @@
 ﻿namespace Engine.Component {
-	public abstract class Component<T> where T : GameObject.GameObject {
-		private T _gameObject;
+	public abstract class Component {
+		protected GameObject.GameObject GameObject;
 
-		protected Component(T gameObject) {
-			_gameObject = gameObject;
+		protected Component(GameObject.GameObject gameObject) {
+			GameObject = gameObject;
 		}
 	}
 }

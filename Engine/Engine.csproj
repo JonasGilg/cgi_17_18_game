@@ -46,9 +46,9 @@
   <ItemGroup>
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="Component\Component.cs" />
+    <Compile Include="Component\MoveComponent.cs" />
+    <Compile Include="Constants\Constants.cs" />
     <Compile Include="GameObject\GameObject.cs" />
-    <Compile Include="GameObject\IRenderable.cs" />
-    <Compile Include="GameObject\IUpdatable.cs" />
     <Compile Include="Light\Light.cs" />
     <Compile Include="Material\Ambientdiffuse\AmbientDiffuseMaterial.cs" />
     <Compile Include="Material\BaseMaterial.cs" />

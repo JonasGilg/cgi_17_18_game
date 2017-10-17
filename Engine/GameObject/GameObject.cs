@@ -2,7 +2,8 @@
 
 namespace Engine.GameObject {
 	public class GameObject {
-		public Matrix4 Transformation;
-		public bool IsActive;
+		public Vector3 Position = Vector3.Zero;
+		public Quaternion Orientation = Quaternion.Identity;
+		public Vector3 Scale = Vector3.One;
 	}
 }

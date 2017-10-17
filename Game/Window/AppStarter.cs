@@ -5,6 +5,7 @@ using Engine.Light;
 using Engine.Material.Ambientdiffuse;
 using Engine.Material.Simpletexture;
 using Engine.Model;
+using Game.GameObjects;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -16,7 +17,7 @@ namespace Game.Window {
 			Corner,
 			Net,
 			TopView,
-			AroundBall
+			AroundSpaceShip
 		}
 
 		// camera mode
@@ -58,6 +59,8 @@ namespace Game.Window {
 
 		private int _updateCounter;
 
+		private SpaceShip _ship;
+
 		private AppStarter()
 			: base(1280, 720, new GraphicsMode(32, 24, 8, 2), "CGI-MIN Example", GameWindowFlags.Default, DisplayDevice.Default,
 				3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
@@ -72,6 +75,9 @@ namespace Game.Window {
 
 			// Initialize Light
 			Light.SetDirectionalLight(new Vector3(0.5f, 1, 0), new Vector4(0.1f, 0.1f, 0.1f, 0), new Vector4(1, 1, 1, 0));
+
+			var shipModel = new ModelLoaderObject3D("data/objects/monkey.obj");
+			_ship = new SpaceShip(shipModel) {Position = {Y = 0.2f}};
 
 			// Loading the object
 			_tennisBallObject = new ModelLoaderObject3D("data/objects/tennis_ball.obj");
@@ -103,7 +109,7 @@ namespace Game.Window {
 			_ballDirectionZ = 0.01f;
 
 			// initial camera
-			_cameraMode = CameraMode.AroundBall;
+			_cameraMode = CameraMode.AroundSpaceShip;
 		}
 
 
@@ -120,13 +126,15 @@ namespace Game.Window {
 			if (Keyboard[Key.Number1]) _cameraMode = CameraMode.Corner;
 			if (Keyboard[Key.Number2]) _cameraMode = CameraMode.TopView;
 			if (Keyboard[Key.Number3]) _cameraMode = CameraMode.Net;
-			if (Keyboard[Key.Number4]) _cameraMode = CameraMode.AroundBall;
+			if (Keyboard[Key.Number4]) _cameraMode = CameraMode.AroundSpaceShip;
 
 
 			// ---------------------------------------------
 			// update the ball (fake and simplified physics)
 			// ---------------------------------------------
 
+			_ship.Update(e.Time, Keyboard);
+			
 			// first the x and z position
 			_ballPositionX += _ballDirectionX;
 			_ballPositionZ += _ballDirectionZ;
@@ -165,11 +173,10 @@ namespace Game.Window {
 					Camera.SetLookAt(new Vector3(0, 1, 2), new Vector3(_ballPositionX, _ballPositionY, _ballPositionZ), Vector3.UnitY);
 					break;
 
-				case CameraMode.AroundBall:
+				case CameraMode.AroundSpaceShip:
 					Camera.SetLookAt(
-						new Vector3(_ballPositionX + (float) Math.Sin(_updateCounter * 0.01f) * 0.2f, _ballPositionY,
-							_ballPositionZ + (float) Math.Cos(_updateCounter * 0.01f) * 0.2f),
-						new Vector3(_ballPositionX, _ballPositionY, _ballPositionZ), Vector3.UnitY);
+						new Vector3(_ship.Position.X + (float) Math.Sin(_updateCounter * 0.01f) * 0.2f, _ship.Position.Y,
+							_ship.Position.Z + (float) Math.Cos(_updateCounter * 0.01f) * 0.2f), _ship.Position, Vector3.UnitY);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -185,7 +192,6 @@ namespace Game.Window {
 			// draw the arena
 			// ----------------------------------------------------------------------
 			_ambientDiffuseMaterial.Draw(_tennisArenaObject, _tennisArenaTexture);
-
 
 			// ----------------------------------------------------------------------
 			// calculate ball's transformation matrix and draw the ball
@@ -208,7 +214,8 @@ namespace Game.Window {
 
 			// draw the ball
 			_ambientDiffuseMaterial.Draw(_tennisBallObject, _tennisBallTexture);
-
+			
+			_ambientDiffuseMaterial.Draw(_ship.Model, _tennisArenaTexture);
 
 			// ----------------------------------------------------------------------
 			// calculate shadow matrix unsing the ball object to draw a fake shadow
