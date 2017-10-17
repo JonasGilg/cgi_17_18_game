@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGI_Game", "CGI-Game\CGI-Game.csproj", "{D4CA61A3-9EC5-447F-AD30-8F2CC7CC2004}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{D4CA61A3-9EC5-447F-AD30-8F2CC7CC2004}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGI-Engine", "CGI-Engine\CGI-Engine.csproj", "{47810163-D364-4CE7-B2BA-945609EFC3BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{47810163-D364-4CE7-B2BA-945609EFC3BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
