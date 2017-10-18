@@ -215,7 +215,7 @@ namespace Game.Window {
 			// draw the ball
 			_ambientDiffuseMaterial.Draw(_tennisBallObject, _tennisBallTexture);
 			
-			_ambientDiffuseMaterial.Draw(_ship.Model, _tennisArenaTexture);
+			_ship.Draw(_ambientDiffuseMaterial, _tennisArenaTexture);
 
 			// ----------------------------------------------------------------------
 			// calculate shadow matrix unsing the ball object to draw a fake shadow

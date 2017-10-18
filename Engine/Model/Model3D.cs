@@ -140,13 +140,8 @@ namespace Engine.Model {
 			// tbd.
 		}
 
-		public void Update(Vector3 position, Quaternion orientation, Vector3 scale) {
-			var identityMatrix = Matrix4.Identity;
-			var scaleMatrix = Matrix4.CreateScale(scale);
-			var orientationMatrix = Matrix4.CreateFromQuaternion(orientation);
-			var translationMatrix = Matrix4.CreateTranslation(position);
-			Transformation = identityMatrix * scaleMatrix * orientationMatrix * translationMatrix;
-			Console.Out.WriteLine(Transformation + "\n");
+		public void Update(Matrix4 tranform) {
+			Transformation = tranform;
 		}
 	}
 }
