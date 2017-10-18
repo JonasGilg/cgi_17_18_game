@@ -8,8 +8,15 @@ namespace Engine.Component {
 		public MoveComponent(GameObject.GameObject gameObject) : base(gameObject) { }
 
 		public void Update(double deltaTime) {
-			GameObject.Position += LinearVelocityWorld * (float) deltaTime;
+			ApplyLinearVelocity(deltaTime);
+			ApplyAngularVelocity(deltaTime);
+		}
 
+		private void ApplyLinearVelocity(double deltaTime) {
+			GameObject.Position += LinearVelocityWorld * (float) deltaTime;
+		}
+
+		private void ApplyAngularVelocity(double deltaTime) {
 			var angularChange = AngularVelocityWorld * (float) deltaTime;
 			var rotationAxis = angularChange == Vector3.Zero ? Vector3.One : angularChange.Normalized();
 			var rotationAngle = angularChange.Length;
