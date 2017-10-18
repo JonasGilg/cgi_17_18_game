@@ -9,8 +9,8 @@ namespace Engine.Material.Simplereflection {
 
 		public SimpleReflectionMaterial() {
 			// shader-programm is loaded
-			CreateShaderProgram("CGI/Engine/Material/Simplereflection/SimpleReflection_VS.glsl",
-				"CGI/Engine/Material/Simplereflection/SimpleReflection_FS.glsl");
+			CreateShaderProgram("Material/Simplereflection/SimpleReflection_VS.glsl",
+				"Material/Simplereflection/SimpleReflection_FS.glsl");
 
 			// GL.BindAttribLocation, defines which index of the data-structure is assigned to which "in" parameter 
 			GL.BindAttribLocation(Program, 0, "in_position");

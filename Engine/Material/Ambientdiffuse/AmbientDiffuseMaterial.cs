@@ -13,8 +13,8 @@ namespace Engine.Material.Ambientdiffuse {
 
 		public AmbientDiffuseMaterial() {
 			// shader-programm is loaded
-			CreateShaderProgram("CGI/Engine/Material/Ambientdiffuse/AmbientDiffuse_VS.glsl",
-				"CGI/Engine/Material/Ambientdiffuse/AmbientDiffuse_FS.glsl");
+			CreateShaderProgram("Material/Ambientdiffuse/AmbientDiffuse_VS.glsl",
+				"Material/Ambientdiffuse/AmbientDiffuse_FS.glsl");
 
 			// GL.BindAttribLocation, defines which index of the data-structure is assigned to which "in" parameter 
 			GL.BindAttribLocation(Program, 0, "in_position");
