@@ -7,15 +7,6 @@ namespace Engine.Component {
 
 		public MoveComponent(GameObject.GameObject gameObject) : base(gameObject) { }
 
-		public void AddLinearVelocityInObjectSpace(Vector3 velocityVector) {
-			var localVector = (Matrix4.CreateTranslation(velocityVector) * GameObject.GetTransformationMatrix().ClearTranslation()).ExtractTranslation();
-			LinearVelocityWorld += localVector;
-		}
-
-		public void AddLinearVelocityInWorldSpace(Vector3 velocityVector) {
-			LinearVelocityWorld += velocityVector;
-		}
-
 		public void Update(double deltaTime) {
 			GameObject.Position += LinearVelocityWorld * (float) deltaTime;
 

@@ -112,13 +112,20 @@ namespace Game.Window {
 			_cameraMode = CameraMode.AroundSpaceShip;
 		}
 
-
+		private bool _f11Pressed;
+		
 		protected override void OnUpdateFrame(FrameEventArgs e) {
 			if (Keyboard[Key.Escape])
 				Exit();
 
 			if (Keyboard[Key.F11])
+				_f11Pressed = true;
+
+			//released
+			if (_f11Pressed && !Keyboard[Key.F11]) {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
+				_f11Pressed = false;
+			}
 
 			// updateCounter simply increaes
 			_updateCounter++;
