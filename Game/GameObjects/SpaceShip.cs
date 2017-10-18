@@ -18,19 +18,19 @@ namespace Game.GameObjects {
 
 		public void Update(double deltaTime, KeyboardDevice keyboard) {
 			if (keyboard[Key.W]) {
-				MoveComponent.LinearVelocityWorld.Z += 0.1f;
+				MoveComponent.LinearVelocity.Z += 0.1f;
 			}
 
 			if (keyboard[Key.S]) {
-				MoveComponent.LinearVelocityWorld.Z -= 0.1f;
+				MoveComponent.LinearVelocity.Z -= 0.1f;
 			}
 
 			if (keyboard[Key.Q]) {
-				MoveComponent.AngularVelocityWorld.Y += 0.1f;
+				MoveComponent.AngularVelocity.Y += 0.1f;
 			}
 			
 			if (keyboard[Key.E]) {
-				MoveComponent.AngularVelocityWorld.Y -= 0.1f;
+				MoveComponent.AngularVelocity.Y -= 0.1f;
 			}
 			
 			MoveComponent.Update(deltaTime);

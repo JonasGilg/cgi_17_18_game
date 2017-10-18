@@ -2,8 +2,8 @@
 
 namespace Engine.Component {
 	public class MoveComponent : Component {
-		public Vector3 LinearVelocityWorld = Vector3.Zero;
-		public Vector3 AngularVelocityWorld = Vector3.Zero;
+		public Vector3 LinearVelocity = Vector3.Zero;
+		public Vector3 AngularVelocity = Vector3.Zero;
 
 		public MoveComponent(GameObject.GameObject gameObject) : base(gameObject) { }
 
@@ -13,11 +13,11 @@ namespace Engine.Component {
 		}
 
 		private void ApplyLinearVelocity(double deltaTime) {
-			GameObject.Position += LinearVelocityWorld * (float) deltaTime;
+			GameObject.Position += LinearVelocity * (float) deltaTime;
 		}
 
 		private void ApplyAngularVelocity(double deltaTime) {
-			var angularChange = AngularVelocityWorld * (float) deltaTime;
+			var angularChange = AngularVelocity * (float) deltaTime;
 			var rotationAxis = angularChange == Vector3.Zero ? Vector3.One : angularChange.Normalized();
 			var rotationAngle = angularChange.Length;
 			GameObject.Orientation = Quaternion.FromAxisAngle(rotationAxis, rotationAngle) * GameObject.Orientation;
