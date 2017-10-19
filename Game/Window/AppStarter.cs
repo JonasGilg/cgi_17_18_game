@@ -5,6 +5,7 @@ using Engine.Light;
 using Engine.Material.Ambientdiffuse;
 using Engine.Material.Simpletexture;
 using Engine.Model;
+using Engine.Util;
 using Game.GameObjects;
 using OpenTK;
 using OpenTK.Graphics;
@@ -259,7 +260,7 @@ namespace Game.Window {
 
 
 		[STAThread]
-		public static void Main() {
+		public static void Main() {			
 			using (var example = new AppStarter()) {
 				example.Run(60.0, 60.0);
 			}
