@@ -1,5 +1,5 @@
 ﻿using Engine.Component;
-using Engine.GameObject;
+using Engine;
 using Engine.Material.Ambientdiffuse;
 using Engine.Model;
 using Engine.Util;
@@ -35,8 +35,11 @@ namespace Game.GameObjects {
 			}
 			
 			MoveComponent.Update(deltaTime);
-			Model.Update(GetTransformationMatrix());
+			Update();
+			Model.Update(Transform);
 		}
+		
+		
 		
 		public void Draw(AmbientDiffuseMaterial material, int texture) {
 			material.Draw(Model, texture);

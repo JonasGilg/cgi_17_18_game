@@ -72,7 +72,7 @@ namespace Game.Window {
 
 			// Initialize Camera
 			Camera.Init();
-			Camera.SetWidthHeightFov(800, 600, 60);
+			Camera.SetWidthHeightFov(800, 600, 90);
 
 			// Initialize Light
 			Light.SetDirectionalLight(new Vector3(0.5f, 1, 0), new Vector4(0.1f, 0.1f, 0.1f, 0), new Vector4(1, 1, 1, 0));

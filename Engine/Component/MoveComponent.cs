@@ -5,7 +5,7 @@ namespace Engine.Component {
 		public Vector3 LinearVelocity = Vector3.Zero;
 		public Vector3 AngularVelocity = Vector3.Zero;
 
-		public MoveComponent(GameObject.GameObject gameObject) : base(gameObject) { }
+		public MoveComponent(Engine.GameObject gameObject) : base(gameObject) { }
 
 		public void Update(double deltaTime) {
 			ApplyLinearVelocity(deltaTime);

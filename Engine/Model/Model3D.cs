@@ -4,6 +4,8 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Model {
+	
+	//TODO Make Component
 	public class Model3D {
 		// the transformation (position, rotation, scale) of the object
 		public Matrix4 Transformation = Matrix4.Identity;
