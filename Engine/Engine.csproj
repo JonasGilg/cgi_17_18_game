@@ -47,6 +47,7 @@
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="Component\Component.cs" />
     <Compile Include="Component\MoveComponent.cs" />
+    <Compile Include="Component\TransformComponent.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="GameObject\GameObject.cs" />
     <Compile Include="Light\Light.cs" />

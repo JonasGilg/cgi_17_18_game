@@ -39,8 +39,6 @@ namespace Game.GameObjects {
 			Model.Update(Transform);
 		}
 		
-		
-		
 		public void Draw(AmbientDiffuseMaterial material, int texture) {
 			material.Draw(Model, texture);
 		}
