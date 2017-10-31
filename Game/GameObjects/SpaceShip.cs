@@ -19,22 +19,30 @@ namespace Game.GameObjects {
 
 		public void Update(double deltaTime, KeyboardDevice keyboard) {
 			if (keyboard[Key.W]) {
-				MoveComponent.LinearVelocity.Z += 0.1f;
+				MoveComponent.LinearVelocity.Z += (float) (1 * deltaTime);
+			}
+			
+			if (keyboard[Key.A]) {
+				MoveComponent.LinearVelocity.X += (float) (1 * deltaTime);
 			}
 
 			if (keyboard[Key.S]) {
-				MoveComponent.LinearVelocity.Z -= 0.1f;
+				MoveComponent.LinearVelocity.Z -= (float) (1 * deltaTime);
+			}
+			
+			if (keyboard[Key.D]) {
+				MoveComponent.LinearVelocity.X -= (float) (1 * deltaTime);
 			}
 
 			if (keyboard[Key.Q]) {
-				MoveComponent.AngularVelocity.Y += 0.1f;
+				MoveComponent.AngularVelocity.Y += (float) (1 * deltaTime);
 			}
 			
 			if (keyboard[Key.E]) {
-				MoveComponent.AngularVelocity.Y -= 0.1f;
+				MoveComponent.AngularVelocity.Y -= (float) (1 * deltaTime);
 			}
 			
-			MoveComponent.Update(deltaTime);
+			MoveComponent.Update(deltaTime, keyboard);
 			Update();
 			Model.Update(Transform);
 		}

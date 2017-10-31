@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Input;
 
 namespace Engine.Component {
 	public class MoveComponent : Component {
@@ -7,7 +8,7 @@ namespace Engine.Component {
 
 		public MoveComponent(Engine.GameObject gameObject) : base(gameObject) { }
 
-		public void Update(double deltaTime) {
+		public override void Update(double deltaTime, KeyboardDevice input) {
 			ApplyLinearVelocity(deltaTime);
 			ApplyAngularVelocity(deltaTime);
 		}
