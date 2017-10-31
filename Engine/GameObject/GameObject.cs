@@ -3,7 +3,7 @@ using OpenTK.Input;
 
 namespace Engine {
 	public class GameObject {
-		public TransformComponent TransformComponent;
+		public readonly TransformComponent TransformComponent;
 
 		public GameObject() {
 			TransformComponent = TransformComponent.Identity();

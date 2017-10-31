@@ -28,9 +28,9 @@ namespace Game.Window {
 
 		// our textur-IDs
 		private int _tennisBallTexture;
-
 		private int _tennisArenaTexture;
 		private int _shadowTexture;
+		private int _shipTexture;
 
 		// Materials
 		private AmbientDiffuseMaterial _ambientDiffuseMaterial;
@@ -68,7 +68,7 @@ namespace Game.Window {
 			// Initialize Light
 			Light.SetDirectionalLight(new Vector3(0.5f, 1, 0), new Vector4(0.1f, 0.1f, 0.1f, 0), new Vector4(1, 1, 1, 0), new Vector4());
 
-			var shipModel = new ModelLoaderObject3D("data/objects/monkey.obj");
+			var shipModel = new ModelLoaderObject3D("data/objects/SpaceShip.obj");
 			_ship = new SpaceShip(shipModel);
 			_ship.TransformComponent.Position = new Vector3(0.0f, 0.2f, 0.0f);
 
@@ -84,6 +84,7 @@ namespace Game.Window {
 			_tennisBallTexture = TextureManager.LoadTexture("data/textures/tennis_ball.png");
 			_tennisArenaTexture = TextureManager.LoadTexture("data/textures/tennis_field.png");
 			_shadowTexture = TextureManager.LoadTexture("data/textures/shadow_color.png");
+			_shipTexture = TextureManager.LoadTexture("data/textures/test.png");
 
 			// initialize material
 			_ambientDiffuseMaterial = new AmbientDiffuseMaterial();
@@ -151,7 +152,7 @@ namespace Game.Window {
 				_ballPositionY = BallRadius;
 			}
 			
-			var eye = new Vector3(0.0f, 0.05f, -0.3f);
+			var eye = new Vector3(-0.3f, 0.05f, 0.0f);
 			Math3D.Rotate(ref eye, _ship.TransformComponent.Orientation);
 
 			Camera.SetLookAt(
@@ -194,7 +195,7 @@ namespace Game.Window {
 			// draw the ball
 			_ambientDiffuseMaterial.Draw(_tennisBallObject, _tennisBallTexture);
 
-			_ship.Draw(_ambientDiffuseMaterial, _tennisArenaTexture);
+			_ship.Draw(_ambientDiffuseMaterial, _shipTexture);
 
 			// ----------------------------------------------------------------------
 			// calculate shadow matrix unsing the ball object to draw a fake shadow
