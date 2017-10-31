@@ -9,7 +9,6 @@ namespace Engine {
 		private static Matrix4 _perspectiveProjection;
 
 		// position for the camera is saved
-		private static Vector3 _position;
 
 		public static void Init() {
 			_perspectiveProjection = Matrix4.Identity;
@@ -26,12 +25,12 @@ namespace Engine {
 		// generation of the camera-transformation using LookAt
 		// position of the camera-"eye", look-at poinmt, "up" direction of camera
 		public static void SetLookAt(Vector3 eye, Vector3 target, Vector3 up) {
-			_position = eye;
+			Position = eye;
 			Transformation = Matrix4.LookAt(eye, target, up);
 		}
 
 		// Getter
-		public static Vector3 Position => _position;
+		public static Vector3 Position { get; private set; }
 
 		public static Matrix4 Transformation { get; private set; }
 
