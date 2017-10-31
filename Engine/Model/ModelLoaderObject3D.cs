@@ -5,11 +5,15 @@ using System.IO;
 using OpenTK;
 
 namespace Engine.Model {
+	
 	public class ModelLoaderObject3D : Model3D {
-		public ModelLoaderObject3D(string filePath) {
+		
+		public ModelLoaderObject3D(string filePath, float scale = 1.0f, bool doAverageTangets = false) {
 			Positions = new List<Vector3>();
 			Normals = new List<Vector3>();
 			UVs = new List<Vector2>();
+			Tangents = new List<Vector3>();
+			BiTangents = new List<Vector3>();
 			Indices = new List<int>();
 
 			var v = new List<Vector3>();
@@ -24,8 +28,9 @@ namespace Engine.Model {
 				if (parts.Length > 0) {
 					switch (parts[0]) {
 						case "v":
-							v.Add(new Vector3(float.Parse(parts[1], CultureInfo.InvariantCulture),
-								float.Parse(parts[2], CultureInfo.InvariantCulture), float.Parse(parts[3], CultureInfo.InvariantCulture)));
+							v.Add(new Vector3(float.Parse(parts[1], CultureInfo.InvariantCulture) * scale,
+								float.Parse(parts[2], CultureInfo.InvariantCulture) * scale,
+								float.Parse(parts[3], CultureInfo.InvariantCulture) * scale));
 							break;
 						case "vt":
 							vt.Add(new Vector2(float.Parse(parts[1], CultureInfo.InvariantCulture),
@@ -33,7 +38,8 @@ namespace Engine.Model {
 							break;
 						case "vn":
 							vn.Add(new Vector3(float.Parse(parts[1], CultureInfo.InvariantCulture),
-								float.Parse(parts[2], CultureInfo.InvariantCulture), float.Parse(parts[3], CultureInfo.InvariantCulture)));
+								float.Parse(parts[2], CultureInfo.InvariantCulture),
+								float.Parse(parts[3], CultureInfo.InvariantCulture)));
 							break;
 						case "f":
 							var triIndicesV1 = parts[1].Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
@@ -51,11 +57,9 @@ namespace Engine.Model {
 				}
 			}
 
-			//CreatePositionBuffer();
-			//CreateUVBuffer();
-			//CreateIndexBuffer();
+			if (doAverageTangets) AverageTangents();
 
-			CreateVao();
+			CreateVAO();
 		}
 	}
 }

@@ -2,7 +2,7 @@
 using Engine.Model;
 using OpenTK.Graphics.OpenGL;
 
-namespace Engine.Material.Simpletexture {
+namespace Engine.Material {
 	public class SimpleTextureMaterial : BaseMaterial {
 		private readonly int _modelviewProjectionMatrixLocation;
 
@@ -24,12 +24,12 @@ namespace Engine.Material.Simpletexture {
 			_modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
 		}
 
-		public void Draw(Model3D object3D, int textureId) {
+		public void Draw(Model3D model3D, int textureId) {
 			// Textur wird "gebunden"
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 
 			// das Vertex-Array-Objekt unseres Objekts wird benutzt
-			GL.BindVertexArray(object3D.Vao);
+			GL.BindVertexArray(model3D.Vao);
 
 			// Unser Shader Programm wird benutzt
 			GL.UseProgram(Program);
@@ -38,13 +38,13 @@ namespace Engine.Material.Simpletexture {
 			// Objekt-Transformation * Kamera-Transformation * Perspektivische Projektion der kamera.
 			// Auf dem Shader wird jede Vertex-Position mit dieser Matrix multipliziert. Resultat ist die Position auf dem Screen.
 			var modelviewProjection =
-				object3D.Transformation * Camera.Camera.Transformation * Camera.Camera.PerspectiveProjection;
+				model3D.Transformation * Camera.Transformation * Camera.PerspectiveProjection;
 
 			// Die Matrix wird dem Shader als Parameter übergeben
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelviewProjection);
 
 			// Das Objekt wird gezeichnet
-			GL.DrawElements(PrimitiveType.Triangles, object3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+			GL.DrawElements(PrimitiveType.Triangles, model3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 		}
 	}
 }

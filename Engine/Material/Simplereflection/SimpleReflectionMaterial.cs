@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using Engine.Model;
 
-namespace Engine.Material.Simplereflection {
+namespace Engine.Material {
 	public class SimpleReflectionMaterial : BaseMaterial {
 		private readonly int _modelviewProjectionMatrixLocation;
 		private readonly int _modelviewMatrixLocation;
@@ -27,12 +27,12 @@ namespace Engine.Material.Simplereflection {
 			_modelviewMatrixLocation = GL.GetUniformLocation(Program, "modelview_matrix");
 		}
 
-		public void Draw(Model3D object3D, int textureId) {
+		public void Draw(Model3D model3D, int textureId) {
 			// set the texture
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 
 			// using the Vertex-Array-Object of out object
-			GL.BindVertexArray(object3D.Vao);
+			GL.BindVertexArray(model3D.Vao);
 
 			// using our shader
 			GL.UseProgram(Program);
@@ -42,20 +42,20 @@ namespace Engine.Material.Simplereflection {
 			// object-transformation * camera-transformation * perspective projection of the camera
 			// on the shader each vertex-position is multiplied by this matrix. The result is the final position on the screen
 			var modelviewProjection =
-				object3D.Transformation * Camera.Camera.Transformation * Camera.Camera.PerspectiveProjection;
+				model3D.Transformation * Camera.Transformation * Camera.PerspectiveProjection;
 
 			// Matrix is passed to the shader
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelviewProjection);
 
 			// The "modelView-matrix is assembled together
-			var modelviewMatrix = object3D.Transformation * Camera.Camera.Transformation;
+			var modelviewMatrix = model3D.Transformation * Camera.Transformation;
 
 			// ... and also passed to the shader
 			GL.UniformMatrix4(_modelviewMatrixLocation, false, ref modelviewMatrix);
 
 
 			// the object is drawn
-			GL.DrawElements(PrimitiveType.Triangles, object3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+			GL.DrawElements(PrimitiveType.Triangles, model3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 		}
 	}
 }

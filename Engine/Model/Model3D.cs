@@ -4,7 +4,6 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Model {
-	
 	//TODO Make Component
 	public class Model3D {
 		// the transformation (position, rotation, scale) of the object
@@ -15,6 +14,8 @@ namespace Engine.Model {
 
 		protected List<Vector3> Normals;
 		protected List<Vector2> UVs;
+		protected List<Vector3> Tangents;
+		protected List<Vector3> BiTangents;
 
 		// the index-List
 		public List<int> Indices;
@@ -23,7 +24,7 @@ namespace Engine.Model {
 		public int Vao;
 
 		// generates the Vartex-Array-Objekt
-		protected void CreateVao() {
+		public void CreateVAO() {
 			// list of the complete vertex data
 			var allData = new List<float>();
 
@@ -39,13 +40,21 @@ namespace Engine.Model {
 
 				allData.Add(UVs[i].X);
 				allData.Add(UVs[i].Y);
+
+				allData.Add(Tangents[i].X);
+				allData.Add(Tangents[i].Y);
+				allData.Add(Tangents[i].Z);
+
+				allData.Add(BiTangents[i].X);
+				allData.Add(BiTangents[i].Y);
+				allData.Add(BiTangents[i].Z);
 			}
 
 			// generate the VBO for the "interleaved" data
-			GL.GenBuffers(1, out int allBufferVbo);
+			GL.GenBuffers(1, out int allBufferVBO);
 
 			// Buffer is "binded", following OpenGL commands refer to this buffer
-			GL.BindBuffer(BufferTarget.ArrayBuffer, allBufferVbo);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, allBufferVBO);
 
 			// Data is uploaded to graphics memory
 			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr) (allData.Count * sizeof(float)), allData.ToArray(),
@@ -80,34 +89,38 @@ namespace Engine.Model {
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBuffer);
 
 			// ... then our interleaved VBO.
-			GL.BindBuffer(BufferTarget.ArrayBuffer, allBufferVbo);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, allBufferVBO);
 
 			// three calls of GL.VertexAttribPointer do follow, must be first "enabled"
 			GL.EnableVertexAttribArray(0);
 			GL.EnableVertexAttribArray(1);
 			GL.EnableVertexAttribArray(2);
+			GL.EnableVertexAttribArray(3);
+			GL.EnableVertexAttribArray(4);
 
 			// The description of our "interleaved" data structure, the shader needs to know how tpo handle our data
 			// Die assignment to the "Index", the first parameter, will be recognized by the shader
+			var strideSize = Vector3.SizeInBytes * 4 + Vector2.SizeInBytes;
 
 			// At Index 0 (so at first) we have our position data. The last parameter defines at which byte-place in the vertex block the data for the position is saved 
-			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, true,
-				Vector3.SizeInBytes + Vector3.SizeInBytes + Vector2.SizeInBytes, 0);
+			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, true, strideSize, 0);
 
 			// At Index 1 we have our normal data. We have it after the position, which is a "Vector3" type, so the byte-place is "Vector3.SizeInBytes"
-			GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, true,
-				Vector3.SizeInBytes + Vector3.SizeInBytes + Vector2.SizeInBytes, Vector3.SizeInBytes);
+			GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, true, strideSize, Vector3.SizeInBytes);
 
 			// At Index 2 we have our UV data. We have it after the position and the normal, which are both "Vector3" type, so the byte-place is "Vector3.SizeInBytes" * 2
-			GL.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, true,
-				Vector3.SizeInBytes + Vector3.SizeInBytes + Vector2.SizeInBytes, Vector3.SizeInBytes * 2);
+			GL.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, true, strideSize, Vector3.SizeInBytes * 2);
+
+			// At Index 3 tangents.
+			GL.VertexAttribPointer(3, 3, VertexAttribPointerType.Float, true, strideSize,
+				Vector3.SizeInBytes * 2 + Vector2.SizeInBytes);
+
+			// At Index 4 biTangents.
+			GL.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, true, strideSize,
+				Vector3.SizeInBytes * 3 + Vector2.SizeInBytes);
 
 			// BindBuffer to 0, so the following commands do not overwrite the current VAO
 			GL.BindVertexArray(0);
-
-
-			// Note: Das generierte VAO gibt eine Datenstruktur vor, die auch vom Shader berücksichtigt werden muss bezüglich der per GL.VertexAttribPointer definierten Index-Stellen.
-			// Das Datenformat Position an Stelle 0, Normale an Stelle 1, und UV an Stelle 2 sollte also in dieser Form von unseren Shadern benutzt werden.
 
 			// Note: The generated VAO defines a data-structure, which must be considered by the shader regarding the index-places defined by GL.VertexAttribPointer 
 			// The data-format placing 0 = position; 1 = normal and 2 = uv must be used by our materials
@@ -115,7 +128,7 @@ namespace Engine.Model {
 
 
 		// Adds a triangle
-		protected void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 n1, Vector3 n2, Vector3 n3, Vector2 uv1,
+		public void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 n1, Vector3 n2, Vector3 n3, Vector2 uv1,
 			Vector2 uv2, Vector2 uv3) {
 			var index = Positions.Count;
 
@@ -131,11 +144,68 @@ namespace Engine.Model {
 			UVs.Add(uv2);
 			UVs.Add(uv3);
 
+
+			// calculate tangents / bi-tangents
+			var edge1 = v2 - v1;
+			var edge2 = v3 - v1;
+
+			var deltaUV1 = uv2 - uv1;
+			var deltaUV2 = uv3 - uv1;
+
+			float f;
+			if (Math.Abs(deltaUV1.X * deltaUV2.Y - deltaUV2.X * deltaUV1.Y) < 0.0001f) {
+				f = 1.0f;
+			}
+			else {
+				f = 1.0f / (deltaUV1.X * deltaUV2.Y - deltaUV2.X * deltaUV1.Y);
+			}
+
+			var tangent = new Vector3(f * (deltaUV2.Y * edge1.X - deltaUV1.Y * edge2.X),
+				f * (deltaUV2.Y * edge1.Y - deltaUV1.Y * edge2.Y),
+				f * (deltaUV2.Y * edge1.Z - deltaUV1.Y * edge2.Z));
+			tangent.Normalize();
+
+			var biTangent = new Vector3(f * (-deltaUV2.X * edge1.X + deltaUV1.X * edge2.X),
+				f * (-deltaUV2.X * edge1.Y + deltaUV1.X * edge2.Y),
+				f * (-deltaUV2.X * edge1.Z + deltaUV1.X * edge2.Z));
+			biTangent.Normalize();
+
+
+			if (Vector3.Dot(Vector3.Cross(n1, tangent), biTangent) < 0.0f) {
+				tangent = tangent * -1.0f;
+			}
+
+
+			Tangents.Add(tangent);
+			Tangents.Add(tangent);
+			Tangents.Add(tangent);
+
+			BiTangents.Add(biTangent);
+			BiTangents.Add(biTangent);
+			BiTangents.Add(biTangent);
+
 			Indices.Add(index);
 			Indices.Add(index + 2);
 			Indices.Add(index + 1);
 		}
 
+		public void AverageTangents() {
+			var len = Positions.Count;
+
+			for (var i = 0; i < len - 1; i++) {
+				for (var o = i + 1; o < len; o++) {
+					if (Positions[i] == Positions[o] && Normals[i] == Normals[o] && UVs[i] == UVs[o]) {
+						var tanI = Tangents[i];
+						Tangents[i] += Tangents[o];
+						Tangents[o] += tanI;
+
+						var biTanI = BiTangents[i];
+						BiTangents[i] += BiTangents[o];
+						BiTangents[o] += biTanI;
+					}
+				}
+			}
+		}
 
 		// unloads from graphics memory
 		public void UnLoad() {

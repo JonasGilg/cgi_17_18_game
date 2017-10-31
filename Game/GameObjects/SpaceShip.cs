@@ -1,6 +1,6 @@
 ﻿using Engine.Component;
 using Engine;
-using Engine.Material.Ambientdiffuse;
+using Engine.Material;
 using Engine.Model;
 using Engine.Util;
 using OpenTK;

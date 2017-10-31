@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Engine;
 using Engine.Texture;
-using Engine.Camera;
-using Engine.Light;
-using Engine.Material.Ambientdiffuse;
-using Engine.Material.Simpletexture;
+using Engine.Material;
 using Engine.Model;
 using Engine.Util;
 using Game.GameObjects;
@@ -68,7 +66,7 @@ namespace Game.Window {
 			Camera.SetWidthHeightFov(800, 600, 90);
 
 			// Initialize Light
-			Light.SetDirectionalLight(new Vector3(0.5f, 1, 0), new Vector4(0.1f, 0.1f, 0.1f, 0), new Vector4(1, 1, 1, 0));
+			Light.SetDirectionalLight(new Vector3(0.5f, 1, 0), new Vector4(0.1f, 0.1f, 0.1f, 0), new Vector4(1, 1, 1, 0), new Vector4());
 
 			var shipModel = new ModelLoaderObject3D("data/objects/monkey.obj");
 			_ship = new SpaceShip(shipModel);
@@ -152,7 +150,6 @@ namespace Game.Window {
 					EnergyLossOnBottom; // velocity always moving ball up, some kinetic energy lost so multiplied by ENERGY_LOSS_ON_BOTTOM 
 				_ballPositionY = BallRadius;
 			}
-
 			
 			var eye = new Vector3(0.0f, 0.05f, -0.3f);
 			Math3D.Rotate(ref eye, _ship.TransformComponent.Orientation);

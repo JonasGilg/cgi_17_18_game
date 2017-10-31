@@ -51,8 +51,10 @@
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="GameObject\GameObject.cs" />
     <Compile Include="Light\Light.cs" />
+    <Compile Include="Material\AmbiebtDiffuseSpecular\AmbientDiffuseSpecularMaterial.cs" />
     <Compile Include="Material\Ambientdiffuse\AmbientDiffuseMaterial.cs" />
     <Compile Include="Material\BaseMaterial.cs" />
+    <Compile Include="Material\NormalMapping\NormalMappingMaterial.cs" />
     <Compile Include="Material\Simplereflection\SimpleReflectionMaterial.cs" />
     <Compile Include="Material\Simpletexture\SimpleTextureMaterial.cs" />
     <Compile Include="Model\Model3D.cs" />
@@ -66,12 +68,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Material\AmbiebtDiffuseSpecular\AmbientDiffuseSpecular_FS.glsl" />
+    <Content Include="Material\AmbiebtDiffuseSpecular\AmbientDiffuseSpecular_VS.glsl" />
     <Content Include="Material\Ambientdiffuse\AmbientDiffuse_FS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Material\Ambientdiffuse\AmbientDiffuse_VS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Material\NormalMapping\NormalMapping_FS.glsl" />
+    <Content Include="Material\NormalMapping\NormalMapping_VS.glsl" />
     <Content Include="Material\Simplereflection\SimpleReflection_FS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

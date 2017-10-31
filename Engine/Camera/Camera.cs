@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK;
 
-namespace Engine.Camera {
+namespace Engine {
 	public static class Camera {
 		// Matrix for the transformation
 

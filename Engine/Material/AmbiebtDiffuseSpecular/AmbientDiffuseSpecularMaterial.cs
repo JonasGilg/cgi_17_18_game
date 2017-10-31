@@ -1,20 +1,25 @@
 ﻿using System;
 using Engine.Model;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Material {
-	public class AmbientDiffuseMaterial : BaseMaterial {
+	
+	public class AmbientDiffuseSpecularMaterial : BaseMaterial {
 		private readonly int _modelMatrixLocation;
 		private readonly int _modelviewProjectionMatrixLocation;
 
 		private readonly int _lightDirectionLocation;
 		private readonly int _lightAmbientLocation;
 		private readonly int _lightDiffuseLocation;
+		private readonly int _lightSpecularLocation;
+		private readonly int _cameraPositionLocation;
+		private readonly int _materialShininessLocation;
 
-		public AmbientDiffuseMaterial() {
+		public AmbientDiffuseSpecularMaterial() {
 			// shader-programm is loaded
-			CreateShaderProgram("Material/Ambientdiffuse/AmbientDiffuse_VS.glsl",
-				"Material/Ambientdiffuse/AmbientDiffuse_FS.glsl");
+			CreateShaderProgram("cgimin/engine/material/ambientdiffusespecular/AmbientDiffuseSpecular_VS.glsl",
+				"cgimin/engine/material/ambientdiffusespecular/AmbientDiffuseSpecular_FS.glsl");
 
 			// GL.BindAttribLocation, defines which index of the data-structure is assigned to which "in" parameter 
 			GL.BindAttribLocation(Program, 0, "in_position");
@@ -30,13 +35,20 @@ namespace Engine.Material {
 			// the location of the "uniform"-paramter for the model matrix on the shader is saved to modelviewMatrixLocation
 			_modelMatrixLocation = GL.GetUniformLocation(Program, "model_matrix");
 
+			// the location of the of the "shininess" parameter
+			_materialShininessLocation = GL.GetUniformLocation(Program, "specular_shininess");
+
 			// the location of the "uniform"-paramters of the light parameters
 			_lightDirectionLocation = GL.GetUniformLocation(Program, "light_direction");
 			_lightAmbientLocation = GL.GetUniformLocation(Program, "light_ambient_color");
 			_lightDiffuseLocation = GL.GetUniformLocation(Program, "light_diffuse_color");
+			_lightSpecularLocation = GL.GetUniformLocation(Program, "light_specular_color");
+
+			// we have to pass also the camera position
+			_cameraPositionLocation = GL.GetUniformLocation(Program, "camera_position");
 		}
 
-		public void Draw(Model3D model3D, int textureId) {
+		public void Draw(Model3D model3D, int textureId, float shininess) {
 			// set the texture
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 
@@ -48,9 +60,8 @@ namespace Engine.Material {
 
 			// The matrix which we give as "modelview_projection_matrix" is assembled:
 			// object-transformation * camera-transformation * perspective projection of the camera
-			// on the shader each vertex-position is multiplied by this matrix. The result is the final position on the screen
-			var modelViewProjection =
-				model3D.Transformation * Camera.Transformation * Camera.PerspectiveProjection;
+			// on the shader each vertex-position is multiplied by this matrix. The result is the final position on the scree
+			var modelViewProjection = model3D.Transformation * Camera.Transformation * Camera.PerspectiveProjection;
 
 			// modelViewProjection is passed to the shader
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelViewProjection);
@@ -63,8 +74,15 @@ namespace Engine.Material {
 			GL.Uniform3(_lightDirectionLocation, Light.LightDirection);
 			GL.Uniform4(_lightAmbientLocation, Light.LightAmbient);
 			GL.Uniform4(_lightDiffuseLocation, Light.LightDiffuse);
+			GL.Uniform4(_lightSpecularLocation, Light.LightSpecular);
 
-			// Das Objekt wird gezeichnet
+			// Shininess
+			GL.Uniform1(_materialShininessLocation, shininess);
+
+			// Pass positions of the camera to calculate the view direction
+			GL.Uniform4(_cameraPositionLocation, new Vector4(Camera.Position.X, Camera.Position.Y, Camera.Position.Z, 1));
+
+			// The object is drawn
 			GL.DrawElements(PrimitiveType.Triangles, model3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 		}
 	}
