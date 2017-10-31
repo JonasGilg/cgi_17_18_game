@@ -78,7 +78,8 @@ namespace Game.Window {
 			Light.SetDirectionalLight(new Vector3(0.5f, 1, 0), new Vector4(0.1f, 0.1f, 0.1f, 0), new Vector4(1, 1, 1, 0));
 
 			var shipModel = new ModelLoaderObject3D("data/objects/monkey.obj");
-			_ship = new SpaceShip(shipModel) {Position = {Y = 0.2f}};
+			_ship = new SpaceShip(shipModel);
+			_ship.TransformComponent.Position = new Vector3(0.0f, 0.2f, 0.0f);
 
 			// Loading the object
 			_tennisBallObject = new ModelLoaderObject3D("data/objects/tennis_ball.obj");
@@ -114,7 +115,7 @@ namespace Game.Window {
 		}
 
 		private bool _f11Pressed;
-		
+
 		protected override void OnUpdateFrame(FrameEventArgs e) {
 			if (Keyboard[Key.Escape])
 				Exit();
@@ -142,7 +143,7 @@ namespace Game.Window {
 			// ---------------------------------------------
 
 			_ship.Update(e.Time, Keyboard);
-			
+
 			// first the x and z position
 			_ballPositionX += _ballDirectionX;
 			_ballPositionZ += _ballDirectionZ;
@@ -182,9 +183,15 @@ namespace Game.Window {
 					break;
 
 				case CameraMode.AroundSpaceShip:
+					var eye = new Vector3(0.0f, 0.05f, -0.3f);
+					Math3D.Rotate(ref eye, _ship.TransformComponent.Orientation);
+					
 					Camera.SetLookAt(
-						new Vector3(_ship.Position.X + (float) Math.Sin(_updateCounter * 0.01f) * 0.2f, _ship.Position.Y,
-							_ship.Position.Z + (float) Math.Cos(_updateCounter * 0.01f) * 0.2f), _ship.Position, Vector3.UnitY);
+						new Vector3(_ship.TransformComponent.Position.X,
+									_ship.TransformComponent.Position.Y,
+									_ship.TransformComponent.Position.Z) + eye,
+						_ship.TransformComponent.Position,
+						Vector3.UnitY);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -222,7 +229,7 @@ namespace Game.Window {
 
 			// draw the ball
 			_ambientDiffuseMaterial.Draw(_tennisBallObject, _tennisBallTexture);
-			
+
 			_ship.Draw(_ambientDiffuseMaterial, _tennisArenaTexture);
 
 			// ----------------------------------------------------------------------
@@ -260,7 +267,7 @@ namespace Game.Window {
 
 
 		[STAThread]
-		public static void Main() {			
+		public static void Main() {
 			using (var example = new AppStarter()) {
 				example.Run(60.0, 60.0);
 			}

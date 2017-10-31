@@ -8,43 +8,53 @@ using OpenTK.Input;
 
 namespace Game.GameObjects {
 	public class SpaceShip : GameObject {
-		public MoveComponent MoveComponent;
-		public Model3D Model;
+		public readonly MoveComponent MoveComponent;
+		public readonly Model3D Model;
 		
 		public SpaceShip(Model3D model) {
 			Model = model;
 			MoveComponent = new MoveComponent(this);
-			Scale = new Vector3(0.05f);
+			TransformComponent.Scale = new Vector3(0.05f);
 		}
 
-		public void Update(double deltaTime, KeyboardDevice keyboard) {
-			if (keyboard[Key.W]) {
-				MoveComponent.LinearVelocity.Z += (float) (1 * deltaTime);
+		public new void Update(double deltaTime, KeyboardDevice input) {
+			var deltaTimeF = (float) deltaTime;
+			
+			if (input[Key.W]) {
+				var forward = new Vector3(0.0f, 0.0f, deltaTimeF);
+				Math3D.Rotate(ref forward, TransformComponent.Orientation);
+				MoveComponent.LinearVelocity += forward;
 			}
 			
-			if (keyboard[Key.A]) {
-				MoveComponent.LinearVelocity.X += (float) (1 * deltaTime);
+			if (input[Key.A]) {
+				var left = new Vector3(deltaTimeF, 0.0f, 0.0f);
+				Math3D.Rotate(ref left, TransformComponent.Orientation);
+				MoveComponent.LinearVelocity += left;
 			}
 
-			if (keyboard[Key.S]) {
-				MoveComponent.LinearVelocity.Z -= (float) (1 * deltaTime);
+			if (input[Key.S]) {
+				var backwards = new Vector3(0.0f, 0.0f, -deltaTimeF);
+				Math3D.Rotate(ref backwards, TransformComponent.Orientation);
+				MoveComponent.LinearVelocity += backwards;
 			}
 			
-			if (keyboard[Key.D]) {
-				MoveComponent.LinearVelocity.X -= (float) (1 * deltaTime);
+			if (input[Key.D]) {
+				var right = new Vector3(-deltaTimeF, 0.0f, 0.0f);
+				Math3D.Rotate(ref right, TransformComponent.Orientation);
+				MoveComponent.LinearVelocity += right;
 			}
 
-			if (keyboard[Key.Q]) {
-				MoveComponent.AngularVelocity.Y += (float) (1 * deltaTime);
+			if (input[Key.Q]) {
+				MoveComponent.AngularVelocity.Y += deltaTimeF;
 			}
 			
-			if (keyboard[Key.E]) {
-				MoveComponent.AngularVelocity.Y -= (float) (1 * deltaTime);
+			if (input[Key.E]) {
+				MoveComponent.AngularVelocity.Y -= deltaTimeF;
 			}
 			
-			MoveComponent.Update(deltaTime, keyboard);
-			Update();
-			Model.Update(Transform);
+			MoveComponent.Update(deltaTime, input);
+			base.Update(deltaTime, input);
+			Model.Update(TransformComponent.WorldMatrix);
 		}
 		
 		public void Draw(AmbientDiffuseMaterial material, int texture) {

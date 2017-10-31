@@ -6,7 +6,7 @@ namespace Engine.Component {
 		public Vector3 LinearVelocity = Vector3.Zero;
 		public Vector3 AngularVelocity = Vector3.Zero;
 
-		public MoveComponent(Engine.GameObject gameObject) : base(gameObject) { }
+		public MoveComponent(GameObject gameObject) : base(gameObject) { }
 
 		public override void Update(double deltaTime, KeyboardDevice input) {
 			ApplyLinearVelocity(deltaTime);
@@ -14,14 +14,14 @@ namespace Engine.Component {
 		}
 
 		private void ApplyLinearVelocity(double deltaTime) {
-			GameObject.Position += LinearVelocity * (float) deltaTime;
+			GameObject.TransformComponent.Position += LinearVelocity * (float) deltaTime;
 		}
 
 		private void ApplyAngularVelocity(double deltaTime) {
 			var angularChange = AngularVelocity * (float) deltaTime;
 			var rotationAxis = angularChange == Vector3.Zero ? Vector3.One : angularChange.Normalized();
 			var rotationAngle = angularChange.Length;
-			GameObject.Orientation = Quaternion.FromAxisAngle(rotationAxis, rotationAngle) * GameObject.Orientation;
+			GameObject.TransformComponent.Orientation = Quaternion.FromAxisAngle(rotationAxis, rotationAngle) * GameObject.TransformComponent.Orientation;
 		}
 	}
 }
