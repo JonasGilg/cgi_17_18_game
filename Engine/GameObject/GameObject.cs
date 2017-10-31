@@ -9,8 +9,7 @@ namespace Engine {
 			TransformComponent = TransformComponent.Identity();
 		}
 		
-
-		public void Update(double deltaTime, KeyboardDevice input) {
+		public virtual void Update(double deltaTime, KeyboardDevice input) {
 			TransformComponent.Update(deltaTime, input);
 		}
 	}

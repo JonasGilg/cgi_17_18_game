@@ -17,7 +17,7 @@ namespace Game.GameObjects {
 			TransformComponent.Scale = new Vector3(0.05f);
 		}
 
-		public new void Update(double deltaTime, KeyboardDevice input) {
+		public override void Update(double deltaTime, KeyboardDevice input) {
 			var deltaTimeF = (float) deltaTime;
 			
 			if (input[Key.W]) {

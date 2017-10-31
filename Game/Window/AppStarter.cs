@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Engine.Texture;
 using Engine.Camera;
 using Engine.Light;
@@ -14,16 +15,6 @@ using OpenTK.Input;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-		private enum CameraMode {
-			Corner,
-			Net,
-			TopView,
-			AroundSpaceShip
-		}
-
-		// camera mode
-		private CameraMode _cameraMode;
-
 		// Constants
 		private const float BallRadius = 0.01f;
 
@@ -60,6 +51,8 @@ namespace Game.Window {
 
 		private int _updateCounter;
 
+		private Queue<Quaternion> _shipOrientation = new Queue<Quaternion>();
+
 		private SpaceShip _ship;
 
 		private AppStarter()
@@ -80,6 +73,10 @@ namespace Game.Window {
 			var shipModel = new ModelLoaderObject3D("data/objects/monkey.obj");
 			_ship = new SpaceShip(shipModel);
 			_ship.TransformComponent.Position = new Vector3(0.0f, 0.2f, 0.0f);
+
+			for (var i = 0; i < 10; i++) {
+				_shipOrientation.Enqueue(_ship.TransformComponent.Orientation);
+			}
 
 			// Loading the object
 			_tennisBallObject = new ModelLoaderObject3D("data/objects/tennis_ball.obj");
@@ -109,9 +106,6 @@ namespace Game.Window {
 			// the initial direction
 			_ballDirectionX = 0.02f;
 			_ballDirectionZ = 0.01f;
-
-			// initial camera
-			_cameraMode = CameraMode.AroundSpaceShip;
 		}
 
 		private bool _f11Pressed;
@@ -131,12 +125,6 @@ namespace Game.Window {
 
 			// updateCounter simply increaes
 			_updateCounter++;
-
-			if (Keyboard[Key.Number1]) _cameraMode = CameraMode.Corner;
-			if (Keyboard[Key.Number2]) _cameraMode = CameraMode.TopView;
-			if (Keyboard[Key.Number3]) _cameraMode = CameraMode.Net;
-			if (Keyboard[Key.Number4]) _cameraMode = CameraMode.AroundSpaceShip;
-
 
 			// ---------------------------------------------
 			// update the ball (fake and simplified physics)
@@ -165,37 +153,16 @@ namespace Game.Window {
 				_ballPositionY = BallRadius;
 			}
 
+			
+			var eye = new Vector3(0.0f, 0.05f, -0.3f);
+			Math3D.Rotate(ref eye, _ship.TransformComponent.Orientation);
 
-			// ---------------------------------------------
-			// set the camera, depending on state
-			// ---------------------------------------------
-			switch (_cameraMode) {
-				case CameraMode.Corner:
-					Camera.SetLookAt(new Vector3(1, 1, 1), new Vector3(_ballPositionX, _ballPositionY, _ballPositionZ), Vector3.UnitY);
-					break;
-
-				case CameraMode.TopView:
-					Camera.SetLookAt(new Vector3(0, 3, 0), new Vector3(0, 0, 0), Vector3.UnitZ);
-					break;
-
-				case CameraMode.Net:
-					Camera.SetLookAt(new Vector3(0, 1, 2), new Vector3(_ballPositionX, _ballPositionY, _ballPositionZ), Vector3.UnitY);
-					break;
-
-				case CameraMode.AroundSpaceShip:
-					var eye = new Vector3(0.0f, 0.05f, -0.3f);
-					Math3D.Rotate(ref eye, _ship.TransformComponent.Orientation);
-					
-					Camera.SetLookAt(
-						new Vector3(_ship.TransformComponent.Position.X,
-									_ship.TransformComponent.Position.Y,
-									_ship.TransformComponent.Position.Z) + eye,
-						_ship.TransformComponent.Position,
-						Vector3.UnitY);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+			Camera.SetLookAt(
+				new Vector3(_ship.TransformComponent.Position.X,
+					_ship.TransformComponent.Position.Y,
+					_ship.TransformComponent.Position.Z) + eye,
+				_ship.TransformComponent.Position,
+				Vector3.UnitY);
 		}
 
 
