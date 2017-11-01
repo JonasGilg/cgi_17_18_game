@@ -61,7 +61,7 @@ namespace Engine.Material {
 			// The matrix which we give as "modelview_projection_matrix" is assembled:
 			// object-transformation * camera-transformation * perspective projection of the camera
 			// on the shader each vertex-position is multiplied by this matrix. The result is the final position on the scree
-			var modelViewProjection = model3D.Transformation * Camera.Transformation * Camera.PerspectiveProjection;
+			var modelViewProjection = model3D.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
 
 			// modelViewProjection is passed to the shader
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelViewProjection);
@@ -80,7 +80,7 @@ namespace Engine.Material {
 			GL.Uniform1(_materialShininessLocation, shininess);
 
 			// Pass positions of the camera to calculate the view direction
-			GL.Uniform4(_cameraPositionLocation, new Vector4(Camera.Position.X, Camera.Position.Y, Camera.Position.Z, 1));
+			GL.Uniform4(_cameraPositionLocation, new Vector4(DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1));
 
 			// The object is drawn
 			GL.DrawElements(PrimitiveType.Triangles, model3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);

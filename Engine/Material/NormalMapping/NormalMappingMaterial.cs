@@ -73,7 +73,7 @@ namespace Engine.Material {
 			// Die Matrix, welche wir als "modelview_projection_matrix" übergeben, wird zusammengebaut:
 			// Objekt-Transformation * Kamera-Transformation * Perspektivische Projektion der kamera.
 			// Auf dem Shader wird jede Vertex-Position mit dieser Matrix multipliziert. Resultat ist die Position auf dem Screen.
-			var modelViewProjection = model3D.Transformation * Camera.Transformation * Camera.PerspectiveProjection;
+			var modelViewProjection = model3D.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
 
 			// Die ModelViewProjection Matrix wird dem Shader als Parameter übergeben
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelViewProjection);
@@ -93,7 +93,7 @@ namespace Engine.Material {
 			GL.Uniform1(_materialShininessLocation, shininess);
 
 			// Positions Parameter
-			GL.Uniform4(_cameraPositionLocation, new Vector4(Camera.Position.X, Camera.Position.Y, Camera.Position.Z, 1));
+			GL.Uniform4(_cameraPositionLocation, new Vector4(DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1));
 
 			// Das Objekt wird gezeichnet
 			GL.DrawElements(PrimitiveType.Triangles, model3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
