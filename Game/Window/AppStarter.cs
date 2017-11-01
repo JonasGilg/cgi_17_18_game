@@ -17,12 +17,15 @@ namespace Game.Window {
 
 		private int _tennisArenaTexture;
 		private int _shipTexture;
+		private int _asteroidTexture;
 
 		private AmbientDiffuseSpecularMaterial _ambientDiffuseMaterial;
 
 
 		private SpaceShip _ship;
 		private Camera _camera;
+
+		private Asteroid _asteroid;
 
 		private AppStarter()
 			: base(1280, 720, new GraphicsMode(32, 24, 8, 2), "CGI-MIN Example", GameWindowFlags.Default, DisplayDevice.Default,
@@ -49,6 +52,13 @@ namespace Game.Window {
 
 			_tennisArenaTexture = TextureManager.LoadTexture("data/textures/tennis_field.png");
 			_shipTexture = TextureManager.LoadTexture("data/textures/test.png");
+			
+			var asteroid_0_model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_0.obj");
+			
+			_asteroid = new Asteroid(asteroid_0_model);
+			_asteroid.TransformComponent.Position = new Vector3(1f,0.4f,0.0f);
+			
+			_asteroidTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png");
 
 			_ambientDiffuseMaterial = new AmbientDiffuseSpecularMaterial();
 
@@ -73,6 +83,7 @@ namespace Game.Window {
 			}
 
 			_ship.Update(e.Time, Keyboard);
+			_asteroid.Update(e.Time,Keyboard);
 
 			var eye = new Vector3(-0.3f, 0.05f, 0.0f);
 			Math3D.Rotate(ref eye, _ship.TransformComponent.Orientation);
@@ -92,6 +103,9 @@ namespace Game.Window {
 
 			_ambientDiffuseMaterial.Draw(_tennisArenaObject, _tennisArenaTexture, 0.2f);
 			_ship.Draw(_ambientDiffuseMaterial, _shipTexture);
+			
+			_asteroid.Draw(_ambientDiffuseMaterial, _asteroidTexture);
+			
 
 			SwapBuffers();
 		}
