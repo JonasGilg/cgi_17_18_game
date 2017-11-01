@@ -11,6 +11,9 @@ namespace Engine.Component {
 		public Quaternion Orientation;
 		public Vector3 Scale;
 
+		public Vector3 WorldPosition => WorldMatrix.ExtractTranslation();
+		public Quaternion WorldOrientation => WorldMatrix.ExtractRotation();
+
 		public static TransformComponent Identity() => new TransformComponent();
 
 		public TransformComponent(Vector3 position, Quaternion orientation, Vector3 scale, GameObject owner) : base(owner) {

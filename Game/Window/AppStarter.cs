@@ -81,7 +81,7 @@ namespace Game.Window {
 				                                      _ship.TransformComponent.Position.Y,
 				                                      _ship.TransformComponent.Position.Z) + eye;
 
-			_camera.SetLookAt(_ship.TransformComponent.Position, Vector3.UnitY);
+			_camera.SetLookAt(_camera.TransformComponent.Position, _ship.TransformComponent.Position, Vector3.UnitY);
 
 			_camera.Update(e.Time, Keyboard);
 		}
@@ -96,9 +96,7 @@ namespace Game.Window {
 			SwapBuffers();
 		}
 
-
 		protected override void OnUnload(EventArgs e) { }
-
 
 		protected override void OnResize(EventArgs e) {
 			GL.Viewport(0, 0, Width, Height);
