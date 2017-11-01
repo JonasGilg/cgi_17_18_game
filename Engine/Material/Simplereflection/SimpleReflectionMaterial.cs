@@ -42,13 +42,13 @@ namespace Engine.Material {
 			// object-transformation * camera-transformation * perspective projection of the camera
 			// on the shader each vertex-position is multiplied by this matrix. The result is the final position on the screen
 			var modelviewProjection =
-				model3D.Transformation * Camera.Transformation * Camera.PerspectiveProjection;
+				model3D.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
 
 			// Matrix is passed to the shader
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelviewProjection);
 
 			// The "modelView-matrix is assembled together
-			var modelviewMatrix = model3D.Transformation * Camera.Transformation;
+			var modelviewMatrix = model3D.Transformation * DisplayCamera.Transformation;
 
 			// ... and also passed to the shader
 			GL.UniformMatrix4(_modelviewMatrixLocation, false, ref modelviewMatrix);

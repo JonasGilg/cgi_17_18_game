@@ -1,39 +1,14 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
 
 namespace Engine {
-	public static class Camera {
-		// Matrix for the transformation
+	public class Camera : GameObject {
 
-		// ... and the petrspective projection
-		private static Matrix4 _perspectiveProjection;
+		public Camera() { }
 
-		// position for the camera is saved
-
-		public static void Init() {
-			_perspectiveProjection = Matrix4.Identity;
-			Transformation = Matrix4.Identity;
+		public Matrix4 LookAtMatrix { get; private set; }
+		
+		public void SetLookAt(Vector3 target, Vector3 up) {
+			LookAtMatrix = Matrix4.LookAt(TransformComponent.Position, target, up);
 		}
-
-		// width, height = size of screen in pixeln, fov = "field of view", der opening-angle for the camera lense
-		public static void SetWidthHeightFov(int width, int height, float fov) {
-			var aspectRatio = width / (float) height;
-			Matrix4.CreatePerspectiveFieldOfView((float) (fov * Math.PI / 180.0f), aspectRatio, 0.01f, 500,
-				out _perspectiveProjection);
-		}
-
-		// generation of the camera-transformation using LookAt
-		// position of the camera-"eye", look-at poinmt, "up" direction of camera
-		public static void SetLookAt(Vector3 eye, Vector3 target, Vector3 up) {
-			Position = eye;
-			Transformation = Matrix4.LookAt(eye, target, up);
-		}
-
-		// Getter
-		public static Vector3 Position { get; private set; }
-
-		public static Matrix4 Transformation { get; private set; }
-
-		public static Matrix4 PerspectiveProjection => _perspectiveProjection;
 	}
 }

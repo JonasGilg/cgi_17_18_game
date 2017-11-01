@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Camera\DisplayCamera.cs" />
     <Compile Include="Component\Component.cs" />
     <Compile Include="Component\MoveComponent.cs" />
     <Compile Include="Component\TransformComponent.cs" />

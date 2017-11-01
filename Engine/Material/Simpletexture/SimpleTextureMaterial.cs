@@ -38,7 +38,7 @@ namespace Engine.Material {
 			// Objekt-Transformation * Kamera-Transformation * Perspektivische Projektion der kamera.
 			// Auf dem Shader wird jede Vertex-Position mit dieser Matrix multipliziert. Resultat ist die Position auf dem Screen.
 			var modelviewProjection =
-				model3D.Transformation * Camera.Transformation * Camera.PerspectiveProjection;
+				model3D.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
 
 			// Die Matrix wird dem Shader als Parameter übergeben
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelviewProjection);
