@@ -18,8 +18,8 @@ namespace Engine.Material {
 
 		public AmbientDiffuseSpecularMaterial() {
 			// shader-programm is loaded
-			CreateShaderProgram("cgimin/engine/material/ambientdiffusespecular/AmbientDiffuseSpecular_VS.glsl",
-				"cgimin/engine/material/ambientdiffusespecular/AmbientDiffuseSpecular_FS.glsl");
+			CreateShaderProgram("Material/AmbientDiffuseSpecular/AmbientDiffuseSpecular_VS.glsl",
+				"Material/AmbientDiffuseSpecular/AmbientDiffuseSpecular_FS.glsl");
 
 			// GL.BindAttribLocation, defines which index of the data-structure is assigned to which "in" parameter 
 			GL.BindAttribLocation(Program, 0, "in_position");

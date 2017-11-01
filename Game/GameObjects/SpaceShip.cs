@@ -1,4 +1,4 @@
-﻿using Engine.Component;
+﻿﻿using Engine.Component;
 using Engine;
 using Engine.Material;
 using Engine.Model;
@@ -57,8 +57,8 @@ namespace Game.GameObjects {
 			Model.Update(TransformComponent.WorldMatrix);
 		}
 		
-		public void Draw(AmbientDiffuseMaterial material, int texture) {
-			material.Draw(Model, texture);
+		public void Draw(AmbientDiffuseSpecularMaterial material, int texture) {
+			material.Draw(Model, texture, 1f);
 		}
 	}
 }

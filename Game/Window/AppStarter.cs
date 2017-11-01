@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using Engine;
 using Engine.Texture;
@@ -33,7 +33,7 @@ namespace Game.Window {
 		private int _shipTexture;
 
 		// Materials
-		private AmbientDiffuseMaterial _ambientDiffuseMaterial;
+		private AmbientDiffuseSpecularMaterial _ambientDiffuseMaterial;
 
 		private SimpleTextureMaterial _simpleTextureMaterial;
 
@@ -66,7 +66,7 @@ namespace Game.Window {
 			Camera.SetWidthHeightFov(800, 600, 90);
 
 			// Initialize Light
-			Light.SetDirectionalLight(new Vector3(0.5f, 1, 0), new Vector4(0.1f, 0.1f, 0.1f, 0), new Vector4(1, 1, 1, 0), new Vector4());
+			Light.SetDirectionalLight(new Vector3(0.5f, 1f, 0), new Vector4(0.1f, 0.1f, 0.1f, 0), new Vector4(1, 1, 1, 0), new Vector4());
 
 			var shipModel = new ModelLoaderObject3D("data/objects/SpaceShip.obj");
 			_ship = new SpaceShip(shipModel);
@@ -87,7 +87,7 @@ namespace Game.Window {
 			_shipTexture = TextureManager.LoadTexture("data/textures/test.png");
 
 			// initialize material
-			_ambientDiffuseMaterial = new AmbientDiffuseMaterial();
+			_ambientDiffuseMaterial = new AmbientDiffuseSpecularMaterial();
 			_simpleTextureMaterial = new SimpleTextureMaterial();
 
 			// enebale z-buffer
@@ -171,7 +171,7 @@ namespace Game.Window {
 			// ----------------------------------------------------------------------
 			// draw the arena
 			// ----------------------------------------------------------------------
-			_ambientDiffuseMaterial.Draw(_tennisArenaObject, _tennisArenaTexture);
+			_ambientDiffuseMaterial.Draw(_tennisArenaObject, _tennisArenaTexture, 0.2f);
 
 			// ----------------------------------------------------------------------
 			// calculate ball's transformation matrix and draw the ball
@@ -193,7 +193,7 @@ namespace Game.Window {
 			_tennisBallObject.Transformation *= Matrix4.CreateTranslation(_ballPositionX, _ballPositionY, _ballPositionZ);
 
 			// draw the ball
-			_ambientDiffuseMaterial.Draw(_tennisBallObject, _tennisBallTexture);
+			_ambientDiffuseMaterial.Draw(_tennisBallObject, _tennisBallTexture, 0.2f);
 
 			_ship.Draw(_ambientDiffuseMaterial, _shipTexture);
 

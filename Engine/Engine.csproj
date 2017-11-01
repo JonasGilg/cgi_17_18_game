@@ -51,7 +51,7 @@
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="GameObject\GameObject.cs" />
     <Compile Include="Light\Light.cs" />
-    <Compile Include="Material\AmbiebtDiffuseSpecular\AmbientDiffuseSpecularMaterial.cs" />
+    <Compile Include="Material\AmbientDiffuseSpecular\AmbientDiffuseSpecularMaterial.cs" />
     <Compile Include="Material\Ambientdiffuse\AmbientDiffuseMaterial.cs" />
     <Compile Include="Material\BaseMaterial.cs" />
     <Compile Include="Material\NormalMapping\NormalMappingMaterial.cs" />
@@ -68,8 +68,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Material\AmbiebtDiffuseSpecular\AmbientDiffuseSpecular_FS.glsl" />
-    <Content Include="Material\AmbiebtDiffuseSpecular\AmbientDiffuseSpecular_VS.glsl" />
+    <Content Include="Material\AmbientDiffuseSpecular\AmbientDiffuseSpecular_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Material\AmbientDiffuseSpecular\AmbientDiffuseSpecular_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Material\Ambientdiffuse\AmbientDiffuse_FS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

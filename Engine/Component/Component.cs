@@ -2,9 +2,9 @@
 
 namespace Engine.Component {
 	public abstract class Component {
-		protected Engine.GameObject GameObject;
+		protected GameObject GameObject;
 
-		protected Component(Engine.GameObject gameObject) {
+		protected Component(GameObject gameObject) {
 			GameObject = gameObject;
 		}
 
