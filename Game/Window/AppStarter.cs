@@ -31,18 +31,18 @@ namespace Game.Window {
 
 		protected override void OnLoad(EventArgs e) {
 			Console.Out.WriteLine("Controls:\n" +
-			                      " move forward: W\n" +
-			                      "move backward: S\n" +
-			                      "    move left: A\n" +
-			                      "   move right: D\n" +
-			                      "      move up: SPACE\n" +
-			                      "    move down: CTRL\n" +
-			                      "  rotate left: Q\n" +
-			                      " rotate right: E\n" +
-			                      "    roll left: LEFT\n" +
-			                      "   roll right: RIGHT\n" +
-			                      " roll forward: UP\n" +
-			                      "roll backward: DOWN");
+			                      "  move forward: W\n" +
+			                      " move backward: S\n" +
+			                      "     move left: A\n" +
+			                      "    move right: D\n" +
+			                      "       move up: SPACE\n" +
+			                      "     move down: X\n" +
+			                      "   rotate left: Q\n" +
+			                      "  rotate right: E\n" +
+			                      "     roll left: LEFT\n" +
+			                      "    roll right: RIGHT\n" +
+			                      "  roll forward: UP\n" +
+			                      " roll backward: DOWN");
 			base.OnLoad(e);
 
 			DisplayCamera.Init();

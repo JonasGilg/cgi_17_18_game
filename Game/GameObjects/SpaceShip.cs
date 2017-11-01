@@ -56,7 +56,7 @@ namespace Game.GameObjects {
 			}
 			
 			//move down
-			if (input[Key.ControlLeft]) {
+			if (input[Key.X]) {
 				var right = new Vector3(0.0f, -deltaTimeF, 0.0f);
 				Math3D.Rotate(ref right, TransformComponent.Orientation);
 				MoveComponent.LinearVelocity += right;
