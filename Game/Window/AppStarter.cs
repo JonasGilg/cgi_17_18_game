@@ -13,14 +13,14 @@ using OpenTK.Input;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-		private ModelLoaderObject3D _tennisArenaObject;
+		private Model3D _neptuneObject;
 
-		private int _tennisArenaTexture;
 		private int _shipTexture;
 		private int _asteroidTexture;
+		private int _neptuneTexture;
 
-		private AmbientDiffuseSpecularMaterial _ambientDiffuseMaterial;
-
+		private AmbientDiffuseSpecularMaterial _ambientDiffuseSpecularMaterial;
+		private SimpleTextureMaterial _simpleTextureMaterial;
 
 		private SpaceShip _ship;
 		private Camera _camera;
@@ -54,26 +54,32 @@ namespace Game.Window {
 			_camera = new Camera();
 			DisplayCamera.SetActiveCamera(_camera);
 
-			Light.SetDirectionalLight(new Vector3(0.5f, 1f, 0), new Vector4(0.1f, 0.1f, 0.1f, 0), new Vector4(1, 1, 1, 0),
+			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f), new Vector4(0.2f, 0.2f, 0.2f, 0),
+				new Vector4(0.7f, 0.7f, 1.5f, 0),
 				new Vector4());
 
 			var shipModel = new ModelLoaderObject3D("data/objects/SpaceShip.obj");
 			_ship = new SpaceShip(shipModel);
-			_ship.TransformComponent.Position = new Vector3(0.0f, 0.2f, 0.0f);
+			_ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
+			_ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, (float) -(Math.PI / 2));
 
-			_tennisArenaObject = new ModelLoaderObject3D("data/objects/tennis_arena.obj");
+			_neptuneObject = new ModelLoaderObject3D("data/objects/neptune.obj") {
+				Transformation = Matrix4.CreateScale(new Vector3(400f)) * Matrix4.CreateTranslation(0, 0, 1500f)
+			};
 
-			_tennisArenaTexture = TextureManager.LoadTexture("data/textures/tennis_field.png");
+
 			_shipTexture = TextureManager.LoadTexture("data/textures/test.png");
-			
-			var asteroid_0_model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_0.obj");
-			
-			_asteroid = new Asteroid(asteroid_0_model);
-			_asteroid.TransformComponent.Position = new Vector3(1f,0.4f,0.0f);
-			
+			_neptuneTexture = TextureManager.LoadTexture("data/textures/neptunemap.jpg");
+
+			var asteroid0Model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_0.obj");
+
+			_asteroid = new Asteroid(asteroid0Model);
+			_asteroid.TransformComponent.Position = new Vector3(1f, 0.4f, 0.0f);
+
 			_asteroidTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png");
 
-			_ambientDiffuseMaterial = new AmbientDiffuseSpecularMaterial();
+			_ambientDiffuseSpecularMaterial = new AmbientDiffuseSpecularMaterial();
+			_simpleTextureMaterial = new SimpleTextureMaterial();
 
 			GL.Enable(EnableCap.DepthTest);
 
@@ -96,7 +102,7 @@ namespace Game.Window {
 			}
 
 			_ship.Update(e.Time, Keyboard);
-			_asteroid.Update(e.Time,Keyboard);
+			_asteroid.Update(e.Time, Keyboard);
 
 			var eye = new Vector3(-0.3f, 0.05f, 0.0f);
 			Math3D.Rotate(ref eye, _ship.TransformComponent.Orientation);
@@ -105,7 +111,8 @@ namespace Game.Window {
 				                                      _ship.TransformComponent.Position.Y,
 				                                      _ship.TransformComponent.Position.Z) + eye;
 
-			_camera.SetLookAt(_camera.TransformComponent.Position, _ship.TransformComponent.Position, _ship.TransformComponent.Orientation * Vector3.UnitY);
+			_camera.SetLookAt(_camera.TransformComponent.Position, _ship.TransformComponent.Position,
+				_ship.TransformComponent.Orientation * Vector3.UnitY);
 
 			_camera.Update(e.Time, Keyboard);
 		}
@@ -114,11 +121,12 @@ namespace Game.Window {
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-			_ambientDiffuseMaterial.Draw(_tennisArenaObject, _tennisArenaTexture, 0.2f);
-			_ship.Draw(_ambientDiffuseMaterial, _shipTexture);
-			
-			_asteroid.Draw(_ambientDiffuseMaterial, _asteroidTexture);
-			
+			_ship.Draw(_ambientDiffuseSpecularMaterial, _shipTexture);
+
+			_asteroid.Draw(_ambientDiffuseSpecularMaterial, _asteroidTexture);
+
+
+			_simpleTextureMaterial.Draw(_neptuneObject, _neptuneTexture);
 
 			SwapBuffers();
 		}
