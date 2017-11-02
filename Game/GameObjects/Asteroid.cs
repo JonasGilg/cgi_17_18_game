@@ -8,10 +8,12 @@ namespace Game.GameObjects {
 		public readonly MoveComponent MoveComponent;
 		public readonly Model3D Model;
 
-		public Asteroid(Model3D model3D) {
+		public Asteroid(Model3D model3D, Vector3 rotation, Vector3 velocity, Vector3 scale) {
 			Model = model3D;
 			MoveComponent = new MoveComponent(this);
-			TransformComponent.Scale = new Vector3(0.4f);
+			MoveComponent.LinearVelocity = velocity;
+			MoveComponent.AngularVelocity = rotation;
+			TransformComponent.Scale = scale;
 		}
 
 		public void Draw(AmbientDiffuseSpecularMaterial material, int texture) {
