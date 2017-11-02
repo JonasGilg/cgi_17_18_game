@@ -1,4 +1,4 @@
-﻿using Engine.Component;
+﻿using Engine;
 using OpenTK.Input;
 
 namespace Engine {

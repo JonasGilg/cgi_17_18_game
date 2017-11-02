@@ -1,7 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Input;
 
-namespace Engine.Component {
+namespace Engine {
 	public class MoveComponent : Component {
 		public Vector3 LinearVelocity = Vector3.Zero;
 		public Vector3 AngularVelocity = Vector3.Zero;

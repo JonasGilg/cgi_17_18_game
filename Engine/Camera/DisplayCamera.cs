@@ -3,13 +3,13 @@ using OpenTK;
 
 namespace Engine {
 	public static class DisplayCamera {
-		private static Camera _activeCamera;
+		private static CameraComponent _activeCamera;
 
 		private static Matrix4 _perspectiveProjection;
 
 		public static void Init() {
 			_perspectiveProjection = Matrix4.Identity;
-			_activeCamera = new Camera();
+			_activeCamera = new CameraComponent(null);
 		}
 
 		// width, height = size of screen in pixeln, fov = "field of view", der opening-angle for the camera lense
@@ -20,10 +20,10 @@ namespace Engine {
 		}
 
 		// Getter
-		public static Vector3 Position => _activeCamera.TransformComponent.Position;
+		public static Vector3 Position => _activeCamera.Position;
 		public static Matrix4 Transformation => _activeCamera.LookAtMatrix;
 
-		public static void SetActiveCamera(Camera camera) => _activeCamera = camera;
+		public static void SetActiveCamera(CameraComponent camera) => _activeCamera = camera;
 
 		public static Matrix4 PerspectiveProjection => _perspectiveProjection;
 	}

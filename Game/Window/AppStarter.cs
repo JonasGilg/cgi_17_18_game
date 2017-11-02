@@ -23,8 +23,6 @@ namespace Game.Window {
 		private SimpleTextureMaterial _simpleTextureMaterial;
 
 		private SpaceShip _ship;
-		private Camera _camera;
-
 		private Asteroid _asteroid;
 
 		private AppStarter()
@@ -52,9 +50,6 @@ namespace Game.Window {
 
 			DisplayCamera.Init();
 			DisplayCamera.SetWidthHeightFov(800, 600, 90);
-
-			_camera = new Camera();
-			DisplayCamera.SetActiveCamera(_camera);
 
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
 						   //r      g      b      a
@@ -107,18 +102,6 @@ namespace Game.Window {
 
 			_ship.Update(e.Time, Keyboard);
 			_asteroid.Update(e.Time, Keyboard);
-
-			var eye = new Vector3(-0.3f, 0.05f, 0.0f);
-			Math3D.Rotate(ref eye, _ship.TransformComponent.Orientation);
-
-			_camera.TransformComponent.Position = new Vector3(_ship.TransformComponent.Position.X,
-				                                      _ship.TransformComponent.Position.Y,
-				                                      _ship.TransformComponent.Position.Z) + eye;
-
-			_camera.SetLookAt(_camera.TransformComponent.Position, _ship.TransformComponent.Position,
-				_ship.TransformComponent.Orientation * Vector3.UnitY);
-
-			_camera.Update(e.Time, Keyboard);
 		}
 
 

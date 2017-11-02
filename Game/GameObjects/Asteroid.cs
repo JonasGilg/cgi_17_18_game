@@ -1,5 +1,4 @@
-﻿using Engine.Component;
-using Engine;
+﻿using Engine;
 using Engine.Material;
 using Engine.Model;
 using OpenTK;
