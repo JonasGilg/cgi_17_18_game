@@ -2,7 +2,7 @@
 using OpenTK.Input;
 
 namespace Engine {
-	public class CameraComponent : Engine.Component {
+	public class CameraComponent : Component {
 
 		public CameraComponent(GameObject gameObject) : base(gameObject) { }
 
