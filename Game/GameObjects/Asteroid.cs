@@ -17,9 +17,9 @@ namespace Game.GameObjects {
             TransformComponent.Scale = scale;
         }
 
-        public override void Update(double deltaTime, KeyboardDevice input) {
-            MoveComponent.Update(deltaTime, input);
-            base.Update(deltaTime, input);
+        public override void Update(double deltaTime) {
+            MoveComponent.Update(deltaTime);
+            base.Update(deltaTime);
             Model.Update(TransformComponent.WorldMatrix);
         }
 
