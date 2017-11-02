@@ -55,6 +55,7 @@
     <Compile Include="Component\TransformComponent.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="GameObject\GameObject.cs" />
+    <Compile Include="GameObject\World.cs" />
     <Compile Include="Light\Light.cs" />
     <Compile Include="Material\AmbientDiffuseSpecular\AmbientDiffuseSpecularMaterial.cs" />
     <Compile Include="Material\Ambientdiffuse\AmbientDiffuseMaterial.cs" />
