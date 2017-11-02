@@ -1,7 +1,10 @@
-﻿using Engine;
+﻿using System.Runtime.InteropServices.ComTypes;
+using Engine;
 using Engine.Material;
 using Engine.Model;
+using Engine.Texture;
 using OpenTK;
+using OpenTK.Graphics.ES10;
 using OpenTK.Input;
 
 namespace Game.GameObjects {
@@ -15,6 +18,14 @@ namespace Game.GameObjects {
             MoveComponent.LinearVelocity = velocity;
             MoveComponent.AngularVelocity = rotation;
             TransformComponent.Scale = scale;
+        }
+
+        public Asteroid(Model3D model3D) {
+            Model = model3D;
+            MoveComponent = new MoveComponent(this);
+            MoveComponent.LinearVelocity = new Vector3(0.0f);
+            MoveComponent.AngularVelocity = new Vector3(0.0f);
+            TransformComponent.Scale = new Vector3(1.0f);
         }
 
         public override void Update(double deltaTime) {

@@ -71,9 +71,9 @@ namespace Game.Window {
 			_shipTexture = TextureManager.LoadTexture("data/textures/test.png");
 			_neptuneTexture = TextureManager.LoadTexture("data/textures/neptunemap.jpg");
 
-			var asteroid0Model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_0.obj");
+			var asteroid0Model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_1.obj");
 
-			_asteroid = new Asteroid(asteroid0Model,new Vector3(1.0f,0.0f,0.0f),new Vector3(0.0f,0.0f,0.0f),new Vector3(1.0f)  );
+			_asteroid = new Asteroid(asteroid0Model,new Vector3(1.0f,0.4f,0.1f),new Vector3(0.0f,0.0f,0.0f),new Vector3(1.0f)  );
 			_asteroid.TransformComponent.Position = new Vector3(1f, 0.4f, 0.0f);
 
 			_asteroidTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png");
