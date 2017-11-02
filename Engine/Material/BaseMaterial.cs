@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using System.IO;
 
 namespace Engine.Material {
-	public class BaseMaterial {
+	public abstract class BaseMaterial {
 		private int _vertexObject;
 		private int _fragmentObject;
 

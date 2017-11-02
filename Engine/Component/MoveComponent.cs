@@ -8,7 +8,7 @@ namespace Engine {
 
 		public MoveComponent(GameObject gameObject) : base(gameObject) { }
 
-		public override void Update(double deltaTime, KeyboardDevice input) {
+		public override void Update(double deltaTime) {
 			ApplyLinearVelocity(deltaTime);
 			ApplyAngularVelocity(deltaTime);
 		}

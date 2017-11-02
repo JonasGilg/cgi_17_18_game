@@ -1,9 +1,10 @@
-﻿using Engine;
+﻿﻿using Engine;
 using Engine.Material;
 using Engine.Model;
 using Engine.Util;
 using OpenTK;
 using OpenTK.Input;
+using Keyboard = Engine.Input.Keyboard;
 
 namespace Game.GameObjects {
 	public class SpaceShip : GameObject {
@@ -19,103 +20,120 @@ namespace Game.GameObjects {
 			TransformComponent.Scale = new Vector3(0.02f);
 		}
 
-		public override void Update(double deltaTime, KeyboardDevice input) {
+		public override void Update(double deltaTime) {
 			var deltaTimeF = (float) deltaTime;
 			
 			//move forward
-			if (input[Key.W]) {
+			if (Keyboard.Down(Key.W)) {
 				var forward = new Vector3(deltaTimeF, 0.0f, 0.0f);
 				Math3D.Rotate(ref forward, TransformComponent.Orientation);
 				MoveComponent.LinearVelocity += forward;
 			}
 			
 			//move backward
-			if (input[Key.S]) {
+			if (Keyboard.Down(Key.S)) {
 				var backwards = new Vector3(-deltaTimeF, 0.0f, 0.0f);
 				Math3D.Rotate(ref backwards, TransformComponent.Orientation);
 				MoveComponent.LinearVelocity += backwards;
 			}
 			
 			//move left
-			if (input[Key.A]) {
+			if (Keyboard.Down(Key.A)) {
 				var left = new Vector3(0.0f, 0.0f, -deltaTimeF);
 				Math3D.Rotate(ref left, TransformComponent.Orientation);
 				MoveComponent.LinearVelocity += left;
 			}
 
 			//move right
-			if (input[Key.D]) {
+			if (Keyboard.Down(Key.D)) {
 				var right = new Vector3(0.0f, 0.0f, deltaTimeF);
 				Math3D.Rotate(ref right, TransformComponent.Orientation);
 				MoveComponent.LinearVelocity += right;
 			}
 
 			//move up
-			if (input[Key.Space]) {
+			if (Keyboard.Down(Key.Space)) {
 				var right = new Vector3(0.0f, deltaTimeF, 0.0f);
 				Math3D.Rotate(ref right, TransformComponent.Orientation);
 				MoveComponent.LinearVelocity += right;
 			}
 			
 			//move down
-			if (input[Key.X]) {
+			if (Keyboard.Down(Key.X)) {
 				var right = new Vector3(0.0f, -deltaTimeF, 0.0f);
 				Math3D.Rotate(ref right, TransformComponent.Orientation);
 				MoveComponent.LinearVelocity += right;
 			}
 			
 			//turn left
-			if (input[Key.Q]) {
+			if (Keyboard.Down(Key.Q)) {
 				var left = new Vector3(0.0f, deltaTimeF, 0.0f);
 				Math3D.Rotate(ref left, TransformComponent.Orientation);
 				MoveComponent.AngularVelocity += left;
 			}
 			
 			//turn right
-			if (input[Key.E]) {
+			if (Keyboard.Down(Key.E)) {
 				var right = new Vector3(0.0f, -deltaTimeF, 0.0f);
 				Math3D.Rotate(ref right, TransformComponent.Orientation);
 				MoveComponent.AngularVelocity += right;
 			}
 			
 			//tilt forward
-			if (input[Key.Up]) {
+			if (Keyboard.Down(Key.Up)) {
 				var forward = new Vector3(0.0f, 0.0f, -deltaTimeF);
 				Math3D.Rotate(ref forward, TransformComponent.Orientation);
 				MoveComponent.AngularVelocity += forward;
 			}
 			
 			//tilt backward
-			if (input[Key.Down]) {
+			if (Keyboard.Down(Key.Down)) {
 				var backward = new Vector3(0.0f, 0.0f, deltaTimeF);
 				Math3D.Rotate(ref backward, TransformComponent.Orientation);
 				MoveComponent.AngularVelocity += backward;
 			}
 			
 			//tilt left
-			if (input[Key.Left]) {
+			if (Keyboard.Down(Key.Left)) {
 				var left = new Vector3(-deltaTimeF, 0.0f, 0.0f);
 				Math3D.Rotate(ref left, TransformComponent.Orientation);
 				MoveComponent.AngularVelocity += left;
 			}
 			
 			//tilt right
-			if (input[Key.Right]) {
+			if (Keyboard.Down(Key.Right)) {
 				var right = new Vector3(deltaTimeF, 0.0f, 0.0f);
 				Math3D.Rotate(ref right, TransformComponent.Orientation);
 				MoveComponent.AngularVelocity += right;
 			}
 
-			if (input[Key.C]) {
+			
+			if (Keyboard.Pressed(Key.C)) {
 				MoveComponent.LinearVelocity = Vector3.Zero;
 				MoveComponent.AngularVelocity = Vector3.Zero;
 			}
+
 			
+			if (Keyboard.Down(Key.B)) {
+				if (MoveComponent.LinearVelocity.Length > 0.05f) {
+					MoveComponent.LinearVelocity *= 1 - deltaTimeF;
+				}
+				else {
+					MoveComponent.LinearVelocity = Vector3.Zero;
+				}
+
+				if (MoveComponent.AngularVelocity.Length > 0.05f) {
+					MoveComponent.AngularVelocity *= 1 - deltaTimeF;
+				}
+				else {
+					MoveComponent.AngularVelocity = Vector3.Zero;
+				}
+			}
 			
-			MoveComponent.Update(deltaTime, input);
-			base.Update(deltaTime, input);
+			MoveComponent.Update(deltaTime);
+			base.Update(deltaTime);
 			Model.Update(TransformComponent.WorldMatrix);
-			CameraComponent.Update(deltaTime, input);
+			CameraComponent.Update(deltaTime);
 		}
 		
 		public void Draw(AmbientDiffuseSpecularMaterial material, int texture) {
