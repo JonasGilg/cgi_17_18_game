@@ -1,6 +1,7 @@
 ﻿using Engine.Util;
 using OpenTK;
 using OpenTK.Input;
+using Mouse = Engine.Input.Mouse;
 
 namespace Engine {
 	public class ThirdPersonCameraComponent : CameraComponent {
@@ -12,6 +13,11 @@ namespace Engine {
 		
 		public override void Update(double deltaTime) {
 			base.Update(deltaTime);
+
+			if (Mouse.Down(MouseButton.Right)) {
+				Math3D.Rotate(ref Offset, Quaternion.FromAxisAngle(Vector3.UnitY, (float) (-Mouse.CursorDelta.X * deltaTime * 0.1)));
+			}
+			
 			var eyePosition = Offset;
 			Math3D.Rotate(ref eyePosition, GameObject.TransformComponent.Orientation);
 

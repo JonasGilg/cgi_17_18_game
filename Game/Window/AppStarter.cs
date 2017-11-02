@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using Engine;
 using Engine.Texture;
 using Engine.Material;
 using Engine.Model;
-using Engine.Util;
 using Game.GameObjects;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using KB = Engine.Input.Keyboard;
+using EngineKeyboard = Engine.Input.Keyboard;
+using EngineMouse = Engine.Input.Mouse;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
@@ -68,6 +67,7 @@ namespace Game.Window {
 			};
 
 
+
 			_shipTexture = TextureManager.LoadTexture("data/textures/test.png");
 			_neptuneTexture = TextureManager.LoadTexture("data/textures/neptunemap.jpg");
 
@@ -88,12 +88,13 @@ namespace Game.Window {
 		}
 
 		protected override void OnUpdateFrame(FrameEventArgs e) {
-			KB.Update(Keyboard.GetState());
+			EngineKeyboard.Update(Keyboard.GetState());
+			EngineMouse.Update(Mouse.GetState());
 			
-			if (KB.Released(Key.Escape))
+			if (EngineKeyboard.Released(Key.Escape))
 				Exit();
 
-			if (KB.Released(Key.F11)) {
+			if (EngineKeyboard.Released(Key.F11)) {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
 
