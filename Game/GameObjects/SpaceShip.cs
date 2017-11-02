@@ -111,6 +111,7 @@ namespace Game.GameObjects {
 				MoveComponent.AngularVelocity = Vector3.Zero;
 			}
 			
+			
 			MoveComponent.Update(deltaTime, input);
 			base.Update(deltaTime, input);
 			Model.Update(TransformComponent.WorldMatrix);
