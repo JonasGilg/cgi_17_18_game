@@ -55,7 +55,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CGI-Engine\CGI-Engine.csproj">
+    <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{47810163-D364-4CE7-B2BA-945609EFC3BF}</Project>
       <Name>CGI-Engine</Name>
     </ProjectReference>
