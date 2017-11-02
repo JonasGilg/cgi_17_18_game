@@ -72,7 +72,7 @@ namespace Game.Window {
 
 			var asteroid0Model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_0.obj");
 
-			_asteroid = new Asteroid(asteroid0Model);
+			_asteroid = new Asteroid(asteroid0Model,new Vector3(1.0f,0.0f,0.0f),new Vector3(0.0f,0.0f,0.0f),new Vector3(1.0f)  );
 			_asteroid.TransformComponent.Position = new Vector3(1f, 0.4f, 0.0f);
 
 			_asteroidTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png");
