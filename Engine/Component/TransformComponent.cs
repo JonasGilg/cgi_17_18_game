@@ -71,7 +71,7 @@ namespace Engine {
 			}
 		}
 
-		public override void Update(double deltaTime, KeyboardDevice input) {
+		public override void Update(double deltaTime) {
 			UpdateWorldMatrix();
 		}
 	}

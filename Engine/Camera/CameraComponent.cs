@@ -14,6 +14,6 @@ namespace Engine {
 			Position = eye;
 		}
 
-		public override void Update(double deltaTime, KeyboardDevice input) { }
+		public override void Update(double deltaTime) { }
 	}
 }
