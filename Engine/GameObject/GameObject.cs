@@ -17,9 +17,12 @@ namespace Engine {
 
 		}
 
+
 		public virtual void LateUpdate() {
 
 		}
+
+		
 
 		public virtual void Update(double deltaTime, KeyboardDevice input) {
 			TransformComponent.Update(deltaTime, input);
