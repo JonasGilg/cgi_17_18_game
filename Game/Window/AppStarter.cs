@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using Engine;
 using Engine.Texture;
 using Engine.Material;
 using Engine.Model;
-using Engine.Util;
 using Game.GameObjects;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+using KB = Engine.Input.Keyboard;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
@@ -86,24 +85,19 @@ namespace Game.Window {
 			GL.CullFace(CullFaceMode.Front);
 		}
 
-		private bool _f11Pressed;
-
 		protected override void OnUpdateFrame(FrameEventArgs e) {
-			if (Keyboard[Key.Escape])
+			KB.Update(Keyboard.GetState());
+			
+			if (KB.Released(Key.Escape))
 				Exit();
 
-			if (Keyboard[Key.F11])
-				_f11Pressed = true;
-
-			if (_f11Pressed && !Keyboard[Key.F11]) {
+			if (KB.Released(Key.F11)) {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
-				_f11Pressed = false;
 			}
 
-			_ship.Update(e.Time, Keyboard);
-			_asteroid.Update(e.Time, Keyboard);
+			_ship.Update(e.Time);
+			_asteroid.Update(e.Time);
 		}
-
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

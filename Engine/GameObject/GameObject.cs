@@ -21,8 +21,8 @@ namespace Engine {
 
 		}
 
-		public virtual void Update(double deltaTime, KeyboardDevice input) {
-			TransformComponent.Update(deltaTime, input);
+		public virtual void Update(double deltaTime) {
+			TransformComponent.Update(deltaTime);
 		}
 
 		public virtual void OnCollisionEnter(Collision collision) {

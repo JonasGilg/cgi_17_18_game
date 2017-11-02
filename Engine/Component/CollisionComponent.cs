@@ -12,7 +12,7 @@ namespace Engine {
 			//Kollision wird hard...
 		}
 
-		public override void Update(double deltaTime, KeyboardDevice input) {
+		public override void Update(double deltaTime) {
 			
 		}
 

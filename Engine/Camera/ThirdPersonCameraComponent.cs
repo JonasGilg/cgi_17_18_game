@@ -10,8 +10,8 @@ namespace Engine {
 			Offset = offset;
 		}
 		
-		public override void Update(double deltaTime, KeyboardDevice input) {
-			base.Update(deltaTime, input);
+		public override void Update(double deltaTime) {
+			base.Update(deltaTime);
 			var eyePosition = Offset;
 			Math3D.Rotate(ref eyePosition, GameObject.TransformComponent.Orientation);
 
