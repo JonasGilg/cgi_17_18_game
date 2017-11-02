@@ -47,6 +47,8 @@
     <Compile Include="Camera\CameraComponent.cs" />
     <Compile Include="Camera\DisplayCamera.cs" />
     <Compile Include="Camera\ThirdPersonCameraComponent.cs" />
+    <Compile Include="Component\BoxCollider.cs" />
+    <Compile Include="Component\CollisionComponent.cs" />
     <Compile Include="Component\Component.cs" />
     <Compile Include="Component\MoveComponent.cs" />
     <Compile Include="Component\TransformComponent.cs" />
