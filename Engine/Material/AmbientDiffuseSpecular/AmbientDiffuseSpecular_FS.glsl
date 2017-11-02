@@ -24,8 +24,7 @@ in vec4 fragPosition;
 // final output
 out vec4 outputColor;
 
-void main()
-{	
+void main() {
 	// get rotation of our models transform matrix
 	mat3 normalMatrix = mat3(model_matrix);
 
@@ -37,7 +36,7 @@ void main()
 
 	// calculate halfway vector
 	vec3 h = normalize(light_direction + vec3(v));
-	float ndoth = dot( normal, h );
+	float ndoth = dot(normal, h);
 	float specularIntensity = pow(ndoth, specular_shininess);
 
 	// calculate brightness for diffuse light
@@ -49,6 +48,5 @@ void main()
 	//				 Ambiente color						  + Diffuse color									  + Speculare
     // outputColor = (surfaceColor * light_ambient_color) + (surfaceColor * brightness * light_diffuse_color) + specularIntensity * light_specular_color;
 	// upper line put outside the brackets
-	 outputColor = surfaceColor * (light_ambient_color +  brightness * light_diffuse_color) + specularIntensity * light_specular_color;
-
+	 outputColor = surfaceColor * (light_ambient_color + brightness * light_diffuse_color) + specularIntensity * light_specular_color;
 }

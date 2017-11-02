@@ -54,14 +54,16 @@ namespace Game.Window {
 			_camera = new Camera();
 			DisplayCamera.SetActiveCamera(_camera);
 
-			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f), new Vector4(0.2f, 0.2f, 0.2f, 0),
-				new Vector4(0.7f, 0.7f, 1.5f, 0),
-				new Vector4());
+			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
+						   //r      g      b      a
+				new Vector4(0.15f, 0.15f, 0.15f, 0.0f),
+				new Vector4(0.05f, 0.20f, 0.60f, 0.0f),
+				new Vector4(0.05f, 0.10f, 0.40f, 0.0f));
 
 			var shipModel = new ModelLoaderObject3D("data/objects/SpaceShip.obj");
 			_ship = new SpaceShip(shipModel);
 			_ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
-			_ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, (float) -(Math.PI / 2));
+			_ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, -1.0f);
 
 			_neptuneObject = new ModelLoaderObject3D("data/objects/neptune.obj") {
 				Transformation = Matrix4.CreateScale(new Vector3(400f)) * Matrix4.CreateTranslation(0, 0, 1500f)
