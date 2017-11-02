@@ -1,5 +1,4 @@
-﻿using Engine;
-using OpenTK.Input;
+﻿using OpenTK.Input;
 
 namespace Engine {
 	public class GameObject {

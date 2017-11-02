@@ -105,6 +105,11 @@ namespace Game.GameObjects {
 				Math3D.Rotate(ref right, TransformComponent.Orientation);
 				MoveComponent.AngularVelocity += right;
 			}
+
+			if (input[Key.C]) {
+				MoveComponent.LinearVelocity = Vector3.Zero;
+				MoveComponent.AngularVelocity = Vector3.Zero;
+			}
 			
 			MoveComponent.Update(deltaTime, input);
 			base.Update(deltaTime, input);
