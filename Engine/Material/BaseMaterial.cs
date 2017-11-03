@@ -7,8 +7,6 @@ namespace Engine.Material {
 	public abstract class BaseMaterial {
 		private int _vertexObject;
 		private int _fragmentObject;
-		public Model3D model3D;
-		public int textureId;
 
 		protected int Program;
 
@@ -47,6 +45,6 @@ namespace Engine.Material {
 			// hint: "Program" is not linked yet
 		}
 
-		public abstract void Draw();
+		public abstract void Draw(Model3D model, int textureId);
 	}
 }

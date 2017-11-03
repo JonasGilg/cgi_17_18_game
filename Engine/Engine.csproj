@@ -59,8 +59,8 @@
     <Compile Include="GameObject\World.cs" />
     <Compile Include="Light\Light.cs" />
     <Compile Include="Material\AmbientDiffuseSpecular\AmbientDiffuseSpecularMaterial.cs" />
-    <Compile Include="Material\Ambientdiffuse\AmbientDiffuseMaterial.cs" />
     <Compile Include="Material\BaseMaterial.cs" />
+    <Compile Include="Material\MaterialManager.cs" />
     <Compile Include="Material\NormalMapping\NormalMappingMaterial.cs" />
     <Compile Include="Material\Simplereflection\SimpleReflectionMaterial.cs" />
     <Compile Include="Material\Simpletexture\SimpleTextureMaterial.cs" />
@@ -70,6 +70,7 @@
     <Compile Include="Texture\TextureManager.cs" />
     <Compile Include="Util\Input.cs" />
     <Compile Include="Util\Math3D.cs" />
+    <Compile Include="Util\Time.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
@@ -82,14 +83,12 @@
     <Content Include="Material\AmbientDiffuseSpecular\AmbientDiffuseSpecular_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Material\Ambientdiffuse\AmbientDiffuse_FS.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Material\NormalMapping\NormalMapping_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Material\Ambientdiffuse\AmbientDiffuse_VS.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Material\NormalMapping\NormalMapping_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Material\NormalMapping\NormalMapping_FS.glsl" />
-    <Content Include="Material\NormalMapping\NormalMapping_VS.glsl" />
     <Content Include="Material\Simplereflection\SimpleReflection_FS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

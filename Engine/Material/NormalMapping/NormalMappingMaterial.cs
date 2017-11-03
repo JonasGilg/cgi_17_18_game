@@ -18,13 +18,10 @@ namespace Engine.Material {
 		private readonly int _colorTextureLocation;
 		private readonly int _normalTextureLocation;
 
-		public int normalTextureId;
-		public float shininess;
-
 		public NormalMappingMaterial() {
 			// Shader-Programm wird aus den externen Files generiert...
-			CreateShaderProgram("cgimin/engine/material/normalmapping/NormalMapping_VS.glsl",
-				"cgimin/engine/material/normalmapping/NormalMapping_FS.glsl");
+			CreateShaderProgram("Material/NormalMapping/NormalMapping_VS.glsl",
+				"Material/NormalMapping/NormalMapping_FS.glsl");
 
 			// GL.BindAttribLocation, gibt an welcher Index in unserer Datenstruktur welchem "in" Parameter auf unserem Shader zugeordnet wird
 			// folgende Befehle müssen aufgerufen werden...
@@ -57,9 +54,9 @@ namespace Engine.Material {
 		}
 
 
-		public override void Draw() {
+		public override void Draw(Model3D model, int textureId) {
 			// Das Vertex-Array-Objekt unseres Objekts wird benutzt
-			GL.BindVertexArray(model3D.Vao);
+			GL.BindVertexArray(model.Vao);
 
 			// Unser Shader Programm wird benutzt
 			GL.UseProgram(Program);
@@ -72,20 +69,20 @@ namespace Engine.Material {
 			// Normalmap-Textur wird "gebunden"
 			GL.Uniform1(_normalTextureLocation, 1);
 			GL.ActiveTexture(TextureUnit.Texture1);
-			GL.BindTexture(TextureTarget.Texture2D, normalTextureId);
+			GL.BindTexture(TextureTarget.Texture2D, /*TODO NORMAL MAP*/0/*TODO NORMAL MAP*/);
 
 			// Die Matrix, welche wir als "modelview_projection_matrix" übergeben, wird zusammengebaut:
 			// Objekt-Transformation * Kamera-Transformation * Perspektivische Projektion der kamera.
 			// Auf dem Shader wird jede Vertex-Position mit dieser Matrix multipliziert. Resultat ist die Position auf dem Screen.
-			var modelViewProjection = model3D.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
+			var modelViewProjection = model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
 
 			// Die ModelViewProjection Matrix wird dem Shader als Parameter übergeben
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelViewProjection);
 
 			// Die Model-Matrix wird dem Shader übergeben, zur transformation der Normalen
 			// und der Berechnung des Winkels Betrachter / Objektpunkt 
-			var model = model3D.Transformation;
-			GL.UniformMatrix4(_modelMatrixLocation, false, ref model);
+			var modelMatrix = model.Transformation;
+			GL.UniformMatrix4(_modelMatrixLocation, false, ref modelMatrix);
 
 			// Die Licht Parameter werden übergeben
 			GL.Uniform3(_lightDirectionLocation, Light.LightDirection);
@@ -94,13 +91,13 @@ namespace Engine.Material {
 			GL.Uniform4(_lightSpecularLocation, Light.LightSpecular);
 
 			// Shininess
-			GL.Uniform1(_materialShininessLocation, shininess);
+			GL.Uniform1(_materialShininessLocation, /*TODO SHININESS*/0.1/*TODO SHININESS*/);
 
 			// Positions Parameter
 			GL.Uniform4(_cameraPositionLocation, new Vector4(DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1));
 
 			// Das Objekt wird gezeichnet
-			GL.DrawElements(PrimitiveType.Triangles, model3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
 			// Active Textur wieder auf 0, um andere Materialien nicht durcheinander zu bringen
 			GL.ActiveTexture(TextureUnit.Texture0);

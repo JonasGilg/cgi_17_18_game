@@ -1,16 +1,28 @@
 ﻿using Engine;
+using Engine.Material;
 using Engine.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.GameObjects {
-	
-	class Planet : GameObject {
-		public Planet(string planetName) {
-			name = planetName;
+	public class Planet : GameObject {
+		public readonly RenderComponent RenderComponent;
+
+		public Planet(int textureId) {
+			RenderComponent = new RenderComponent(
+				new ModelLoaderObject3D("data/objects/Planet.obj"),
+				MaterialManager.GetMaterial(Material.Simple),
+				textureId,
+				this
+			);
+		}
+
+		public override void Update() {
+			base.Update();
+			RenderComponent.Update();
+		}
+
+		public override void Draw() {
+			base.Draw();
+			RenderComponent.Draw();
 		}
 	}
 }

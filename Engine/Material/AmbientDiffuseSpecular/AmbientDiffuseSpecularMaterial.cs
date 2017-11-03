@@ -16,8 +16,6 @@ namespace Engine.Material {
 		private readonly int _cameraPositionLocation;
 		private readonly int _materialShininessLocation;
 
-		public float shininess;
-
 		public AmbientDiffuseSpecularMaterial() {
 			// shader-programm is loaded
 			CreateShaderProgram("Material/AmbientDiffuseSpecular/AmbientDiffuseSpecular_VS.glsl",
@@ -50,12 +48,12 @@ namespace Engine.Material {
 			_cameraPositionLocation = GL.GetUniformLocation(Program, "camera_position");
 		}
 
-		public override void Draw() {
+		public override void Draw(Model3D model, int textureId) {
 			// set the texture
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 
 			// using the Vertex-Array-Object of out object
-			GL.BindVertexArray(model3D.Vao);
+			GL.BindVertexArray(model.Vao);
 
 			// using our shader
 			GL.UseProgram(Program);
@@ -63,14 +61,14 @@ namespace Engine.Material {
 			// The matrix which we give as "modelview_projection_matrix" is assembled:
 			// object-transformation * camera-transformation * perspective projection of the camera
 			// on the shader each vertex-position is multiplied by this matrix. The result is the final position on the scree
-			var modelViewProjection = model3D.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
+			var modelViewProjection = model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
 
 			// modelViewProjection is passed to the shader
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelViewProjection);
 
 			// The model matrix (just the transformation of the object) is also given to the shader. We want to multiply our normals with this matrix, to have them in world space.
-			var model = model3D.Transformation;
-			GL.UniformMatrix4(_modelMatrixLocation, false, ref model);
+			var modelMatrix = model.Transformation;
+			GL.UniformMatrix4(_modelMatrixLocation, false, ref modelMatrix);
 
 			// Die Licht Parameter werden übergeben
 			GL.Uniform3(_lightDirectionLocation, Light.LightDirection);
@@ -79,13 +77,13 @@ namespace Engine.Material {
 			GL.Uniform4(_lightSpecularLocation, Light.LightSpecular);
 
 			// Shininess
-			GL.Uniform1(_materialShininessLocation, shininess);
+			GL.Uniform1(_materialShininessLocation, /*TODO SHININESS*/0.5/*TODO SHININESS*/);
 
 			// Pass positions of the camera to calculate the view direction
 			GL.Uniform4(_cameraPositionLocation, new Vector4(DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1));
 
 			// The object is drawn
-			GL.DrawElements(PrimitiveType.Triangles, model3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 		}
 	}
 }

@@ -72,7 +72,7 @@
     <Content Include="data\objects\asteroids\asteroid_0.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\Neptune.obj">
+    <Content Include="data\objects\Planet.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\objects\SpaceShip.obj">

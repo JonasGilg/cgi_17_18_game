@@ -2,7 +2,7 @@
 using Engine;
 using Engine.Texture;
 using Engine.Material;
-using Engine.Model;
+using Engine.Util;
 using Game.GameObjects;
 using OpenTK;
 using OpenTK.Graphics;
@@ -12,24 +12,13 @@ using KB = Engine.Input.Keyboard;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-		public World world;
-		private Model3D _neptuneObject;
+		private readonly World _world;
 
-		private int _shipTexture;
-		private int _asteroidTexture;
-		private int _neptuneTexture;
-
-		private AmbientDiffuseSpecularMaterial _ambientDiffuseSpecularMaterial;
-		private SimpleTextureMaterial _simpleTextureMaterial;
-
-		private SpaceShip _ship;
-		private Asteroid _asteroid;
-
-		private AppStarter() : base(1280, 720, new GraphicsMode(32, 24, 8, 2), "CGI-MIN Example", GameWindowFlags.Default, DisplayDevice.Default,
-				3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) {
-			world = new World();
+		private AppStarter() : base(1280, 720, new GraphicsMode(32, 24, 8, 2), "CGI-MIN Example", GameWindowFlags.Default,
+			DisplayDevice.Default,
+			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) {
+			_world = new World();
 		}
-
 
 		protected override void OnLoad(EventArgs e) {
 			Console.Out.WriteLine("################################\n" +
@@ -49,83 +38,46 @@ namespace Game.Window {
 			                      "################################");
 			base.OnLoad(e);
 
+			MaterialManager.Init();
+			
 			DisplayCamera.Init();
 			DisplayCamera.SetWidthHeightFov(800, 600, 90);
-
-
+			
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
-						   //r      g      b      a
+				//r      g      b      a
 				new Vector4(0.15f, 0.15f, 0.15f, 0.0f),
 				new Vector4(0.05f, 0.20f, 0.60f, 0.0f),
 				new Vector4(0.05f, 0.10f, 0.40f, 0.0f));
 
 			//+++++++++++++++++++++++++SPACESHIP+++++++++++++++++++++++++
 
-			SpaceShip ship = new SpaceShip();
+			var ship = new SpaceShip();
 			ship.TransformComponent.Scale = new Vector3(0.02f);
 			ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
 			ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, -1.0f);
-			ship.Renderer = new RenderComponent(ship) {
-				Material = new AmbientDiffuseSpecularMaterial() {
-					model3D = new ModelLoaderObject3D("data/objects/SpaceShip.obj"),
-					textureId = TextureManager.LoadTexture("data/textures/test.png"),
-					shininess = 10
-				}
-			};
-			world.AddToWorld(ship);
+			
+			_world.AddToWorld(ship);
 
 
 			//+++++++++++++++++++++++++ASTEROID+++++++++++++++++++++++++
 
-			Asteroid asteroid1 = new Asteroid();
-			asteroid1.TransformComponent.Position = new Vector3(1f, 0.4f, 0.0f);
-			asteroid1.TransformComponent.Scale = new Vector3(1.0f);
-			asteroid1.MoveComponent.LinearVelocity = new Vector3(1.0f, 0.0f, 0.0f);
-			asteroid1.Renderer = new RenderComponent(asteroid1) {
-				Material = new AmbientDiffuseSpecularMaterial() {
-					model3D = new ModelLoaderObject3D("data/objects/asteroids/asteroid_0.obj"),
-					textureId = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png"),
-					shininess = 10
-		}
-			};
-			world.AddToWorld(asteroid1);
-
+			var asteroid = new Asteroid();
+			asteroid.TransformComponent.Position = new Vector3(1f, 0.4f, 0.0f);
+			asteroid.TransformComponent.Scale = new Vector3(1.0f);
+			asteroid.MoveComponent.LinearVelocity = new Vector3(1.0f, 0.0f, 0.0f);
+			
+			_world.AddToWorld(asteroid);
 
 			//+++++++++++++++++++++++++NEPTUNE+++++++++++++++++++++++++
 
-			Planet neptune = new Planet("neptune");
-			neptune.Renderer = new RenderComponent(neptune) {
-				Material = new SimpleTextureMaterial() {
-					model3D = new ModelLoaderObject3D("data/objects/neptune.obj"),
-					textureId = TextureManager.LoadTexture("data/textures/neptunemap.jpg")
-		}
+			var neptune = new Planet(TextureManager.LoadTexture("data/textures/neptunemap.jpg")) {
+				TransformComponent = {
+					Scale = new Vector3(400f), Position = new Vector3(1500f) 
+				}
 			};
-			world.AddToWorld(neptune);
+			
+			_world.AddToWorld(neptune);
 
-			/*
-			var shipModel = new ModelLoaderObject3D("data/objects/SpaceShip.obj");
-			_ship = new SpaceShip(shipModel);
-			_ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
-			_ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, -1.0f);
-
-			_neptuneObject = new ModelLoaderObject3D("data/objects/neptune.obj") {
-				Transformation = Matrix4.CreateScale(new Vector3(400f)) * Matrix4.CreateTranslation(0, 0, 1500f)
-			};
-
-
-			_shipTexture = TextureManager.LoadTexture("data/textures/test.png");
-			_neptuneTexture = TextureManager.LoadTexture("data/textures/neptunemap.jpg");
-
-			var asteroid0Model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_0.obj");
-
-			_asteroid = new Asteroid(asteroid0Model,new Vector3(1.0f,0.0f,0.0f),new Vector3(0.0f,0.0f,0.0f),new Vector3(1.0f)  );
-			_asteroid.TransformComponent.Position = new Vector3(1f, 0.4f, 0.0f);
-
-			_asteroidTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png");
-
-			_ambientDiffuseSpecularMaterial = new AmbientDiffuseSpecularMaterial();
-			_simpleTextureMaterial = new SimpleTextureMaterial();
-			*/
 			GL.Enable(EnableCap.DepthTest);
 
 			GL.Enable(EnableCap.CullFace);
@@ -133,8 +85,10 @@ namespace Game.Window {
 		}
 
 		protected override void OnUpdateFrame(FrameEventArgs e) {
+			Time.Update(e.Time);
 			KB.Update(Keyboard.GetState());
-			
+
+
 			if (KB.Released(Key.Escape))
 				Exit();
 
@@ -142,24 +96,12 @@ namespace Game.Window {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
 
-			world.UpdateWorld();
-			/*
-			_ship.Update(e.Time);
-			_asteroid.Update(e.Time);*/
+			_world.UpdateWorld();
 		}
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-			world.RenderWorld();
-
-			/*_ship.Draw(_ambientDiffuseSpecularMaterial, _shipTexture);
-
-			_asteroid.Draw(_ambientDiffuseSpecularMaterial, _asteroidTexture);
-
-
-			_simpleTextureMaterial.Draw(_neptuneObject, _neptuneTexture);*/
-
+			_world.RenderWorld();
 			SwapBuffers();
 		}
 
