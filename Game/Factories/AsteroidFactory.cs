@@ -8,18 +8,16 @@ namespace Game.Utils {
 
         private static int NUMBER_OF_MODELS = 3;
         private static Random _random = new Random();
-        
 
-        public static Asteroid generateAsteroid() {
-            var _model = new ModelLoaderObject3D(randomModelPath(), createVAO:false);
+        public static Asteroid GenerateAsteroid() {
+            var model = new ModelLoaderObject3D(RandomModelPath(), createVAO:false);
             
-            
-            FastNoise fastNoise = new FastNoise();
+            var fastNoise = new FastNoise();
             
             fastNoise.SetNoiseType(FastNoise.NoiseType.Perlin);
             Vector3 oldPosition;
             
-            _model.Positions.ForEach(position => {
+            model.Positions.ForEach(position => {
                 oldPosition = position;
                 position.X = fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
                 position.Y = fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
@@ -28,14 +26,14 @@ namespace Game.Utils {
                 
             
             
-            _model.CreateVAO();
-            return new Asteroid(_model);
+            model.CreateVAO();
+            return new Asteroid(model);
         }
 
-        private static String randomModelPath() {
-            String basePath = "data/objects/asteroids/asteroid_";
+        private static string RandomModelPath() {
+            var basePath = "data/objects/asteroids/asteroid_";
             //TODO the random is probably not random enough and too dependend on number_of_models
-            int number = _random.Next(0,NUMBER_OF_MODELS);
+            var number = _random.Next(0,NUMBER_OF_MODELS);
             basePath += number+".obj";
             Console.Out.WriteLine("randomized model path: "+basePath);
             return basePath;

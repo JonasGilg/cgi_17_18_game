@@ -54,7 +54,7 @@ namespace Engine.Material {
 		}
 
 
-		public override void Draw(Model3D model, int textureId) {
+		public override void Draw(Model3D model, int textureId, float shininess = 0f, int normalmap = -1) {
 			// Das Vertex-Array-Objekt unseres Objekts wird benutzt
 			GL.BindVertexArray(model.Vao);
 
@@ -69,7 +69,7 @@ namespace Engine.Material {
 			// Normalmap-Textur wird "gebunden"
 			GL.Uniform1(_normalTextureLocation, 1);
 			GL.ActiveTexture(TextureUnit.Texture1);
-			GL.BindTexture(TextureTarget.Texture2D, /*TODO NORMAL MAP*/0/*TODO NORMAL MAP*/);
+			GL.BindTexture(TextureTarget.Texture2D, normalmap);
 
 			// Die Matrix, welche wir als "modelview_projection_matrix" übergeben, wird zusammengebaut:
 			// Objekt-Transformation * Kamera-Transformation * Perspektivische Projektion der kamera.
@@ -91,7 +91,7 @@ namespace Engine.Material {
 			GL.Uniform4(_lightSpecularLocation, Light.LightSpecular);
 
 			// Shininess
-			GL.Uniform1(_materialShininessLocation, /*TODO SHININESS*/0.1/*TODO SHININESS*/);
+			GL.Uniform1(_materialShininessLocation, shininess);
 
 			// Positions Parameter
 			GL.Uniform4(_cameraPositionLocation, new Vector4(DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1));

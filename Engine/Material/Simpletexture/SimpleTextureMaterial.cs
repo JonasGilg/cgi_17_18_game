@@ -24,7 +24,7 @@ namespace Engine.Material {
 			_modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
 		}
 
-		public override void Draw(Model3D model, int textureId) {
+		public override void Draw(Model3D model, int textureId, float shininess = 0f, int normalmap = -1) {
 			// Textur wird "gebunden"
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 

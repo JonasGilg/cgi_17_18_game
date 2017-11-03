@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Engine {
 	public class RenderComponent : Component {
-		public Model3D Model;
-		public BaseMaterial Material;
-		public int Texture;
+		public readonly Model3D Model;
+		public readonly BaseMaterial Material;
+		public readonly int Texture;
 
 		public RenderComponent(Model3D model, BaseMaterial material, int texture, GameObject gameObject) : base(gameObject) {
 			Model = model;
@@ -22,8 +22,8 @@ namespace Engine {
 			Model.Update(GameObject.TransformComponent.WorldMatrix);
 		}
 
-		public void Draw() {
-			Material.Draw(Model, Texture);
+		public void Draw(float shininess = 0) {
+			Material.Draw(Model, Texture, shininess);
 		}
 	}
 }

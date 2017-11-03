@@ -54,6 +54,16 @@ namespace Game.Window {
 
 			//+++++++++++++++++++++++++SPACESHIP+++++++++++++++++++++++++
 
+			for (int i = 0; i < 10; i++) {
+				var asteroid = AsteroidFactory.GenerateAsteroid();
+				asteroid.TransformComponent.Position = new Vector3(i*10f, 0.4f, 0.0f);
+				asteroid.TransformComponent.Scale = new Vector3(1.0f);
+				asteroid.MoveComponent.LinearVelocity = new Vector3(1.0f, 0.0f, 0.0f);
+				asteroid.MoveComponent.AngularVelocity = Vector3.UnitX;
+			
+				_world.AddToWorld(asteroid);
+			}
+			
 			var ship = new SpaceShip();
 			ship.TransformComponent.Scale = new Vector3(0.02f);
 			ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
@@ -61,21 +71,11 @@ namespace Game.Window {
 			
 			_world.AddToWorld(ship);
 
-
-			//+++++++++++++++++++++++++ASTEROID+++++++++++++++++++++++++
-
-			var asteroid = new Asteroid();
-			asteroid.TransformComponent.Position = new Vector3(1f, 0.4f, 0.0f);
-			asteroid.TransformComponent.Scale = new Vector3(1.0f);
-			asteroid.MoveComponent.LinearVelocity = new Vector3(1.0f, 0.0f, 0.0f);
-			
-			_world.AddToWorld(asteroid);
-
 			//+++++++++++++++++++++++++NEPTUNE+++++++++++++++++++++++++
 
 			var neptune = new Planet(TextureManager.LoadTexture("data/textures/neptunemap.jpg")) {
 				TransformComponent = {
-					Scale = new Vector3(400f), Position = new Vector3(1500f) 
+					Scale = new Vector3(400f), Position = new Vector3(0, 0, 1500f) 
 				}
 			};
 			
@@ -90,6 +90,7 @@ namespace Game.Window {
 		protected override void OnUpdateFrame(FrameEventArgs e) {
 			EngineKeyboard.Update(Keyboard.GetState());
 			EngineMouse.Update(Mouse.GetState());
+			Time.Update(e.Time);
 			
 			if (EngineKeyboard.Released(Key.Escape))
 				Exit();

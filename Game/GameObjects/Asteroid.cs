@@ -12,10 +12,10 @@ namespace Game.GameObjects {
 		public readonly MoveComponent MoveComponent;
 		public readonly RenderComponent RenderComponent;
 
-		public Asteroid() {
+		public Asteroid(Model3D model) {
 			MoveComponent = new MoveComponent(this);
 			RenderComponent = new RenderComponent(
-				new ModelLoaderObject3D("data/objects/asteroids/asteroid_0.obj"),
+				model,
 				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
 				TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png"),
 				this
@@ -30,7 +30,7 @@ namespace Game.GameObjects {
 
 		public override void Draw() {
 			base.Draw();
-			RenderComponent.Draw();
+			RenderComponent.Draw(0.1f);
 		}
 	}
 }
