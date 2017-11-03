@@ -57,9 +57,9 @@ namespace Game.Window {
 
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
 						   //r      g      b      a
-				new Vector4(0.15f, 0.15f, 0.15f, 0.0f),
-				new Vector4(0.05f, 0.20f, 0.60f, 0.0f),
-				new Vector4(0.05f, 0.10f, 0.40f, 0.0f));
+				new Vector4(0.10f, 0.10f, 0.10f, 0.0f),
+				new Vector4(0.05f, 0.20f, 0.70f, 0.0f),
+				new Vector4(0.05f, 0.05f, 0.10f, 0.0f));
 
 			var shipModel = new ModelLoaderObject3D("data/objects/SpaceShip.obj");
 			_ship = new SpaceShip(shipModel);

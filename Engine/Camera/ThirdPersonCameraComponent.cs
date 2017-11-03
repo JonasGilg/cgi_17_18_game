@@ -21,7 +21,7 @@ namespace Engine {
 					Quaternion.FromAxisAngle(Vector3.UnitY, (float) (-Mouse.CursorDelta.X * deltaTime * 0.1)));
 			}
 			else {
-				Offset = Vector3.Lerp(Offset, _originalOffset, (float) deltaTime);
+				Offset = Vector3.Lerp(Offset, _originalOffset, (float) deltaTime * 5);
 			}
 			
 			var eyePosition = Offset;

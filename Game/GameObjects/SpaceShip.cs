@@ -137,7 +137,7 @@ namespace Game.GameObjects {
 		}
 		
 		public void Draw(AmbientDiffuseSpecularMaterial material, int texture) {
-			material.Draw(Model, texture, 2f);
+			material.Draw(Model, texture, 0.4f);
 		}
 	}
 }
