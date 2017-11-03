@@ -1,7 +1,10 @@
 #version 330
 precision highp float;
 
-#define M_PI 3.1415926535897932384626433832795
+const float M_PI = 3.1415926535897932384626433832795;
+const float M_PI_HALF = M_PI / 2;
+
+const float screenGamma = 2.2;
 
 uniform sampler2D sampler; 
 
@@ -26,38 +29,28 @@ in vec4 fragPosition;
 // final output
 out vec4 outputColor;
 
-void main() {
-	// get rotation of our models transform matrix
-	mat3 normalMatrix = mat3(model_matrix);
-
-	// calculate normal
-    vec3 normal = normalize(normalMatrix * fragNormal);
+void main() {    
+    float lambertian = max(dot(light_direction, fragNormal), 0.0);
+    float specular = 0.0;
     
-    //angle between surface normal and light direction
-    float angle = acos(dot(light_direction, normal));
-
-    float specularIntensity = 0;
-    float brightness = 0;
+    if(lambertian > 0.0) {
+      vec4 viewDir = normalize(-fragPosition);
     
-    //if the surface isn't facing the light source the diffuse and specular part stay zero.
-    if(angle < M_PI / 2) {
-        // calclulate view direction
-        vec4 v = normalize(camera_position - fragPosition);
+      vec3 halfDir = normalize(light_direction + vec3(viewDir));
+      float specAngle = max(dot(halfDir, fragNormal), 0.0);
+      specular = pow(specAngle, specular_shininess);
+    }
     
-        // calculate halfway vector
-        vec3 h = normalize(light_direction + vec3(v));
-        float ndoth = dot(normal, h);
-        specularIntensity = pow(ndoth, specular_shininess);
+    vec4 colorLinear = light_ambient_color +
+                       lambertian * light_diffuse_color +
+                       specular * light_specular_color;
+                       
+    // apply gamma correction (assume ambientColor, diffuseColor and specColor
+    // have been linearized, i.e. have no gamma correction in them)
+    vec4 colorGammaCorrected = pow(colorLinear, vec4(1.0 / screenGamma));
     
-        // calculate brightness for diffuse light
-        brightness = dot(normal, light_direction);
-	}
-	
-	// surfaceColor is color from the texture
-	vec4 surfaceColor = texture2D(sampler, fragTexcoord);
-
-	//				 Ambiente color						  + Diffuse color									  + Speculare
-    // outputColor = (surfaceColor * light_ambient_color) + (surfaceColor * brightness * light_diffuse_color) + specularIntensity * light_specular_color;
-	// upper line put outside the brackets
-	 outputColor = surfaceColor * (light_ambient_color + brightness * light_diffuse_color) + specularIntensity * light_specular_color;
+    vec4 surfaceColor = texture2D(sampler, fragTexcoord);
+    
+    // use the gamma corrected color in the fragment
+    outputColor = surfaceColor * colorGammaCorrected;
 }

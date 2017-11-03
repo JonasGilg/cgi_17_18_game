@@ -1,5 +1,5 @@
-﻿using OpenTK;
-using OpenTK.Input;
+﻿using Engine.Util;
+using OpenTK;
 
 namespace Engine {
 	public class MoveComponent : Component {
@@ -8,17 +8,17 @@ namespace Engine {
 
 		public MoveComponent(GameObject gameObject) : base(gameObject) { }
 
-		public override void Update(double deltaTime) {
-			ApplyLinearVelocity(deltaTime);
-			ApplyAngularVelocity(deltaTime);
+		public override void Update() {
+			ApplyLinearVelocity();
+			ApplyAngularVelocity();
 		}
 
-		private void ApplyLinearVelocity(double deltaTime) {
-			GameObject.TransformComponent.Position += LinearVelocity * (float) deltaTime;
+		private void ApplyLinearVelocity() {
+			GameObject.TransformComponent.Position += LinearVelocity * Time.DeltaTime;
 		}
 
-		private void ApplyAngularVelocity(double deltaTime) {
-			var angularChange = AngularVelocity * (float) deltaTime;
+		private void ApplyAngularVelocity() {
+			var angularChange = AngularVelocity * Time.DeltaTime;
 			var rotationAxis = angularChange == Vector3.Zero ? Vector3.One : angularChange.Normalized();
 			var rotationAngle = angularChange.Length;
 			GameObject.TransformComponent.Orientation = Quaternion.FromAxisAngle(rotationAxis, rotationAngle) * GameObject.TransformComponent.Orientation;

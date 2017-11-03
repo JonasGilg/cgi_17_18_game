@@ -27,12 +27,12 @@ namespace Engine.Material {
 			_modelviewMatrixLocation = GL.GetUniformLocation(Program, "modelview_matrix");
 		}
 
-		public void Draw(Model3D model3D, int textureId) {
+		public override void Draw(Model3D model, int textureId, float shininess = 0f, int normalmap = -1) {
 			// set the texture
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 
 			// using the Vertex-Array-Object of out object
-			GL.BindVertexArray(model3D.Vao);
+			GL.BindVertexArray(model.Vao);
 
 			// using our shader
 			GL.UseProgram(Program);
@@ -42,20 +42,20 @@ namespace Engine.Material {
 			// object-transformation * camera-transformation * perspective projection of the camera
 			// on the shader each vertex-position is multiplied by this matrix. The result is the final position on the screen
 			var modelviewProjection =
-				model3D.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
+				model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
 
 			// Matrix is passed to the shader
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelviewProjection);
 
 			// The "modelView-matrix is assembled together
-			var modelviewMatrix = model3D.Transformation * DisplayCamera.Transformation;
+			var modelviewMatrix = model.Transformation * DisplayCamera.Transformation;
 
 			// ... and also passed to the shader
 			GL.UniformMatrix4(_modelviewMatrixLocation, false, ref modelviewMatrix);
 
 
 			// the object is drawn
-			GL.DrawElements(PrimitiveType.Triangles, model3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 		}
 	}
 }

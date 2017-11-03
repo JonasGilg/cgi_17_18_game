@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
 using System.IO;
+using Engine.Model;
 
 namespace Engine.Material {
 	public abstract class BaseMaterial {
@@ -43,5 +44,7 @@ namespace Engine.Material {
 
 			// hint: "Program" is not linked yet
 		}
+
+		public abstract void Draw(Model3D model, int textureId, float shininess = 0f, int normalMap = -1);
 	}
 }

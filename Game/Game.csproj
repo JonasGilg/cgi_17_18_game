@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameObjects\Asteroid.cs" />
+    <Compile Include="GameObjects\Planet.cs" />
     <Compile Include="GameObjects\SpaceShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\AsteroidFactory.cs" />
@@ -79,7 +80,7 @@
     <Content Include="data\objects\asteroids\asteroid_2.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\Neptune.obj">
+    <Content Include="data\objects\Planet.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\objects\SpaceShip.obj">

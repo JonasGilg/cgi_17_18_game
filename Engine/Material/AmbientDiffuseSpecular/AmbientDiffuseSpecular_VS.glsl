@@ -21,13 +21,12 @@ out vec3 fragNormal;
 // ... and also the position of the vertex
 out vec4 fragPosition;
 
-void main()
-{
+void main() {
 	// "in_uv" (Texturkoordinate) wird direkt an den Fragment-Shader weitergereicht.
 	fragTexcoord = in_uv;
 
 	// die Normale wird an den Fragment-Shader gegeben.
-	fragNormal = in_normal;
+	fragNormal = normalize(mat3(model_matrix) * in_normal);
 
 	// position is calculated by multiplying the 3d-data position with the model matrix, result is given to the fragment-shader
 	fragPosition =  model_matrix * vec4(in_position,1);

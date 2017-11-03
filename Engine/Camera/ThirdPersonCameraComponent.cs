@@ -13,15 +13,15 @@ namespace Engine {
 			_originalOffset = offset;
 		}
 		
-		public override void Update(double deltaTime) {
-			base.Update(deltaTime);
+		public override void Update() {
+			base.Update();
 
 			if (Mouse.Down(MouseButton.Right)) {
 				Math3D.Rotate(ref Offset,
-					Quaternion.FromAxisAngle(Vector3.UnitY, (float) (-Mouse.CursorDelta.X * deltaTime * 0.1)));
+					Quaternion.FromAxisAngle(Vector3.UnitY, (float) (-Mouse.CursorDelta.X * Time.DeltaTime * 0.1)));
 			}
 			else {
-				Offset = Vector3.Lerp(Offset, _originalOffset, (float) deltaTime);
+				Offset = Vector3.Lerp(Offset, _originalOffset, Time.DeltaTime * 5);
 			}
 			
 			var eyePosition = Offset;
