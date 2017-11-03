@@ -55,23 +55,9 @@ void main() {
 	
 	// surfaceColor is color from the texture
 	vec4 surfaceColor = texture2D(sampler, fragTexcoord);
-	
-	vec4 realDiffuse;
-	if(brightness < 0) {
-	    realDiffuse = vec4(0, 0, 0, 0);
-	} else {
-	    realDiffuse = light_diffuse_color * brightness;
-	}
-	
-	vec4 realSpecular;
-	if(specularIntensity < 0) {
-	    realSpecular = vec4(0, 0, 0, 0);
-	} else {
-	    realSpecular = specularIntensity * light_specular_color;
-	}
 
 	//				 Ambiente color						  + Diffuse color									  + Speculare
     // outputColor = (surfaceColor * light_ambient_color) + (surfaceColor * brightness * light_diffuse_color) + specularIntensity * light_specular_color;
 	// upper line put outside the brackets
-	 outputColor = surfaceColor * (light_ambient_color + realDiffuse) + realSpecular;
+	 outputColor = surfaceColor * (light_ambient_color + brightness * light_diffuse_color) + specularIntensity * light_specular_color;
  }
