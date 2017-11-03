@@ -27,7 +27,7 @@ void main()
 	fragTexcoord = in_uv;
 
 	// die Normale wird an den Fragment-Shader gegeben.
-	fragNormal = in_normal;
+	fragNormal = normalize(mat3(model_matrix) * in_normal);
 
 	// position is calculated by multiplying the 3d-data position with the model matrix, result is given to the fragment-shader
 	fragPosition =  model_matrix * vec4(in_position,1);

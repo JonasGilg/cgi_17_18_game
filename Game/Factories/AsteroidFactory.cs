@@ -5,16 +5,15 @@ using OpenTK;
 
 namespace Game.Utils {
     public static class AsteroidFactory {
-
-        private static int NUMBER_OF_MODELS = 3;
-        private static Random _random = new Random();
+        private const int NUMBER_OF_MODELS = 3;
+        private static readonly Random _random = new Random();
         
 
         public static Asteroid generateAsteroid() {
             var _model = new ModelLoaderObject3D(randomModelPath(), createVAO:false);
             
             
-            FastNoise fastNoise = new FastNoise();
+            var fastNoise = new FastNoise();
             
             fastNoise.SetNoiseType(FastNoise.NoiseType.Perlin);
             Vector3 oldPosition;
@@ -32,11 +31,11 @@ namespace Game.Utils {
             return new Asteroid(_model);
         }
 
-        private static String randomModelPath() {
-            String basePath = "data/objects/asteroids/asteroid_";
+        private static string randomModelPath() {
+            var basePath = "data/objects/asteroids/asteroid_";
             //TODO the random is probably not random enough and too dependend on number_of_models
-            int number = _random.Next(0,NUMBER_OF_MODELS);
-            basePath += number+".obj";
+            var number = _random.Next(0,NUMBER_OF_MODELS);
+            basePath += $"{number}.obj";
             Console.Out.WriteLine("randomized model path: "+basePath);
             return basePath;
         }

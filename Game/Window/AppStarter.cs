@@ -77,7 +77,7 @@ namespace Game.Window {
 
 			//var asteroid0Model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_1.obj");
 			//_asteroid = new Asteroid(asteroid0Model,new Vector3(1.0f,0.4f,0.1f),new Vector3(0.0f,0.0f,0.0f),new Vector3(1.0f)  );
-			for (int i = 0; i < 16; i++) {
+			for (var i = 0; i < 16; i++) {
 				_asteroid = AsteroidFactory.generateAsteroid();
 				_asteroid.TransformComponent.Position = new Vector3(i*10f, 0.4f, 0.0f);
 				_asteroid.MoveComponent.AngularVelocity = new Vector3(1.0f,0.5f,0.2f);
@@ -110,20 +110,21 @@ namespace Game.Window {
 			}
 
 			_ship.Update(e.Time);
-			_asteroids.ForEach(asteroid => {
-				asteroid.Update(e.Time);
-			});
+			
+			for (var i = 0; i < _asteroids.Count; i++) {
+				_asteroids[i].Update(e.Time);
+			}
 		}
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
+			Console.Out.WriteLine(1 / e.Time);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			_ship.Draw(_ambientDiffuseSpecularMaterial, _shipTexture);
-			
-			_asteroids.ForEach(asteroid => {
-				asteroid.Draw(_ambientDiffuseSpecularMaterial, _asteroidTexture);
-			});
 
+			for (var i = 0; i < _asteroids.Count; i++) {
+				_asteroids[i].Draw(_ambientDiffuseSpecularMaterial, _asteroidTexture);
+			}
 
 			_simpleTextureMaterial.Draw(_neptuneObject, _neptuneTexture);
 
