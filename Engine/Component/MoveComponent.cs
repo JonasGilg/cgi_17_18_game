@@ -8,17 +8,17 @@ namespace Engine {
 
 		public MoveComponent(GameObject gameObject) : base(gameObject) { }
 
-		public override void Update(double deltaTime) {
-			ApplyLinearVelocity(deltaTime);
-			ApplyAngularVelocity(deltaTime);
+		public override void Update() {
+			ApplyLinearVelocity();
+			ApplyAngularVelocity();
 		}
 
-		private void ApplyLinearVelocity(double deltaTime) {
-			GameObject.TransformComponent.Position += LinearVelocity * (float) deltaTime;
+		private void ApplyLinearVelocity() {
+			GameObject.TransformComponent.Position += LinearVelocity * 0.1f;//Time.deltaTime;
 		}
 
-		private void ApplyAngularVelocity(double deltaTime) {
-			var angularChange = AngularVelocity * (float) deltaTime;
+		private void ApplyAngularVelocity() {
+			var angularChange = AngularVelocity * 0.1f;//Time.deltaTime;
 			var rotationAxis = angularChange == Vector3.Zero ? Vector3.One : angularChange.Normalized();
 			var rotationAngle = angularChange.Length;
 			GameObject.TransformComponent.Orientation = Quaternion.FromAxisAngle(rotationAxis, rotationAngle) * GameObject.TransformComponent.Orientation;

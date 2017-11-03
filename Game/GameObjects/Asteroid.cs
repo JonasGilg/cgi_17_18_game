@@ -6,14 +6,10 @@ using OpenTK;
 namespace Game.GameObjects {
 	public class Asteroid : GameObject {
 		public readonly MoveComponent MoveComponent;
-		public readonly Model3D Model;
 
-		public Asteroid(Model3D model3D, Vector3 rotation, Vector3 velocity, Vector3 scale) {
-			Model = model3D;
+		public Asteroid() {
+			Model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_0.obj");
 			MoveComponent = new MoveComponent(this);
-			MoveComponent.LinearVelocity = velocity;
-			MoveComponent.AngularVelocity = rotation;
-			TransformComponent.Scale = scale;
 		}
 
 		public void Draw(AmbientDiffuseSpecularMaterial material, int texture) {

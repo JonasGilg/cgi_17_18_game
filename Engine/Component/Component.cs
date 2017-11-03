@@ -8,6 +8,6 @@ namespace Engine {
 			GameObject = gameObject;
 		}
 
-		public abstract void Update(double deltaTime);
+		public abstract void Update();
 	}
 }

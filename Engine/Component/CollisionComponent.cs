@@ -12,7 +12,7 @@ namespace Engine {
 			//Kollision wird hard...
 		}
 
-		public override void Update(double deltaTime) {
+		public override void Update() {
 			
 		}
 

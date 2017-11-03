@@ -71,7 +71,7 @@ namespace Engine {
 			}
 		}
 
-		public override void Update(double deltaTime) {
+		public override void Update() {
 			UpdateWorldMatrix();
 		}
 	}

@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.Model;
 using OpenTK.Input;
 using System;
 
@@ -6,6 +7,7 @@ namespace Engine {
 	public class GameObject {
 		public readonly TransformComponent TransformComponent;
 		public CollisionComponent collisionComponent;
+		public Model3D Model;
 		public string name;
 		public string tag;
 
@@ -22,8 +24,12 @@ namespace Engine {
 
 		}
 
-		public virtual void Update(double deltaTime) {
-			TransformComponent.Update(deltaTime);
+		public virtual void Update() {
+			TransformComponent.Update();
+		}
+
+		public void Draw() {
+
 		}
 
 		public virtual void OnCollisionEnter(Collision collision) {

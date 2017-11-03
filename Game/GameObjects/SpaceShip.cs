@@ -9,19 +9,18 @@ using Keyboard = Engine.Input.Keyboard;
 namespace Game.GameObjects {
 	public class SpaceShip : GameObject {
 		public readonly MoveComponent MoveComponent;
-		public readonly Model3D Model;
 		public readonly CameraComponent CameraComponent;
 		
-		public SpaceShip(Model3D model) {
-			Model = model;
+		public SpaceShip() {
+			Model = new ModelLoaderObject3D("data/objects/SpaceShip.obj");
 			MoveComponent = new MoveComponent(this);
 			CameraComponent = new ThirdPersonCameraComponent(new Vector3(-0.3f, 0.05f, 0.0f), this);
 			DisplayCamera.SetActiveCamera(CameraComponent);
-			TransformComponent.Scale = new Vector3(0.02f);
+			
 		}
 
-		public override void Update(double deltaTime) {
-			var deltaTimeF = (float) deltaTime;
+		public override void Update() {
+			var deltaTimeF = 0.1f;
 			
 			//move forward
 			if (Keyboard.Down(Key.W)) {

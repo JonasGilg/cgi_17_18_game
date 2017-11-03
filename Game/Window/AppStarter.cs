@@ -12,6 +12,7 @@ using KB = Engine.Input.Keyboard;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
+		public World world;
 		private Model3D _neptuneObject;
 
 		private int _shipTexture;
@@ -24,9 +25,10 @@ namespace Game.Window {
 		private SpaceShip _ship;
 		private Asteroid _asteroid;
 
-		private AppStarter()
-			: base(1280, 720, new GraphicsMode(32, 24, 8, 2), "CGI-MIN Example", GameWindowFlags.Default, DisplayDevice.Default,
-				3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
+		private AppStarter() : base(1280, 720, new GraphicsMode(32, 24, 8, 2), "CGI-MIN Example", GameWindowFlags.Default, DisplayDevice.Default,
+				3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) {
+			world = new World();
+		}
 
 
 		protected override void OnLoad(EventArgs e) {
@@ -50,12 +52,30 @@ namespace Game.Window {
 			DisplayCamera.Init();
 			DisplayCamera.SetWidthHeightFov(800, 600, 90);
 
+
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
 						   //r      g      b      a
 				new Vector4(0.15f, 0.15f, 0.15f, 0.0f),
 				new Vector4(0.05f, 0.20f, 0.60f, 0.0f),
 				new Vector4(0.05f, 0.10f, 0.40f, 0.0f));
 
+
+			SpaceShip ship = new SpaceShip();
+			ship.TransformComponent.Scale = new Vector3(0.02f);
+			ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
+			ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, -1.0f);
+			world.AddToWorld(ship);
+
+			Asteroid asteroid1 = new Asteroid();
+			asteroid1.TransformComponent.Position = new Vector3(1f, 0.4f, 0.0f);
+			asteroid1.TransformComponent.Scale = new Vector3(1.0f);
+			asteroid1.MoveComponent.LinearVelocity = new Vector3(1.0f, 0.0f, 0.0f);
+			world.AddToWorld(asteroid1);
+
+			Planet neptune = new Planet("neptune");
+			world.AddToWorld(neptune);
+
+			/*
 			var shipModel = new ModelLoaderObject3D("data/objects/SpaceShip.obj");
 			_ship = new SpaceShip(shipModel);
 			_ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
@@ -78,7 +98,7 @@ namespace Game.Window {
 
 			_ambientDiffuseSpecularMaterial = new AmbientDiffuseSpecularMaterial();
 			_simpleTextureMaterial = new SimpleTextureMaterial();
-
+			*/
 			GL.Enable(EnableCap.DepthTest);
 
 			GL.Enable(EnableCap.CullFace);
@@ -95,19 +115,23 @@ namespace Game.Window {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
 
+			world.UpdateWorld();
+			/*
 			_ship.Update(e.Time);
-			_asteroid.Update(e.Time);
+			_asteroid.Update(e.Time);*/
 		}
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-			_ship.Draw(_ambientDiffuseSpecularMaterial, _shipTexture);
+			world.RenderWorld();
+
+			/*_ship.Draw(_ambientDiffuseSpecularMaterial, _shipTexture);
 
 			_asteroid.Draw(_ambientDiffuseSpecularMaterial, _asteroidTexture);
 
 
-			_simpleTextureMaterial.Draw(_neptuneObject, _neptuneTexture);
+			_simpleTextureMaterial.Draw(_neptuneObject, _neptuneTexture);*/
 
 			SwapBuffers();
 		}
