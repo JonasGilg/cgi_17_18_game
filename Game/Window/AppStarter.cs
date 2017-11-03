@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using Engine;
 using Engine.Texture;
 using Engine.Material;
 using Engine.Util;
 using Game.GameObjects;
+using Game.Utils;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using KB = Engine.Input.Keyboard;
+using EngineKeyboard = Engine.Input.Keyboard;
+using EngineMouse = Engine.Input.Mouse;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
@@ -44,10 +47,10 @@ namespace Game.Window {
 			DisplayCamera.SetWidthHeightFov(800, 600, 90);
 			
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
-				//r      g      b      a
-				new Vector4(0.15f, 0.15f, 0.15f, 0.0f),
-				new Vector4(0.05f, 0.20f, 0.60f, 0.0f),
-				new Vector4(0.05f, 0.10f, 0.40f, 0.0f));
+						   //r      g      b      a
+				new Vector4(0.10f, 0.10f, 0.10f, 0.0f),
+				new Vector4(0.05f, 0.20f, 0.70f, 0.0f),
+				new Vector4(0.05f, 0.05f, 0.10f, 0.0f));
 
 			//+++++++++++++++++++++++++SPACESHIP+++++++++++++++++++++++++
 
@@ -85,14 +88,13 @@ namespace Game.Window {
 		}
 
 		protected override void OnUpdateFrame(FrameEventArgs e) {
-			Time.Update(e.Time);
-			KB.Update(Keyboard.GetState());
-
-
-			if (KB.Released(Key.Escape))
+			EngineKeyboard.Update(Keyboard.GetState());
+			EngineMouse.Update(Mouse.GetState());
+			
+			if (EngineKeyboard.Released(Key.Escape))
 				Exit();
 
-			if (KB.Released(Key.F11)) {
+			if (EngineKeyboard.Released(Key.F11)) {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
 
@@ -104,6 +106,8 @@ namespace Game.Window {
 			_world.RenderWorld();
 			SwapBuffers();
 		}
+
+		
 
 		protected override void OnUnload(EventArgs e) { }
 

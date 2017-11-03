@@ -10,12 +10,12 @@ namespace Engine.Model {
 		public Matrix4 Transformation = Matrix4.Identity;
 
 		// lists, filled with the 3d-data
-		protected List<Vector3> Positions;
+		public List<Vector3> Positions;
 
-		protected List<Vector3> Normals;
-		protected List<Vector2> UVs;
-		protected List<Vector3> Tangents;
-		protected List<Vector3> BiTangents;
+		public List<Vector3> Normals;
+		public List<Vector2> UVs;
+		public List<Vector3> Tangents;
+		public List<Vector3> BiTangents;
 
 		// the index-List
 		public List<int> Indices;

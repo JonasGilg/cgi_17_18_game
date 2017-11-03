@@ -1,6 +1,4 @@
-﻿using OpenTK.Input;
-
-namespace Engine {
+﻿namespace Engine {
 	public abstract class Component {
 		protected GameObject GameObject;
 
