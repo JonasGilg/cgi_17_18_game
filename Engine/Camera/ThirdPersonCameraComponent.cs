@@ -18,7 +18,7 @@ namespace Engine {
 
 			if (Mouse.Down(MouseButton.Right)) {
 				Math3D.Rotate(ref Offset,
-					Quaternion.FromAxisAngle(Vector3.UnitY, (float) (-Mouse.CursorDelta.X * Time.DeltaTime * 0.1)));
+					Quaternion.FromAxisAngle(Vector3.UnitY, -Mouse.CursorDelta.X * Time.DeltaTime * 0.1f));
 			}
 			else {
 				Offset = Vector3.Lerp(Offset, _originalOffset, Time.DeltaTime * 5);
