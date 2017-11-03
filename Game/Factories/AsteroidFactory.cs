@@ -17,15 +17,18 @@ namespace Game.Utils {
             FastNoise fastNoise = new FastNoise();
             
             fastNoise.SetNoiseType(FastNoise.NoiseType.Perlin);
+            fastNoise.SetFrequency(0.1f);
+            fastNoise.SetSeed(1337);
             Vector3 oldPosition;
             
             _model.Positions.ForEach(position => {
                 oldPosition = position;
-                position.X = fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
-                position.Y = fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
-                position.Z = fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
+                position.X += fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
+                position.Y += fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
+                position.Z += fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
             });
-                
+           
+             //faces anpassen, normalen anpassen etc.  
             
             
             _model.CreateVAO();
