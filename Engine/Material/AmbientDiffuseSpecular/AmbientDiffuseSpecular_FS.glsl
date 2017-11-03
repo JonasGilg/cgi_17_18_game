@@ -40,6 +40,7 @@ void main() {
       float specAngle = max(dot(halfDir, fragNormal), 0.0);
       specular = pow(specAngle, specular_shininess);
     }
+    
     vec4 colorLinear = light_ambient_color +
                        lambertian * light_diffuse_color +
                        specular * light_specular_color;

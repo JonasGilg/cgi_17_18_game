@@ -21,8 +21,7 @@ out vec3 fragNormal;
 // ... and also the position of the vertex
 out vec4 fragPosition;
 
-void main()
-{
+void main() {
 	// "in_uv" (Texturkoordinate) wird direkt an den Fragment-Shader weitergereicht.
 	fragTexcoord = in_uv;
 
