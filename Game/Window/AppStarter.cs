@@ -59,20 +59,47 @@ namespace Game.Window {
 				new Vector4(0.05f, 0.20f, 0.60f, 0.0f),
 				new Vector4(0.05f, 0.10f, 0.40f, 0.0f));
 
+			//+++++++++++++++++++++++++SPACESHIP+++++++++++++++++++++++++
 
 			SpaceShip ship = new SpaceShip();
 			ship.TransformComponent.Scale = new Vector3(0.02f);
 			ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
 			ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, -1.0f);
+			ship.Renderer = new RenderComponent(ship) {
+				Material = new AmbientDiffuseSpecularMaterial() {
+					model3D = new ModelLoaderObject3D("data/objects/SpaceShip.obj"),
+					textureId = TextureManager.LoadTexture("data/textures/test.png"),
+					shininess = 10
+				}
+			};
 			world.AddToWorld(ship);
+
+
+			//+++++++++++++++++++++++++ASTEROID+++++++++++++++++++++++++
 
 			Asteroid asteroid1 = new Asteroid();
 			asteroid1.TransformComponent.Position = new Vector3(1f, 0.4f, 0.0f);
 			asteroid1.TransformComponent.Scale = new Vector3(1.0f);
 			asteroid1.MoveComponent.LinearVelocity = new Vector3(1.0f, 0.0f, 0.0f);
+			asteroid1.Renderer = new RenderComponent(asteroid1) {
+				Material = new AmbientDiffuseSpecularMaterial() {
+					model3D = new ModelLoaderObject3D("data/objects/asteroids/asteroid_0.obj"),
+					textureId = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png"),
+					shininess = 10
+		}
+			};
 			world.AddToWorld(asteroid1);
 
+
+			//+++++++++++++++++++++++++NEPTUNE+++++++++++++++++++++++++
+
 			Planet neptune = new Planet("neptune");
+			neptune.Renderer = new RenderComponent(neptune) {
+				Material = new SimpleTextureMaterial() {
+					model3D = new ModelLoaderObject3D("data/objects/neptune.obj"),
+					textureId = TextureManager.LoadTexture("data/textures/neptunemap.jpg")
+		}
+			};
 			world.AddToWorld(neptune);
 
 			/*

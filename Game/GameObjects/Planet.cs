@@ -11,7 +11,6 @@ namespace Game.GameObjects {
 	class Planet : GameObject {
 		public Planet(string planetName) {
 			name = planetName;
-			Model = new ModelLoaderObject3D("data/objects/neptune.obj");
 		}
 	}
 }

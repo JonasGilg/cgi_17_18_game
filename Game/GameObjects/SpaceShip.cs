@@ -12,7 +12,6 @@ namespace Game.GameObjects {
 		public readonly CameraComponent CameraComponent;
 		
 		public SpaceShip() {
-			Model = new ModelLoaderObject3D("data/objects/SpaceShip.obj");
 			MoveComponent = new MoveComponent(this);
 			CameraComponent = new ThirdPersonCameraComponent(new Vector3(-0.3f, 0.05f, 0.0f), this);
 			DisplayCamera.SetActiveCamera(CameraComponent);
@@ -129,14 +128,11 @@ namespace Game.GameObjects {
 				}
 			}
 			
-			MoveComponent.Update(deltaTime);
-			base.Update(deltaTime);
-			Model.Update(TransformComponent.WorldMatrix);
-			CameraComponent.Update(deltaTime);
+			MoveComponent.Update();
+			base.Update();
+			Renderer?.Material.model3D.Update(TransformComponent.WorldMatrix);
+			CameraComponent.Update();
 		}
 		
-		public void Draw(AmbientDiffuseSpecularMaterial material, int texture) {
-			material.Draw(Model, texture, 2f);
-		}
 	}
 }

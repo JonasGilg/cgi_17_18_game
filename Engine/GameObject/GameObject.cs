@@ -7,7 +7,7 @@ namespace Engine {
 	public class GameObject {
 		public readonly TransformComponent TransformComponent;
 		public CollisionComponent collisionComponent;
-		public Model3D Model;
+		public RenderComponent Renderer;
 		public string name;
 		public string tag;
 
@@ -19,17 +19,19 @@ namespace Engine {
 
 		}
 
+		public virtual void Update() {
+			TransformComponent.Update();
+		}
+
 
 		public virtual void LateUpdate() {
 
 		}
 
-		public virtual void Update() {
-			TransformComponent.Update();
-		}
+		
 
 		public void Draw() {
-
+			Renderer?.Draw();
 		}
 
 		public virtual void OnCollisionEnter(Collision collision) {

@@ -212,8 +212,8 @@ namespace Engine.Model {
 			// tbd.
 		}
 
-		public void Update(Matrix4 tranform) {
-			Transformation = tranform;
+		public void Update(Matrix4 transform) {
+			Transformation = transform;
 		}
 	}
 }

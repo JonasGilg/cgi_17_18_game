@@ -1,11 +1,14 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
 using System.IO;
+using Engine.Model;
 
 namespace Engine.Material {
 	public abstract class BaseMaterial {
 		private int _vertexObject;
 		private int _fragmentObject;
+		public Model3D model3D;
+		public int textureId;
 
 		protected int Program;
 
@@ -43,5 +46,7 @@ namespace Engine.Material {
 
 			// hint: "Program" is not linked yet
 		}
+
+		public abstract void Draw();
 	}
 }

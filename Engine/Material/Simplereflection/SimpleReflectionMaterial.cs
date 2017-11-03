@@ -27,7 +27,7 @@ namespace Engine.Material {
 			_modelviewMatrixLocation = GL.GetUniformLocation(Program, "modelview_matrix");
 		}
 
-		public void Draw(Model3D model3D, int textureId) {
+		public override void Draw() {
 			// set the texture
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 

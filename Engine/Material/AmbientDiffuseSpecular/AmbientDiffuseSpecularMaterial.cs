@@ -16,6 +16,8 @@ namespace Engine.Material {
 		private readonly int _cameraPositionLocation;
 		private readonly int _materialShininessLocation;
 
+		public float shininess;
+
 		public AmbientDiffuseSpecularMaterial() {
 			// shader-programm is loaded
 			CreateShaderProgram("Material/AmbientDiffuseSpecular/AmbientDiffuseSpecular_VS.glsl",
@@ -48,7 +50,7 @@ namespace Engine.Material {
 			_cameraPositionLocation = GL.GetUniformLocation(Program, "camera_position");
 		}
 
-		public void Draw(Model3D model3D, int textureId, float shininess) {
+		public override void Draw() {
 			// set the texture
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 

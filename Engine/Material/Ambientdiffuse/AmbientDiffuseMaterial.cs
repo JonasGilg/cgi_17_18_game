@@ -36,7 +36,7 @@ namespace Engine.Material {
 			_lightDiffuseLocation = GL.GetUniformLocation(Program, "light_diffuse_color");
 		}
 
-		public void Draw(Model3D model3D, int textureId) {
+		public override void Draw() {
 			// set the texture
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 

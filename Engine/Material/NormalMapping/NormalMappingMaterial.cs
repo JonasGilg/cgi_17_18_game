@@ -18,6 +18,9 @@ namespace Engine.Material {
 		private readonly int _colorTextureLocation;
 		private readonly int _normalTextureLocation;
 
+		public int normalTextureId;
+		public float shininess;
+
 		public NormalMappingMaterial() {
 			// Shader-Programm wird aus den externen Files generiert...
 			CreateShaderProgram("cgimin/engine/material/normalmapping/NormalMapping_VS.glsl",
@@ -53,7 +56,8 @@ namespace Engine.Material {
 			_normalTextureLocation = GL.GetUniformLocation(Program, "normalmap_texture");
 		}
 
-		public void Draw(Model3D model3D, int textureId, int normalTextureId, float shininess) {
+
+		public override void Draw() {
 			// Das Vertex-Array-Objekt unseres Objekts wird benutzt
 			GL.BindVertexArray(model3D.Vao);
 
