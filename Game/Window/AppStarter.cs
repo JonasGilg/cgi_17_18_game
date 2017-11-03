@@ -48,15 +48,15 @@ namespace Game.Window {
 			
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
 						   //r      g      b      a
-				new Vector4(0.10f, 0.10f, 0.10f, 0.0f),
-				new Vector4(0.05f, 0.20f, 0.70f, 0.0f),
-				new Vector4(0.05f, 0.05f, 0.10f, 0.0f));
+				new Vector4(0.001f, 0.001f, 0.001f, 0.000f),
+				new Vector4(0.050f, 0.200f, 0.700f, 0.000f),
+				new Vector4(0.050f, 0.050f, 0.100f, 0.000f));
 
 			//+++++++++++++++++++++++++SPACESHIP+++++++++++++++++++++++++
 
 			for (int i = 0; i < 10; i++) {
 				var asteroid = AsteroidFactory.GenerateAsteroid();
-				asteroid.TransformComponent.Position = new Vector3(i*10f, 0.4f, 0.0f);
+				asteroid.TransformComponent.Position = new Vector3(i * 10f, 0.4f, 0.0f);
 				asteroid.TransformComponent.Scale = new Vector3(1.0f);
 				asteroid.MoveComponent.LinearVelocity = new Vector3(1.0f, 0.0f, 0.0f);
 				asteroid.MoveComponent.AngularVelocity = Vector3.UnitX;
