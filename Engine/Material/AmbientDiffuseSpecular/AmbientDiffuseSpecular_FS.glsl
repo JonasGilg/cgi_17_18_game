@@ -1,7 +1,8 @@
 #version 330
 precision highp float;
 
-#define M_PI 3.1415926535897932384626433832795
+const float M_PI = 3.1415926535897932384626433832795;
+const float M_PI_HALF = M_PI / 2;
 
 uniform sampler2D sampler; 
 
@@ -40,7 +41,7 @@ void main() {
     float brightness = 0;
     
     //if the surface isn't facing the light source the diffuse and specular part stay zero.
-    if(angle < M_PI / 2) {
+    if(angle < M_PI_HALF) {
         // calclulate view direction
         vec4 v = normalize(camera_position - fragPosition);
     
@@ -60,4 +61,4 @@ void main() {
     // outputColor = (surfaceColor * light_ambient_color) + (surfaceColor * brightness * light_diffuse_color) + specularIntensity * light_specular_color;
 	// upper line put outside the brackets
 	 outputColor = surfaceColor * (light_ambient_color + brightness * light_diffuse_color) + specularIntensity * light_specular_color;
- }
+}
