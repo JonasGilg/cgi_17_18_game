@@ -8,7 +8,7 @@ namespace Engine.Model {
 	
 	public class ModelLoaderObject3D : Model3D {
 		
-		public ModelLoaderObject3D(string filePath, float scale = 1.0f, bool doAverageTangets = false) {
+		public ModelLoaderObject3D(string filePath, float scale = 1.0f, bool doAverageTangets = false, bool createVAO=true) {
 			Positions = new List<Vector3>();
 			Normals = new List<Vector3>();
 			UVs = new List<Vector2>();
@@ -58,8 +58,8 @@ namespace Engine.Model {
 			}
 
 			if (doAverageTangets) AverageTangents();
-
-			CreateVAO();
+			
+			if(createVAO) CreateVAO();
 		}
 	}
 }

@@ -6,6 +6,7 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Util;
 using Game.GameObjects;
+using Game.Utils;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -25,6 +26,8 @@ namespace Game.Window {
 
 		private SpaceShip _ship;
 		private Asteroid _asteroid;
+		
+		private List<Asteroid> _asteroids = new List<Asteroid>();
 
 		private AppStarter()
 			: base(1280, 720, new GraphicsMode(32, 24, 8, 2), "CGI-MIN Example", GameWindowFlags.Default, DisplayDevice.Default,
@@ -71,11 +74,18 @@ namespace Game.Window {
 			_shipTexture = TextureManager.LoadTexture("data/textures/test.png");
 			_neptuneTexture = TextureManager.LoadTexture("data/textures/neptunemap.jpg");
 
-			var asteroid0Model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_1.obj");
-
-			_asteroid = new Asteroid(asteroid0Model,new Vector3(1.0f,0.4f,0.1f),new Vector3(0.0f,0.0f,0.0f),new Vector3(1.0f)  );
-			_asteroid.TransformComponent.Position = new Vector3(1f, 0.4f, 0.0f);
-
+			//var asteroid0Model = new ModelLoaderObject3D("data/objects/asteroids/asteroid_1.obj");
+			//_asteroid = new Asteroid(asteroid0Model,new Vector3(1.0f,0.4f,0.1f),new Vector3(0.0f,0.0f,0.0f),new Vector3(1.0f)  );
+			for (int i = 0; i < 16; i++) {
+				_asteroid = AsteroidFactory.generateAsteroid();
+				_asteroid.TransformComponent.Position = new Vector3(i*10f, 0.4f, 0.0f);
+				_asteroid.MoveComponent.AngularVelocity = new Vector3(1.0f,0.5f,0.2f);
+				_asteroids.Add(_asteroid);
+			}
+			
+			
+			
+			
 			_asteroidTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png");
 
 			_ambientDiffuseSpecularMaterial = new AmbientDiffuseSpecularMaterial();
@@ -98,21 +108,27 @@ namespace Game.Window {
 			}
 
 			_ship.Update(e.Time);
-			_asteroid.Update(e.Time);
+			_asteroids.ForEach(asteroid => {
+				asteroid.Update(e.Time);
+			});
 		}
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			_ship.Draw(_ambientDiffuseSpecularMaterial, _shipTexture);
-
-			_asteroid.Draw(_ambientDiffuseSpecularMaterial, _asteroidTexture);
+			
+			_asteroids.ForEach(asteroid => {
+				asteroid.Draw(_ambientDiffuseSpecularMaterial, _asteroidTexture);
+			});
 
 
 			_simpleTextureMaterial.Draw(_neptuneObject, _neptuneTexture);
 
 			SwapBuffers();
 		}
+
+		
 
 		protected override void OnUnload(EventArgs e) { }
 
