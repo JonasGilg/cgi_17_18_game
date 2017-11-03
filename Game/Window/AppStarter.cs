@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Engine;
 using Engine.Texture;
 using Engine.Material;
@@ -17,7 +16,7 @@ namespace Game.Window {
 	internal class AppStarter : GameWindow {
 		private readonly World _world;
 
-		private AppStarter() : base(1280, 720, new GraphicsMode(32, 24, 8, 2), "CGI-MIN Example", GameWindowFlags.Default,
+		private AppStarter() : base(1280, 720, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) {
 			_world = new World();
@@ -54,7 +53,7 @@ namespace Game.Window {
 
 			//+++++++++++++++++++++++++SPACESHIP+++++++++++++++++++++++++
 
-			for (int i = 0; i < 10; i++) {
+			for (var i = 0; i < 10; i++) {
 				var asteroid = AsteroidFactory.GenerateAsteroid();
 				asteroid.TransformComponent.Position = new Vector3(i * 10f, 0.4f, 0.0f);
 				asteroid.TransformComponent.Scale = new Vector3(1.0f);
@@ -107,8 +106,6 @@ namespace Game.Window {
 			_world.RenderWorld();
 			SwapBuffers();
 		}
-
-		
 
 		protected override void OnUnload(EventArgs e) { }
 
