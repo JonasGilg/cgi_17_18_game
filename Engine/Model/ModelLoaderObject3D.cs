@@ -6,16 +6,11 @@ using OpenTK;
 
 namespace Engine.Model {
 	
-	public class ModelLoaderObject3D : Model3D {
+	public static class ModelLoaderObject3D {
 		
-		public ModelLoaderObject3D(string filePath, float scale = 1.0f, bool doAverageTangets = false, bool createVAO=true) {
-			Positions = new List<Vector3>();
-			Normals = new List<Vector3>();
-			UVs = new List<Vector2>();
-			Tangents = new List<Vector3>();
-			BiTangents = new List<Vector3>();
-			Indices = new List<int>();
-
+		public static Model3D load(string filePath, float scale = 1.0f, bool doAverageTangets = false, bool createVAO=true) {
+			var model = new Model3D();
+			
 			var v = new List<Vector3>();
 			var vt = new List<Vector2>();
 			var vn = new List<Vector3>();
@@ -46,7 +41,7 @@ namespace Engine.Model {
 							var triIndicesV2 = parts[2].Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 							var triIndicesV3 = parts[3].Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 
-							AddTriangle(v[Convert.ToInt32(triIndicesV1[0]) - 1], v[Convert.ToInt32(triIndicesV2[0]) - 1],
+							model.AddTriangle(v[Convert.ToInt32(triIndicesV1[0]) - 1], v[Convert.ToInt32(triIndicesV2[0]) - 1],
 								v[Convert.ToInt32(triIndicesV3[0]) - 1],
 								vn[Convert.ToInt32(triIndicesV1[2]) - 1], vn[Convert.ToInt32(triIndicesV2[2]) - 1],
 								vn[Convert.ToInt32(triIndicesV3[2]) - 1],
@@ -57,9 +52,11 @@ namespace Engine.Model {
 				}
 			}
 
-			if (doAverageTangets) AverageTangents();
+			if (doAverageTangets) model.AverageTangents();
 			
-			if(createVAO) CreateVAO();
+			if(createVAO) model.CreateVAO();
+
+			return model;
 		}
 	}
 }

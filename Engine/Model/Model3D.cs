@@ -17,6 +17,15 @@ namespace Engine.Model {
 		public List<Vector3> Tangents;
 		public List<Vector3> BiTangents;
 
+		public Model3D() {
+			Positions = new List<Vector3>();
+			Normals = new List<Vector3>();
+			UVs = new List<Vector2>();
+			Tangents = new List<Vector3>();
+			BiTangents = new List<Vector3>();
+			Indices = new List<int>();
+		}
+
 		// the index-List
 		public List<int> Indices;
 

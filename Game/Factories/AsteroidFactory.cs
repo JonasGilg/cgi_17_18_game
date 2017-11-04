@@ -7,26 +7,52 @@ namespace Game.Utils {
     public static class AsteroidFactory {
 
         private static int NUMBER_OF_MODELS = 3;
+        private static int TEXTURE_SIZE_X = 1024;
+        private static int TEXTURE_SIZE_Y = 1024;
         private static Random _random = new Random();
-
+        private static Model3D[] models = {
+            ModelLoaderObject3D.load(/*RandomModelPath()*/ "data/objects/asteroids/asteroid_0.obj", doAverageTangets:false, createVAO:false)
+            };
+        
         public static Asteroid GenerateAsteroid() {
-            var model = new ModelLoaderObject3D(RandomModelPath(), createVAO:false);
+            
             
             var fastNoise = new FastNoise();
+            //------General Settings-------
             
-            fastNoise.SetNoiseType(FastNoise.NoiseType.Perlin);
-            fastNoise.SetFrequency(0.1f);
-            fastNoise.SetSeed(1337);
-            Vector3 oldPosition;
+            fastNoise.SetNoiseType(FastNoise.NoiseType.SimplexFractal);
+            fastNoise.SetSeed(_random.Next(1000,100000));
+            fastNoise.SetFrequency(0.01f);
             
-            model.Positions.ForEach(position => {
-                oldPosition = position;
-                position.X += fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
-                position.Y += fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
-                position.Z += fastNoise.GetNoise(oldPosition.X, oldPosition.Y, oldPosition.Z);
-            });
-           
-             //faces anpassen, normalen anpassen etc.  
+            //-----Fractal Settings-------
+            fastNoise.SetFractalType(FastNoise.FractalType.FBM);
+            fastNoise.SetFractalOctaves(8);
+            fastNoise.SetFractalLacunarity(2.0f);
+            fastNoise.SetFractalGain(0.5f);
+            //----- cellular settings----
+            fastNoise.SetCellularDistanceFunction(FastNoise.CellularDistanceFunction.Euclidean);
+            fastNoise.SetCellularReturnType(FastNoise.CellularReturnType.Distance);
+            //position warp settings
+
+
+            
+                
+            
+            
+            
+            var model = ModelLoaderObject3D.load( /*RandomModelPath()*/ "data/objects/asteroids/asteroid_0.obj",
+                doAverageTangets: false, createVAO: false);
+            var noise = 0f;
+            Console.Out.WriteLine("Generate Asteroid with noise");
+                for (int i = 0; i < model.Positions.Count; i++) {
+                    
+                    noise = fastNoise.GetNoise(model.Positions[i].X, model.Positions[i].Y, model.Positions[i].Z);
+                    //Console.Out.WriteLine("Noise: "+(noise));
+                    model.Positions[i] = Vector3.Multiply(model.Positions[i], noise);
+                }
+
+            
+
             
             
             model.CreateVAO();

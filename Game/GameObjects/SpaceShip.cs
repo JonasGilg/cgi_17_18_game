@@ -17,7 +17,7 @@ namespace Game.GameObjects {
 			MoveComponent = new MoveComponent(this);
 			CameraComponent = new ThirdPersonCameraComponent(new Vector3(-0.3f, 0.05f, 0.0f), this);
 			RenderComponent = new RenderComponent(
-				new ModelLoaderObject3D("data/objects/SpaceShip.obj"),
+				ModelLoaderObject3D.load("data/objects/SpaceShip.obj"),
 				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
 				TextureManager.LoadTexture("data/textures/test.png"),
 				this
