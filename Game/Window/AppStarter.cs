@@ -47,9 +47,9 @@ namespace Game.Window {
 			
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
 						   //r      g      b      a
-				new Vector4(0.001f, 0.001f, 0.001f, 0.000f),
-				new Vector4(0.050f, 0.200f, 0.700f, 0.000f),
-				new Vector4(0.050f, 0.050f, 0.100f, 0.000f));
+				new Vector4(.001f, .001f, .001f, 0f),
+				new Vector4(.050f, .200f, .700f, 0f),
+				new Vector4(.050f, .050f, .100f, 0f));
 
 			//+++++++++++++++++++++++++SPACESHIP+++++++++++++++++++++++++
 
@@ -57,7 +57,6 @@ namespace Game.Window {
 				var asteroid = AsteroidFactory.GenerateAsteroid();
 				asteroid.TransformComponent.Position = new Vector3(i * 1f, 0.0f,10.0f);
 				asteroid.TransformComponent.Scale = new Vector3(1.0f);
-				asteroid.MoveComponent.LinearVelocity = new Vector3(0.0f, 0.0f, 0.0f);
 				asteroid.MoveComponent.AngularVelocity = Vector3.UnitX;
 			
 				_world.AddToWorld(asteroid);
@@ -65,8 +64,8 @@ namespace Game.Window {
 			
 			var ship = new SpaceShip();
 			ship.TransformComponent.Scale = new Vector3(0.02f);
-			ship.TransformComponent.Position = new Vector3(0f, 0f, 0.0f);
-			ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, -1.0f);
+			ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
+			ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, (float) -(Math.PI / 2));
 			
 			_world.AddToWorld(ship);
 

@@ -141,7 +141,7 @@ namespace Game.GameObjects {
 
 		public override void Draw() {
 			base.Draw();
-			RenderComponent.Draw(0.5f);
+			RenderComponent.Draw(16.0f);
 		}
 	}
 }

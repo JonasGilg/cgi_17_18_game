@@ -6,25 +6,26 @@ using Mouse = Engine.Input.Mouse;
 namespace Engine {
 	public class ThirdPersonCameraComponent : CameraComponent {
 		public Vector3 Offset;
-		private readonly Vector3 _originalOffset;
+		private Vector2 _rotation;
 		
 		public ThirdPersonCameraComponent(Vector3 offset, GameObject gameObject) : base(gameObject) {
 			Offset = offset;
-			_originalOffset = offset;
+			_rotation = Vector2.Zero;
 		}
 		
 		public override void Update() {
 			base.Update();
 
 			if (Mouse.Down(MouseButton.Right)) {
-				Math3D.Rotate(ref Offset,
-					Quaternion.FromAxisAngle(Vector3.UnitY, (float) (-Mouse.CursorDelta.X * Time.DeltaTime * 0.1)));
+				_rotation.Y += -Mouse.CursorDelta.X * Time.DeltaTime * 0.1f;
+				_rotation.X += -Mouse.CursorDelta.Y * Time.DeltaTime * 0.1f;
 			}
 			else {
-				Offset = Vector3.Lerp(Offset, _originalOffset, Time.DeltaTime * 5);
+				_rotation = Vector2.Lerp(_rotation, Vector2.Zero, Time.DeltaTime * 5);
 			}
 			
-			var eyePosition = Offset;
+			var rotation = Quaternion.FromEulerAngles(_rotation.X, _rotation.Y, 0f);
+			var eyePosition = Math3D.Rotate(Offset, rotation);
 			Math3D.Rotate(ref eyePosition, GameObject.TransformComponent.Orientation);
 
 			eyePosition += GameObject.TransformComponent.Position;
