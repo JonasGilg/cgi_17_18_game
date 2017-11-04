@@ -14,15 +14,15 @@ namespace Engine.Model {
 			var noise = 1.0f;
 			var fastNoise = new FastNoise();
 			if (withNoise) {
-				fastNoise.SetNoiseType(FastNoise.NoiseType.SimplexFractal);
-				fastNoise.SetFractalType(FastNoise.FractalType.RigidMulti);
+				fastNoise.SetNoiseType(FastNoise.NoiseType.Cellular);
+				fastNoise.SetFractalType(FastNoise.FractalType.FBM);
 				fastNoise.SetCellularDistanceFunction(FastNoise.CellularDistanceFunction.Euclidean);
-				fastNoise.SetCellularReturnType(FastNoise.CellularReturnType.Distance);
+				fastNoise.SetCellularReturnType(FastNoise.CellularReturnType.Distance2Add);
 				fastNoise.SetFractalLacunarity(2.0f);
 				fastNoise.SetFractalGain(0.5f);
 				fastNoise.SetSeed(Random.Next(1000, 100000));
 				var freq = (float) Random.Next(1, 5) / 10;
-				fastNoise.SetFrequency(freq);
+				fastNoise.SetFrequency(1.2f);
 				Console.Out.WriteLine("seed: " + fastNoise.GetSeed());
 				Console.Out.WriteLine("freq: " + freq);
 			}
