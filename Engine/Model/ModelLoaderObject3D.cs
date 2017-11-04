@@ -49,6 +49,7 @@ namespace Engine.Model {
 							
 							if (withNoise) {
 								noise = fastNoise.GetNoise(vec3.X, vec3.Y, vec3.Z);
+								//noise = (float) (Random.NextDouble() - 0.5) / 4 + 1;
 								noise = 1 + noise * 2;
 								
 								Console.Out.WriteLine("Vec: " + vec3 + ", Noise: " + noise + ", NewVec: " + (vec3*noise));
