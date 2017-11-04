@@ -67,9 +67,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="data\BlenderFiles\asteroids\asteroid_0.blend" />
-    <Content Include="data\BlenderFiles\asteroids\asteroid_2.blend" />
-    <Content Include="data\BlenderFiles\asteroids\asteroid_cylindric.blend" />
     <Content Include="data\BlenderFiles\Neptune.blend" />
     <Content Include="data\BlenderFiles\SpaceShip.blend" />
     <Content Include="data\Font\CrystalFont.bmp">
@@ -107,6 +104,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="data\BlenderFiles\asteroids" />
     <Folder Include="Utils" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
