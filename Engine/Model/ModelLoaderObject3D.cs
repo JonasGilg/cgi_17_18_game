@@ -33,9 +33,6 @@ namespace Engine.Model {
 			var vn = new List<Vector3>();
 
 			var input = File.ReadLines(filePath);
-
-			var randomNoiseCounter = 0;
-			var noise1Counter = 0;
 			
 			foreach (var line in input) {
 				var parts = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
