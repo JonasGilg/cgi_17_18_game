@@ -32,13 +32,11 @@ namespace Engine {
 			}
 
 			var rotation = Quaternion.FromEulerAngles(_rotation.Y, _rotation.X, 0f);
-			var eyePosition = Math3D.Rotate(Offset, rotation);
-			Math3D.Rotate(ref eyePosition, GameObject.TransformComponent.Orientation);
+			var eyePosition = GameObject.TransformComponent.Orientation * rotation * Offset;
 
 			eyePosition += GameObject.TransformComponent.Position;
 
-			SetLookAt(eyePosition, GameObject.TransformComponent.Position,
-				GameObject.TransformComponent.Orientation * Vector3.UnitY);
+			SetLookAt(eyePosition, GameObject.TransformComponent.Position, GameObject.TransformComponent.Orientation * Vector3.UnitY);
 		}
 	}
 }
