@@ -56,7 +56,7 @@ namespace Game.Window {
 
 			for (var i = 0; i < 4; i++) {
 				var asteroid = AsteroidFactory.GenerateAsteroid();
-				asteroid.TransformComponent.Position = new Vector3(i * 1f, 0.0f, 10.0f);
+				asteroid.TransformComponent.Position = new Vector3(i * 10f, 0.0f, 10.0f);
 				asteroid.TransformComponent.Scale = new Vector3(1.0f);
 				asteroid.MoveComponent.AngularVelocity = Vector3.UnitX;
 

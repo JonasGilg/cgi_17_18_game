@@ -21,7 +21,7 @@ namespace Game.Utils {
 
 			fastNoise.SetNoiseType(FastNoise.NoiseType.SimplexFractal);
 			fastNoise.SetSeed(Random.Next(1000, 100000));
-			fastNoise.SetFrequency(0.01f);
+			fastNoise.SetFrequency(0.02f);
 
 			//-----Fractal Settings-------
 			fastNoise.SetFractalType(FastNoise.FractalType.FBM);
@@ -38,8 +38,9 @@ namespace Game.Utils {
 			//Console.Out.WriteLine("Generate Asteroid with noise");
 			for (var i = 0; i < model.Positions.Count; i++) {
 				var noise = fastNoise.GetNoise(model.Positions[i].X, model.Positions[i].Y, model.Positions[i].Z);
-				//Console.Out.WriteLine("Noise: "+(noise));
-				model.Positions[i] = Vector3.Multiply(model.Positions[i], noise);
+				//Console.Out.WriteLine("Noise: "+(noise*2));
+				model.Positions[i] = Vector3.Multiply(model.Positions[i], 1+noise*2);
+				model.Normals[i] = model.Positions[i].Normalized();
 			}
 
 			model.CreateVAO();
