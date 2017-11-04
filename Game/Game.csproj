@@ -71,6 +71,12 @@
     <Content Include="data\BlenderFiles\asteroids\asteroid_cylindric.blend" />
     <Content Include="data\BlenderFiles\Neptune.blend" />
     <Content Include="data\BlenderFiles\SpaceShip.blend" />
+    <Content Include="data\Font\CrystalFont.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\Font\CrystalFontData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\objects\asteroids\asteroid_0.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

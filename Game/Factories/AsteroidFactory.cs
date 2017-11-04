@@ -35,7 +35,7 @@ namespace Game.Utils {
 
 			var model = ModelLoaderObject3D.load( /*RandomModelPath()*/ "data/objects/asteroids/asteroid_0.obj",
 				doAverageTangets: false, createVAO: false);
-			Console.Out.WriteLine("Generate Asteroid with noise");
+			//Console.Out.WriteLine("Generate Asteroid with noise");
 			for (var i = 0; i < model.Positions.Count; i++) {
 				var noise = fastNoise.GetNoise(model.Positions[i].X, model.Positions[i].Y, model.Positions[i].Z);
 				//Console.Out.WriteLine("Noise: "+(noise));
@@ -51,7 +51,7 @@ namespace Game.Utils {
 			//TODO the random is probably not random enough and too dependend on number_of_models
 			var number = Random.Next(0, NumberOfModels);
 			basePath += number + ".obj";
-			Console.Out.WriteLine("randomized model path: " + basePath);
+			//Console.Out.WriteLine("randomized model path: " + basePath);
 			return basePath;
 		}
 	}

@@ -58,17 +58,19 @@
     <Compile Include="GameObject\GameObject.cs" />
     <Compile Include="GameObject\World.cs" />
     <Compile Include="Light\Light.cs" />
-    <Compile Include="Material\AmbientDiffuseSpecular\AmbientDiffuseSpecularMaterial.cs" />
-    <Compile Include="Material\BaseMaterial.cs" />
-    <Compile Include="Material\MaterialManager.cs" />
-    <Compile Include="Material\NormalMapping\NormalMappingMaterial.cs" />
-    <Compile Include="Material\Simplereflection\SimpleReflectionMaterial.cs" />
-    <Compile Include="Material\Simpletexture\SimpleTextureMaterial.cs" />
     <Compile Include="Model\Model3D.cs" />
     <Compile Include="Model\ModelLoaderObject3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Render\Font\Font.cs" />
+    <Compile Include="Render\Font\FontManager.cs" />
+    <Compile Include="Render\Font\FontRenderer.cs" />
+    <Compile Include="Render\Material\AmbientDiffuseSpecular\AmbientDiffuseSpecularMaterial.cs" />
+    <Compile Include="Render\Material\BaseMaterial.cs" />
+    <Compile Include="Render\Material\MaterialManager.cs" />
+    <Compile Include="Render\Material\NormalMapping\NormalMappingMaterial.cs" />
+    <Compile Include="Render\Material\Simplereflection\SimpleReflectionMaterial.cs" />
+    <Compile Include="Render\Material\Simpletexture\SimpleTextureMaterial.cs" />
     <Compile Include="Texture\TextureManager.cs" />
-    <Compile Include="Util\Font.cs" />
     <Compile Include="Util\Input.cs" />
     <Compile Include="Util\Math.cs" />
     <Compile Include="Util\Time.cs" />
@@ -78,28 +80,33 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Material\AmbientDiffuseSpecular\AmbientDiffuseSpecular_FS.glsl">
+    <Folder Include="Render" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Render\Font\Text_FS.glsl" />
+    <Content Include="Render\Font\Text_VS.glsl" />
+    <Content Include="Render\Material\AmbientDiffuseSpecular\AmbientDiffuseSpecular_FS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Material\AmbientDiffuseSpecular\AmbientDiffuseSpecular_VS.glsl">
+    <Content Include="Render\Material\AmbientDiffuseSpecular\AmbientDiffuseSpecular_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Material\NormalMapping\NormalMapping_FS.glsl">
+    <Content Include="Render\Material\NormalMapping\NormalMapping_FS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Material\NormalMapping\NormalMapping_VS.glsl">
+    <Content Include="Render\Material\NormalMapping\NormalMapping_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Material\Simplereflection\SimpleReflection_FS.glsl">
+    <Content Include="Render\Material\Simplereflection\SimpleReflection_FS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Material\Simplereflection\SimpleReflection_VS.glsl">
+    <Content Include="Render\Material\Simplereflection\SimpleReflection_VS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Material\Simpletexture\Simple_FS.glsl">
+    <Content Include="Render\Material\Simpletexture\Simple_FS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Material\Simpletexture\Simple_VS.glsl">
+    <Content Include="Render\Material\Simpletexture\Simple_VS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

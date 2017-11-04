@@ -8,8 +8,8 @@ namespace Engine.Material {
 
 		public SimpleTextureMaterial() {
 			// Shader-Programm wird aus den externen Files generiert...
-			CreateShaderProgram("Material/Simpletexture/Simple_VS.glsl",
-				"Material/Simpletexture/Simple_FS.glsl");
+			CreateShaderProgram("Render/Material/Simpletexture/Simple_VS.glsl",
+				"Render/Material/Simpletexture/Simple_FS.glsl");
 
 			// GL.BindAttribLocation, gibt an welcher Index in unserer Datenstruktur welchem "in" Parameter auf unserem Shader zugeordnet wird
 			// folgende Befehle müssen aufgerufen werden...

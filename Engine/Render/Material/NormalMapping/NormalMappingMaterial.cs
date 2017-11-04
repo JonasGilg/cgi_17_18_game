@@ -20,8 +20,8 @@ namespace Engine.Material {
 
 		public NormalMappingMaterial() {
 			// Shader-Programm wird aus den externen Files generiert...
-			CreateShaderProgram("Material/NormalMapping/NormalMapping_VS.glsl",
-				"Material/NormalMapping/NormalMapping_FS.glsl");
+			CreateShaderProgram("Render/Material/NormalMapping/NormalMapping_VS.glsl",
+				"Render/Material/NormalMapping/NormalMapping_FS.glsl");
 
 			// GL.BindAttribLocation, gibt an welcher Index in unserer Datenstruktur welchem "in" Parameter auf unserem Shader zugeordnet wird
 			// folgende Befehle müssen aufgerufen werden...
