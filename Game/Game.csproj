@@ -50,7 +50,6 @@
     <Compile Include="GameObjects\SpaceShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\AsteroidFactory.cs" />
-    <Compile Include="Utils\FastNoise.cs" />
     <Compile Include="Window\AppStarter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +67,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="data\BlenderFiles\asteroids\asteroid_0.blend" />
+    <Content Include="data\BlenderFiles\asteroids\asteroid_2.blend" />
     <Content Include="data\BlenderFiles\asteroids\asteroid_cylindric.blend" />
     <Content Include="data\BlenderFiles\Neptune.blend" />
     <Content Include="data\BlenderFiles\SpaceShip.blend" />
@@ -104,6 +105,9 @@
     <Content Include="data\textures\test.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
