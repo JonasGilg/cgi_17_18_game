@@ -13,7 +13,7 @@ namespace Game.Utils {
 
 		public static Asteroid GenerateAsteroid() {
 			
-			var model = ModelLoaderObject3D.load( /*RandomModelPath()*/ "data/objects/asteroids/asteroid_0.obj",
+			var model = ModelLoaderObject3D.Load( /*RandomModelPath()*/ "data/objects/asteroids/asteroid_0.obj",
 				doAverageTangets: false, createVAO: false, withNoise: true);
 			
 			

@@ -1,7 +1,7 @@
 #version 330 core
 
-layout(location = 0) in vec2 vertexPosition_screenspace;
-layout(location = 1) in vec2 vertexUV;
+in vec2 vertexPosition_screenspace;
+in vec2 vertexUV;
 
 out vec2 UV;
 

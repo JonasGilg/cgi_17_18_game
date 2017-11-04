@@ -62,15 +62,16 @@
     <Compile Include="Model\Model3D.cs" />
     <Compile Include="Model\ModelLoaderObject3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Render\Font\Font.cs" />
-    <Compile Include="Render\Font\FontManager.cs" />
-    <Compile Include="Render\Font\FontRenderer.cs" />
+    <Compile Include="Render\Text\Font.cs" />
+    <Compile Include="Render\Text\FontManager.cs" />
+    <Compile Include="Render\Text\TextRenderer2D.cs" />
     <Compile Include="Render\Material\AmbientDiffuseSpecular\AmbientDiffuseSpecularMaterial.cs" />
     <Compile Include="Render\Material\BaseMaterial.cs" />
     <Compile Include="Render\Material\MaterialManager.cs" />
     <Compile Include="Render\Material\NormalMapping\NormalMappingMaterial.cs" />
     <Compile Include="Render\Material\Simplereflection\SimpleReflectionMaterial.cs" />
     <Compile Include="Render\Material\Simpletexture\SimpleTextureMaterial.cs" />
+    <Compile Include="Render\ShaderLoader.cs" />
     <Compile Include="Texture\TextureManager.cs" />
     <Compile Include="Util\Input.cs" />
     <Compile Include="Util\Math.cs" />
@@ -81,11 +82,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Render" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Render\Font\Text_FS.glsl" />
-    <Content Include="Render\Font\Text_VS.glsl" />
+    <Content Include="Render\Text\Text_FS.glsl" />
+    <Content Include="Render\Text\Text_VS.glsl" />
     <Content Include="Render\Material\AmbientDiffuseSpecular\AmbientDiffuseSpecular_FS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

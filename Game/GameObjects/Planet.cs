@@ -8,7 +8,7 @@ namespace Game.GameObjects {
 
 		public Planet(int textureId) {
 			RenderComponent = new RenderComponent(
-				ModelLoaderObject3D.load("data/objects/Planet.obj"),
+				ModelLoaderObject3D.Load("data/objects/Planet.obj"),
 				MaterialManager.GetMaterial(Material.Simple),
 				textureId,
 				this
