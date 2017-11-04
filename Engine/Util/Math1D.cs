@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 
 namespace Engine.Util {
 	public static class Math3D {
@@ -15,5 +16,9 @@ namespace Engine.Util {
 
 			v = 2.0f * Vector3.Dot(v, u) * u + (s * s - Vector3.Dot(u, u)) * v + 2.0f * s * Vector3.Cross(u, v);
 		}
+	}
+
+	public static class Math1D {
+		public static float Clamp(float val, float min, float max) => val < min ? min : val > max ? max : val;
 	}
 }
