@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Engine;
 using Engine.Texture;
 using Engine.Material;
@@ -41,12 +42,12 @@ namespace Game.Window {
 			base.OnLoad(e);
 
 			MaterialManager.Init();
-			
+
 			DisplayCamera.Init();
 			DisplayCamera.SetWidthHeightFov(800, 600, 90);
-			
+
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
-						   //r      g      b      a
+				//r      g      b      a
 				new Vector4(.001f, .001f, .001f, 0f),
 				new Vector4(.050f, .200f, .700f, 0f),
 				new Vector4(.050f, .050f, .100f, 0f));
@@ -55,28 +56,29 @@ namespace Game.Window {
 
 			for (var i = 0; i < 4; i++) {
 				var asteroid = AsteroidFactory.GenerateAsteroid();
-				asteroid.TransformComponent.Position = new Vector3(i * 1f, 0.0f,10.0f);
+				asteroid.TransformComponent.Position = new Vector3(i * 1f, 0.0f, 10.0f);
 				asteroid.TransformComponent.Scale = new Vector3(1.0f);
 				asteroid.MoveComponent.AngularVelocity = Vector3.UnitX;
-			
+
 				_world.AddToWorld(asteroid);
 			}
-			
+
 			var ship = new SpaceShip();
 			ship.TransformComponent.Scale = new Vector3(0.02f);
 			ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
 			ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, (float) -(Math.PI / 2));
-			
+
 			_world.AddToWorld(ship);
 
 			//+++++++++++++++++++++++++NEPTUNE+++++++++++++++++++++++++
 
 			var neptune = new Planet(TextureManager.LoadTexture("data/textures/neptunemap.jpg")) {
 				TransformComponent = {
-					Scale = new Vector3(400f), Position = new Vector3(0, 0, 1500f) 
+					Scale = new Vector3(400f),
+					Position = new Vector3(0, 0, 1500f)
 				}
 			};
-			
+
 			_world.AddToWorld(neptune);
 
 			GL.Enable(EnableCap.DepthTest);
@@ -89,7 +91,7 @@ namespace Game.Window {
 			EngineKeyboard.Update(Keyboard.GetState());
 			EngineMouse.Update(Mouse.GetState());
 			Time.Update(e.Time);
-			
+
 			if (EngineKeyboard.Released(Key.Escape))
 				Exit();
 

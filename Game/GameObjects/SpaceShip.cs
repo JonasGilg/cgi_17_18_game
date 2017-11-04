@@ -28,85 +28,73 @@ namespace Game.GameObjects {
 		public override void Update() {
 			//move forward
 			if (Keyboard.Down(Key.W)) {
-				var forward = new Vector3(Time.DeltaTime, 0.0f, 0.0f);
-				Math3D.Rotate(ref forward, TransformComponent.Orientation);
+				var forward = TransformComponent.Orientation * new Vector3(Time.DeltaTime, 0.0f, 0.0f);
 				MoveComponent.LinearVelocity += forward;
 			}
 			
 			//move backward
 			if (Keyboard.Down(Key.S)) {
-				var backwards = new Vector3(-Time.DeltaTime, 0.0f, 0.0f);
-				Math3D.Rotate(ref backwards, TransformComponent.Orientation);
+				var backwards = TransformComponent.Orientation * new Vector3(-Time.DeltaTime, 0.0f, 0.0f);
 				MoveComponent.LinearVelocity += backwards;
 			}
 			
 			//move left
 			if (Keyboard.Down(Key.A)) {
-				var left = new Vector3(0.0f, 0.0f, -Time.DeltaTime);
-				Math3D.Rotate(ref left, TransformComponent.Orientation);
+				var left = TransformComponent.Orientation * new Vector3(0.0f, 0.0f, -Time.DeltaTime);
 				MoveComponent.LinearVelocity += left;
 			}
 
 			//move right
 			if (Keyboard.Down(Key.D)) {
-				var right = new Vector3(0.0f, 0.0f, Time.DeltaTime);
-				Math3D.Rotate(ref right, TransformComponent.Orientation);
+				var right = TransformComponent.Orientation * new Vector3(0.0f, 0.0f, Time.DeltaTime);
 				MoveComponent.LinearVelocity += right;
 			}
 
 			//move up
 			if (Keyboard.Down(Key.Space)) {
-				var right = new Vector3(0.0f, Time.DeltaTime, 0.0f);
-				Math3D.Rotate(ref right, TransformComponent.Orientation);
+				var right = TransformComponent.Orientation * new Vector3(0.0f, Time.DeltaTime, 0.0f);
 				MoveComponent.LinearVelocity += right;
 			}
 			
 			//move down
 			if (Keyboard.Down(Key.X)) {
-				var right = new Vector3(0.0f, -Time.DeltaTime, 0.0f);
-				Math3D.Rotate(ref right, TransformComponent.Orientation);
+				var right = TransformComponent.Orientation * new Vector3(0.0f, -Time.DeltaTime, 0.0f);
 				MoveComponent.LinearVelocity += right;
 			}
 			
 			//turn left
 			if (Keyboard.Down(Key.Q)) {
-				var left = new Vector3(0.0f, Time.DeltaTime, 0.0f);
-				Math3D.Rotate(ref left, TransformComponent.Orientation);
+				var left = TransformComponent.Orientation * new Vector3(0.0f, Time.DeltaTime, 0.0f);
 				MoveComponent.AngularVelocity += left;
 			}
 			
 			//turn right
 			if (Keyboard.Down(Key.E)) {
-				var right = new Vector3(0.0f, -Time.DeltaTime, 0.0f);
-				Math3D.Rotate(ref right, TransformComponent.Orientation);
+				var right = TransformComponent.Orientation * new Vector3(0.0f, -Time.DeltaTime, 0.0f);
 				MoveComponent.AngularVelocity += right;
 			}
 			
 			//tilt forward
 			if (Keyboard.Down(Key.Up)) {
-				var forward = new Vector3(0.0f, 0.0f, -Time.DeltaTime);
-				Math3D.Rotate(ref forward, TransformComponent.Orientation);
+				var forward = TransformComponent.Orientation * new Vector3(0.0f, 0.0f, -Time.DeltaTime);
 				MoveComponent.AngularVelocity += forward;
 			}
 			
 			//tilt backward
 			if (Keyboard.Down(Key.Down)) {
-				var backward = new Vector3(0.0f, 0.0f, Time.DeltaTime);
-				Math3D.Rotate(ref backward, TransformComponent.Orientation);
+				var backward = TransformComponent.Orientation * new Vector3(0.0f, 0.0f, Time.DeltaTime);
 				MoveComponent.AngularVelocity += backward;
 			}
 			
 			//tilt left
 			if (Keyboard.Down(Key.Left)) {
-				var left = new Vector3(-Time.DeltaTime, 0.0f, 0.0f);
-				Math3D.Rotate(ref left, TransformComponent.Orientation);
+				var left = TransformComponent.Orientation * new Vector3(-Time.DeltaTime, 0.0f, 0.0f);
 				MoveComponent.AngularVelocity += left;
 			}
 			
 			//tilt right
 			if (Keyboard.Down(Key.Right)) {
-				var right = new Vector3(Time.DeltaTime, 0.0f, 0.0f);
-				Math3D.Rotate(ref right, TransformComponent.Orientation);
+				var right = TransformComponent.Orientation * new Vector3(Time.DeltaTime, 0.0f, 0.0f);
 				MoveComponent.AngularVelocity += right;
 			}
 
