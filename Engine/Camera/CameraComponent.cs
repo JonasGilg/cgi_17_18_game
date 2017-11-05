@@ -1,9 +1,10 @@
-﻿using OpenTK;
+﻿using Engine.Render.Skybox;
+using OpenTK;
 using OpenTK.Input;
 
 namespace Engine {
 	public class CameraComponent : Component {
-
+		
 		public CameraComponent(GameObject gameObject) : base(gameObject) { }
 
 		public Vector3 Position { get; private set; }
@@ -14,6 +15,8 @@ namespace Engine {
 			Position = eye;
 		}
 
-		public override void Update() { }
+		public override void Update() {
+			
+		}
 	}
 }

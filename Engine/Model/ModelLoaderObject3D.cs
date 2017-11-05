@@ -17,15 +17,16 @@ namespace Engine.Model {
 				fastNoise.SetNoiseType(FastNoise.NoiseType.Cellular);
 				fastNoise.SetFractalType(FastNoise.FractalType.FBM);
 				fastNoise.SetCellularDistanceFunction(FastNoise.CellularDistanceFunction.Euclidean);
-				fastNoise.SetCellularReturnType(FastNoise.CellularReturnType.Distance2Sub);
-				fastNoise.SetFractalLacunarity(2.0f);
-				fastNoise.SetFractalGain(0.5f);
-				fastNoise.SetSeed(Random.Next(1000, 100000));
-				var freq = (float) Random.Next(1, 5) / 10;
-				fastNoise.SetFrequency(0.6f);
-				Console.Out.WriteLine("seed: " + fastNoise.GetSeed());
-				Console.Out.WriteLine("freq: " + freq);
-			}
+				fastNoise.SetCellularReturnType(FastNoise.CellularReturnType.Distance2Mul);
+				fastNoise.SetCellularDistance2Indicies(0,2);
+				fastNoise.SetCellularJitter(0.8f);
+				//fastNoise.SetFractalLacunarity(1.75f);
+				//fastNoise.SetFractalGain(0.5f);
+				fastNoise.SetSeed(Random.Next(1000, 1000000));
+				fastNoise.SetFractalOctaves(5);
+				fastNoise.SetFrequency(0.005f);
+				
+             	}
 
 
 			var v = new List<Vector3>();
@@ -49,7 +50,7 @@ namespace Engine.Model {
 								//noise = (float) (Random.NextDouble() - 0.5) / 4 + 1;
 								noise = 1 + noise * 2;
 								
-								Console.Out.WriteLine("Noise: " + noise);
+								//Console.Out.WriteLine("Noise: " + noise);
 							}
 							
 							v.Add(vec3 * noise);
@@ -87,7 +88,6 @@ namespace Engine.Model {
 			}
 
 			if (doAverageTangets) model.AverageTangents();
-
 			if (createVAO) model.CreateVAO();
 
 			return model;

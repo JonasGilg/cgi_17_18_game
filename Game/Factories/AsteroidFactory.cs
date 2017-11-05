@@ -15,10 +15,10 @@ namespace Game.Utils {
 			
 			var model = ModelLoaderObject3D.Load( /*RandomModelPath()*/ "data/objects/asteroids/asteroid_0.obj",
 				doAverageTangets: false, createVAO: false, withNoise: true);
-			
-			
+
 			model.CreateVAO();
-			return new Asteroid(model);
+			Asteroid asteroid = new Asteroid(model);
+			return asteroid;
 		}
 
 		private static string RandomModelPath() {
@@ -28,6 +28,13 @@ namespace Game.Utils {
 			basePath += number + ".obj";
 			//Console.Out.WriteLine("randomized model path: " + basePath);
 			return basePath;
+		}
+
+		private static Vector3 randomStretching() {
+			var vector = new Vector3();
+			vector.X = (float) Random.Next(1, 100);
+
+			return vector;
 		}
 	}
 }

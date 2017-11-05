@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Engine;
 using Engine.Texture;
 using Engine.Material;
+using Engine.Render.Skybox;
 using Engine.Util;
 using Game.GameObjects;
 using Game.Utils;
@@ -16,6 +17,7 @@ using EngineMouse = Engine.Input.Mouse;
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
 		private readonly World _world;
+		
 
 		private AppStarter() : base(1280, 720, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
@@ -51,7 +53,8 @@ namespace Game.Window {
 				new Vector4(.011f, .011f, .011f, 0f),
 				new Vector4(.050f, .200f, .700f, 0f),
 				new Vector4(.050f, .050f, .100f, 0f));
-
+			
+			
 			//+++++++++++++++++++++++++SPACESHIP+++++++++++++++++++++++++
 
 			for (var i = 0; i < 5; i++) {
@@ -80,7 +83,10 @@ namespace Game.Window {
 			};
 
 			_world.AddToWorld(neptune);
-
+			
+			
+			
+			
 			GL.Enable(EnableCap.DepthTest);
 
 			GL.Enable(EnableCap.CullFace);
@@ -98,7 +104,7 @@ namespace Game.Window {
 			if (EngineKeyboard.Released(Key.F11)) {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
-
+			
 			_world.UpdateWorld();
 		}
 

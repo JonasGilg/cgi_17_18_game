@@ -62,6 +62,7 @@
     <Compile Include="Model\Model3D.cs" />
     <Compile Include="Model\ModelLoaderObject3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Render\Skybox\Skybox.cs" />
     <Compile Include="Render\Text\Font.cs" />
     <Compile Include="Render\Text\FontManager.cs" />
     <Compile Include="Render\Text\TextRenderer2D.cs" />
@@ -82,6 +83,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Render\Skybox\Skybox_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Skybox\Skybox_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Render\Text\Text_FS.glsl" />
     <Content Include="Render\Text\Text_VS.glsl" />
     <Content Include="Render\Material\AmbientDiffuseSpecular\AmbientDiffuseSpecular_FS.glsl">
