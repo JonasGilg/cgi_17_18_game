@@ -15,13 +15,13 @@ using EngineMouse = Engine.Input.Mouse;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-		private readonly World _world;
+		
 
 
 		private AppStarter() : base(1280, 720, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) {
-			_world = new World();
+			
 		}
 
 		protected override void OnLoad(EventArgs e) {
@@ -58,12 +58,12 @@ namespace Game.Window {
 			//sun
 			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.Sun, new Vector3d(0, 0, 0), new Vector3d(1000f),
 				new Vector3d(0, 0.1f, 0));
-			_world.AddToWorld(sun);
+			World.AddToWorld(sun);
 
 			for (var i = 1; i < 3; i++) {
-				var planet = PlanetFactory.GeneratePlanet((PlanetFactory.PlanetTexture) i, new Vector3d(10000f * i, 0, 0),
-					new Vector3d(800f), new Vector3d(0, 0.05f, 0));
-				_world.AddToWorld(planet);
+				var planet = PlanetFactory.generatePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,AsteroidFactory.AsteroidType.STANDARD,3, new Vector3d(10000f * i, 0, 0),
+					new Vector3d(1000f), new Vector3d(0, 0.5f, 0));
+				World.AddToWorld(planet);
 			}
 			/*
 			for (var i = 0; i < 5; i++) {
@@ -91,7 +91,7 @@ namespace Game.Window {
 			ship.TransformComponent.Position = new Vector3d(0f, 0f, -2000.0f);
 			ship.TransformComponent.Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, -(Math.PI / 2));
 
-			_world.AddToWorld(ship);
+			World.AddToWorld(ship);
 
 			GL.Enable(EnableCap.DepthTest);
 
@@ -111,7 +111,7 @@ namespace Game.Window {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
 
-			_world.UpdateWorld();
+			World.UpdateWorld();
 		}
 
 		private int _font;
@@ -119,7 +119,7 @@ namespace Game.Window {
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.DepthBufferBit);
 			//TextRenderer2D.PrintText2D("HELLO WORLD", new Vector2(0.5f, 0.5f), FontManager.GetFont(_font));
-			_world.RenderWorld();
+			World.RenderWorld();
 			SwapBuffers();
 		}
 
