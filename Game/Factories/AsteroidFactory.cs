@@ -1,5 +1,7 @@
 ﻿using System;
+using Engine;
 using Engine.Model;
+using Engine.Texture;
 using Game.GameObjects;
 using OpenTK;
 
@@ -13,11 +15,12 @@ namespace Game.Utils {
 
 		public static Asteroid GenerateAsteroid() {
 			
-			var model = ModelLoaderObject3D.Load( /*RandomModelPath()*/ "data/objects/asteroids/asteroid_0.obj",
-				doAverageTangets: false, createVAO: false);
+			var model = ModelLoaderObject3D.Load( /*RandomModelPath()*/ "data/objects/asteroids/asteroid_0.obj");
 
-			model.CreateVAO();
-			Asteroid asteroid = new Asteroid(model);
+			var textureId = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png");
+			
+			var asteroid = new Asteroid(model,textureId);
+			
 			return asteroid;
 		}
 

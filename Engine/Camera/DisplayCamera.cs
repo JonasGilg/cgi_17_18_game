@@ -15,7 +15,7 @@ namespace Engine {
 		// width, height = size of screen in pixeln, fov = "field of view", der opening-angle for the camera lense
 		public static void SetWidthHeightFov(int width, int height, float fov) {
 			var aspectRatio = width / (float) height;
-			Matrix4.CreatePerspectiveFieldOfView((float) (fov * Math.PI / 180.0f), aspectRatio, 0.01f, 20000f,
+			Matrix4.CreatePerspectiveFieldOfView((float) (fov * Math.PI / 180.0f), aspectRatio, 0.01f, 100000f,
 				out _perspectiveProjection);
 		}
 

@@ -8,12 +8,12 @@ namespace Game.GameObjects {
 		public readonly MoveComponent MoveComponent;
 		public readonly RenderComponent RenderComponent;
 
-		public Asteroid(Model3D model) {
+		public Asteroid(Model3D model, int textureId) {
 			MoveComponent = new MoveComponent(this);
 			RenderComponent = new RenderComponent(
 				model,
 				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
-				TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png"),
+				textureId,
 				this
 			);
 		}

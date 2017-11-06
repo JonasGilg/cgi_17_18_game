@@ -57,7 +57,7 @@ namespace Game.Window {
 				new Vector4(.050f, .050f, .100f, 0f));
 
 			//sun
-			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3(0, 0, 0), new Vector3(1000f),
+			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3(0, 0, 0), new Vector3(2000f),
 				new Vector3(0, 0.1f, 0));
 			_world.AddToWorld(sun);
 
