@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Diagnostics;
 using Engine;
 using Engine.Texture;
@@ -46,7 +46,7 @@ namespace Game.Window {
 			MaterialManager.Init();
 
 			DisplayCamera.Init();
-			DisplayCamera.SetWidthHeightFov(800, 600, 90);
+			DisplayCamera.SetWidthHeightFov(800, 600, 75);
 			
 			_font = FontManager.CreateFont("data/Font/CrystalFont.bmp", "data/Font/CrystalFontData.csv");
 
@@ -67,9 +67,10 @@ namespace Game.Window {
 
 			var neptune = new Planet(TextureManager.LoadTexture("data/textures/neptunemap.jpg")) {
 				TransformComponent = {
-					Scale = new Vector3(400f),
+					Scale = new Vector3(800f),
 					Position = new Vector3(0, 0, 1500f)
-				}
+				},
+				MoveComponent = { AngularVelocity = new Vector3(0, 0.05f, 0) }
 			};
 
 			_world.AddToWorld(neptune);

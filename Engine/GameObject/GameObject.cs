@@ -1,6 +1,7 @@
 ﻿namespace Engine {
 	public class GameObject {
 		public readonly TransformComponent TransformComponent;
+		public float radius;
 
 		public GameObject() {
 			TransformComponent = TransformComponent.Identity();

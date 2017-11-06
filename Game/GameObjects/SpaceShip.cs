@@ -39,13 +39,13 @@ namespace Game.GameObjects {
 			}
 			
 			//move left
-			if (Keyboard.Down(Key.A)) {
+			if (Keyboard.Down(Key.Q)) {
 				var left = TransformComponent.Orientation * new Vector3(0.0f, 0.0f, -Time.DeltaTime);
 				MoveComponent.LinearVelocity += left;
 			}
 
 			//move right
-			if (Keyboard.Down(Key.D)) {
+			if (Keyboard.Down(Key.E)) {
 				var right = TransformComponent.Orientation * new Vector3(0.0f, 0.0f, Time.DeltaTime);
 				MoveComponent.LinearVelocity += right;
 			}
@@ -63,13 +63,13 @@ namespace Game.GameObjects {
 			}
 			
 			//turn left
-			if (Keyboard.Down(Key.Q)) {
+			if (Keyboard.Down(Key.A)) {
 				var left = TransformComponent.Orientation * new Vector3(0.0f, Time.DeltaTime, 0.0f);
 				MoveComponent.AngularVelocity += left;
 			}
 			
 			//turn right
-			if (Keyboard.Down(Key.E)) {
+			if (Keyboard.Down(Key.D)) {
 				var right = TransformComponent.Orientation * new Vector3(0.0f, -Time.DeltaTime, 0.0f);
 				MoveComponent.AngularVelocity += right;
 			}

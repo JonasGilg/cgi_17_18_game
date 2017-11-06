@@ -5,6 +5,7 @@ using Engine.Model;
 namespace Game.GameObjects {
 	public class Planet : GameObject {
 		public readonly RenderComponent RenderComponent;
+		public readonly MoveComponent MoveComponent;
 
 		public Planet(int textureId) {
 			RenderComponent = new RenderComponent(
@@ -13,9 +14,11 @@ namespace Game.GameObjects {
 				textureId,
 				this
 			);
+			MoveComponent = new MoveComponent(this);
 		}
 
 		public override void Update() {
+			MoveComponent.Update();
 			base.Update();
 			RenderComponent.Update();
 		}
