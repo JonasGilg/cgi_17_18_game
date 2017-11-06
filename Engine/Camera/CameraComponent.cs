@@ -1,17 +1,15 @@
-﻿using Engine.Render.Skybox;
-using OpenTK;
-using OpenTK.Input;
+﻿using OpenTK;
 
 namespace Engine {
 	public class CameraComponent : Component {
 		
 		public CameraComponent(GameObject gameObject) : base(gameObject) { }
 
-		public Vector3 Position { get; private set; }
-		public Matrix4 LookAtMatrix { get; private set; }
+		public Vector3d Position { get; private set; }
+		public Matrix4d LookAtMatrix { get; private set; }
 		
-		public void SetLookAt(Vector3 eye, Vector3 target, Vector3 up) {
-			LookAtMatrix = Matrix4.LookAt(eye, target, up);
+		public void SetLookAt(Vector3d eye, Vector3d target, Vector3d up) {
+			LookAtMatrix = Matrix4d.LookAt(eye, target, up);
 			Position = eye;
 		}
 

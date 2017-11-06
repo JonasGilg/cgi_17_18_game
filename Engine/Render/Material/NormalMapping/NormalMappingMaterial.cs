@@ -94,7 +94,7 @@ namespace Engine.Material {
 			GL.Uniform1(_materialShininessLocation, shininess);
 
 			// Positions Parameter
-			GL.Uniform4(_cameraPositionLocation, new Vector4(DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1));
+			GL.Uniform4(_cameraPositionLocation, DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1);
 
 			// Das Objekt wird gezeichnet
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);

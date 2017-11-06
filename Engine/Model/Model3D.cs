@@ -7,7 +7,7 @@ namespace Engine.Model {
 	//TODO Make Component
 	public class Model3D {
 		// the transformation (position, rotation, scale) of the object
-		public Matrix4 Transformation = Matrix4.Identity;
+		public Matrix4d Transformation = Matrix4d.Identity;
 
 		// lists, filled with the 3d-data
 		public List<Vector3> Positions;
@@ -221,7 +221,7 @@ namespace Engine.Model {
 			// tbd.
 		}
 
-		public void Update(Matrix4 transform) {
+		public void Update(Matrix4d transform) {
 			Transformation = transform;
 		}
 	}
