@@ -56,13 +56,13 @@ namespace Game.Window {
 				new Vector4(.050f, .050f, .100f, 0f));
 
 			//sun
-			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.Sun, new Vector3d(0, 0, 0), new Vector3d(1000f),
-				new Vector3d(0, 0.1f, 0));
+			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.Sun, new Vector3d(0, 0, 0), new Vector3d(2000.0),
+				new Vector3d(0, 0.1, 0));
 			World.AddToWorld(sun);
 
 			for (var i = 1; i < 3; i++) {
-				var planet = PlanetFactory.generatePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,AsteroidFactory.AsteroidType.STANDARD,3, new Vector3d(10000f * i, 0, 0),
-					new Vector3d(1000f), new Vector3d(0, 0.5f, 0));
+				var planet = PlanetFactory.generatePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,AsteroidFactory.AsteroidType.STRAWBERRY,3, new Vector3d(10000.0 * i, 0, 0),
+					new Vector3d(1000.0), new Vector3d(0, 0.5, 0));
 				World.AddToWorld(planet);
 			}
 			/*

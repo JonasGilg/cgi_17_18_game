@@ -122,7 +122,7 @@ namespace Game.GameObjects {
 				}
 			}
 
-			Console.Out.WriteLine(TransformComponent.Position.ToString());
+			//Console.Out.WriteLine(TransformComponent.Position.ToString());
 
 			MoveComponent.Update();
 			base.Update();
