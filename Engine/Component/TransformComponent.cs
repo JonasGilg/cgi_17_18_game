@@ -4,19 +4,19 @@ using OpenTK.Input;
 
 namespace Engine {
 	public class TransformComponent : Component {
-		public Matrix4 WorldMatrix = Matrix4.Identity;
-		public Matrix4 LocalMatrix = Matrix4.Identity;
+		public Matrix4d WorldMatrix = Matrix4d.Identity;
+		public Matrix4d LocalMatrix = Matrix4d.Identity;
 
-		public Vector3 Position;
-		public Quaternion Orientation;
-		public Vector3 Scale;
+		public Vector3d Position;
+		public Quaterniond Orientation;
+		public Vector3d Scale;
 
-		public Vector3 WorldPosition => WorldMatrix.ExtractTranslation();
-		public Quaternion WorldOrientation => WorldMatrix.ExtractRotation();
+		public Vector3d WorldPosition => WorldMatrix.ExtractTranslation();
+		public Quaterniond WorldOrientation => WorldMatrix.ExtractRotation();
 
 		public static TransformComponent Identity() => new TransformComponent();
 
-		public TransformComponent(Vector3 position, Quaternion orientation, Vector3 scale, GameObject owner) : base(owner) {
+		public TransformComponent(Vector3d position, Quaterniond orientation, Vector3d scale, GameObject owner) : base(owner) {
 			Position = position;
 			Orientation = orientation;
 			Scale = scale;
@@ -24,18 +24,18 @@ namespace Engine {
 			Children = new List<TransformComponent>();
 		}
 
-		public TransformComponent(GameObject owner = null) : this(Vector3.Zero, Quaternion.Identity, Vector3.One, owner) { }
+		public TransformComponent(GameObject owner = null) : this(Vector3d.Zero, Quaterniond.Identity, Vector3d.One, owner) { }
 
-		public TransformComponent(Vector3 position, GameObject owner = null) : this(position, Quaternion.Identity,
-			Vector3.One, owner) { }
+		public TransformComponent(Vector3d position, GameObject owner = null) : this(position, Quaterniond.Identity,
+			Vector3d.One, owner) { }
 
-		public TransformComponent(Quaternion orientation, GameObject owner = null) : this(Vector3.Zero, orientation,
-			Vector3.One, owner) { }
+		public TransformComponent(Quaterniond orientation, GameObject owner = null) : this(Vector3d.Zero, orientation,
+			Vector3d.One, owner) { }
 
 		public TransformComponent(TransformComponent other) : this(other.Position, other.Orientation, other.Scale,
 			other.GameObject) { }
 
-		public TransformComponent(Matrix4 transformMatrix, GameObject owner = null) : this(
+		public TransformComponent(Matrix4d transformMatrix, GameObject owner = null) : this(
 			transformMatrix.ExtractTranslation(),
 			transformMatrix.ExtractRotation(), transformMatrix.ExtractScale(), owner) { }
 
@@ -56,8 +56,8 @@ namespace Engine {
 		}
 
 		public void UpdateLocalMatrix() {
-			LocalMatrix = Matrix4.CreateScale(Scale) * Matrix4.CreateFromQuaternion(Orientation) *
-			              Matrix4.CreateTranslation(Position);
+			LocalMatrix = Matrix4d.Scale(Scale) * Matrix4d.CreateFromQuaternion(Orientation) *
+			              Matrix4d.CreateTranslation(Position);
 		}
 
 		public void UpdateWorldMatrix() {

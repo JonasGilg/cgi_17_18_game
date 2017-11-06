@@ -8,20 +8,21 @@ using OpenTK.Graphics.ES11;
 namespace Game.Utils {
     public static class PlanetFactory {
         public enum PlanetTexture {
-            SUN,
-            NEPTUN,
-            JUPITER
+            Sun,
+            Neptun,
+            Jupiter
         }
-        public static Dictionary<PlanetTexture,string> planetTextures = new Dictionary <PlanetTexture,string>() {
-            {PlanetTexture.SUN,"data/textures/planets/2k_sun.jpg"},
-            {PlanetTexture.NEPTUN,"data/textures/planets/neptunemap.jpg"},
-            {PlanetTexture.JUPITER,"data/textures/planets/2k_jupiter.jpg"}
+        
+        public static readonly Dictionary<PlanetTexture,string> PlanetTextures = new Dictionary <PlanetTexture,string> {
+            {PlanetTexture.Sun,"data/textures/planets/2k_sun.jpg"},
+            {PlanetTexture.Neptun,"data/textures/planets/neptunemap.jpg"},
+            {PlanetTexture.Jupiter,"data/textures/planets/2k_jupiter.jpg"}
             
         };
         
         
-        public static Planet GeneratePlanet(PlanetTexture planetTexture, Vector3 position, Vector3 scale, Vector3 rotation) {
-            var textureId = TextureManager.LoadTexture(planetTextures[planetTexture]);
+        public static Planet GeneratePlanet(PlanetTexture planetTexture, Vector3d position, Vector3d scale, Vector3d rotation) {
+            var textureId = TextureManager.LoadTexture(PlanetTextures[planetTexture]);
             var result = new Planet(textureId) {
                 TransformComponent = {
                     Scale = scale,

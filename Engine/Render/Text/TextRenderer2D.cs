@@ -1,12 +1,81 @@
 ﻿using System;
-using System.Collections.Generic;
-using Engine.Render;
-using OpenTK;
+using System.Drawing;
+using System.Drawing.Text;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Util {
-	public static class TextRenderer2D {
-		private static readonly int Program;
+	public class TextRenderer2D : IDisposable {
+		private readonly Bitmap _bmp;
+		private readonly Graphics _gfx;
+		private readonly int _texture;
+		private Rectangle _dirtyRegion;
+		private bool _disposed;
+
+		public TextRenderer2D(int width, int height) {
+			_bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			_gfx = Graphics.FromImage(_bmp);
+			_gfx.TextRenderingHint = TextRenderingHint.AntiAlias;
+
+			_texture = GL.GenTexture();
+			GL.BindTexture(TextureTarget.Texture2D, _texture);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
+				PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
+		}
+
+		public void DrawString(string text, System.Drawing.Font font, Brush brush, PointF point) {
+			_gfx.DrawString(text, font, brush, point);
+
+			var size = _gfx.MeasureString(text, font);
+			_dirtyRegion = Rectangle.Round(RectangleF.Union(_dirtyRegion, new RectangleF(point, size)));
+			_dirtyRegion = Rectangle.Intersect(_dirtyRegion, new Rectangle(0, 0, _bmp.Width, _bmp.Height));
+		}
+
+		public int Texture {
+			get {
+				UploadBitmap();
+				return _texture;
+			}
+		}
+
+		private void UploadBitmap() {
+			if (_dirtyRegion != RectangleF.Empty) {
+				var data = _bmp.LockBits(_dirtyRegion,
+					System.Drawing.Imaging.ImageLockMode.ReadOnly,
+					System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+				GL.BindTexture(TextureTarget.Texture2D, _texture);
+				GL.TexSubImage2D(TextureTarget.Texture2D, 0,
+					_dirtyRegion.X, _dirtyRegion.Y, _dirtyRegion.Width, _dirtyRegion.Height,
+					PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+
+				_bmp.UnlockBits(data);
+
+				_dirtyRegion = Rectangle.Empty;
+			}
+		}
+
+		private void Dispose(bool manual) {
+			if (!_disposed) {
+				if (manual) {
+					_bmp.Dispose();
+					_gfx.Dispose();
+					if (GraphicsContext.CurrentContext != null)
+						GL.DeleteTexture(_texture);
+				}
+
+				_disposed = true;
+			}
+		}
+
+		public void Dispose() {
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		/*private static readonly int Program;
 		private static readonly int VertexPositionLocation;
 		private static readonly int VertexUVLocation;
 		private static readonly int TextColorLocation;
@@ -97,6 +166,6 @@ namespace Engine.Util {
 			
 			GL.DisableVertexAttribArray(0);
 			GL.DisableVertexAttribArray(1);
-		}
+		}*/
 	}
 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Engine.Model;
 using Engine.Texture;
+using Engine.Util;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using GL = OpenTK.Graphics.OpenGL.GL;
@@ -18,7 +19,7 @@ namespace Engine.Render.Skybox {
 		private readonly Model3D _skyboxModel;
 
 		public Skybox() {
-			_transformComponent = new TransformComponent(Matrix4.Identity);
+			_transformComponent = new TransformComponent(Matrix4d.Identity);
 
 			_skyboxModel = ModelLoaderObject3D.Load("data/objects/Skybox.obj");
 			_programm = ShaderLoader.LoadShader("Render/Skybox/Skybox_VS.glsl", "Render/Skybox/Skybox_FS.glsl");
@@ -65,7 +66,7 @@ namespace Engine.Render.Skybox {
 
 			GL.UseProgram(_programm);
 
-			var perspectiveProjection = DisplayCamera.Transformation.ClearTranslation() * DisplayCamera.PerspectiveProjection;
+			var perspectiveProjection = (DisplayCamera.Transformation.ClearTranslation() * DisplayCamera.PerspectiveProjection).ToFloat();
 			GL.UniformMatrix4(_viewProjectionLocation, false, ref perspectiveProjection);
 			
 			GL.BindVertexArray(_skyboxModel.Vao);

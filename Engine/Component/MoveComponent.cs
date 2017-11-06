@@ -3,8 +3,8 @@ using OpenTK;
 
 namespace Engine {
 	public class MoveComponent : Component {
-		public Vector3 LinearVelocity = Vector3.Zero;
-		public Vector3 AngularVelocity = Vector3.Zero;
+		public Vector3d LinearVelocity = Vector3d.Zero;
+		public Vector3d AngularVelocity = Vector3d.Zero;
 
 		public MoveComponent(GameObject gameObject) : base(gameObject) { }
 
@@ -19,9 +19,9 @@ namespace Engine {
 
 		private void ApplyAngularVelocity() {
 			var angularChange = AngularVelocity * Time.DeltaTime;
-			var rotationAxis = angularChange == Vector3.Zero ? Vector3.One : angularChange.Normalized();
+			var rotationAxis = angularChange == Vector3d.Zero ? Vector3d.One : angularChange.Normalized();
 			var rotationAngle = angularChange.Length;
-			GameObject.TransformComponent.Orientation = Quaternion.FromAxisAngle(rotationAxis, rotationAngle) * GameObject.TransformComponent.Orientation;
+			GameObject.TransformComponent.Orientation = Quaterniond.FromAxisAngle(rotationAxis, rotationAngle) * GameObject.TransformComponent.Orientation;
 		}
 	}
 }

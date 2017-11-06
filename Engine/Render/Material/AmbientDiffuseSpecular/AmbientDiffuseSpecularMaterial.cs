@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine.Model;
+using Engine.Util;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -61,13 +62,13 @@ namespace Engine.Material {
 			// The matrix which we give as "modelview_projection_matrix" is assembled:
 			// object-transformation * camera-transformation * perspective projection of the camera
 			// on the shader each vertex-position is multiplied by this matrix. The result is the final position on the scree
-			var modelViewProjection = model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
+			var modelViewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection).ToFloat();
 
 			// modelViewProjection is passed to the shader
 			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelViewProjection);
 
 			// The model matrix (just the transformation of the object) is also given to the shader. We want to multiply our normals with this matrix, to have them in world space.
-			var modelMatrix = model.Transformation;
+			var modelMatrix = model.Transformation.ToFloat();
 			GL.UniformMatrix4(_modelMatrixLocation, false, ref modelMatrix);
 
 			// Die Licht Parameter werden übergeben
@@ -80,7 +81,7 @@ namespace Engine.Material {
 			GL.Uniform1(_materialShininessLocation, shininess);
 
 			// Pass positions of the camera to calculate the view direction
-			GL.Uniform4(_cameraPositionLocation, new Vector4(DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1));
+			GL.Uniform4(_cameraPositionLocation, DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1);
 
 			// The object is drawn
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
