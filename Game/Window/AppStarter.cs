@@ -30,12 +30,12 @@ namespace Game.Window {
 			                      "#  Controls:                   #\n" +
 			                      "#    move forward ..... W      #\n" +
 			                      "#    move backward .... S      #\n" +
-			                      "#    move left ........ A      #\n" +
-			                      "#    move right ....... D      #\n" +
+			                      "#    move left ........ Q      #\n" +
+			                      "#    move right ....... E      #\n" +
 			                      "#    move up .......... SPACE  #\n" +
 			                      "#    move down ........ X      #\n" +
-			                      "#    rotate left ...... Q      #\n" +
-			                      "#    rotate right ..... E      #\n" +
+			                      "#    rotate left ...... A      #\n" +
+			                      "#    rotate right ..... D      #\n" +
 			                      "#    roll left ........ LEFT   #\n" +
 			                      "#    roll right ....... RIGHT  #\n" +
 			                      "#    roll forward ..... UP     #\n" +
@@ -56,6 +56,17 @@ namespace Game.Window {
 				new Vector4(.050f, .200f, .700f, 0f),
 				new Vector4(.050f, .050f, .100f, 0f));
 
+			//sun
+			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3(0, 0, 0), new Vector3(1000f),
+				new Vector3(0, 0.1f, 0));
+			_world.AddToWorld(sun);
+
+			for (int i = 1; i < 3; i++) {
+				var planet = PlanetFactory.GeneratePlanet((PlanetFactory.PlanetTexture)i, new Vector3(10000f*i, 0, 0),
+					new Vector3(800f), new Vector3(0, 0.05f, 0));
+				_world.AddToWorld(planet);
+			}
+			/*
 			for (var i = 0; i < 5; i++) {
 				var asteroid = AsteroidFactory.GenerateAsteroid();
 				asteroid.TransformComponent.Position = new Vector3(i * 15f, 0.0f, 10.0f);
@@ -64,20 +75,21 @@ namespace Game.Window {
 
 				_world.AddToWorld(asteroid);
 			}
-
-			var neptune = new Planet(TextureManager.LoadTexture("data/textures/neptunemap.jpg")) {
+			*/
+			
+			/*var neptune = new Planet(TextureManager.LoadTexture("data/textures/neptunemap.jpg")) {
 				TransformComponent = {
 					Scale = new Vector3(800f),
 					Position = new Vector3(0, 0, 1500f)
 				},
 				MoveComponent = { AngularVelocity = new Vector3(0, 0.05f, 0) }
 			};
-
 			_world.AddToWorld(neptune);
+			*/
 			
 			var ship = new SpaceShip();
 			ship.TransformComponent.Scale = new Vector3(0.02f);
-			ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
+			ship.TransformComponent.Position = new Vector3(0f, 0f, -2000.0f);
 			ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, (float) -(Math.PI / 2));
 
 			_world.AddToWorld(ship);

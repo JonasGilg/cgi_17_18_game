@@ -29,7 +29,7 @@ namespace Game.GameObjects {
 			//move forward
 			if (Keyboard.Down(Key.W)) {
 				var forward = TransformComponent.Orientation * new Vector3(Time.DeltaTime, 0.0f, 0.0f);
-				MoveComponent.LinearVelocity += forward;
+				MoveComponent.LinearVelocity += forward*100;
 			}
 			
 			//move backward

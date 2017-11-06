@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\PlanetFactory.cs" />
     <Compile Include="GameObjects\Asteroid.cs" />
     <Compile Include="GameObjects\Planet.cs" />
     <Compile Include="GameObjects\SpaceShip.cs" />
@@ -99,7 +100,13 @@
     <Content Include="data\textures\asteroids\asteroid_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\neptunemap.jpg">
+    <Content Include="data\textures\planets\2k_jupiter.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\planets\2k_sun.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\planets\neptunemap.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\textures\shadow_color.png">

@@ -7,13 +7,19 @@ namespace Engine {
 		private readonly Skybox _skybox = new Skybox();
 
 		public void UpdateWorld() {
-			Objects.ForEach(obj => obj.Update());
+			for (int i = 0; i < Objects.Count; i++) {
+				Objects[i].Update();
+			}
 			_skybox.Update();
 		}
 
 		public void RenderWorld() {
+			//TODO better perfomance possible if skybox is rendered last (that needs a refactoring of the shader though)
 			_skybox.Draw();
-			Objects.ForEach(obj => obj.Draw());
+			for (int i = 0; i < Objects.Count; i++) {
+				Objects[i].Draw();
+			}
+			
 		}
 
 		public void AddToWorld(GameObject obj) {

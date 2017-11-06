@@ -60,6 +60,7 @@ namespace Engine.Render.Skybox {
 		}
 
 		public void Draw() {
+			GL.Disable(EnableCap.DepthTest);
 			GL.DepthMask(false);
 
 			GL.UseProgram(_programm);
@@ -75,6 +76,7 @@ namespace Engine.Render.Skybox {
 			GL.DepthFunc(DepthFunction.Less);
 
 			GL.DepthMask(true);
+			GL.Enable(EnableCap.DepthTest);
 		}
 
 		public void Update() {
