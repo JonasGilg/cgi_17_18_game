@@ -81,13 +81,12 @@ namespace Engine.Util {
 			GL.Uniform1(TexSamplerLocation, 0);
 			
 			GL.EnableVertexAttribArray(0);
-			GL.EnableVertexAttribArray(1);
-			
 			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexPositionLocation);
-			GL.VertexAttribPointer(0, Vector2.SizeInBytes, VertexAttribPointerType.Float, false, 0, 0);
+			GL.VertexAttribPointer(0, Vector2.SizeInBytes, VertexAttribPointerType.Float, false, Vector2.SizeInBytes * 2, 0);
 			
+			GL.EnableVertexAttribArray(1);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexUVLocation);
-			GL.VertexAttribPointer(1, Vector2.SizeInBytes, VertexAttribPointerType.Float, false, 0, Vector2.SizeInBytes * vertices.Count);
+			GL.VertexAttribPointer(1, Vector2.SizeInBytes, VertexAttribPointerType.Float, false, Vector2.SizeInBytes * 2, Vector2.SizeInBytes);
 			
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
