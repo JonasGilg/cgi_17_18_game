@@ -3,21 +3,21 @@ using Engine.Render.Skybox;
 
 namespace Engine {
 	public class World {
-		public List<GameObject> objects = new List<GameObject>();
-		private Skybox _skybox = new Skybox();
+		public readonly List<GameObject> Objects = new List<GameObject>();
+		private readonly Skybox _skybox = new Skybox();
 
 		public void UpdateWorld() {
+			Objects.ForEach(obj => obj.Update());
 			_skybox.Update();
-			objects.ForEach(obj => obj.Update());
 		}
 
 		public void RenderWorld() {
 			_skybox.Draw();
-			objects.ForEach(obj => obj.Draw());
+			Objects.ForEach(obj => obj.Draw());
 		}
 
 		public void AddToWorld(GameObject obj) {
-			objects.Add(obj);
+			Objects.Add(obj);
 		}
 	}
 }

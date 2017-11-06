@@ -1,13 +1,11 @@
-#version 330
-in vec4 in_position;
+#version 330 core
+layout (location = 0) in vec3 aPos;
 
-uniform mat4 mvp;
+out vec3 TexCoords;
 
-
-smooth out vec3 eyeDirection;
+uniform mat4 viewProjection;
 
 void main() {
-    vec4 wvp_pos = mvp * in_position;
-    eyeDirection = in_position.xyz;
-    gl_Position = wvp_pos.xyww;
-} 
+    TexCoords = aPos;
+    gl_Position = viewProjection * vec4(aPos, 1.0);
+}  

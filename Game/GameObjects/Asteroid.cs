@@ -1,11 +1,7 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using Engine;
+﻿using Engine;
 using Engine.Material;
 using Engine.Model;
 using Engine.Texture;
-using OpenTK;
-using OpenTK.Graphics.ES10;
-using OpenTK.Input;
 
 namespace Game.GameObjects {
 	public class Asteroid : GameObject {

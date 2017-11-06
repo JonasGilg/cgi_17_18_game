@@ -9,98 +9,76 @@ using GL = OpenTK.Graphics.OpenGL.GL;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace Engine.Render.Skybox {
-    public class Skybox {
-        private TransformComponent _transformComponent;
-        private RenderComponent _renderComponent;
-        private int Programm;
-        private readonly int _uProjectionMatrix;
-        private readonly int _uWorldToCameraMatrix;
-        private readonly int _mvp;
-        private int _vao;
-        int textCube;
-        private int[] textureIds;
-        private Model3D skybox;
+	public class Skybox {
+		private readonly TransformComponent _transformComponent;
+		private readonly int _programm;
+		private readonly int _skyBoxTexture;
+		private readonly int _viewProjectionLocation;
 
-        public Skybox() {
-            _transformComponent = new TransformComponent(Matrix4.Identity);
+		private readonly Model3D _skyboxModel;
 
-            skybox = ModelLoaderObject3D.Load("data/objects/Skybox.obj");
-            Programm = ShaderLoader.LoadShader("Render/Skybox/Skybox_VS.glsl", "Render/Skybox/Skybox_FS.glsl");
+		public Skybox() {
+			_transformComponent = new TransformComponent(Matrix4.Identity);
 
-            createCubeMap();
-        }
+			_skyboxModel = ModelLoaderObject3D.Load("data/objects/Skybox.obj");
+			_programm = ShaderLoader.LoadShader("Render/Skybox/Skybox_VS.glsl", "Render/Skybox/Skybox_FS.glsl");
 
-        private void createCubeMap() {
-            GL.ActiveTexture(TextureUnit.Texture0);
+			GL.ActiveTexture(TextureUnit.Texture0);
+			_skyBoxTexture = GL.GenTexture();
+			GL.BindTexture(TextureTarget.TextureCubeMap, _skyBoxTexture);
 
-            textCube = GL.GenTexture();
+			LoadCubeMapSide("data/textures/skybox/skybox_right1.png", TextureTarget.TextureCubeMapPositiveX);
+			LoadCubeMapSide("data/textures/skybox/skybox_left2.png", TextureTarget.TextureCubeMapNegativeX);
+			LoadCubeMapSide("data/textures/skybox/skybox_top3.png", TextureTarget.TextureCubeMapPositiveY);
+			LoadCubeMapSide("data/textures/skybox/skybox_bottom4.png", TextureTarget.TextureCubeMapNegativeY);
+			LoadCubeMapSide("data/textures/skybox/skybox_front5.png", TextureTarget.TextureCubeMapPositiveZ);
+			LoadCubeMapSide("data/textures/skybox/skybox_back6.png", TextureTarget.TextureCubeMapNegativeZ);
+			
+			GL.LinkProgram(_programm);
+			
+			_viewProjectionLocation = GL.GetUniformLocation(_programm, "viewProjection");
+		}
 
+		private void LoadCubeMapSide(string path, TextureTarget sideTarget) {
+			var bmp = new Bitmap(path);
 
-            loadCubeMapSide("data/textures/skybox/skybox_right1.png", TextureTarget.TextureCubeMapPositiveX);
-            loadCubeMapSide("data/textures/skybox/skybox_left2.png", TextureTarget.TextureCubeMapNegativeX);
-            loadCubeMapSide("data/textures/skybox/skybox_top3.png", TextureTarget.TextureCubeMapPositiveY);
-            loadCubeMapSide("data/textures/skybox/skybox_bottom4.png", TextureTarget.TextureCubeMapNegativeY);
-            loadCubeMapSide("data/textures/skybox/skybox_front5.png", TextureTarget.TextureCubeMapPositiveZ);
-            loadCubeMapSide("data/textures/skybox/skybox_back6.png", TextureTarget.TextureCubeMapNegativeZ);
+			var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
+				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter,
-                (float) TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter,
-                (float) TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR,
-                (float) TextureWrapMode.ClampToEdge);
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS,
-                (float) TextureWrapMode.ClampToEdge);
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT,
-                (float) TextureWrapMode.ClampToEdge);
-        }
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int) TextureMagFilter.Linear);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int) TextureWrapMode.ClampToEdge);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int) TextureWrapMode.ClampToEdge);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int) TextureWrapMode.ClampToEdge);
 
-        private bool loadCubeMapSide(string path, TextureTarget sideTarget) {
-            GL.BindTexture(TextureTarget.TextureCubeMap, textCube);
+			GL.TexImage2D(sideTarget, 0, PixelInternalFormat.Rgba, bmpData.Width, bmpData.Height, 0, PixelFormat.Bgra,
+				PixelType.UnsignedByte, bmpData.Scan0);
+			
+			bmp.UnlockBits(bmpData);
 
-            var bmp = new Bitmap(path);
+			GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+		}
 
-            var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
-                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+		public void Draw() {
+			GL.DepthMask(false);
 
-            GL.TexImage2D(sideTarget, 0, PixelInternalFormat.Rgba, bmpData.Width, bmpData.Height, 0, PixelFormat.Bgra,
-                PixelType.UnsignedByte, bmpData.Scan0);
+			GL.UseProgram(_programm);
 
+			var perspectiveProjection = DisplayCamera.Transformation.ClearTranslation() * DisplayCamera.PerspectiveProjection;
+			GL.UniformMatrix4(_viewProjectionLocation, false, ref perspectiveProjection);
+			
+			GL.BindVertexArray(_skyboxModel.Vao);
+			GL.BindTexture(TextureTarget.TextureCubeMap, _skyBoxTexture);
 
-            return true;
-        }
+			GL.DepthFunc(DepthFunction.Lequal);
+			GL.DrawElements(PrimitiveType.Triangles, _skyboxModel.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+			GL.DepthFunc(DepthFunction.Less);
 
-        public void Draw() {
-            GL.DepthMask(false);
+			GL.DepthMask(true);
+		}
 
-            GL.UseProgram(Programm);
-            GL.BindVertexArray(skybox.Vao);
-            GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.TextureCubeMap, textCube);
-            GL.BindAttribLocation(Programm, 0, "in_position");
-
-            var uWorldToCameraMatrix = DisplayCamera.Transformation;
-            var uProjectionMatrix = DisplayCamera.PerspectiveProjection;
-            var mvp = DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
-
-            /*
-            GL.UniformMatrix4(_uWorldToCameraMatrix,false,ref uWorldToCameraMatrix);
-            GL.UniformMatrix4(_uProjectionMatrix,false,ref uProjectionMatrix);
-            */
-            
-            GL.UniformMatrix4(_mvp, false, ref mvp);
-
-            GL.DepthFunc(DepthFunction.Lequal);
-            
-            GL.DrawElements(PrimitiveType.Triangles, skybox.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
-
-            GL.DepthFunc(DepthFunction.Less);
-
-            GL.DepthMask(true);
-        }
-
-        public void Update() {
-            _transformComponent.Position = DisplayCamera.Position;
-        }
-    }
+		public void Update() {
+			_transformComponent.Position = DisplayCamera.Position;
+		}
+	}
 }

@@ -14,7 +14,7 @@ namespace Game.Utils {
 		public static Asteroid GenerateAsteroid() {
 			
 			var model = ModelLoaderObject3D.Load( /*RandomModelPath()*/ "data/objects/asteroids/asteroid_0.obj",
-				doAverageTangets: false, createVAO: false, withNoise: true);
+				doAverageTangets: false, createVAO: false);
 
 			model.CreateVAO();
 			Asteroid asteroid = new Asteroid(model);

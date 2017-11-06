@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using Engine.Texture;
+using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Util {
 	public static class FontManager {
-		private static readonly Dictionary<int, Font> _fonts = new Dictionary<int, Font>();
-		private static int _fontCounter;
+		private static readonly Dictionary<int, Font> Fonts = new Dictionary<int, Font>();
 		
 		public static int CreateFont(string imagePath, string fontPath) {
-			var bitmap = new Bitmap(imagePath);
-
+			var fontNumber = TextureManager.LoadTexture(imagePath);
+			
 			var fontCSV = File.ReadAllLines(fontPath);
 			var csvMap = new Dictionary<string, string>();
 			
@@ -19,7 +20,7 @@ namespace Engine.Util {
 			}
 			
 			var font = new Font(
-				bitmap,
+				fontNumber,
 				csvMap["Font Name"],
 				int.Parse(csvMap["Image Width"]),
 				int.Parse(csvMap["Image Height"]),
@@ -37,11 +38,10 @@ namespace Engine.Util {
 				counter++;
 			}
 
-			var fontNumber = _fontCounter++;
-			_fonts[fontNumber] = font;
+			Fonts[fontNumber] = font;
 			return fontNumber;
 		}
 
-		public static Font GetFont(int font) => _fonts[font];
+		public static Font GetFont(int font) => Fonts[font];
 	}
 }

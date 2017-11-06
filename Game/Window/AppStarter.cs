@@ -43,6 +43,7 @@ namespace Game.Window {
 			                      "################################");
 			base.OnLoad(e);
 
+			//_font = FontManager.CreateFont("data/Font/CrystalFont.bmp", "data/Font/CrystalFontData.csv");
 			MaterialManager.Init();
 
 			DisplayCamera.Init();
@@ -50,7 +51,7 @@ namespace Game.Window {
 
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
 				//r      g      b      a
-				new Vector4(.011f, .011f, .011f, 0f),
+				new Vector4(.021f, .011f, .011f, 0f),
 				new Vector4(.050f, .200f, .700f, 0f),
 				new Vector4(.050f, .050f, .100f, 0f));
 			
@@ -84,9 +85,6 @@ namespace Game.Window {
 
 			_world.AddToWorld(neptune);
 			
-			
-			
-			
 			GL.Enable(EnableCap.DepthTest);
 
 			GL.Enable(EnableCap.CullFace);
@@ -108,9 +106,12 @@ namespace Game.Window {
 			_world.UpdateWorld();
 		}
 
+		private int _font;
+
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			_world.RenderWorld();
+			//TextRenderer2D.PrintText2D("HELLO WORLD", new Vector2(0.5f, 0.5f), FontManager.GetFont(_font), 10);
 			SwapBuffers();
 		}
 

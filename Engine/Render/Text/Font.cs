@@ -4,8 +4,6 @@ using OpenTK;
 
 namespace Engine.Util {
 	public class Font {
-		public readonly Bitmap Image;
-		
 		public readonly string Name;
 		
 		public readonly int ImageWidth;
@@ -19,9 +17,11 @@ namespace Engine.Util {
 		public readonly int FontWidth;
 
 		public readonly Dictionary<char, int> CharWidhts;
+
+		public readonly int TexId;
 		
-		public Font(Bitmap image, string name, int imageWidth, int imageHeight, int cellWidth, int cellHeight, int startChar, int fontHeight, int fontWidth) {
-			Image = image;
+		public Font(int texId, string name, int imageWidth, int imageHeight, int cellWidth, int cellHeight, int startChar, int fontHeight, int fontWidth) {
+			TexId = texId;
 			Name = name;
 			ImageWidth = imageWidth;
 			ImageHeight = imageHeight;
@@ -33,14 +33,28 @@ namespace Engine.Util {
 			CharWidhts = new Dictionary<char, int>();
 		}
 
-		public Vector4 GetCharDimensions(char c) {
+		public Rectangle GetCharDimensions(char c) {
 			var charWidth = CharWidhts[c];
 			var position = c - StartChar;
 
 			var x = position * CellWidth % ImageWidth;
 			var y = position * CellWidth / ImageWidth * CellHeight;
 			
-			return new Vector4(x, y, charWidth, FontHeight);
+			return new Rectangle(x, y, charWidth, FontHeight);
+		}
+
+		public struct Rectangle {
+			public readonly int X;
+			public readonly int Y;
+			public readonly int W;
+			public readonly int H;
+			
+			public Rectangle(int x, int y, int w, int h) {
+				X = x;
+				Y = y;
+				W = w;
+				H = h;
+			}
 		}
 	}
 }

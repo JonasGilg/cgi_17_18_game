@@ -13,7 +13,7 @@ void main(){
     vec4 tex = texture(texSampler, UV);
     float intensity = tex.length();
     
-    if(intensity < cutoff) discard;
+    //if(intensity < cutoff) discard;
     
-	color = textColor * vec4(1, 1, 1, intensity);
+	color = /*textColor * */vec4(1, 1, 1, intensity);
 }
