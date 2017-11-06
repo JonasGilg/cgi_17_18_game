@@ -1,18 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Engine.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Util {
 	public static class TextRenderer2D {
-		private static readonly int Program = ShaderLoader.LoadShader("Render/Text/Text_VS.glsl", "Render/Text/Text_FS.glsl");
-		private static readonly int VertexPositionLocation = GL.GenBuffer();
-		private static readonly int VertexUVLocation = GL.GenBuffer();
-		private static readonly int TextColorLocation = GL.GetUniformLocation(Program, "textColor");
-		private static readonly int TexSamplerLocation = GL.GetUniformLocation(Program, "texSampler");
+		private static readonly int Program;
+		private static readonly int VertexPositionLocation;
+		private static readonly int VertexUVLocation;
+		private static readonly int TextColorLocation;
+		private static readonly int TexSamplerLocation;
 
 		static TextRenderer2D() {
+			Program = ShaderLoader.LoadShader("Render/Text/Text_VS.glsl", "Render/Text/Text_FS.glsl");
+			VertexUVLocation = GL.GenBuffer();
+			VertexPositionLocation = GL.GenBuffer();
+			
 			GL.LinkProgram(Program);
+
+			TextColorLocation = GL.GetUniformLocation(Program, "textColor");
+			TexSamplerLocation = GL.GetUniformLocation(Program, "texSampler");
 		}
 
 		public static void PrintText2D(string text, Vector2 position, Font font, float scale = 1) {
@@ -60,10 +68,10 @@ namespace Engine.Util {
 			}
 			
 			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexPositionLocation);
-			GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * 2, vertices.ToArray(), BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Count * Vector2.SizeInBytes, vertices.ToArray(), BufferUsageHint.StaticDraw);
 			
 			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexUVLocation);
-			GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * 2, uvs.ToArray(), BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, uvs.Count * Vector2.SizeInBytes, uvs.ToArray(), BufferUsageHint.StaticDraw);
 			
 			GL.UseProgram(Program);
 			
@@ -73,12 +81,13 @@ namespace Engine.Util {
 			GL.Uniform1(TexSamplerLocation, 0);
 			
 			GL.EnableVertexAttribArray(0);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexPositionLocation);
-			GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 0, 0);
-			
 			GL.EnableVertexAttribArray(1);
+			
+			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexPositionLocation);
+			GL.VertexAttribPointer(0, Vector2.SizeInBytes, VertexAttribPointerType.Float, false, 0, 0);
+			
 			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexUVLocation);
-			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, 0);
+			GL.VertexAttribPointer(1, Vector2.SizeInBytes, VertexAttribPointerType.Float, false, 0, Vector2.SizeInBytes * vertices.Count);
 			
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);

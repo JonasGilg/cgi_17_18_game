@@ -11,9 +11,10 @@ const float cutoff = 0.1;
 
 void main(){
     vec4 tex = texture(texSampler, UV);
-    float intensity = tex.length();
+    float intensity = 0.5;//tex.length();
     
     //if(intensity < cutoff) discard;
     
-	color = /*textColor * */vec4(1, 1, 1, intensity);
+	//color = /*textColor * */vec4(1, 1, 1, intensity);
+	color = texture(texSampler, UV);
 }

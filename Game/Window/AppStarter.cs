@@ -43,20 +43,18 @@ namespace Game.Window {
 			                      "################################");
 			base.OnLoad(e);
 
-			//_font = FontManager.CreateFont("data/Font/CrystalFont.bmp", "data/Font/CrystalFontData.csv");
 			MaterialManager.Init();
 
 			DisplayCamera.Init();
 			DisplayCamera.SetWidthHeightFov(800, 600, 90);
+			
+			_font = FontManager.CreateFont("data/Font/CrystalFont.bmp", "data/Font/CrystalFontData.csv");
 
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
 				//r      g      b      a
 				new Vector4(.021f, .011f, .011f, 0f),
 				new Vector4(.050f, .200f, .700f, 0f),
 				new Vector4(.050f, .050f, .100f, 0f));
-			
-			
-			//+++++++++++++++++++++++++SPACESHIP+++++++++++++++++++++++++
 
 			for (var i = 0; i < 5; i++) {
 				var asteroid = AsteroidFactory.GenerateAsteroid();
@@ -67,15 +65,6 @@ namespace Game.Window {
 				_world.AddToWorld(asteroid);
 			}
 
-			var ship = new SpaceShip();
-			ship.TransformComponent.Scale = new Vector3(0.02f);
-			ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
-			ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, (float) -(Math.PI / 2));
-
-			_world.AddToWorld(ship);
-
-			//+++++++++++++++++++++++++NEPTUNE+++++++++++++++++++++++++
-
 			var neptune = new Planet(TextureManager.LoadTexture("data/textures/neptunemap.jpg")) {
 				TransformComponent = {
 					Scale = new Vector3(400f),
@@ -84,6 +73,13 @@ namespace Game.Window {
 			};
 
 			_world.AddToWorld(neptune);
+			
+			var ship = new SpaceShip();
+			ship.TransformComponent.Scale = new Vector3(0.02f);
+			ship.TransformComponent.Position = new Vector3(-5f, 0f, -5.0f);
+			ship.TransformComponent.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, (float) -(Math.PI / 2));
+
+			_world.AddToWorld(ship);
 			
 			GL.Enable(EnableCap.DepthTest);
 
@@ -111,7 +107,7 @@ namespace Game.Window {
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			_world.RenderWorld();
-			//TextRenderer2D.PrintText2D("HELLO WORLD", new Vector2(0.5f, 0.5f), FontManager.GetFont(_font), 10);
+			//TextRenderer2D.PrintText2D("HELLO WORLD", new Vector2(0.5f, 0.5f), FontManager.GetFont(_font));
 			SwapBuffers();
 		}
 
