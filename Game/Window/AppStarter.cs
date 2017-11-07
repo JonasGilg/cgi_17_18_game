@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Threading;
@@ -22,6 +23,10 @@ namespace Game.Window {
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) {
 			
 		}
+
+		private TimingStats _worldUpdateTime = new TimingStats("World Update");
+		private TimingStats _worldRenderTime = new TimingStats("World Render");
+		private TimingStats _textRenderTime = new TimingStats("Text Render");
 
 		protected override void OnLoad(EventArgs e) {
 			Console.Out.WriteLine("################################\n" +
@@ -89,13 +94,28 @@ namespace Game.Window {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
 
+			Console.Out.WriteLine(_worldUpdateTime);
+			Console.Out.WriteLine(_worldRenderTime);
+			Console.Out.WriteLine(_textRenderTime);
+			Console.Out.WriteLine("############");
+			
+			_worldUpdateTime.Start();
 			World.UpdateWorld();
+			_worldUpdateTime.Stop();
 		}
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.DepthBufferBit);
+
+			_worldRenderTime.Start();
 			World.RenderWorld();
+			_worldRenderTime.Stop();
+			
+			_textRenderTime.Start();
 			TextRenderer2D.DrawString(((int) (1 / e.Time)).ToString(), new Vector2(-1f, 1f));
+			_textRenderTime.Stop();
+			
+			
 			SwapBuffers();
 		}
 
