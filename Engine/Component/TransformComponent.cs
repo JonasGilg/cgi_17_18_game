@@ -2,7 +2,7 @@
 using OpenTK;
 using OpenTK.Input;
 
-namespace Engine {
+namespace Engine.Component {
 	public class TransformComponent : Component {
 		public Matrix4d WorldMatrix = Matrix4d.Identity;
 		public Matrix4d LocalMatrix = Matrix4d.Identity;

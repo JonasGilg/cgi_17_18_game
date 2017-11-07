@@ -1,6 +1,7 @@
 ﻿using Engine;
 using Engine.Material;
 using Engine.Model;
+using Engine.Component;
 using Engine.Texture;
 
 namespace Game.GameObjects {

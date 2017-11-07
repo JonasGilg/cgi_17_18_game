@@ -1,7 +1,8 @@
 ﻿using OpenTK;
+using Engine.Component;
 
-namespace Engine {
-	public class CameraComponent : Component {
+namespace Engine{
+	public class CameraComponent : Component.Component {
 		
 		public CameraComponent(GameObject gameObject) : base(gameObject) { }
 

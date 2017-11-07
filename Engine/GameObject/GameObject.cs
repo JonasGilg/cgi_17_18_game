@@ -1,4 +1,5 @@
-﻿namespace Engine {
+﻿using Engine.Component;
+namespace Engine {
 	public class GameObject {
 		public readonly TransformComponent TransformComponent;
 		public float radius;

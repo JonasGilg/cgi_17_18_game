@@ -1,8 +1,9 @@
 ﻿using Engine.Util;
 using OpenTK;
+using Engine.Component;
 
 namespace Engine {
-	public class MoveComponent : Component {
+	public class MoveComponent : Component.Component {
 		public Vector3d LinearVelocity = Vector3d.Zero;
 		public Vector3d AngularVelocity = Vector3d.Zero;
 

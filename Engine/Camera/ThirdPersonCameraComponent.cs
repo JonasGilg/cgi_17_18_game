@@ -1,10 +1,11 @@
 ﻿using System;
 using Engine.Util;
+using Engine.Component;
 using OpenTK;
 using OpenTK.Input;
 using Mouse = Engine.Input.Mouse;
 
-namespace Engine {
+namespace Engine.Component {
 	public class ThirdPersonCameraComponent : CameraComponent {
 		public Vector3d Offset;
 		private Vector2d _rotation;

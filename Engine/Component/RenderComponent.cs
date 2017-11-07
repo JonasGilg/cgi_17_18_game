@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine {
+namespace Engine.Component {
 	public class RenderComponent : Component {
 		public readonly Model3D Model;
 		public readonly BaseMaterial Material;

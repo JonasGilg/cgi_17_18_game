@@ -1,4 +1,4 @@
-﻿namespace Engine {
+﻿namespace Engine.Component {
 	public abstract class Component {
 		protected GameObject GameObject;
 
