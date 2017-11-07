@@ -1,162 +1,94 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Text;
-using OpenTK.Graphics;
+using System.Collections.Generic;
+using Engine.Render;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Util {
-	public class TextRenderer2D : IDisposable {
-		private readonly Bitmap _bmp;
-		private readonly Graphics _gfx;
-		private readonly int _texture;
-		private Rectangle _dirtyRegion;
-		private bool _disposed;
-
-		public TextRenderer2D(int width, int height) {
-			_bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-			_gfx = Graphics.FromImage(_bmp);
-			_gfx.TextRenderingHint = TextRenderingHint.AntiAlias;
-
-			_texture = GL.GenTexture();
-			GL.BindTexture(TextureTarget.Texture2D, _texture);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
-				PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
-		}
-
-		public void DrawString(string text, System.Drawing.Font font, Brush brush, PointF point) {
-			_gfx.DrawString(text, font, brush, point);
-
-			var size = _gfx.MeasureString(text, font);
-			_dirtyRegion = Rectangle.Round(RectangleF.Union(_dirtyRegion, new RectangleF(point, size)));
-			_dirtyRegion = Rectangle.Intersect(_dirtyRegion, new Rectangle(0, 0, _bmp.Width, _bmp.Height));
-		}
-
-		public int Texture {
-			get {
-				UploadBitmap();
-				return _texture;
-			}
-		}
-
-		private void UploadBitmap() {
-			if (_dirtyRegion != RectangleF.Empty) {
-				var data = _bmp.LockBits(_dirtyRegion,
-					System.Drawing.Imaging.ImageLockMode.ReadOnly,
-					System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-				GL.BindTexture(TextureTarget.Texture2D, _texture);
-				GL.TexSubImage2D(TextureTarget.Texture2D, 0,
-					_dirtyRegion.X, _dirtyRegion.Y, _dirtyRegion.Width, _dirtyRegion.Height,
-					PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
-				_bmp.UnlockBits(data);
-
-				_dirtyRegion = Rectangle.Empty;
-			}
-		}
-
-		private void Dispose(bool manual) {
-			if (!_disposed) {
-				if (manual) {
-					_bmp.Dispose();
-					_gfx.Dispose();
-					if (GraphicsContext.CurrentContext != null)
-						GL.DeleteTexture(_texture);
-				}
-
-				_disposed = true;
-			}
-		}
-
-		public void Dispose() {
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
-		/*private static readonly int Program;
-		private static readonly int VertexPositionLocation;
-		private static readonly int VertexUVLocation;
-		private static readonly int TextColorLocation;
-		private static readonly int TexSamplerLocation;
+	public static class TextRenderer2D {
+		private static readonly int Texture;
+		private static readonly int Program;
+		private static readonly Font Font;
+		private static readonly int PositionLocation;
+		private static readonly int UVLocation;
 
 		static TextRenderer2D() {
-			Program = ShaderLoader.LoadShader("Render/Text/Text_VS.glsl", "Render/Text/Text_FS.glsl");
-			VertexUVLocation = GL.GenBuffer();
-			VertexPositionLocation = GL.GenBuffer();
+			PositionLocation = GL.GenBuffer();
+			UVLocation = GL.GenBuffer();
 			
+			Program = ShaderLoader.LoadShader("Render/Text/Text_VS.glsl", "Render/Text/Text_FS.glsl");
 			GL.LinkProgram(Program);
 
-			TextColorLocation = GL.GetUniformLocation(Program, "textColor");
-			TexSamplerLocation = GL.GetUniformLocation(Program, "texSampler");
+			/*PositionLocation = GL.GetAttribLocation(Program, "vertexPosition");
+			UVLocation = GL.GetAttribLocation(Program, "vertexUV");*/
+			
+			var fontId = FontManager.CreateFont("data/Font/CrystalFont.bmp", "data/Font/CrystalFontData.csv");
+			Font = FontManager.GetFont(fontId);
+			Texture = Font.TexId;
 		}
 
-		public static void PrintText2D(string text, Vector2 position, Font font, float scale = 1) {
+		public static void DrawString(string text, Vector2 position, float scale = 1) {
 			var vertices = new List<Vector2>();
 			var uvs = new List<Vector2>();
 
-			var currX = 0;
+			var currX = 0.0f;
 			for (var i = 0; i < text.Length; i++) {
-				var charDimensions = font.GetCharDimensions(text[i]);
+				var charDimensions = Font.GetCharDimensions(text[i]);
 				var charWidth = charDimensions.W;
 
-				var vertexUpLeft = new Vector2(position.X + currX * scale, position.Y + font.FontHeight);
-				var vertexUpRight = new Vector2(position.X + (charWidth + currX) * scale, position.Y + font.CellHeight);
-				var vertexDownRight = new Vector2(position.X + (charWidth + currX) * scale, position.Y);
-				var vertexDownLeft = new Vector2(position.X + currX * scale, position.Y);
+				var vertexUpLeft = new Vector2(position.X + currX, position.Y + (Font.FontHeight / (float) Font.ImageHeight));
+				var vertexUpRight = new Vector2(position.X + charWidth + currX, position.Y + (Font.CellHeight / (float) Font.ImageHeight));
+				var vertexDownRight = new Vector2(position.X + charWidth + currX, position.Y);
+				var vertexDownLeft = new Vector2(position.X + currX, position.Y);
+				
+				currX += charWidth;
+				
+				var x = charDimensions.X;
+				var y = 1 - charDimensions.Y;
+				var w = charDimensions.W;
+				var h = charDimensions.H;
+
+				var uvUpLeft = new Vector2(x, y);
+				var uvUpRight = new Vector2(x + w, y);
+				var uvDownRight = new Vector2(x + w, y - h);
+				var uvDownLeft = new Vector2(x, y - h);
 				
 				vertices.Add(vertexUpLeft);
 				vertices.Add(vertexDownLeft);
 				vertices.Add(vertexUpRight);
 				
-				vertices.Add(vertexDownRight);
-				vertices.Add(vertexUpRight);
-				vertices.Add(vertexDownLeft);
-
-				currX += charWidth;
-
-				
-				var x = 1f / charDimensions.X;
-				var y = 1f / charDimensions.Y;
-				var w = 1f / charDimensions.W;
-				var h = 1f / charDimensions.H;
-
-				var uvUpLeft = new Vector2(x, y);
-				var uvUpRight = new Vector2(x + w, y);
-				var uvDownRight = new Vector2(x + w, y + h);
-				var uvDownLeft = new Vector2(x, y + h);
-				
 				uvs.Add(uvUpLeft);
 				uvs.Add(uvDownLeft);
 				uvs.Add(uvUpRight);
 				
+				vertices.Add(vertexDownRight);
+				vertices.Add(vertexUpRight);
+				vertices.Add(vertexDownLeft);
+
 				uvs.Add(uvDownRight);
 				uvs.Add(uvUpRight);
 				uvs.Add(uvDownLeft);
 			}
 			
-			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexPositionLocation);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, PositionLocation);
 			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Count * Vector2.SizeInBytes, vertices.ToArray(), BufferUsageHint.StaticDraw);
 			
-			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexUVLocation);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, UVLocation);
 			GL.BufferData(BufferTarget.ArrayBuffer, uvs.Count * Vector2.SizeInBytes, uvs.ToArray(), BufferUsageHint.StaticDraw);
 			
 			GL.UseProgram(Program);
 			
 			GL.ActiveTexture(TextureUnit.Texture0);
-			GL.BindTexture(TextureTarget.Texture2D, font.TexId);
-			
-			GL.Uniform1(TexSamplerLocation, 0);
+			GL.BindTexture(TextureTarget.Texture2D, Font.TexId);
 			
 			GL.EnableVertexAttribArray(0);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexPositionLocation);
-			GL.VertexAttribPointer(0, Vector2.SizeInBytes, VertexAttribPointerType.Float, false, 0, 0);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, PositionLocation);
+			GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 0, IntPtr.Zero);
 			
 			GL.EnableVertexAttribArray(1);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, VertexUVLocation);
-			GL.VertexAttribPointer(1, Vector2.SizeInBytes, VertexAttribPointerType.Float, false, 0, 0);
-			
+			GL.BindBuffer(BufferTarget.ArrayBuffer, UVLocation);
+			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, IntPtr.Zero);
+
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 			
@@ -166,6 +98,6 @@ namespace Engine.Util {
 			
 			GL.DisableVertexAttribArray(0);
 			GL.DisableVertexAttribArray(1);
-		}*/
+		}
 	}
 }

@@ -56,7 +56,7 @@ namespace Engine.Material {
 
 		public override void Draw(Model3D model, int textureId, float shininess = 0f, int normalmap = -1) {
 			// Das Vertex-Array-Objekt unseres Objekts wird benutzt
-			GL.BindVertexArray(model.Vao);
+			GL.BindVertexArray(model.VAO);
 
 			// Unser Shader Programm wird benutzt
 			GL.UseProgram(Program);

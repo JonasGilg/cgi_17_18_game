@@ -30,7 +30,7 @@ namespace Engine.Model {
 		public List<int> Indices;
 
 		// Vartex-Array-Object "VAO"
-		public int Vao;
+		public int VAO;
 
 		// generates the Vartex-Array-Objekt
 		public void CreateVAO() {
@@ -88,10 +88,10 @@ namespace Engine.Model {
 
 
 			// generating the Vertex-Array-Objects
-			GL.GenVertexArrays(1, out Vao);
+			GL.GenVertexArrays(1, out VAO);
 
 			// Vertex-Array-Objekt is "binded", following OpenGL commands refer to this VAO. Inmportant for the folling two calls of "BindBuffer"
-			GL.BindVertexArray(Vao);
+			GL.BindVertexArray(VAO);
 
 			// BindBuffer commands: Are saved by our VAO.
 			// Element-Buffer (indices)

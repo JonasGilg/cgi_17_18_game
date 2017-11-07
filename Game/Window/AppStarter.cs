@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Drawing;
+using System.Threading;
 using Engine;
-using Engine.Texture;
 using Engine.Material;
-using Engine.Render.Skybox;
 using Engine.Util;
 using Game.GameObjects;
 using Game.Utils;
@@ -15,8 +15,6 @@ using EngineMouse = Engine.Input.Mouse;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-		
-
 
 		private AppStarter() : base(1280, 720, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
@@ -41,13 +39,11 @@ namespace Game.Window {
 			                      "#    roll backward .... DOWN   #\n" +
 			                      "################################");
 			base.OnLoad(e);
-
+			
 			MaterialManager.Init();
 
 			DisplayCamera.Init();
 			DisplayCamera.SetWidthHeightFov(800, 600, 75);
-
-			_font = FontManager.CreateFont("data/Font/CrystalFont.bmp", "data/Font/CrystalFontData.csv");
 
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
 				//r      g      b      a
@@ -65,26 +61,6 @@ namespace Game.Window {
 					new Vector3d(1000.0), new Vector3d(0, 0.5, 0));
 				World.AddToWorld(planet);
 			}
-			/*
-			for (var i = 0; i < 5; i++) {
-				var asteroid = AsteroidFactory.GenerateAsteroid();
-				asteroid.TransformComponent.Position = new Vector3(i * 15f, 0.0f, 10.0f);
-				asteroid.TransformComponent.Scale = new Vector3(1.0f);
-				asteroid.MoveComponent.AngularVelocity = Vector3.UnitX;
-
-				_world.AddToWorld(asteroid);
-			}
-			*/
-
-			/*var neptune = new Planet(TextureManager.LoadTexture("data/textures/neptunemap.jpg")) {
-				TransformComponent = {
-					Scale = new Vector3(800f),
-					Position = new Vector3(0, 0, 1500f)
-				},
-				MoveComponent = { AngularVelocity = new Vector3(0, 0.05f, 0) }
-			};
-			_world.AddToWorld(neptune);
-			*/
 
 			var ship = new SpaceShip();
 			ship.TransformComponent.Scale = new Vector3d(0.02f);
@@ -94,7 +70,7 @@ namespace Game.Window {
 			World.AddToWorld(ship);
 
 			GL.Enable(EnableCap.DepthTest);
-
+			GL.ClearColor(Color.White);
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Front);
 		}
@@ -114,12 +90,10 @@ namespace Game.Window {
 			World.UpdateWorld();
 		}
 
-		private int _font;
-
 		protected override void OnRenderFrame(FrameEventArgs e) {
-			GL.Clear(ClearBufferMask.DepthBufferBit);
-			//TextRenderer2D.PrintText2D("HELLO WORLD", new Vector2(0.5f, 0.5f), FontManager.GetFont(_font));
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			World.RenderWorld();
+			//TextRenderer2D.DrawString("Hello World", new Vector2(-1, 0.5f));
 			SwapBuffers();
 		}
 

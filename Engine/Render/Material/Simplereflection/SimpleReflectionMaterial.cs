@@ -32,7 +32,7 @@ namespace Engine.Material {
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 
 			// using the Vertex-Array-Object of out object
-			GL.BindVertexArray(model.Vao);
+			GL.BindVertexArray(model.VAO);
 
 			// using our shader
 			GL.UseProgram(Program);

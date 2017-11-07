@@ -69,7 +69,7 @@ namespace Engine.Render.Skybox {
 			var perspectiveProjection = (DisplayCamera.Transformation.ClearTranslation() * DisplayCamera.PerspectiveProjection).ToFloat();
 			GL.UniformMatrix4(_viewProjectionLocation, false, ref perspectiveProjection);
 			
-			GL.BindVertexArray(_skyboxModel.Vao);
+			GL.BindVertexArray(_skyboxModel.VAO);
 			GL.BindTexture(TextureTarget.TextureCubeMap, _skyBoxTexture);
 
 			GL.DepthFunc(DepthFunction.Lequal);
