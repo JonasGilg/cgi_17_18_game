@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Engine.Collision {
-	public class Collision {
-		public GameObject[] gameObjects;
-		public Vector3d pointOfContact;
+	public class BoundingBox {
+		public Vector3d minVec;
+		public Vector3d maxVec;
 
-
-		public Collision() {
+		public bool Intersects(BoundingBox bbox) {
+			return false;
 		}
 	}
+
+	
 }
