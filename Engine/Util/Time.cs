@@ -44,10 +44,6 @@ namespace Engine.Util {
 		public double GetAverage() {
 			return _lastFrameTimes.Average();
 		}
-
-		public double GetLast() {
-			return _lastFrameTimes.Last();
-		}
 		
 		private readonly Stopwatch _stopwatch = new Stopwatch();
 
@@ -57,12 +53,12 @@ namespace Engine.Util {
 
 		public void Stop() {
 			_stopwatch.Stop();
-			_lastFrameTimes.Enqueue(_stopwatch.ElapsedMilliseconds);
+			_lastFrameTimes.Enqueue(_stopwatch.ElapsedTicks);
 			if (_lastFrameTimes.Count > 10) {
 				_lastFrameTimes.Dequeue();
 			}
 		}
 
-		public override string ToString() => $"\t{Name}: {GetAverage().ToString()}ms";
+		public override string ToString() => $"\t{Name}: {GetAverage().ToString()} clocks";
 	}
 }
