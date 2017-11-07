@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 using OpenTK.Input;
 
 namespace Engine {
+	public delegate void Collisionhandler(Collision col);
 	public abstract class CollisionComponent : Component {
-		public CollisionComponent(GameObject gameObject) : base(gameObject) {
+		public Collisionhandler onCollision;
+		public CollisionComponent(GameObject gameObject, Collisionhandler collisionFunction) : base(gameObject) {
+			onCollision = collisionFunction;
 			Console.WriteLine("Hello Micha");
 			//Kollision wird hard...
 		}

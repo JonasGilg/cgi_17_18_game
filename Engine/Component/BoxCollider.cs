@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Engine {
 	class BoxCollider : CollisionComponent {
-		public BoxCollider(GameObject gameObject) : base(gameObject) {
+		public BoxCollider(GameObject gameObject, Collisionhandler collisionFunction) : base(gameObject, collisionFunction) {
 		}
 
 		public override bool IsColliding() {

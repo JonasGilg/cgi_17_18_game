@@ -53,6 +53,7 @@
     <Compile Include="Component\Component.cs" />
     <Compile Include="Component\MoveComponent.cs" />
     <Compile Include="Component\RenderComponent.cs" />
+    <Compile Include="Component\SphereCollider.cs" />
     <Compile Include="Component\TransformComponent.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="GameObject\GameObject.cs" />

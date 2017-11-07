@@ -5,6 +5,7 @@ using Engine.Util;
 namespace Engine {
 	public static class World {
 		public static readonly List<GameObject> Objects = new List<GameObject>();
+		public static readonly List<CollisionComponent> collisionObjects = new List<CollisionComponent>();
 		
 		private static readonly TimingStats UpdateStats = new TimingStats("World");
 		private static readonly TimingStats RenderStats = new TimingStats("World");
@@ -36,8 +37,9 @@ namespace Engine {
 			RenderStats.Stop();
 		}
 
-		public static void AddToWorld(GameObject obj) {
+		public static void AddToWorld(GameObject obj, CollisionComponent collisionToAdd = null) {
 			Objects.Add(obj);
+			if (collisionToAdd != null) collisionObjects.Add(collisionToAdd);
 		}
 	}
 }
