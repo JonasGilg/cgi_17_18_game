@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -9,6 +8,26 @@ namespace Engine.Util {
 
 		public static void Update(double deltaTime) {
 			DeltaTime = deltaTime;
+		}
+	}
+
+	public static class TimingRegistry {
+		private static readonly List<TimingStats> UpdateTimings = new List<TimingStats>();
+		private static readonly List<TimingStats> RenderTimings = new List<TimingStats>();
+
+		public static void AddUpdateTiming(TimingStats timingStats) {
+			UpdateTimings.Add(timingStats);
+		}
+
+		public static void AddRenderTiming(TimingStats timingStats) {
+			RenderTimings.Add(timingStats);
+		}
+
+		public static string GetStatsText() {
+			var s = "\n### Update ###\n";
+			s = UpdateTimings.Aggregate(s, (current, t) => current + t.ToString() + "\n");
+			s += "\n### Render ###\n";
+			return RenderTimings.Aggregate(s, (current, t) => current + t.ToString() + "\n");
 		}
 	}
 

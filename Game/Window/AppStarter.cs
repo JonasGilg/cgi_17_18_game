@@ -43,9 +43,6 @@ namespace Game.Window {
 			                      "################################");
 			base.OnLoad(e);
 			
-			MaterialManager.Init();
-
-			DisplayCamera.Init();
 			DisplayCamera.SetWidthHeightFov(800, 600, 75);
 
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
@@ -65,10 +62,13 @@ namespace Game.Window {
 				World.AddToWorld(planet);
 			}
 
-			var ship = new SpaceShip();
-			ship.TransformComponent.Scale = new Vector3d(0.02f);
-			ship.TransformComponent.Position = new Vector3d(0f, 0f, -2000.0f);
-			ship.TransformComponent.Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, -(Math.PI / 2));
+			var ship = new SpaceShip {
+				TransformComponent = {
+					Scale = new Vector3d(0.02f),
+					Position = new Vector3d(0f, 0f, -2000.0f),
+					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, -(Math.PI / 2))
+				}
+			};
 
 			World.AddToWorld(ship);
 
@@ -78,8 +78,6 @@ namespace Game.Window {
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Front);
 		}
-
-		private readonly TimingStats _worldUpdateTime = new TimingStats("World Update");
 		
 		protected override void OnUpdateFrame(FrameEventArgs e) {
 			EngineKeyboard.Update(Keyboard.GetState());
@@ -93,41 +91,20 @@ namespace Game.Window {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
 
-			Console.Out.WriteLine("\n### Update ###");
-			Console.Out.WriteLine(_worldUpdateTime);
-			Console.Out.WriteLine("### Render ###");
-			Console.Out.WriteLine(_clearTime);
-			Console.Out.WriteLine(_worldRenderTime);
-			Console.Out.WriteLine(_textRenderTime);
-			Console.Out.WriteLine(_bufferSwapTime);
+			Console.Out.WriteLine(TimingRegistry.GetStatsText());
 			
-			_worldUpdateTime.Start();
 			World.UpdateWorld();
-			_worldUpdateTime.Stop();
 		}
 
 		
-		private readonly TimingStats _clearTime = new TimingStats("Clear");
-		private readonly TimingStats _worldRenderTime = new TimingStats("World Render");
-		private readonly TimingStats _textRenderTime = new TimingStats("Text Render");
-		private readonly TimingStats _bufferSwapTime = new TimingStats("Buffer Swap");
-		
 		protected override void OnRenderFrame(FrameEventArgs e) {
-			_clearTime.Start();
 			GL.Clear(ClearBufferMask.DepthBufferBit);
-			_clearTime.Stop();
 
-			_worldRenderTime.Start();
 			World.RenderWorld();
-			_worldRenderTime.Stop();
 			
-			_textRenderTime.Start();
 			TextRenderer2D.DrawString(((int) (1 / e.Time)).ToString(), new Vector2(-1f, 1f));
-			_textRenderTime.Stop();
 			
-			_bufferSwapTime.Start();
 			SwapBuffers();
-			_bufferSwapTime.Stop();
 		}
 
 		protected override void OnUnload(EventArgs e) { }

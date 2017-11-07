@@ -7,7 +7,7 @@ namespace Engine {
 
 		private static Matrix4d _perspectiveProjection;
 
-		public static void Init() {
+		static DisplayCamera() {
 			_perspectiveProjection = Matrix4d.Identity;
 			_activeCamera = new CameraComponent(null);
 		}

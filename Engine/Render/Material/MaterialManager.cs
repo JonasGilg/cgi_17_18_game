@@ -9,10 +9,10 @@ namespace Engine.Material {
 	}
 	
 	public static class MaterialManager {
-		private static Dictionary<Material, BaseMaterial> _materials;
+		private static readonly Dictionary<Material, BaseMaterial> Materials;
 
-		public static void Init() {
-			_materials = new Dictionary<Material, BaseMaterial> {
+		static MaterialManager() {
+			Materials = new Dictionary<Material, BaseMaterial> {
 				[Material.Simple] = new SimpleTextureMaterial(),
 				[Material.SimpleReflection] = new SimpleReflectionMaterial(),
 				[Material.AmbientDiffuseSpecular] = new AmbientDiffuseSpecularMaterial(),
@@ -20,6 +20,6 @@ namespace Engine.Material {
 			};
 		}
 
-		public static BaseMaterial GetMaterial(Material material) => _materials[material];
+		public static BaseMaterial GetMaterial(Material material) => Materials[material];
 	}
 }
