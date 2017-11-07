@@ -33,7 +33,7 @@ namespace Engine.Util {
 
 	public class TimingStats {
 		public readonly string Name;
-		
+
 		private readonly Queue<double> _lastFrameTimes = new Queue<double>(10);
 
 		public TimingStats(string name) {
@@ -44,19 +44,23 @@ namespace Engine.Util {
 		public double GetAverage() {
 			return _lastFrameTimes.Average();
 		}
-		
+
 		private readonly Stopwatch _stopwatch = new Stopwatch();
 
 		public void Start() {
+#if(DEBUG)
 			_stopwatch.Restart();
+#endif
 		}
 
 		public void Stop() {
+#if(DEBUG)
 			_stopwatch.Stop();
 			_lastFrameTimes.Enqueue(_stopwatch.ElapsedTicks);
 			if (_lastFrameTimes.Count > 10) {
 				_lastFrameTimes.Dequeue();
 			}
+#endif
 		}
 
 		public override string ToString() => $"\t{Name}: {GetAverage().ToString()} clocks";

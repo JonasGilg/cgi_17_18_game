@@ -17,12 +17,9 @@ using EngineMouse = Engine.Input.Mouse;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-
 		private AppStarter() : base(1280, 720, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
-			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) {
-			
-		}
+			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
 
 
 		protected override void OnLoad(EventArgs e) {
@@ -42,7 +39,7 @@ namespace Game.Window {
 			                      "#    roll backward .... DOWN   #\n" +
 			                      "################################");
 			base.OnLoad(e);
-			
+
 			DisplayCamera.SetWidthHeightFov(800, 600, 75);
 
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
@@ -57,7 +54,8 @@ namespace Game.Window {
 			World.AddToWorld(sun);
 
 			for (var i = 1; i < 3; i++) {
-				var planet = PlanetFactory.generatePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,AsteroidFactory.AsteroidType.STRAWBERRY,3, new Vector3d(10000.0 * i, 0, 0),
+				var planet = PlanetFactory.generatePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
+					AsteroidFactory.AsteroidType.STRAWBERRY, 3, new Vector3d(10000.0 * i, 0, 0),
 					new Vector3d(1000.0), new Vector3d(0, 0.5, 0));
 				World.AddToWorld(planet);
 			}
@@ -74,11 +72,11 @@ namespace Game.Window {
 
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Less);
-			
+
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Front);
 		}
-		
+
 		protected override void OnUpdateFrame(FrameEventArgs e) {
 			EngineKeyboard.Update(Keyboard.GetState());
 			EngineMouse.Update(Mouse.GetState());
@@ -91,19 +89,21 @@ namespace Game.Window {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
 
+#if(DEBUG)
 			Console.Out.WriteLine(TimingRegistry.GetStatsText());
-			
+#endif
+
 			World.UpdateWorld();
 		}
 
-		
+
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.DepthBufferBit);
 
 			World.RenderWorld();
-			
+
 			TextRenderer2D.DrawString(((int) (1 / e.Time)).ToString(), new Vector2(-1f, 1f));
-			
+
 			SwapBuffers();
 		}
 
