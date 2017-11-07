@@ -56,6 +56,8 @@ namespace Engine.Material {
 
 			// the object is drawn
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+			
+			GL.BindVertexArray(0);
 		}
 	}
 }

@@ -101,6 +101,8 @@ namespace Engine.Material {
 
 			// Active Textur wieder auf 0, um andere Materialien nicht durcheinander zu bringen
 			GL.ActiveTexture(TextureUnit.Texture0);
+			
+			GL.BindVertexArray(0);
 		}
 	}
 }
