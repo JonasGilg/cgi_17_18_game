@@ -36,22 +36,22 @@ namespace Engine.Util {
 				var charDimensions = Font.GetCharDimensions(text[i]);
 				var charWidth = charDimensions.W;
 
-				var vertexUpLeft = new Vector2(position.X + currX, position.Y + (Font.FontHeight / (float) Font.ImageHeight));
-				var vertexUpRight = new Vector2(position.X + charWidth + currX, position.Y + (Font.CellHeight / (float) Font.ImageHeight));
-				var vertexDownRight = new Vector2(position.X + charWidth + currX, position.Y);
-				var vertexDownLeft = new Vector2(position.X + currX, position.Y);
+				var vertexUpLeft = new Vector2(position.X + currX, position.Y);
+				var vertexUpRight = new Vector2(position.X + charWidth + currX, position.Y);
+				var vertexDownRight = new Vector2(position.X + charWidth + currX, position.Y - (Font.FontHeight / (float) Font.ImageHeight));
+				var vertexDownLeft = new Vector2(position.X + currX, position.Y - (Font.CellHeight / (float) Font.ImageHeight));
 				
 				currX += charWidth;
 				
 				var x = charDimensions.X;
-				var y = 1 - charDimensions.Y;
+				var y = charDimensions.Y;
 				var w = charDimensions.W;
 				var h = charDimensions.H;
 
 				var uvUpLeft = new Vector2(x, y);
 				var uvUpRight = new Vector2(x + w, y);
-				var uvDownRight = new Vector2(x + w, y - h);
-				var uvDownLeft = new Vector2(x, y - h);
+				var uvDownRight = new Vector2(x + w, y + h);
+				var uvDownLeft = new Vector2(x, y + h);
 				
 				vertices.Add(vertexUpLeft);
 				vertices.Add(vertexDownLeft);

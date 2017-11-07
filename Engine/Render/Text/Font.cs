@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using OpenTK;
 
 namespace Engine.Util {
@@ -55,6 +57,10 @@ namespace Engine.Util {
 				W = w;
 				H = h;
 			}
+		}
+
+		public override string ToString() {
+			return CharWidhts.Aggregate("", (current, kvp) => current + (kvp.Key + ": " + kvp.Value + "\n"));
 		}
 	}
 }

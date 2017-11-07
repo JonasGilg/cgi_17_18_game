@@ -70,7 +70,6 @@ namespace Game.Window {
 			World.AddToWorld(ship);
 
 			GL.Enable(EnableCap.DepthTest);
-			GL.ClearColor(Color.White);
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Front);
 		}
@@ -93,7 +92,7 @@ namespace Game.Window {
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			World.RenderWorld();
-			//TextRenderer2D.DrawString("Hello World", new Vector2(-1, 0.5f));
+			//TextRenderer2D.DrawString("HELLO WORLD!", new Vector2(-1f, 1f));
 			SwapBuffers();
 		}
 
