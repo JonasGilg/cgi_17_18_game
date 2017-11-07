@@ -24,9 +24,6 @@ namespace Game.Window {
 			
 		}
 
-		private TimingStats _worldUpdateTime = new TimingStats("World Update");
-		private TimingStats _worldRenderTime = new TimingStats("World Render");
-		private TimingStats _textRenderTime = new TimingStats("Text Render");
 
 		protected override void OnLoad(EventArgs e) {
 			Console.Out.WriteLine("################################\n" +
@@ -82,6 +79,8 @@ namespace Game.Window {
 			GL.CullFace(CullFaceMode.Front);
 		}
 
+		private readonly TimingStats _worldUpdateTime = new TimingStats("World Update");
+		
 		protected override void OnUpdateFrame(FrameEventArgs e) {
 			EngineKeyboard.Update(Keyboard.GetState());
 			EngineMouse.Update(Mouse.GetState());
@@ -94,18 +93,29 @@ namespace Game.Window {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
 
+			Console.Out.WriteLine("\n### Update ###");
 			Console.Out.WriteLine(_worldUpdateTime);
+			Console.Out.WriteLine("### Render ###");
+			Console.Out.WriteLine(_clearTime);
 			Console.Out.WriteLine(_worldRenderTime);
 			Console.Out.WriteLine(_textRenderTime);
-			Console.Out.WriteLine("############");
+			Console.Out.WriteLine(_bufferSwapTime);
 			
 			_worldUpdateTime.Start();
 			World.UpdateWorld();
 			_worldUpdateTime.Stop();
 		}
 
+		
+		private readonly TimingStats _clearTime = new TimingStats("Clear");
+		private readonly TimingStats _worldRenderTime = new TimingStats("World Render");
+		private readonly TimingStats _textRenderTime = new TimingStats("Text Render");
+		private readonly TimingStats _bufferSwapTime = new TimingStats("Buffer Swap");
+		
 		protected override void OnRenderFrame(FrameEventArgs e) {
+			_clearTime.Start();
 			GL.Clear(ClearBufferMask.DepthBufferBit);
+			_clearTime.Stop();
 
 			_worldRenderTime.Start();
 			World.RenderWorld();
@@ -115,8 +125,9 @@ namespace Game.Window {
 			TextRenderer2D.DrawString(((int) (1 / e.Time)).ToString(), new Vector2(-1f, 1f));
 			_textRenderTime.Stop();
 			
-			
+			_bufferSwapTime.Start();
 			SwapBuffers();
+			_bufferSwapTime.Stop();
 		}
 
 		protected override void OnUnload(EventArgs e) { }

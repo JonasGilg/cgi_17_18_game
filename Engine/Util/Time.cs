@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -43,6 +44,6 @@ namespace Engine.Util {
 			}
 		}
 
-		public override string ToString() => $"{Name}: {GetAverage().ToString()}ms";
+		public override string ToString() => $"\t{Name}: {GetAverage().ToString()}ms";
 	}
 }
