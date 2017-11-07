@@ -81,10 +81,12 @@ namespace Engine.Material {
 			GL.Uniform1(_materialShininessLocation, shininess);
 
 			// Pass positions of the camera to calculate the view direction
-			GL.Uniform4(_cameraPositionLocation, DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1);
+			GL.Uniform4(_cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y, (float) DisplayCamera.Position.Z, 1);
 
 			// The object is drawn
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+			
+			GL.BindVertexArray(0);
 		}
 	}
 }

@@ -9,7 +9,7 @@ out vec4 color;
 void main() {
     vec4 texValue = texture(texSampler, UV);
 
-    //if(texValue.rgb.length() < 3.0) discard;
+    if(length(texValue.rgb) < 0.5) discard;
 
 	color = texValue;
 }

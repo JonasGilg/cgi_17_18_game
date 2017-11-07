@@ -6,7 +6,6 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Util {
 	public static class TextRenderer2D {
-		private static readonly int Texture;
 		private static readonly int Program;
 		private static readonly Font Font;
 		private static readonly int PositionLocation;
@@ -19,12 +18,8 @@ namespace Engine.Util {
 			Program = ShaderLoader.LoadShader("Render/Text/Text_VS.glsl", "Render/Text/Text_FS.glsl");
 			GL.LinkProgram(Program);
 
-			/*PositionLocation = GL.GetAttribLocation(Program, "vertexPosition");
-			UVLocation = GL.GetAttribLocation(Program, "vertexUV");*/
-			
 			var fontId = FontManager.CreateFont("data/Font/CrystalFont.bmp", "data/Font/CrystalFontData.csv");
 			Font = FontManager.GetFont(fontId);
-			Texture = Font.TexId;
 		}
 
 		public static void DrawString(string text, Vector2 position, float scale = 1) {
@@ -36,10 +31,10 @@ namespace Engine.Util {
 				var charDimensions = Font.GetCharDimensions(text[i]);
 				var charWidth = charDimensions.W;
 
-				var vertexUpLeft = new Vector2(position.X + currX, position.Y);
-				var vertexUpRight = new Vector2(position.X + charWidth + currX, position.Y);
-				var vertexDownRight = new Vector2(position.X + charWidth + currX, position.Y - (Font.FontHeight / (float) Font.ImageHeight));
-				var vertexDownLeft = new Vector2(position.X + currX, position.Y - (Font.CellHeight / (float) Font.ImageHeight));
+				var vertexDownLeft = new Vector2(position.X + currX, position.Y);
+				var vertexDownRight = new Vector2(position.X + charWidth + currX, position.Y);
+				var vertexUpRight = new Vector2(position.X + charWidth + currX, position.Y - (Font.FontHeight / (float) Font.ImageHeight));
+				var vertexUpLeft = new Vector2(position.X + currX, position.Y - (Font.CellHeight / (float) Font.ImageHeight));
 				
 				currX += charWidth;
 				
@@ -48,10 +43,10 @@ namespace Engine.Util {
 				var w = charDimensions.W;
 				var h = charDimensions.H;
 
-				var uvUpLeft = new Vector2(x, y);
-				var uvUpRight = new Vector2(x + w, y);
-				var uvDownRight = new Vector2(x + w, y + h);
-				var uvDownLeft = new Vector2(x, y + h);
+				var uvDownLeft = new Vector2(x, y);
+				var uvDownRight = new Vector2(x + w, y);
+				var uvUpRight = new Vector2(x + w, y + h);
+				var uvUpLeft = new Vector2(x, y + h);
 				
 				vertices.Add(vertexUpLeft);
 				vertices.Add(vertexDownLeft);
@@ -82,10 +77,11 @@ namespace Engine.Util {
 			GL.BindTexture(TextureTarget.Texture2D, Font.TexId);
 			
 			GL.EnableVertexAttribArray(0);
+			GL.EnableVertexAttribArray(1);
+			
 			GL.BindBuffer(BufferTarget.ArrayBuffer, PositionLocation);
 			GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 0, IntPtr.Zero);
 			
-			GL.EnableVertexAttribArray(1);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, UVLocation);
 			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, IntPtr.Zero);
 

@@ -128,6 +128,7 @@ namespace Engine.Model {
 			GL.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, true, strideSize,
 				Vector3.SizeInBytes * 3 + Vector2.SizeInBytes);
 
+			
 			// BindBuffer to 0, so the following commands do not overwrite the current VAO
 			GL.BindVertexArray(0);
 

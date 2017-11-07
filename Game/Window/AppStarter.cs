@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.Threading;
 using Engine;
 using Engine.Material;
@@ -70,6 +71,8 @@ namespace Game.Window {
 			World.AddToWorld(ship);
 
 			GL.Enable(EnableCap.DepthTest);
+			GL.DepthFunc(DepthFunction.Less);
+			
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Front);
 		}
@@ -90,9 +93,9 @@ namespace Game.Window {
 		}
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			GL.Clear(ClearBufferMask.DepthBufferBit);
 			World.RenderWorld();
-			//TextRenderer2D.DrawString("HELLO WORLD!", new Vector2(-1f, 1f));
+			TextRenderer2D.DrawString(((int) (1 / e.Time)).ToString(), new Vector2(-1f, 1f));
 			SwapBuffers();
 		}
 
