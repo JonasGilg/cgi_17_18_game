@@ -18,7 +18,7 @@ using EngineMouse = Engine.Input.Mouse;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-		private AppStarter() : base(1280, 720, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
+		private AppStarter() : base(1600, 900, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
 
@@ -26,27 +26,12 @@ namespace Game.Window {
 		private readonly HUDElement _fpsCounter = HUD.CreateHUDElement("", new Vector2(-1f, 0.94f));
 
 		protected override void OnLoad(EventArgs e) {
+			base.OnLoad(e);
+			
 			HUD.AddHUDElement(_upsCounter);
 			HUD.AddHUDElement(_fpsCounter);
-			
-			Console.Out.WriteLine("################################\n" +
-			                      "#  Controls:                   #\n" +
-			                      "#    move forward ..... W      #\n" +
-			                      "#    move backward .... S      #\n" +
-			                      "#    move left ........ Q      #\n" +
-			                      "#    move right ....... E      #\n" +
-			                      "#    move up .......... SPACE  #\n" +
-			                      "#    move down ........ X      #\n" +
-			                      "#    rotate left ...... A      #\n" +
-			                      "#    rotate right ..... D      #\n" +
-			                      "#    roll left ........ LEFT   #\n" +
-			                      "#    roll right ....... RIGHT  #\n" +
-			                      "#    roll forward ..... UP     #\n" +
-			                      "#    roll backward .... DOWN   #\n" +
-			                      "################################");
-			base.OnLoad(e);
 
-			DisplayCamera.SetWidthHeightFov(800, 600, 75);
+			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
 				//           r      g      b      a
