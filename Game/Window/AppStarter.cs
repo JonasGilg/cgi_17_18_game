@@ -102,8 +102,8 @@ namespace Game.Window {
 
 			World.RenderWorld();
 
-			TextRenderer2D.DrawString(((int) (1 / e.Time)).ToString(), new Vector2(-1f, 1f));
-
+			TextRenderer2D.RegisterHUDElement(((int) (1 / e.Time)).ToString(), new Vector2(-1f, 1f));
+			TextRenderer2D.Draw();
 			SwapBuffers();
 		}
 

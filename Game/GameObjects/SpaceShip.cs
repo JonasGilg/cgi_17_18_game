@@ -129,6 +129,8 @@ namespace Game.GameObjects {
 			base.Update();
 			RenderComponent.Update();
 			CameraComponent.Update();
+			
+			TextRenderer2D.RegisterHUDElement($"SPEED: {MoveComponent.LinearVelocity.LengthFast.ToString("N2")}M/S", new Vector2(-1f, -0.94f));
 		}
 
 		public override void Draw() {

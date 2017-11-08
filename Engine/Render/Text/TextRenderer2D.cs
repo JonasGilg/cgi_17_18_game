@@ -12,6 +12,8 @@ namespace Engine.Util {
 		private static readonly int UVLocation;
 
 		static TextRenderer2D() {
+			TimingRegistry.AddRenderTiming(RenderStats);
+			
 			PositionLocation = GL.GenBuffer();
 			UVLocation = GL.GenBuffer();
 			
@@ -22,7 +24,39 @@ namespace Engine.Util {
 			Font = FontManager.GetFont(fontId);
 		}
 
-		public static void DrawString(string text, Vector2 position, float scale = 1) {
+		private static readonly List<HUDElement> _hudElements = new List<HUDElement>();
+		
+		/// <summary>
+		/// Registers a text to be drawn on the HUD in the following frame.
+		/// </summary>
+		/// <param name="text">The text to be drawn</param>
+		/// <param name="position">The position of the text from (-1, -1) -> bottom left, to (1, 1) -> top right</param>
+		/// <param name="scale">The scale of the text (DOES NOTHING YET)</param>
+		public static void RegisterHUDElement(string text, Vector2 position, float scale = 1) {
+			_hudElements.Add(new HUDElement(text, position, scale));
+		}
+		
+		private static readonly TimingStats RenderStats = new TimingStats("GUI");
+
+		/// <summary>
+		/// <b>Only to be called ONCE at the END of the render loop.</b>
+		/// <br/>
+		/// Draws all the registered HUD elements
+		/// </summary>
+		public static void Draw() {
+			RenderStats.Start();
+
+			for (var i = 0; i < _hudElements.Count; i++) {
+				var hudElement = _hudElements[i];
+				DrawString(hudElement.text, hudElement.position, hudElement.scale);
+			}
+			
+			_hudElements.Clear();
+			
+			RenderStats.Stop();
+		}
+
+		private static void DrawString(string text, Vector2 position, float scale = 1) {
 			var vertices = new List<Vector2>();
 			var uvs = new List<Vector2>();
 
@@ -94,6 +128,18 @@ namespace Engine.Util {
 			
 			GL.DisableVertexAttribArray(0);
 			GL.DisableVertexAttribArray(1);
+		}
+		
+		private struct HUDElement {
+			public readonly string text;
+			public readonly Vector2 position;
+			public readonly float scale;
+
+			public HUDElement(string text, Vector2 position, float scale) {
+				this.text = text;
+				this.position = position;
+				this.scale = scale;
+			}
 		}
 	}
 }
