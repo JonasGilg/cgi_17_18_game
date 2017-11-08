@@ -15,11 +15,11 @@ namespace Engine {
 		}
 
 		private void ApplyLinearVelocity() {
-			GameObject.TransformComponent.Position += LinearVelocity * Time.DeltaTime;
+			GameObject.TransformComponent.Position += LinearVelocity * Time.DeltaTimeUpdate;
 		}
 
 		private void ApplyAngularVelocity() {
-			var angularChange = AngularVelocity * Time.DeltaTime;
+			var angularChange = AngularVelocity * Time.DeltaTimeUpdate;
 			var rotationAxis = angularChange == Vector3d.Zero ? Vector3d.One : angularChange.Normalized();
 			var rotationAngle = angularChange.Length;
 			GameObject.TransformComponent.Orientation = Quaterniond.FromAxisAngle(rotationAxis, rotationAngle) * GameObject.TransformComponent.Orientation;

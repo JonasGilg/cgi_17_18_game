@@ -19,7 +19,7 @@ namespace Engine.Component {
 			base.Update();
 
 			if (Mouse.Down(MouseButton.Right)) {
-				var factor = Time.DeltaTime * 0.1;
+				var factor = Time.DeltaTimeUpdate * 0.1;
 				
 				_rotation.X += -Mouse.CursorDelta.X * factor;
 
@@ -29,7 +29,7 @@ namespace Engine.Component {
 				_rotation.Y = Math1D.Clamp(_rotation.Y + deltaY, minRotation, maxRotation);
 			}
 			else {
-				_rotation = Vector2d.Lerp(_rotation, Vector2d.Zero, Time.DeltaTime * 5);
+				_rotation = Vector2d.Lerp(_rotation, Vector2d.Zero, Time.DeltaTimeUpdate * 5);
 			}
 
 			var rotation = Quaterniond.FromEulerAngles(_rotation.Y, _rotation.X, 0);

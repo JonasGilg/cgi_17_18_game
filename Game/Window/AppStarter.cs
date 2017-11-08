@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Threading;
 using Engine;
+using Engine.GUI;
 using Engine.Material;
 using Engine.Util;
 using Game.GameObjects;
@@ -21,8 +22,13 @@ namespace Game.Window {
 			DisplayDevice.Default,
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
 
+		private readonly HUDElement _upsCounter = HUD.CreateHUDElement("", new Vector2(-1f, 1f));
+		private readonly HUDElement _fpsCounter = HUD.CreateHUDElement("", new Vector2(-1f, 0.94f));
 
 		protected override void OnLoad(EventArgs e) {
+			HUD.AddHUDElement(_upsCounter);
+			HUD.AddHUDElement(_fpsCounter);
+			
 			Console.Out.WriteLine("################################\n" +
 			                      "#  Controls:                   #\n" +
 			                      "#    move forward ..... W      #\n" +
@@ -43,7 +49,7 @@ namespace Game.Window {
 			DisplayCamera.SetWidthHeightFov(800, 600, 75);
 
 			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
-				//r      g      b      a
+				//           r      g      b      a
 				new Vector4(.021f, .011f, .011f, 0f),
 				new Vector4(.050f, .200f, .700f, 0f),
 				new Vector4(.050f, .050f, .100f, 0f));
@@ -80,7 +86,9 @@ namespace Game.Window {
 		protected override void OnUpdateFrame(FrameEventArgs e) {
 			EngineKeyboard.Update(Keyboard.GetState());
 			EngineMouse.Update(Mouse.GetState());
-			Time.Update(e.Time);
+			Time.UpdateUpdateTime(e.Time);
+			
+			_upsCounter.Text = ((int) (1 / Time.AverageUpdateTime())).ToString() + "UPS";
 
 			if (EngineKeyboard.Released(Key.Escape))
 				Exit();
@@ -98,12 +106,15 @@ namespace Game.Window {
 
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
+			Time.UpdateRenderTime(e.Time);
+			
+			_fpsCounter.Text = ((int) (1 / Time.AverageRenderTime())).ToString() + "FPS";
+			
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit | ClearBufferMask.DepthBufferBit);
 
 			World.RenderWorld();
 
-			TextRenderer2D.RegisterHUDElement(((int) (1 / e.Time)).ToString(), new Vector2(-1f, 1f));
-			TextRenderer2D.Draw();
+			HUD.Draw();
 			SwapBuffers();
 		}
 
@@ -117,7 +128,7 @@ namespace Game.Window {
 		[STAThread]
 		public static void Main() {
 			using (var example = new AppStarter()) {
-				example.Run(60.0, 60.0);
+				example.Run();
 			}
 		}
 	}

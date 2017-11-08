@@ -59,6 +59,8 @@
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="GameObject\GameObject.cs" />
     <Compile Include="GameObject\World.cs" />
+    <Compile Include="GUI\HUD.cs" />
+    <Compile Include="GUI\HUDElement.cs" />
     <Compile Include="Light\Light.cs" />
     <Compile Include="Model\FastNoise.cs" />
     <Compile Include="Model\Model3D.cs" />
