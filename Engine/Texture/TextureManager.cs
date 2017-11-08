@@ -25,7 +25,10 @@ namespace Engine.Texture {
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMinFilter.Nearest);
 
 			bmp.UnlockBits(bmpData);
-
+			
+			//free memory
+			bmp.Dispose();
+			
 			// Mip-Map Daten werden generiert
 			GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 

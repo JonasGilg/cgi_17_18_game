@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Engine.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -121,7 +122,7 @@ namespace Engine.Util {
 
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-			
+
 			GL.DrawArrays(PrimitiveType.Triangles, 0, vertices.Count);
 			
 			GL.Disable(EnableCap.Blend);

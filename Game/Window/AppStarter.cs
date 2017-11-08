@@ -98,7 +98,7 @@ namespace Game.Window {
 
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
-			GL.Clear(ClearBufferMask.DepthBufferBit);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit | ClearBufferMask.DepthBufferBit);
 
 			World.RenderWorld();
 

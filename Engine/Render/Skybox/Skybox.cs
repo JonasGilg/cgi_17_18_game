@@ -57,6 +57,7 @@ namespace Engine.Render.Skybox {
 				PixelType.UnsignedByte, bmpData.Scan0);
 			
 			bmp.UnlockBits(bmpData);
+			bmp.Dispose();
 
 			GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 		}
