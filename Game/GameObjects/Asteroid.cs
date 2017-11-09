@@ -1,16 +1,24 @@
-﻿using Engine;
+﻿using System;
+using Engine;
 using Engine.Material;
 using Engine.Model;
 using Engine.Component;
 using Engine.Texture;
+using Game.Components;
 
 namespace Game.GameObjects {
 	public class Asteroid : GameObject {
 		public readonly MoveComponent MoveComponent;
 		public readonly RenderComponent RenderComponent;
 
-		public Asteroid(Model3D model, int textureId) {
-			MoveComponent = new MoveComponent(this);
+		public Asteroid(Model3D model, int textureId, GameObject referenceObject = null) {
+			if (referenceObject != null) {
+				MoveComponent = new GravityMovement(this, referenceObject, 0.0);
+			}
+			else {
+				MoveComponent = new MoveComponent(this);
+			}
+			
 			RenderComponent = new RenderComponent(
 				model,
 				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),

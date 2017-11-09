@@ -47,7 +47,7 @@ namespace Game.Window {
 
 			for (var i = 1; i < 3; i++) {
 				var planet = PlanetFactory.generatePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
-					AsteroidFactory.AsteroidType.STRAWBERRY, 3, new Vector3d(10000.0 * i, 0, 0),
+					AsteroidFactory.AsteroidType.STRAWBERRY, 1, new Vector3d(10000.0 * i, 0, 0),
 					new Vector3d(1000.0), new Vector3d(0, 0.5, 0));
 				World.AddToWorld(planet);
 			}
@@ -84,7 +84,7 @@ namespace Game.Window {
 			}
 
 #if(DEBUG)
-			Console.Out.WriteLine(TimingRegistry.GetStatsText());
+			//Console.Out.WriteLine(TimingRegistry.GetStatsText());
 #endif
 
 			World.UpdateWorld();
