@@ -14,32 +14,32 @@ namespace Game.Components {
 			
 			if (Keyboard.Down(Key.W)) {
 				var translateForward = TransformComponent.Orientation.Rotate(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0));
-				MoveComponent.LinearVelocity += translateForward * 100;
+				MoveComponent.LinearVelocity += translateForward * MovementMultiplier;
 			}
 
 			if (Keyboard.Down(Key.S)) {
 				var translateBack = TransformComponent.Orientation.Rotate(new Vector3d(-Time.DeltaTimeUpdate, 0.0, 0.0));
-				MoveComponent.LinearVelocity += translateBack;
+				MoveComponent.LinearVelocity += translateBack * MovementMultiplier;
 			}
 
 			if (Keyboard.Down(Key.Q)) {
 				var translateLeft = TransformComponent.Orientation.Rotate(new Vector3d(0.0, 0.0, -Time.DeltaTimeUpdate));
-				MoveComponent.LinearVelocity += translateLeft;
+				MoveComponent.LinearVelocity += translateLeft * MovementMultiplier;
 			}
 
 			if (Keyboard.Down(Key.E)) {
 				var translateRight = TransformComponent.Orientation.Rotate(new Vector3d(0.0, 0.0, Time.DeltaTimeUpdate));
-				MoveComponent.LinearVelocity += translateRight;
+				MoveComponent.LinearVelocity += translateRight * MovementMultiplier;
 			}
 
 			if (Keyboard.Down(Key.Space)) {
 				var translateUp = TransformComponent.Orientation.Rotate(new Vector3d(0.0, Time.DeltaTimeUpdate, 0.0));
-				MoveComponent.LinearVelocity += translateUp;
+				MoveComponent.LinearVelocity += translateUp * MovementMultiplier;
 			}
 
 			if (Keyboard.Down(Key.X)) {
 				var translateDown = TransformComponent.Orientation.Rotate(new Vector3d(0.0, -Time.DeltaTimeUpdate, 0.0));
-				MoveComponent.LinearVelocity += translateDown;
+				MoveComponent.LinearVelocity += translateDown * MovementMultiplier;
 			}
 
 			if (Keyboard.Down(Key.A)) {
