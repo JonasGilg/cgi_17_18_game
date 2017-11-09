@@ -10,9 +10,7 @@ namespace Engine {
 	public delegate void Collisionhandler(Collision.Collision col);
 	public abstract class CollisionComponent : Component.Component {
 		public Model3D model3D;
-		public abstract Collision.BoundingBox boundingBox {
-			get;
-		}
+		
 		public Collisionhandler onCollision;
 		public CollisionComponent(GameObject gameObject, Model3D model, Collisionhandler collisionFunction) : base(gameObject) {
 			model3D = model;
@@ -23,7 +21,7 @@ namespace Engine {
 			
 		}
 
-		public bool IsColliding(CollisionComponent otherCollider) => boundingBox.Intersects(otherCollider.boundingBox);
+		public abstract bool IsColliding(CollisionComponent otherCollider);
 		
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace Engine.Component {
 	public abstract class Component {
-		protected GameObject GameObject;
+		public GameObject GameObject;
 
 		protected Component(GameObject gameObject) {
 			GameObject = gameObject;

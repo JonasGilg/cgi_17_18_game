@@ -8,6 +8,7 @@ namespace Game.GameObjects {
 	public class Asteroid : GameObject {
 		public readonly MoveComponent MoveComponent;
 		public readonly RenderComponent RenderComponent;
+		public readonly SphereCollider collisionComponent;
 
 		public Asteroid(Model3D model, int textureId) {
 			MoveComponent = new MoveComponent(this);
@@ -17,6 +18,9 @@ namespace Game.GameObjects {
 				textureId,
 				this
 			);
+			collisionComponent = new SphereCollider(this, RenderComponent.Model, collision => {
+				System.Console.WriteLine("Asteroid collided with" + collision.gameObject.ToString());
+			});
 		}
 
 		public override void Update() {

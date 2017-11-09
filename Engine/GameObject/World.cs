@@ -17,7 +17,20 @@ namespace Engine {
 
 		public static void UpdateWorld() {
 			UpdateStats.Start();
-			
+			//check for collision
+			for(var i = 0; i < collisionObjects.Count; i++) {
+				var currObj = collisionObjects[i];
+				for (var j = 0; j < collisionObjects.Count; j++) {
+					if(i != j) { //cant collide with yourself
+						var collidedWith = collisionObjects[j];
+						if (currObj.IsColliding(collidedWith)) {
+							currObj.onCollision(new Collision.Collision() {
+								gameObject = collidedWith.GameObject
+							});
+						}
+					}
+				}
+			}
 			for (var i = 0; i < Objects.Count; i++) {
 				Objects[i].Update();
 			}

@@ -50,7 +50,7 @@ namespace Game.Utils {
 				asteroid.MoveComponent.LinearVelocity = new Vector3d(0.0, 0.0, 0.0);
 
 				// Console.Out.WriteLine("asteroid["+i+"] position: "+asteroid.TransformComponent.WorldPosition.ToString());
-				World.AddToWorld(asteroid);
+				World.AddToWorld(asteroid,asteroid.collisionComponent);
 			}
 
 			return planet;

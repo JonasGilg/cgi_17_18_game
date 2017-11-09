@@ -60,7 +60,7 @@ namespace Game.Window {
 				}
 			};
 
-			World.AddToWorld(ship);
+			World.AddToWorld(ship,ship.collisionComponent);
 
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Less);
