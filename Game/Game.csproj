@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\ArcadeMoveInputComponent.cs" />
+    <Compile Include="Components\GravityMovement.cs" />
     <Compile Include="Components\MoveInputComponent.cs" />
     <Compile Include="Components\RLMoveInputComponent.cs" />
     <Compile Include="Factories\PlanetFactory.cs" />

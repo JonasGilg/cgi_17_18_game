@@ -2,7 +2,7 @@
 using Engine.Material;
 using Engine.Model;
 using Engine.Component;
-using Engine.Texture;
+using Game.Components;
 
 namespace Game.GameObjects {
 	public class Asteroid : GameObject {
@@ -10,8 +10,14 @@ namespace Game.GameObjects {
 		public readonly RenderComponent RenderComponent;
 		public readonly SphereCollider collisionComponent;
 
-		public Asteroid(Model3D model, int textureId) {
-			MoveComponent = new MoveComponent(this);
+		public Asteroid(Model3D model, int textureId, GameObject referenceObject = null) {
+			if (referenceObject != null) {
+				MoveComponent = new GravityMovement(this, 0.0);
+			}
+			else {
+				MoveComponent = new MoveComponent(this);
+			}
+			
 			RenderComponent = new RenderComponent(
 				model,
 				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),

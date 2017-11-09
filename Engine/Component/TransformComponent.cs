@@ -67,7 +67,7 @@ namespace Engine.Component {
 			}
 			else {
 				Parent.UpdateWorldMatrix();
-				WorldMatrix = Parent.WorldMatrix * LocalMatrix;
+				WorldMatrix = Parent.WorldMatrix.Inverted().ClearScale() * LocalMatrix;
 			}
 		}
 

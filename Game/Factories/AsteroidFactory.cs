@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Engine;
 using Engine.Model;
 using Engine.Texture;
+using Game.Components;
 using Game.GameObjects;
 using OpenTK;
 
@@ -32,6 +33,18 @@ namespace Game.Utils {
 			var textureId = TextureManager.LoadTexture(AsteroidTexturesDictionary[type]);
 			
 			var asteroid = new Asteroid(model,textureId);
+			
+			return asteroid;
+		}
+
+		public static Asteroid GenerateGravityAsteroid(AsteroidType type, GameObject referenceObject) {
+			var model = ModelLoaderObject3D.Load(AsteroidModelDictionary[type]);
+			
+			var textureId = TextureManager.LoadTexture(AsteroidTexturesDictionary[type]);
+
+			var asteroid = new Asteroid(model, textureId, referenceObject);
+			
+		
 			
 			return asteroid;
 		}
