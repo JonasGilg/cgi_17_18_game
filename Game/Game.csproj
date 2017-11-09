@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\ArcadeMoveInputComponent.cs" />
+    <Compile Include="Components\MoveInputComponent.cs" />
+    <Compile Include="Components\RLMoveInputComponent.cs" />
     <Compile Include="Factories\PlanetFactory.cs" />
     <Compile Include="GameObjects\Asteroid.cs" />
     <Compile Include="GameObjects\Planet.cs" />

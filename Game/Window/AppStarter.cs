@@ -7,6 +7,7 @@ using Engine;
 using Engine.GUI;
 using Engine.Material;
 using Engine.Util;
+using Game.Components;
 using Game.GameObjects;
 using Game.Utils;
 using OpenTK;
