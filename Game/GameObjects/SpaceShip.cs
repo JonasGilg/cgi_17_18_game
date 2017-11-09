@@ -28,6 +28,7 @@ namespace Game.GameObjects {
 				TextureManager.LoadTexture("data/textures/test.png"),
 				this
 			);
+			
 			DisplayCamera.SetActiveCamera(_cameraComponent);
 			
 			_moveInputComponent = new ArcadeMoveInputComponent(this, TransformComponent, _moveComponent);

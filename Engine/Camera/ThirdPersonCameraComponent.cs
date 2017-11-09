@@ -29,13 +29,12 @@ namespace Engine.Component {
 				_rotation.Y = Math1D.Clamp(_rotation.Y + deltaY, minRotation, maxRotation);
 			}
 			else {
-				_rotation = Vector2d.Lerp(_rotation, Vector2d.Zero, Time.DeltaTimeUpdate * 5);
+				_rotation = Vector2d.Lerp(_rotation, Vector2d.Zero, Time.DeltaTimeUpdate);
 			}
 
 			var rotation = Quaterniond.FromEulerAngles(_rotation.Y, _rotation.X, 0);
-			var eyePosition = (GameObject.TransformComponent.Orientation * rotation).Rotate(Offset);
-
-			eyePosition += GameObject.TransformComponent.Position;
+			
+			var eyePosition = (GameObject.TransformComponent.Orientation * rotation).Rotate(Offset) + GameObject.TransformComponent.Position;
 
 			SetLookAt(eyePosition, GameObject.TransformComponent.Position, GameObject.TransformComponent.Orientation.Rotate(Vector3d.UnitY));
 		}
