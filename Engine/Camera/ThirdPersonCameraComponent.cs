@@ -29,7 +29,7 @@ namespace Engine.Component {
 				_rotation.Y = Math1D.Clamp(_rotation.Y + deltaY, minRotation, maxRotation);
 			}
 			else {
-				_rotation = Vector2d.Lerp(_rotation, Vector2d.Zero, Time.DeltaTimeUpdate * 5);
+				_rotation = Vector2d.Lerp(_rotation, Vector2d.Zero, Time.DeltaTimeUpdate * 10);
 			}
 
 			var rotation = Quaterniond.FromEulerAngles(_rotation.Y, _rotation.X, 0);

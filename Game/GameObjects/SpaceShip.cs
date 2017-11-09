@@ -15,10 +15,13 @@ namespace Game.GameObjects {
 		private readonly MoveInputComponent _moveInputComponent;
 
 		private readonly HUDElement _speed;
+		private readonly HUDElement _position;
 
 		public SpaceShip() {
 			_speed = HUD.CreateHUDElement("", new Vector2(-1f, -0.94f));
+			_position = HUD.CreateHUDElement("", new Vector2(-1f, -0.88f));
 			HUD.AddHUDElement(_speed);
+			HUD.AddHUDElement(_position);
 			
 			_moveComponent = new MoveComponent(this);
 			_cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);
@@ -41,7 +44,8 @@ namespace Game.GameObjects {
 			_renderComponent.Update();
 			_cameraComponent.Update();
 
-			_speed.Text = $"SPEED: {_moveComponent.LinearVelocity.LengthFast:N2}M/S";
+			_position.Text = $"POSITION: {TransformComponent.WorldPosition.X:N0}, {TransformComponent.WorldPosition.Y:N0}, {TransformComponent.WorldPosition.Z:N0}";
+			_speed.Text    = $"   SPEED: {_moveComponent.LinearVelocity.LengthFast:N2}M/S";
 		}
 
 		public override void Draw() {
