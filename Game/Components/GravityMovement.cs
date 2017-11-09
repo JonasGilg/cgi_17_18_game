@@ -29,8 +29,5 @@ namespace Game.Components {
             if(_currentAngle > 2 * Math.PI)
                 _currentAngle -= 2 * Math.PI;
         }
-        //
     }
-    
-    
 }

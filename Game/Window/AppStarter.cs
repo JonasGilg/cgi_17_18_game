@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Threading;
 using Engine;
+using Engine.Component;
 using Engine.GUI;
 using Engine.Material;
 using Engine.Util;
@@ -34,16 +35,18 @@ namespace Game.Window {
 
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 
-			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
+			Light.SetSpotLight(new Vector3d(0f, 0f, 0f),
 				//           r      g      b      a
 				new Vector4(.021f, .011f, .011f, 0f),
-				new Vector4(.050f, .200f, .700f, 0f),
-				new Vector4(.050f, .050f, .100f, 0f));
+				new Vector4(.950f, .950f, .950f, 0f),
+				new Vector4(.950f, .950f, .950f, 0f));
 
 			//sun
 			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.Sun, new Vector3d(0, 0, 0), new Vector3d(2000.0),
 				new Vector3d(0, 0.1, 0));
 			World.AddToWorld(sun);
+
+			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.Simple);
 
 			for (var i = 1; i < 3; i++) {
 				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
@@ -56,7 +59,7 @@ namespace Game.Window {
 				TransformComponent = {
 					Scale = new Vector3d(0.02f),
 					Position = new Vector3d(0f, 0f, -2000.0f),
-					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, -(Math.PI / 2))
+					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0)
 				}
 			};
 

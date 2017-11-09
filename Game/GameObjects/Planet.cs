@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Engine;
+﻿using Engine;
 using Engine.Material;
 using Engine.Model;
 using Engine.Component;
-using Game.Utils;
 
 namespace Game.GameObjects {
 	public class Planet : GameObject {
@@ -13,7 +11,7 @@ namespace Game.GameObjects {
 		public Planet(int textureId) {
 			RenderComponent = new RenderComponent(
 				ModelLoaderObject3D.Load("data/objects/Planet.obj"),
-				MaterialManager.GetMaterial(Material.Simple),
+				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
 				textureId,
 				this
 			);

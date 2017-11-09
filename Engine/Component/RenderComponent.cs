@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Engine.Component {
 	public class RenderComponent : Component {
 		public readonly Model3D Model;
-		public readonly BaseMaterial Material;
+		public BaseMaterial Material;
 		public readonly int Texture;
 
 		public RenderComponent(Model3D model, BaseMaterial material, int texture, GameObject gameObject) : base(gameObject) {
