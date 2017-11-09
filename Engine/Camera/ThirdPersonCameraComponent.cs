@@ -19,7 +19,7 @@ namespace Engine.Component {
 			base.Update();
 
 			if (Mouse.Down(MouseButton.Right)) {
-				var factor = Time.DeltaTimeUpdate * 2;
+				var factor = Time.DeltaTimeUpdate * 0.3;
 				
 				_rotation.X += -Mouse.CursorDelta.X * factor;
 
