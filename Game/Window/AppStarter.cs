@@ -23,7 +23,6 @@ namespace Game.Window {
 
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
-			Time.initialize();
 			HUD.AddHUDElement(_upsCounter);
 			HUD.AddHUDElement(_fpsCounter);
 
@@ -38,9 +37,9 @@ namespace Game.Window {
 			//sun
 			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.Sun, new Vector3d(0, 0, 0), new Vector3d(2000.0),
 				new Vector3d(0, 0.1, 0));
+			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.Simple);
 			World.AddToWorld(sun);
 
-			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.Simple);
 
 			for (var i = 1; i < 3; i++) {
 				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
@@ -72,11 +71,22 @@ namespace Game.Window {
 
 			_upsCounter.Text = ((int) (1 / Time.AverageUpdateTime())).ToString() + "UPS";
 
-			if (EngineKeyboard.Released(Key.Escape))
+			if (EngineKeyboard.Released(Key.Escape)) {
 				Exit();
+			}
 
 			if (EngineKeyboard.Released(Key.F11)) {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
+			}
+
+			if (EngineKeyboard.Released(Key.Period)) {
+				Time.IncreaseGameSpeed();
+				Console.Out.WriteLine($"{Time.GameSpeed:N2}");
+			}
+
+			if (EngineKeyboard.Released(Key.Comma)) {
+				Time.DecreaseGameSpeed();
+				Console.Out.WriteLine($"{Time.GameSpeed:N2}");
 			}
 
 #if(DEBUG)

@@ -33,6 +33,7 @@ namespace Game.Utils {
 				},
 				MoveComponent = {AngularVelocity = rotation}
 			};
+			result.Awake();
 
 			return result;
 		}

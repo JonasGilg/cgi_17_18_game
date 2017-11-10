@@ -21,6 +21,7 @@ namespace Game.GameObjects {
 		public override void Awake() {
 			base.Awake();
 			Radius = RenderComponent.Model.GetRadius();
+			TransformComponent.UpdateWorldMatrix();
 		}
 
 		public override void Update() {

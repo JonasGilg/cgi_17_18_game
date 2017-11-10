@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using OpenTK;
 
 namespace Engine.Component {
@@ -11,8 +10,8 @@ namespace Engine.Component {
 		public Quaterniond Orientation;
 		public Vector3d Scale;
 
-		public Vector3d WorldPosition => WorldMatrix.ExtractTranslation();
-		public Quaterniond WorldOrientation => WorldMatrix.ExtractRotation();
+		public Vector3d WorldPosition => _parent != null ? _parent.Position + Position : Position;
+		public Quaterniond WorldOrientation => _parent != null ? _parent.Orientation * Orientation : Orientation;
 
 		public TransformComponent(Vector3d position, Quaterniond orientation, Vector3d scale, GameObject owner) : base(owner) {
 			Position = position;
@@ -66,7 +65,7 @@ namespace Engine.Component {
 			}
 			else {
 				Parent.UpdateWorldMatrix();
-				WorldMatrix = Parent.WorldMatrix.Inverted().ClearScale() * LocalMatrix;
+				WorldMatrix = Matrix4d.Scale(Scale) * Matrix4d.CreateFromQuaternion(WorldOrientation) * Matrix4d.CreateTranslation(WorldPosition);
 			}
 		}
 
