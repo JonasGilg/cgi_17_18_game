@@ -10,8 +10,8 @@ namespace Engine.Component {
 		public Quaterniond Orientation;
 		public Vector3d Scale;
 
-		public Vector3d WorldPosition => _parent != null ? _parent.Position + Position : Position;
-		public Quaterniond WorldOrientation => _parent != null ? _parent.Orientation * Orientation : Orientation;
+		public Vector3d WorldPosition => _parent != null ? _parent.WorldPosition + Position : Position;
+		public Quaterniond WorldOrientation => _parent != null ? _parent.WorldOrientation * Orientation : Orientation;
 
 		public TransformComponent(Vector3d position, Quaterniond orientation, Vector3d scale, GameObject owner) : base(owner) {
 			Position = position;
