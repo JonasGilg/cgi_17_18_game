@@ -13,7 +13,7 @@ namespace Game.GameObjects {
 		private readonly CameraComponent _cameraComponent;
 		private readonly RenderComponent _renderComponent;
 		private readonly MoveInputComponent _moveInputComponent;
-		public readonly SphereCollider collisionComponent;
+		public readonly SphereCollider CollisionComponent;
 
 		private readonly HUDElement _speed;
 		private readonly HUDElement _position;
@@ -32,10 +32,10 @@ namespace Game.GameObjects {
 				TextureManager.LoadTexture("data/textures/test.png"),
 				this
 			);
-			collisionComponent = new SphereCollider(this,_renderComponent.Model, collision => {
+			
+			CollisionComponent = new SphereCollider(this,_renderComponent.Model, collision => {
 				System.Console.WriteLine("The Spaceship collided with " + collision.gameObject.ToString());
 			});
-
 
 			DisplayCamera.SetActiveCamera(_cameraComponent);
 			

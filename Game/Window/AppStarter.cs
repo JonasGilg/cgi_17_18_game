@@ -29,7 +29,7 @@ namespace Game.Window {
 
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
-			
+
 			HUD.AddHUDElement(_upsCounter);
 			HUD.AddHUDElement(_fpsCounter);
 
@@ -63,7 +63,7 @@ namespace Game.Window {
 				}
 			};
 
-			World.AddToWorld(ship,ship.collisionComponent);
+			World.AddToWorld(ship, ship.CollisionComponent);
 
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Less);
@@ -76,7 +76,7 @@ namespace Game.Window {
 			EngineKeyboard.Update(Keyboard.GetState());
 			EngineMouse.Update(Mouse.GetState());
 			Time.UpdateUpdateTime(e.Time);
-			
+
 			_upsCounter.Text = ((int) (1 / Time.AverageUpdateTime())).ToString() + "UPS";
 
 			if (EngineKeyboard.Released(Key.Escape))
@@ -87,7 +87,7 @@ namespace Game.Window {
 			}
 
 #if(DEBUG)
-			//Console.Out.WriteLine(TimingRegistry.GetStatsText());
+//Console.Out.WriteLine(TimingRegistry.GetStatsText());
 #endif
 
 			World.UpdateWorld();
@@ -96,9 +96,9 @@ namespace Game.Window {
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			Time.UpdateRenderTime(e.Time);
-			
+
 			_fpsCounter.Text = ((int) (1 / Time.AverageRenderTime())).ToString() + "FPS";
-			
+
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit | ClearBufferMask.DepthBufferBit);
 
 			World.RenderWorld();

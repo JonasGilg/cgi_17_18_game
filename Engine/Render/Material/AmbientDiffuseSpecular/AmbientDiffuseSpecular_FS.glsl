@@ -7,7 +7,6 @@ uniform vec3 light_origin;
 uniform vec4 light_ambient_color;
 uniform vec4 light_diffuse_color;
 uniform vec4 light_specular_color;
-uniform vec4 camera_position;
 
 uniform float specular_shininess;
 
@@ -38,7 +37,7 @@ void main() {
                        specular * light_specular_color;
                        
     vec4 surfaceColor = texture2D(sampler, fragTexcoord);
-    vec4 colorGammaCorrected = pow(colorLinear * surfaceColor, vec4(1.0 / screenGamma));
+    vec4 colorGammaCorrected = pow(colorLinear, vec4(1.0 / screenGamma));
     
     outputColor = surfaceColor * colorGammaCorrected;
 }
