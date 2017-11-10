@@ -18,7 +18,10 @@ namespace Game.GameObjects {
 			MoveComponent = new MoveComponent(this);
 		}
 
-
+		public override void Awake() {
+			base.Awake();
+			Radius = RenderComponent.Model.GetRadius();
+		}
 
 		public override void Update() {
 			MoveComponent.Update();

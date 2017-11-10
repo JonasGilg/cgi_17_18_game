@@ -47,13 +47,16 @@ namespace Engine {
 			//TODO better perfomance possible if skybox is rendered last (that needs a refactoring of the shader though)
 			Skybox.Draw();
 			for (var i = 0; i < Objects.Count; i++) {
-				Objects[i].Draw();
+				if (DisplayCamera.SphereIsInFrustum(Objects[i].TransformComponent.WorldPosition, Objects[i].Radius)) {
+					Objects[i].Draw();
+				}
 			}
 
 			RenderStats.Stop();
 		}
 
 		public static void AddToWorld(GameObject obj, CollisionComponent collisionToAdd = null) {
+			obj.Awake();
 			Objects.Add(obj);
 			if (collisionToAdd != null) collisionObjects.Add(collisionToAdd);
 		}

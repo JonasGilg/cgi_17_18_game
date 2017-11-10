@@ -47,7 +47,6 @@ namespace Game.Window {
 					AsteroidFactory.AsteroidType.Strawberry, 1, new Vector3d(10000.0 * i, 0, 0),
 					new Vector3d(1000.0), new Vector3d(0, 0.5, 0));
 				World.AddToWorld(planet);
-				planet.Awake();
 			}
 
 			var ship = new SpaceShip {
@@ -57,8 +56,6 @@ namespace Game.Window {
 					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0)
 				}
 			};
-			ship.Awake();
-
 			World.AddToWorld(ship, ship.CollisionComponent);
 
 			GL.Enable(EnableCap.DepthTest);

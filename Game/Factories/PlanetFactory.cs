@@ -41,6 +41,7 @@ namespace Game.Utils {
 			AsteroidFactory.AsteroidType asteroidType, int numberAsteroids, Vector3d position, Vector3d scale,
 			Vector3d rotation) {
 			var planet = GeneratePlanet(planetTexture, position, scale, rotation);
+			
 			_random = new Random(1);
 			for (var i = 0; i < numberAsteroids; i++) {
 				var asteroid = AsteroidFactory.GenerateGravityAsteroid(asteroidType, planet);
@@ -49,8 +50,6 @@ namespace Game.Utils {
 				asteroid.TransformComponent.Scale = new Vector3d(100);
 				asteroid.MoveComponent.AngularVelocity = new Vector3d(0.0, 0.5, 0.0);
 				asteroid.MoveComponent.LinearVelocity = new Vector3d(0.0, 0.0, 0.0);
-
-				asteroid.Awake();
 				
 				World.AddToWorld(asteroid, asteroid.CollisionComponent);
 			}
