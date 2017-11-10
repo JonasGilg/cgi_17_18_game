@@ -27,7 +27,7 @@ namespace Game.GameObjects {
 			_moveComponent = new MoveComponent(this);
 			_cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);
 			_renderComponent = new RenderComponent(
-				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj"),
+				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj", this),
 				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
 				TextureManager.LoadTexture("data/textures/test.png"),
 				this
@@ -40,6 +40,11 @@ namespace Game.GameObjects {
 			DisplayCamera.SetActiveCamera(_cameraComponent);
 			
 			_moveInputComponent = new ArcadeMoveInputComponent(this, TransformComponent, _moveComponent);
+		}
+
+		public override void Awake() {
+			base.Awake();
+			Radius = _renderComponent.Model.GetRadius();
 		}
 
 		public override void Update() {

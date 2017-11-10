@@ -1,57 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Engine;
-using Engine.Model;
 using Engine.Texture;
-using Game.Components;
 using Game.GameObjects;
-using OpenTK;
 
 namespace Game.Utils {
 	public static class AsteroidFactory {
-		
 		public enum AsteroidType {
-			STANDARD,
-			STRAWBERRY
+			Standard,
+			Strawberry
 		}
-		public static readonly Dictionary<AsteroidType, string> AsteroidModelDictionary = new Dictionary<AsteroidType, string> {
-			{AsteroidType.STANDARD, "data/objects/asteroids/asteroid_0.obj"},
-			{AsteroidType.STRAWBERRY, "data/objects/asteroids/strawberry.obj"}
-		};
 
-		public static readonly Dictionary<AsteroidType, string> AsteroidTexturesDictionary = new Dictionary<AsteroidType, string> {
-			{AsteroidType.STANDARD,"data/textures/asteroids/asteroid_0.png"},
-			{AsteroidType.STRAWBERRY,"data/textures/asteroids/strawberry.png"}
-		};
+		public static readonly Dictionary<AsteroidType, string> AsteroidModelDictionary =
+			new Dictionary<AsteroidType, string> {
+				{AsteroidType.Standard, "data/objects/asteroids/asteroid_0.obj"},
+				{AsteroidType.Strawberry, "data/objects/asteroids/strawberry.obj"}
+			};
 
+		public static readonly Dictionary<AsteroidType, string> AsteroidTexturesDictionary =
+			new Dictionary<AsteroidType, string> {
+				{AsteroidType.Standard, "data/textures/asteroids/asteroid_0.png"},
+				{AsteroidType.Strawberry, "data/textures/asteroids/strawberry.png"}
+			};
 
 		public static Asteroid GenerateAsteroid(AsteroidType type) {
-			//Console.Out.WriteLine("GenerateAsteroid with type: "+type);
-			
-			var model = ModelLoaderObject3D.Load(AsteroidModelDictionary[type]);
-			
 			var textureId = TextureManager.LoadTexture(AsteroidTexturesDictionary[type]);
-			
-			var asteroid = new Asteroid(model,textureId);
-			
+			var asteroid = new Asteroid(AsteroidModelDictionary[type], textureId);
 			return asteroid;
 		}
 
 		public static Asteroid GenerateGravityAsteroid(AsteroidType type, GameObject referenceObject) {
-			var model = ModelLoaderObject3D.Load(AsteroidModelDictionary[type]);
-			
 			var textureId = TextureManager.LoadTexture(AsteroidTexturesDictionary[type]);
-
-			var asteroid = new Asteroid(model, textureId, referenceObject);
-			
-		
-			
+			var asteroid = new Asteroid(AsteroidModelDictionary[type], textureId, referenceObject);
 			return asteroid;
 		}
-
-		
-		
-		
-		
 	}
 }

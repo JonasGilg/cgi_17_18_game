@@ -10,7 +10,7 @@ namespace Game.GameObjects {
 
 		public Planet(int textureId) {
 			RenderComponent = new RenderComponent(
-				ModelLoaderObject3D.Load("data/objects/Planet.obj"),
+				ModelLoaderObject3D.Load("data/objects/Planet.obj", this),
 				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
 				textureId,
 				this

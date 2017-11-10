@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.Threading;
 using Engine;
-using Engine.Component;
 using Engine.GUI;
 using Engine.Material;
 using Engine.Util;
-using Game.Components;
 using Game.GameObjects;
 using Game.Utils;
 using OpenTK;
@@ -50,9 +44,10 @@ namespace Game.Window {
 
 			for (var i = 1; i < 3; i++) {
 				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
-					AsteroidFactory.AsteroidType.STRAWBERRY, 1, new Vector3d(10000.0 * i, 0, 0),
+					AsteroidFactory.AsteroidType.Strawberry, 1, new Vector3d(10000.0 * i, 0, 0),
 					new Vector3d(1000.0), new Vector3d(0, 0.5, 0));
 				World.AddToWorld(planet);
+				planet.Awake();
 			}
 
 			var ship = new SpaceShip {
@@ -62,8 +57,9 @@ namespace Game.Window {
 					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0)
 				}
 			};
+			ship.Awake();
 
-			World.AddToWorld(ship,ship.collisionComponent);
+			World.AddToWorld(ship, ship.CollisionComponent);
 
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Less);
@@ -76,7 +72,7 @@ namespace Game.Window {
 			EngineKeyboard.Update(Keyboard.GetState());
 			EngineMouse.Update(Mouse.GetState());
 			Time.UpdateUpdateTime(e.Time);
-			
+
 			_upsCounter.Text = ((int) (1 / Time.AverageUpdateTime())).ToString() + "UPS";
 
 			if (EngineKeyboard.Released(Key.Escape))
@@ -87,7 +83,7 @@ namespace Game.Window {
 			}
 
 #if(DEBUG)
-			//Console.Out.WriteLine(TimingRegistry.GetStatsText());
+//Console.Out.WriteLine(TimingRegistry.GetStatsText());
 #endif
 
 			World.UpdateWorld();
@@ -96,9 +92,9 @@ namespace Game.Window {
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			Time.UpdateRenderTime(e.Time);
-			
+
 			_fpsCounter.Text = ((int) (1 / Time.AverageRenderTime())).ToString() + "FPS";
-			
+
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit | ClearBufferMask.DepthBufferBit);
 
 			World.RenderWorld();

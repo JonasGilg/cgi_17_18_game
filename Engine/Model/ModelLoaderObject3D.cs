@@ -6,9 +6,9 @@ using OpenTK;
 
 namespace Engine.Model {
 	public static class ModelLoaderObject3D {
-		public static Model3D Load(string filePath, float scale = 1.0f, bool doAverageTangets = false, bool createVAO = true) {
-			var model = new Model3D();
-
+		public static Model3D Load(string filePath, GameObject gameObject = null, float scale = 1.0f, bool doAverageTangets = false,
+			bool createVAO = true) {
+			var model = new Model3D(gameObject);
 
 			var v = new List<Vector3>();
 			var vt = new List<Vector2>();
@@ -25,7 +25,6 @@ namespace Engine.Model {
 							vec3 = new Vector3(float.Parse(parts[1], CultureInfo.InvariantCulture) * scale,
 								float.Parse(parts[2], CultureInfo.InvariantCulture) * scale,
 								float.Parse(parts[3], CultureInfo.InvariantCulture) * scale);
-
 
 
 							v.Add(vec3);

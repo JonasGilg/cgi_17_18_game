@@ -18,9 +18,7 @@ namespace Engine.Component {
 			Texture = texture;
 		}
 
-		public override void Update() {
-			Model.Update(GameObject.TransformComponent.WorldMatrix);
-		}
+		public override void Update() { Model.Update(); }
 
 		public void Draw(float shininess = 0) {
 			Material.Draw(Model, Texture, shininess);

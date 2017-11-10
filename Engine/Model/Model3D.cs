@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Engine.Util;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Model {
-	public class Model3D {
+	public class Model3D : Component.Component {
 		// the transformation (position, rotation, scale) of the object
 		public Matrix4d Transformation = Matrix4d.Identity;
 
@@ -16,7 +17,7 @@ namespace Engine.Model {
 		public List<Vector3> Tangents;
 		public List<Vector3> BiTangents;
 
-		public Model3D() {
+		public Model3D(GameObject gameObject) : base(gameObject) {
 			Positions = new List<Vector3>();
 			Normals = new List<Vector3>();
 			UVs = new List<Vector2>();
@@ -216,13 +217,22 @@ namespace Engine.Model {
 			}
 		}
 
+		public double GetRadius() {
+			var maxLength = 0.0;
+			foreach (var pos in Positions) {
+				var calculatedLen = (pos * GameObject.TransformComponent.Scale.ToFloat()).Length;
+				if (calculatedLen > maxLength) maxLength = calculatedLen;
+			}
+			return maxLength;
+		}
+
 		// unloads from graphics memory
 		public void UnLoad() {
 			// tbd.
 		}
 
-		public void Update(Matrix4d transform) {
-			Transformation = transform;
+		public override void Update() {
+			Transformation = GameObject.TransformComponent.WorldMatrix;
 		}
 	}
 }
