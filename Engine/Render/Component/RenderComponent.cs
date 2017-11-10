@@ -20,7 +20,7 @@ namespace Engine.Component {
 
 		public override void Update() { Model.Update(); }
 
-		public void Draw(float shininess = 0) {
+		public virtual void Draw(float shininess = 0) {
 			Material.Draw(Model, Texture, shininess);
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine.Model;
+using Engine.Util;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -44,7 +45,7 @@ namespace Engine.Material {
 			_materialShininessLocation = GL.GetUniformLocation(Program, "specular_shininess");
 
 			// Die Stellen im Fragemant-Shader für Licht-parameter ermitteln.
-			_lightDirectionLocation = GL.GetUniformLocation(Program, "light_direction");
+			_lightDirectionLocation = GL.GetUniformLocation(Program, "light_origin");
 			_lightAmbientLocation = GL.GetUniformLocation(Program, "light_ambient_color");
 			_lightDiffuseLocation = GL.GetUniformLocation(Program, "light_diffuse_color");
 			_lightSpecularLocation = GL.GetUniformLocation(Program, "light_specular_color");
@@ -75,17 +76,18 @@ namespace Engine.Material {
 			// Objekt-Transformation * Kamera-Transformation * Perspektivische Projektion der kamera.
 			// Auf dem Shader wird jede Vertex-Position mit dieser Matrix multipliziert. Resultat ist die Position auf dem Screen.
 			var modelViewProjection = model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
+			var mvpFloat = modelViewProjection.ToFloat();
 
 			// Die ModelViewProjection Matrix wird dem Shader als Parameter übergeben
-			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelViewProjection);
+			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref mvpFloat);
 
 			// Die Model-Matrix wird dem Shader übergeben, zur transformation der Normalen
 			// und der Berechnung des Winkels Betrachter / Objektpunkt 
-			var modelMatrix = model.Transformation;
+			var modelMatrix = model.Transformation.ToFloat();
 			GL.UniformMatrix4(_modelMatrixLocation, false, ref modelMatrix);
 
 			// Die Licht Parameter werden übergeben
-			GL.Uniform3(_lightDirectionLocation, Light.LightDirection);
+			GL.Uniform3(_lightDirectionLocation, Light.LightOrigin.ToFloat());
 			GL.Uniform4(_lightAmbientLocation, Light.LightAmbient);
 			GL.Uniform4(_lightDiffuseLocation, Light.LightDiffuse);
 			GL.Uniform4(_lightSpecularLocation, Light.LightSpecular);
@@ -94,7 +96,7 @@ namespace Engine.Material {
 			GL.Uniform1(_materialShininessLocation, shininess);
 
 			// Positions Parameter
-			GL.Uniform4(_cameraPositionLocation, DisplayCamera.Position.X, DisplayCamera.Position.Y, DisplayCamera.Position.Z, 1);
+			GL.Uniform4(_cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y, (float) DisplayCamera.Position.Z, 1);
 
 			// Das Objekt wird gezeichnet
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);

@@ -23,8 +23,9 @@ namespace Engine.Input {
 		public static void Update(MouseState newState) {
 			_previousState = _currentState;
 			_currentState = newState;
-			
+
 			CursorDelta = new Vector2(_currentState.X - _previousState.X, _currentState.Y - _previousState.Y);
+			ScrollDelta = _previousState.WheelPrecise - _currentState.WheelPrecise;
 		}
 
 		public static bool Down(MouseButton button) => _currentState[button];
@@ -32,6 +33,7 @@ namespace Engine.Input {
 		public static bool Released(MouseButton button) => _previousState[button] && !_currentState[button];
 
 		public static Vector2 CursorDelta { get; private set; }
+		public static double ScrollDelta { get; private set; }
 	}
 
 	public static class Controller {

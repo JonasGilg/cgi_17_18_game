@@ -1,5 +1,4 @@
-﻿#version 330
-precision highp float;
+﻿#version 400
 
 // input from VAO
 in vec3 in_position;
@@ -18,13 +17,12 @@ uniform mat4 model_matrix;
 out vec2 fragTexcoord;
 
 // position is also passed to the fragment-shader
-out vec4 fragPosition;
+out vec3 fragPosition;
 
 // TBN-Matrix is also passed to the fragment-shader
 out mat3 fragTBN;
 
-void main()
-{
+void main() {
 	vec3 T = normalize(vec3(model_matrix * vec4(in_tangent, 0.0)));
     vec3 B = normalize(vec3(model_matrix * vec4(in_bitangent, 0.0)));
     vec3 N = normalize(vec3(model_matrix * vec4(in_normal, 0.0)));
@@ -33,8 +31,8 @@ void main()
 	// "in_uv" to fragment-shader
 	fragTexcoord = in_uv;
 
-	// position to fragment-shader
-	fragPosition = vec4(in_position,1);
+    vec4 vertPosition4 = model_matrix * vec4(in_position, 1.0);
+	fragPosition =  vec3(vertPosition4) / vertPosition4.w;
 
 	// final vertex position
 	gl_Position = modelview_projection_matrix * vec4(in_position, 1);
