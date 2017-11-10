@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System;
 
 namespace Engine.Util {
 	public static class Time {
@@ -8,12 +9,19 @@ namespace Engine.Util {
 		
 		public static double DeltaTimeUpdate { get; private set; }
 		public static double DeltaTimeRender{ get; private set; }
+		private static double startTime;
+		private static double _currentTime => DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+		public static double TotalTime => _currentTime - startTime;
 
 		private static readonly Queue<double> LastUpdates = new Queue<double>(QueueSize);
 		private static readonly Queue<double> LastRenders = new Queue<double>(QueueSize);
 
 		public static double AverageUpdateTime() => LastUpdates.Average();
 		public static double AverageRenderTime() => LastRenders.Average();
+
+		public static void initialize() {
+			startTime = _currentTime;
+		}
 
 		public static void UpdateUpdateTime(double deltaTime) {
 			DeltaTimeUpdate = deltaTime;

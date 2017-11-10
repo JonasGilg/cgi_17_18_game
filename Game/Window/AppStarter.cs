@@ -29,7 +29,7 @@ namespace Game.Window {
 
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
-			
+			Time.initialize();
 			HUD.AddHUDElement(_upsCounter);
 			HUD.AddHUDElement(_fpsCounter);
 
