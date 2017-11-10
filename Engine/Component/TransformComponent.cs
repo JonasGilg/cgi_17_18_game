@@ -64,7 +64,6 @@ namespace Engine.Component {
 				WorldMatrix = LocalMatrix;
 			}
 			else {
-				Parent.UpdateWorldMatrix();
 				WorldMatrix = Matrix4d.Scale(Scale) * Matrix4d.CreateFromQuaternion(WorldOrientation) * Matrix4d.CreateTranslation(WorldPosition);
 			}
 		}
