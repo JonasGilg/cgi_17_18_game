@@ -2,7 +2,6 @@
 using Engine.Material;
 using Engine.Model;
 using Engine.Component;
-using Game.Components;
 
 namespace Game.GameObjects {
 	public class Asteroid : GameObject {
@@ -12,7 +11,7 @@ namespace Game.GameObjects {
 
 		public Asteroid(Model3D model, int textureId, GameObject referenceObject = null) {
 			if (referenceObject != null) {
-				MoveComponent = new GravityMovement(this, 0.0);
+				MoveComponent = new Components.GravityMovement(this, 0.0);
 			}
 			else {
 				MoveComponent = new MoveComponent(this);
