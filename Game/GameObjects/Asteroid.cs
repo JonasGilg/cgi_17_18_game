@@ -14,6 +14,7 @@ namespace Game.GameObjects {
 		public Asteroid(Model3D model, int textureId, GameObject referenceObject = null) {
 			if (referenceObject != null) {
 				MoveComponent = new GravityMovement(this, referenceObject, 0.0);
+				TransformComponent.Parent = referenceObject.TransformComponent.Parent;
 			}
 			else {
 				MoveComponent = new MoveComponent(this);

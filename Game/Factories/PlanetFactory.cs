@@ -54,7 +54,7 @@ namespace Game.Utils {
 				double distance =1200.0;
 				planet.TransformComponent.Orientation.ToAxisAngle(out axis, out angle );
 				
-				asteroid.TransformComponent.Position = planet.TransformComponent.Position+new Vector3d(1000,0,0);
+				asteroid.TransformComponent.Position = planet.TransformComponent.Position+new Vector3d(2000,0,0);
 
 				// Console.Out.WriteLine("asteroid["+i+"] position: "+asteroid.TransformComponent.WorldPosition.ToString());
 				World.AddToWorld(asteroid);
