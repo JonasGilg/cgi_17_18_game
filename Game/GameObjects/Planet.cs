@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Engine;
+﻿using Engine;
 using Engine.Material;
 using Engine.Model;
 using Engine.Component;
-using Game.Utils;
 
 namespace Game.GameObjects {
 	public class Planet : GameObject {
@@ -12,15 +10,19 @@ namespace Game.GameObjects {
 
 		public Planet(int textureId) {
 			RenderComponent = new RenderComponent(
-				ModelLoaderObject3D.Load("data/objects/Planet.obj"),
-				MaterialManager.GetMaterial(Material.Simple),
+				ModelLoaderObject3D.Load("data/objects/Planet.obj", this),
+				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
 				textureId,
 				this
 			);
 			MoveComponent = new MoveComponent(this);
 		}
 
-
+		public override void Awake() {
+			base.Awake();
+			Radius = RenderComponent.Model.GetRadius();
+			TransformComponent.UpdateWorldMatrix();
+		}
 
 		public override void Update() {
 			MoveComponent.Update();

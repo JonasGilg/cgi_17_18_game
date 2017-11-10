@@ -1,19 +1,40 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System;
 
 namespace Engine.Util {
 	public static class Time {
 		private const int QueueSize = 30;
 		
-		public static double DeltaTimeUpdate { get; private set; }
-		public static double DeltaTimeRender{ get; private set; }
+		public static double GameSpeed { get; private set; } = 1.0;
+
+		private static double _deltaTimeUpdate;
+		public static double DeltaTimeUpdate {
+			get => _deltaTimeUpdate * GameSpeed;
+			private set => _deltaTimeUpdate = value;
+		}
+
+		private static double _deltaTimeRender;
+		public static double DeltaTimeRender {
+			get => _deltaTimeRender * GameSpeed;
+			private set => _deltaTimeRender = value;
+		}
+
+		private static readonly double StartTime;
+		private static double CurrentTime => DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+		
+		public static double TotalTime => CurrentTime - StartTime;
 
 		private static readonly Queue<double> LastUpdates = new Queue<double>(QueueSize);
 		private static readonly Queue<double> LastRenders = new Queue<double>(QueueSize);
 
 		public static double AverageUpdateTime() => LastUpdates.Average();
 		public static double AverageRenderTime() => LastRenders.Average();
+
+		static Time() {
+			StartTime = CurrentTime;
+		}
 
 		public static void UpdateUpdateTime(double deltaTime) {
 			DeltaTimeUpdate = deltaTime;
@@ -32,6 +53,9 @@ namespace Engine.Util {
 				LastRenders.Dequeue();
 			}
 		}
+
+		public static void IncreaseGameSpeed() => GameSpeed *= 1.1;
+		public static void DecreaseGameSpeed() => GameSpeed /= 1.1;
 	}
 
 	public static class TimingRegistry {

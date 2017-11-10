@@ -10,7 +10,7 @@ namespace Engine.Material {
 		private readonly int _modelMatrixLocation;
 		private readonly int _modelviewProjectionMatrixLocation;
 
-		private readonly int _lightDirectionLocation;
+		private readonly int _lightOriginLocation;
 		private readonly int _lightAmbientLocation;
 		private readonly int _lightDiffuseLocation;
 		private readonly int _lightSpecularLocation;
@@ -40,7 +40,7 @@ namespace Engine.Material {
 			_materialShininessLocation = GL.GetUniformLocation(Program, "specular_shininess");
 
 			// the location of the "uniform"-paramters of the light parameters
-			_lightDirectionLocation = GL.GetUniformLocation(Program, "light_direction");
+			_lightOriginLocation = GL.GetUniformLocation(Program, "light_origin");
 			_lightAmbientLocation = GL.GetUniformLocation(Program, "light_ambient_color");
 			_lightDiffuseLocation = GL.GetUniformLocation(Program, "light_diffuse_color");
 			_lightSpecularLocation = GL.GetUniformLocation(Program, "light_specular_color");
@@ -72,7 +72,7 @@ namespace Engine.Material {
 			GL.UniformMatrix4(_modelMatrixLocation, false, ref modelMatrix);
 
 			// Die Licht Parameter werden übergeben
-			GL.Uniform3(_lightDirectionLocation, Light.LightDirection);
+			GL.Uniform3(_lightOriginLocation, (float) Light.LightOrigin.X, (float) Light.LightOrigin.Y, (float) Light.LightOrigin.Z);
 			GL.Uniform4(_lightAmbientLocation, Light.LightAmbient);
 			GL.Uniform4(_lightDiffuseLocation, Light.LightDiffuse);
 			GL.Uniform4(_lightSpecularLocation, Light.LightSpecular);

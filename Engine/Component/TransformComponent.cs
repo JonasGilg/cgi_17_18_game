@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
-using OpenTK.Input;
 
 namespace Engine.Component {
 	public class TransformComponent : Component {
@@ -11,36 +10,35 @@ namespace Engine.Component {
 		public Quaterniond Orientation;
 		public Vector3d Scale;
 
-		public Vector3d WorldPosition => WorldMatrix.ExtractTranslation();
-		public Quaterniond WorldOrientation => WorldMatrix.ExtractRotation();
-
-		public static TransformComponent Identity() => new TransformComponent();
+		public Vector3d WorldPosition => _parent != null ? _parent.WorldPosition + Position : Position;
+		public Quaterniond WorldOrientation => _parent != null ? _parent.WorldOrientation * Orientation : Orientation;
 
 		public TransformComponent(Vector3d position, Quaterniond orientation, Vector3d scale, GameObject owner) : base(owner) {
 			Position = position;
 			Orientation = orientation;
 			Scale = scale;
-
+			
 			Children = new List<TransformComponent>();
 		}
+		
+		public TransformComponent(GameObject owner) : this(Vector3d.Zero, owner) { }
 
-		public TransformComponent(GameObject owner = null) : this(Vector3d.Zero, Quaterniond.Identity, Vector3d.One, owner) { }
-
-		public TransformComponent(Vector3d position, GameObject owner = null) : this(position, Quaterniond.Identity,
+		public TransformComponent(Vector3d position, GameObject owner) : this(position, Quaterniond.Identity,
 			Vector3d.One, owner) { }
 
-		public TransformComponent(Quaterniond orientation, GameObject owner = null) : this(Vector3d.Zero, orientation,
+		public TransformComponent(Quaterniond orientation, GameObject owner) : this(Vector3d.Zero, orientation,
 			Vector3d.One, owner) { }
 
 		public TransformComponent(TransformComponent other) : this(other.Position, other.Orientation, other.Scale,
 			other.GameObject) { }
 
-		public TransformComponent(Matrix4d transformMatrix, GameObject owner = null) : this(
+		public TransformComponent(Matrix4d transformMatrix, GameObject owner ) : this(
 			transformMatrix.ExtractTranslation(),
 			transformMatrix.ExtractRotation(), transformMatrix.ExtractScale(), owner) { }
 
 		private TransformComponent _parent;
 		public List<TransformComponent> Children;
+
 
 		public TransformComponent Parent {
 			get => _parent;
@@ -66,8 +64,7 @@ namespace Engine.Component {
 				WorldMatrix = LocalMatrix;
 			}
 			else {
-				Parent.UpdateWorldMatrix();
-				WorldMatrix = Parent.WorldMatrix * LocalMatrix;
+				WorldMatrix = Matrix4d.Scale(Scale) * Matrix4d.CreateFromQuaternion(WorldOrientation) * Matrix4d.CreateTranslation(WorldPosition);
 			}
 		}
 

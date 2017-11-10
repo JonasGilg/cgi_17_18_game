@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.Threading;
 using Engine;
 using Engine.GUI;
 using Engine.Material;
 using Engine.Util;
-using Game.Components;
 using Game.GameObjects;
 using Game.Utils;
 using OpenTK;
@@ -28,26 +23,27 @@ namespace Game.Window {
 
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
-			
 			HUD.AddHUDElement(_upsCounter);
 			HUD.AddHUDElement(_fpsCounter);
 
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 
-			Light.SetDirectionalLight(new Vector3(0f, 0f, 1f),
+			Light.SetSpotLight(new Vector3d(0f, 0f, 0f),
 				//           r      g      b      a
 				new Vector4(.021f, .011f, .011f, 0f),
-				new Vector4(.050f, .200f, .700f, 0f),
-				new Vector4(.050f, .050f, .100f, 0f));
+				new Vector4(.950f, .950f, .950f, 0f),
+				new Vector4(.950f, .950f, .950f, 0f));
 
 			//sun
 			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.Sun, new Vector3d(0, 0, 0), new Vector3d(2000.0),
 				new Vector3d(0, 0.1, 0));
+			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.Simple);
 			World.AddToWorld(sun);
 
+
 			for (var i = 1; i < 3; i++) {
-				var planet = PlanetFactory.generatePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
-					AsteroidFactory.AsteroidType.STRAWBERRY, 1, new Vector3d(10000.0 * i, 0, 0),
+				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
+					AsteroidFactory.AsteroidType.Strawberry, 1, new Vector3d(10000.0 * i, 0, 0),
 					new Vector3d(1000.0), new Vector3d(0, 0.5, 0));
 				World.AddToWorld(planet);
 			}
@@ -56,11 +52,10 @@ namespace Game.Window {
 				TransformComponent = {
 					Scale = new Vector3d(0.02f),
 					Position = new Vector3d(0f, 0f, -2000.0f),
-					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, -(Math.PI / 2))
+					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0)
 				}
 			};
-
-			World.AddToWorld(ship);
+			World.AddToWorld(ship, ship.CollisionComponent);
 
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Less);
@@ -73,18 +68,29 @@ namespace Game.Window {
 			EngineKeyboard.Update(Keyboard.GetState());
 			EngineMouse.Update(Mouse.GetState());
 			Time.UpdateUpdateTime(e.Time);
-			
+
 			_upsCounter.Text = ((int) (1 / Time.AverageUpdateTime())).ToString() + "UPS";
 
-			if (EngineKeyboard.Released(Key.Escape))
+			if (EngineKeyboard.Released(Key.Escape)) {
 				Exit();
+			}
 
 			if (EngineKeyboard.Released(Key.F11)) {
 				WindowState = WindowState != WindowState.Fullscreen ? WindowState.Fullscreen : WindowState.Normal;
 			}
 
+			if (EngineKeyboard.Released(Key.Period)) {
+				Time.IncreaseGameSpeed();
+				Console.Out.WriteLine($"{Time.GameSpeed:N2}");
+			}
+
+			if (EngineKeyboard.Released(Key.Comma)) {
+				Time.DecreaseGameSpeed();
+				Console.Out.WriteLine($"{Time.GameSpeed:N2}");
+			}
+
 #if(DEBUG)
-			//Console.Out.WriteLine(TimingRegistry.GetStatsText());
+//Console.Out.WriteLine(TimingRegistry.GetStatsText());
 #endif
 
 			World.UpdateWorld();
@@ -93,9 +99,9 @@ namespace Game.Window {
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			Time.UpdateRenderTime(e.Time);
-			
+
 			_fpsCounter.Text = ((int) (1 / Time.AverageRenderTime())).ToString() + "FPS";
-			
+
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit | ClearBufferMask.DepthBufferBit);
 
 			World.RenderWorld();
@@ -114,7 +120,7 @@ namespace Game.Window {
 		[STAThread]
 		public static void Main() {
 			using (var example = new AppStarter()) {
-				example.Run();
+				example.Run(200);
 			}
 		}
 	}

@@ -3,6 +3,9 @@
 namespace Engine {
 	public static class Light {
 		public static Vector3 LightDirection;
+		public static Vector3d LightOrigin;
+		public static bool IsDirectional;
+		
 		public static Vector4 LightAmbient;
 		public static Vector4 LightDiffuse;
 		public static Vector4 LightSpecular;
@@ -12,6 +15,16 @@ namespace Engine {
 			LightAmbient = ambient;
 			LightDiffuse = diffuse;
 			LightSpecular = specular;
+			IsDirectional = true;
+		}
+
+		public static void SetSpotLight(Vector3d origin, Vector4 ambient, Vector4 diffuse, Vector4 specular) {
+			LightOrigin = origin;
+			LightAmbient = ambient;
+			LightDiffuse = diffuse;
+			LightSpecular = specular;
+			
+			IsDirectional = false;
 		}
 	}
 }

@@ -1,12 +1,16 @@
 ﻿using Engine.Component;
-namespace Engine {
-	public class GameObject {
-		public readonly TransformComponent TransformComponent;
-		public float radius;
 
-		public GameObject() {
-			TransformComponent = TransformComponent.Identity();
+namespace Engine {
+	public abstract class GameObject {
+		public readonly TransformComponent TransformComponent;
+		public double Radius;
+
+		protected GameObject() {
+			TransformComponent = new TransformComponent(this);
+			Radius = 0;
 		}
+
+		public virtual void Awake() { }
 
 		public virtual void Update() {
 			TransformComponent.Update();
