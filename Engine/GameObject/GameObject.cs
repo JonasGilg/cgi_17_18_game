@@ -5,7 +5,7 @@ namespace Engine {
 		public float radius;
 
 		public GameObject() {
-			TransformComponent = TransformComponent.Identity();
+			TransformComponent = new TransformComponent(this);
 		}
 
 		public virtual void Update() {
