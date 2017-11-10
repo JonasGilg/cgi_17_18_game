@@ -12,6 +12,10 @@ namespace Engine.Util {
 			(float) matrix.M21, (float) matrix.M22, (float) matrix.M23, (float) matrix.M24,
 			(float) matrix.M31, (float) matrix.M32, (float) matrix.M33, (float) matrix.M34,
 			(float) matrix.M41, (float) matrix.M42, (float) matrix.M43, (float) matrix.M44);
+
+		public static Vector3 ToFloat(this Vector3d vec) => new Vector3((float)vec.X, (float)vec.Y, (float)vec.Z);
+
+		public static Vector3d ToDouble(this Vector3 vec) => new Vector3d(vec.X, vec.Y, vec.Z);
 	}
 
 	public static class Math1D {

@@ -33,7 +33,7 @@ namespace Game.GameObjects {
 				this
 			);
 			collisionComponent = new SphereCollider(this,_renderComponent.Model, collision => {
-				System.Console.WriteLine("The Spaceship collided with" + collision.gameObject.ToString());
+				System.Console.WriteLine("The Spaceship collided with " + collision.gameObject.ToString());
 			});
 
 
