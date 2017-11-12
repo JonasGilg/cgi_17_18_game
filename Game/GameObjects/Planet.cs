@@ -7,6 +7,7 @@ namespace Game.GameObjects {
 	public class Planet : GameObject {
 		public readonly RenderComponent RenderComponent;
 		public readonly MoveComponent MoveComponent;
+		public readonly CollisionComponent CollisionComponent;
 
 		public Planet(int textureId) {
 			RenderComponent = new RenderComponent(
@@ -16,10 +17,17 @@ namespace Game.GameObjects {
 				this
 			);
 			MoveComponent = new MoveComponent(this);
+			CollisionComponent = new SphereCollider(this, RenderComponent.Model,
+				
+				collision => {
+					System.Console.WriteLine(ToString()+" collided with "+collision.gameObject.ToString());
+				});
+			CollisionComponent.Register();
 		}
 
 		public override void Awake() {
 			base.Awake();
+			
 			Radius = RenderComponent.Model.GetRadius();
 			TransformComponent.UpdateWorldMatrix();
 		}

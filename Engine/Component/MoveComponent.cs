@@ -1,4 +1,5 @@
-﻿using Engine.Util;
+﻿
+using Engine.Util;
 using OpenTK;
 using Engine.Component;
 
@@ -24,5 +25,6 @@ namespace Engine {
 			var rotationAngle = angularChange.Length;
 			GameObject.TransformComponent.Orientation = Quaterniond.FromAxisAngle(rotationAxis, rotationAngle) * GameObject.TransformComponent.Orientation;
 		}
+		
 	}
 }

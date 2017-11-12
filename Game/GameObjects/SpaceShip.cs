@@ -35,8 +35,9 @@ namespace Game.GameObjects {
 			);
 			
 			CollisionComponent = new SphereCollider(this,_renderComponent.Model, collision => {
-				System.Console.WriteLine("The Spaceship collided with " + collision.gameObject.ToString());
+				System.Console.WriteLine(ToString()+" collided with " + collision.gameObject.ToString());
 			});
+			CollisionComponent.Register();
 
 			DisplayCamera.SetActiveCamera(_cameraComponent);
 			
@@ -45,6 +46,7 @@ namespace Game.GameObjects {
 
 		public override void Awake() {
 			base.Awake();
+			
 			Radius = _renderComponent.Model.GetRadius();
 		}
 

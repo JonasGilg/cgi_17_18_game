@@ -6,7 +6,7 @@ using Engine.Component;
 namespace Game.GameObjects {
 	public class Asteroid : GameObject {
 		public readonly MoveComponent MoveComponent;
-		private readonly RenderComponent _renderComponent;
+		private readonly RenderComponent RenderComponent;
 		public readonly SphereCollider CollisionComponent;
 
 		public Asteroid(string modelObjectPath, int textureId, GameObject referenceObject = null) {
@@ -19,31 +19,33 @@ namespace Game.GameObjects {
 
 			var model = ModelLoaderObject3D.Load(modelObjectPath, this);
 
-			_renderComponent = new RenderComponent(
+			RenderComponent = new RenderComponent(
 				model,
 				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
 				textureId,
 				this
 			);
 			
-			CollisionComponent = new SphereCollider(this, _renderComponent.Model,
+			CollisionComponent = new SphereCollider(this, RenderComponent.Model,
 				collision => { System.Console.WriteLine("Asteroid collided with" + collision.gameObject.ToString()); });
+			CollisionComponent.Register();
 		}
 
 		public override void Awake() {
 			base.Awake();
-			Radius = _renderComponent.Model.GetRadius();
+			
+			Radius = RenderComponent.Model.GetRadius();
 		}
 
 		public override void Update() {
 			MoveComponent.Update();
 			base.Update();
-			_renderComponent.Update();
+			RenderComponent.Update();
 		}
 
 		public override void Draw() {
 			base.Draw();
-			_renderComponent.Draw(0.1f);
+			RenderComponent.Draw(0.1f);
 		}
 	}
 }

@@ -17,5 +17,9 @@ namespace Engine {
 		}
 
 		public virtual void Draw() { }
+
+		public override string ToString() {
+			return base.ToString()+"(#"+GetHashCode()+")";
+		}
 	}
 }

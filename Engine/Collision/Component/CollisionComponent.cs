@@ -10,10 +10,20 @@ namespace Engine {
 		protected CollisionComponent(GameObject gameObject, Model3D model, Collisionhandler collisionFunction) :
 			base(gameObject) {
 			Model3D = model;
+		
 			OnCollision = collisionFunction;
+			
+			
 		}
 
 		public override void Update() { }
+		public void Register() {
+			World.registerCollisionComponent(this);
+		}
+
+		public void Unregister() {
+			World.unregisterCollisionComponent(this);
+		}
 
 		public abstract bool IsColliding(CollisionComponent otherCollider);
 	}

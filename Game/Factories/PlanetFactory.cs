@@ -33,7 +33,6 @@ namespace Game.Utils {
 				},
 				MoveComponent = {AngularVelocity = rotation}
 			};
-			result.Awake();
 
 			return result;
 		}
@@ -52,7 +51,7 @@ namespace Game.Utils {
 				asteroid.MoveComponent.AngularVelocity = new Vector3d(0.0, 0.5, 0.0);
 				asteroid.MoveComponent.LinearVelocity = new Vector3d(0.0, 0.0, 0.0);
 				
-				World.AddToWorld(asteroid, asteroid.CollisionComponent);
+				World.AddToWorld(asteroid);
 			}
 
 			return planet;
