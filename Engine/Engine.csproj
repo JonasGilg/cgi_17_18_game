@@ -52,6 +52,7 @@
     <Compile Include="Collision\Component\BoxCollider.cs" />
     <Compile Include="Collision\Component\CollisionComponent.cs" />
     <Compile Include="Collision\Component\SphereCollider.cs" />
+    <Compile Include="Collision\PhysicsMaterial.cs" />
     <Compile Include="Component\Component.cs" />
     <Compile Include="Component\MoveComponent.cs" />
     <Compile Include="Component\TransformComponent.cs" />

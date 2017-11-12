@@ -1,10 +1,12 @@
-﻿using Engine.Model;
+﻿using Engine.Collision;
+using Engine.Model;
 
 namespace Engine {
 	public delegate void Collisionhandler(Collision.Collision col);
 
 	public abstract class CollisionComponent : Component.Component {
 		protected readonly Model3D Model3D;
+		public PhysicsMaterial PhysicsMaterial;
 		public readonly Collisionhandler OnCollision;
 
 		protected CollisionComponent(GameObject gameObject, Model3D model, Collisionhandler collisionFunction) :
@@ -12,8 +14,6 @@ namespace Engine {
 			Model3D = model;
 		
 			OnCollision = collisionFunction;
-			
-			
 		}
 
 		public override void Update() { }

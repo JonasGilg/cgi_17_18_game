@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\ArcadeMoveInputComponent.cs" />
+    <Compile Include="Components\BounceMaterial.cs" />
     <Compile Include="Components\GravityMovement.cs" />
     <Compile Include="Components\MoveInputComponent.cs" />
     <Compile Include="Components\RLMoveInputComponent.cs" />
@@ -149,8 +150,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="data\BlenderFiles\asteroids" />
-    <Folder Include="Utils" />
+    <Folder Include="data\BlenderFiles\asteroids\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
