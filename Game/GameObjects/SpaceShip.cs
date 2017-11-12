@@ -26,10 +26,11 @@ namespace Game.GameObjects {
 			
 			_moveComponent = new MoveComponent(this);
 			_cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);
-			_renderComponent = new RenderComponent(
+			_renderComponent = new NormalMapRenderComponent(
 				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj", this),
-				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
+				MaterialManager.GetMaterial(Material.NormalMapping),
 				TextureManager.LoadTexture("data/textures/test.png"),
+				TextureManager.LoadTexture("data/textures/NormalMap.png"),
 				this
 			);
 			

@@ -7,11 +7,13 @@ using Mouse = Engine.Input.Mouse;
 
 namespace Engine.Component {
 	public class ThirdPersonCameraComponent : CameraComponent {
-		public Vector3d Offset;
+		private readonly Vector3d _offset;
+		private double _zoom;
 		private Vector2d _rotation;
 
 		public ThirdPersonCameraComponent(Vector3d offset, GameObject gameObject) : base(gameObject) {
-			Offset = offset;
+			_offset = offset;
+			_zoom = 1.0;
 			_rotation = Vector2d.Zero;
 		}
 
@@ -32,9 +34,11 @@ namespace Engine.Component {
 				_rotation = Vector2d.Lerp(_rotation, Vector2d.Zero, Time.DeltaTimeUpdate * 10);
 			}
 
+			_zoom = Math1D.Clamp(_zoom + Mouse.ScrollDelta / 10, 0.5, 2);
+
 			var rotation = Quaterniond.FromEulerAngles(_rotation.Y, _rotation.X, 0);
 			
-			var eyePosition = (GameObject.TransformComponent.Orientation * rotation).Rotate(Offset) + GameObject.TransformComponent.Position;
+			var eyePosition = (GameObject.TransformComponent.Orientation * rotation).Rotate(_offset * _zoom) + GameObject.TransformComponent.Position;
 
 			SetLookAt(eyePosition, GameObject.TransformComponent.Position, GameObject.TransformComponent.Orientation.Rotate(Vector3d.UnitY));
 		}

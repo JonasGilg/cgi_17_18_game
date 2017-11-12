@@ -28,9 +28,9 @@ namespace Game.Window {
 
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 
-			Light.SetSpotLight(new Vector3d(0f, 0f, 0f),
+			Light.SetSpotLight(new Vector3d(-1f, 0f, 0f),
 				//           r      g      b      a
-				new Vector4(.021f, .011f, .011f, 0f),
+				new Vector4(.010f, .010f, .010f, 0f),
 				new Vector4(.950f, .950f, .950f, 0f),
 				new Vector4(.950f, .950f, .950f, 0f));
 
