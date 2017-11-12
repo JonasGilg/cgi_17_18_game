@@ -7,7 +7,7 @@ namespace Game.Components {
     public class GravityMovement : MoveComponent {
         private const double Distance = 2000;
         private const double Speed = 1.0 / 180.0;
-        private double _currentAngle;
+        public double _currentAngle;
 
         public GravityMovement(GameObject gameObject, double currentAngle) : base(gameObject) {
             LinearVelocity = Vector3d.Zero;

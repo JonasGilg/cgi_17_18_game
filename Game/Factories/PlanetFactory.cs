@@ -50,7 +50,8 @@ namespace Game.Utils {
 				asteroid.TransformComponent.Scale = new Vector3d(100);
 				asteroid.MoveComponent.AngularVelocity = new Vector3d(0.0, 0.5, 0.0);
 				asteroid.MoveComponent.LinearVelocity = new Vector3d(0.0, 0.0, 0.0);
-				
+				GravityMovement component = (GravityMovement) asteroid.MoveComponent;
+				component._currentAngle = i * 1.0 / 5;
 				World.AddToWorld(asteroid);
 			}
 
