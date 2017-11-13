@@ -5,8 +5,8 @@ namespace Engine.Component {
 	public class NormalMapRenderComponent : RenderComponent {
 		private readonly int _normalMap;
 
-		public NormalMapRenderComponent(Model3D model, BaseMaterial material, int texture, int normalMap, GameObject gameObject) : base(
-			model, material, texture, gameObject) {
+		public NormalMapRenderComponent(Model3D model, int texture, int normalMap, GameObject gameObject) : base(
+			model, MaterialManager.GetMaterial(Engine.Material.Material.NormalMapping), texture, gameObject) {
 			_normalMap = normalMap;
 		}
 

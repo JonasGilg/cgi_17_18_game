@@ -6,7 +6,9 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Material {
 	public class NormalMappingMaterial : BaseMaterial {
+		private readonly int _viewMatrixLocation;
 		private readonly int _modelMatrixLocation;
+		private readonly int _modelView3x3Location;
 		private readonly int _modelviewProjectionMatrixLocation;
 
 		private readonly int _lightDirectionLocation;
@@ -20,31 +22,23 @@ namespace Engine.Material {
 		private readonly int _normalTextureLocation;
 
 		public NormalMappingMaterial() {
-			// Shader-Programm wird aus den externen Files generiert...
 			CreateShaderProgram("Render/Material/NormalMapping/NormalMapping_VS.glsl",
 				"Render/Material/NormalMapping/NormalMapping_FS.glsl");
 
-			// GL.BindAttribLocation, gibt an welcher Index in unserer Datenstruktur welchem "in" Parameter auf unserem Shader zugeordnet wird
-			// folgende Befehle müssen aufgerufen werden...
 			GL.BindAttribLocation(Program, 0, "in_position");
 			GL.BindAttribLocation(Program, 1, "in_normal");
 			GL.BindAttribLocation(Program, 2, "in_uv");
 			GL.BindAttribLocation(Program, 3, "in_tangent");
 			GL.BindAttribLocation(Program, 4, "in_bitangent");
 
-			// ...bevor das Shader-Programm "gelinkt" wird.
 			GL.LinkProgram(Program);
 
-			// Die Stelle an der im Shader der per "uniform" der Input-Paremeter "modelview_projection_matrix" definiert wird, wird ermittelt.
 			_modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
-
-			// Die Stelle für die den "model_matrix" - Parameter wird ermittelt.
 			_modelMatrixLocation = GL.GetUniformLocation(Program, "model_matrix");
+			_viewMatrixLocation = GL.GetUniformLocation(Program, "view_matrix");
 
-			// Die Stelle fur den "specular_shininess" - Parameter
 			_materialShininessLocation = GL.GetUniformLocation(Program, "specular_shininess");
 
-			// Die Stellen im Fragemant-Shader für Licht-parameter ermitteln.
 			_lightDirectionLocation = GL.GetUniformLocation(Program, "light_origin");
 			_lightAmbientLocation = GL.GetUniformLocation(Program, "light_ambient_color");
 			_lightDiffuseLocation = GL.GetUniformLocation(Program, "light_diffuse_color");
@@ -52,56 +46,47 @@ namespace Engine.Material {
 			_cameraPositionLocation = GL.GetUniformLocation(Program, "camera_position");
 			_colorTextureLocation = GL.GetUniformLocation(Program, "color_texture");
 			_normalTextureLocation = GL.GetUniformLocation(Program, "normalmap_texture");
+			_viewMatrixLocation = GL.GetUniformLocation(Program, "view_matrix");
+			_modelView3x3Location = GL.GetUniformLocation(Program, "model_view_3x3_matrix");
 		}
 
 
 		public override void Draw(Model3D model, int textureId, float shininess = 0f, int normalmap = -1) {
-			// Das Vertex-Array-Objekt unseres Objekts wird benutzt
 			GL.BindVertexArray(model.VAO);
 
-			// Unser Shader Programm wird benutzt
 			GL.UseProgram(Program);
 
-			// Farb-Textur wird "gebunden"
 			GL.Uniform1(_colorTextureLocation, 0);
 			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 
-			// Normalmap-Textur wird "gebunden"
 			GL.Uniform1(_normalTextureLocation, 1);
 			GL.ActiveTexture(TextureUnit.Texture1);
 			GL.BindTexture(TextureTarget.Texture2D, normalmap);
 
-			// Die Matrix, welche wir als "modelview_projection_matrix" übergeben, wird zusammengebaut:
-			// Objekt-Transformation * Kamera-Transformation * Perspektivische Projektion der kamera.
-			// Auf dem Shader wird jede Vertex-Position mit dieser Matrix multipliziert. Resultat ist die Position auf dem Screen.
-			var modelViewProjection = model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
-			var mvpFloat = modelViewProjection.ToFloat();
+			var modelViewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection).ToFloat();
+			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelViewProjection);
 
-			// Die ModelViewProjection Matrix wird dem Shader als Parameter übergeben
-			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref mvpFloat);
-
-			// Die Model-Matrix wird dem Shader übergeben, zur transformation der Normalen
-			// und der Berechnung des Winkels Betrachter / Objektpunkt 
 			var modelMatrix = model.Transformation.ToFloat();
 			GL.UniformMatrix4(_modelMatrixLocation, false, ref modelMatrix);
 
-			// Die Licht Parameter werden übergeben
+			var viewMatrix = DisplayCamera.Transformation.ToFloat();
+			GL.UniformMatrix4(_viewMatrixLocation, false, ref viewMatrix);
+			
+			var modelView3x3 = new Matrix3d(DisplayCamera.Transformation * model.Transformation).ToFloat();
+			GL.UniformMatrix3(_modelView3x3Location, false, ref modelView3x3);
+
 			GL.Uniform3(_lightDirectionLocation, Light.LightOrigin.ToFloat());
 			GL.Uniform4(_lightAmbientLocation, Light.LightAmbient);
 			GL.Uniform4(_lightDiffuseLocation, Light.LightDiffuse);
 			GL.Uniform4(_lightSpecularLocation, Light.LightSpecular);
 
-			// Shininess
 			GL.Uniform1(_materialShininessLocation, shininess);
 
-			// Positions Parameter
 			GL.Uniform4(_cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y, (float) DisplayCamera.Position.Z, 1);
 
-			// Das Objekt wird gezeichnet
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
-			// Active Textur wieder auf 0, um andere Materialien nicht durcheinander zu bringen
 			GL.ActiveTexture(TextureUnit.Texture0);
 			
 			GL.BindVertexArray(0);
