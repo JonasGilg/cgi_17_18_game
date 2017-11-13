@@ -70,7 +70,7 @@ namespace Game.Window {
 			EngineMouse.Update(Mouse.GetState());
 			Time.UpdateUpdateTime(e.Time);
 
-			_upsCounter.Text = ((int) (1 / Time.AverageUpdateTime())).ToString() + "UPS";
+			_upsCounter.Text = $"{((int) (1 / Time.AverageUpdateTime())).ToString()}UPS";
 
 			if (EngineKeyboard.Released(Key.Escape)) {
 				Exit();
@@ -82,12 +82,12 @@ namespace Game.Window {
 
 			if (EngineKeyboard.Released(Key.Period)) {
 				Time.IncreaseGameSpeed();
-				Console.Out.WriteLine($"{Time.GameSpeed:N2}");
+				Console.Out.WriteLine($"{Time.GameSpeed.ToString("N2")}");
 			}
 
 			if (EngineKeyboard.Released(Key.Comma)) {
 				Time.DecreaseGameSpeed();
-				Console.Out.WriteLine($"{Time.GameSpeed:N2}");
+				Console.Out.WriteLine($"{Time.GameSpeed.ToString("N2")}");
 			}
 
 #if(DEBUG)
