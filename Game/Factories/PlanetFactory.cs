@@ -14,7 +14,7 @@ namespace Game.Utils {
 			Jupiter
 		}
 
-		private static Random _random;
+		private static Random _random = new Random(100);
 
 		public static readonly Dictionary<PlanetTexture, string> PlanetTextures = new Dictionary<PlanetTexture, string> {
 			{PlanetTexture.Sun, "data/textures/planets/2k_sun.jpg"},
@@ -46,14 +46,14 @@ namespace Game.Utils {
 			
 			for (var i = 0; i < numberAsteroids; i++) {
 				var asteroid = AsteroidFactory.GenerateGravityAsteroid(asteroidType, planet);
-
+				
 				asteroid.TransformComponent.Parent = planet.TransformComponent;
-				asteroid.TransformComponent.Scale = new Vector3d(100);
+				asteroid.TransformComponent.Scale = new Vector3d(100+_random.NextDouble()*500,100+_random.NextDouble()*500,100+_random.NextDouble()*500);
 				asteroid.MoveComponent.AngularVelocity = new Vector3d(0.0, 0.5, 0.0);
 				asteroid.MoveComponent.LinearVelocity = new Vector3d(0.0, 0.0, 0.0);
 				GravityMovement component = (GravityMovement) asteroid.MoveComponent;
 				component._currentAngle = i * 1.0 / 5;
-				component.Speed = 1.0;
+				component.Speed = 0.25;
 				component.Distance = 4000;
 				World.AddToWorld(asteroid);
 			}
