@@ -31,7 +31,7 @@ namespace Game.Window {
 
 			Light.SetSpotLight(new Vector3d(0f, 0f, 0f),
 				//           r      g      b      a
-				new Vector4(.110f, .110f, .110f, 0f),
+				new Vector4(.010f, .010f, .010f, 0f),
 				new Vector4(.950f, .950f, .950f, 0f),
 				new Vector4(.950f, .950f, .950f, 0f));
 
@@ -63,6 +63,7 @@ namespace Game.Window {
 
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Front);
+			GL.ClearColor(1f, 0f, 0f, 0f);
 		}
 
 		protected override void OnUpdateFrame(FrameEventArgs e) {

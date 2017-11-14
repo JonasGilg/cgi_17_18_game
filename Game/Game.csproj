@@ -75,7 +75,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="data\BlenderFiles\Neptune.blend" />
-    <Content Include="data\BlenderFiles\SpaceShip.blend" />
+    <Content Include="data\BlenderFiles\SpaceShip\SpaceShip.blend" />
+    <Content Include="data\BlenderFiles\SpaceShip\SpaceShip.blend1" />
+    <Content Include="data\BlenderFiles\SpaceShip\Texture.png" />
+    <Content Include="data\BlenderFiles\SpaceShip\UV.pdn" />
+    <Content Include="data\BlenderFiles\SpaceShip\UV.png" />
     <Content Include="data\Font\CrystalFont.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -145,8 +149,8 @@
     <Content Include="data\textures\skybox\skybox_top3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\test.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="data\textures\SpaceShip.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

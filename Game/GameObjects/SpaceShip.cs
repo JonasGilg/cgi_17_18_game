@@ -31,7 +31,7 @@ namespace Game.GameObjects {
 			_cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);
 			_renderComponent = new NormalMapRenderComponent(
 				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj", this),
-				TextureManager.LoadTexture("data/textures/test.png"),
+				TextureManager.LoadTexture("data/textures/SpaceShip.png"),
 				TextureManager.LoadTexture("data/textures/NormalMap.png"),
 				this
 			);

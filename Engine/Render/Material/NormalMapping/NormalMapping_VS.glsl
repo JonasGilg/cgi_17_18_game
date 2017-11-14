@@ -35,32 +35,6 @@ void main() {
 	fragPosition =  vec3(vertPosition4) / vertPosition4.w;
 
 	gl_Position = modelview_projection_matrix * vec4(in_position, 1);
-	
-	/*gl_Position =  modelview_projection_matrix * vec4(in_position, 1);
-    
-    vec4 vertPosition4 = model_matrix * vec4(in_position, 1.0);
-    fragPosition =  vec3(vertPosition4) / vertPosition4.w;
-    
-    vec3 vertexPosition_cameraspace = (view_matrix * model_matrix * vec4(in_position, 1)).xyz;
-    EyeDirection_cameraspace = vec3(0, 0, 0) - vertexPosition_cameraspace;
-
-    vec3 LightPosition_cameraspace = (view_matrix * vec4(light_origin, 1)).xyz;
-    LightDirection_cameraspace = LightPosition_cameraspace + EyeDirection_cameraspace;
-    
-    fragTexcoord = in_uv;
-    
-    vec3 vertexTangent_cameraspace = model_view_3x3_matrix * in_tangent;
-    vec3 vertexBitangent_cameraspace = model_view_3x3_matrix * in_bitangent;
-    vec3 vertexNormal_cameraspace = model_view_3x3_matrix * in_normal;
-    
-    fragTBN = transpose(mat3(
-        vertexTangent_cameraspace,
-        vertexBitangent_cameraspace,
-        vertexNormal_cameraspace	
-    ));
-
-    LightDirection_tangentspace = fragTBN * LightDirection_cameraspace;
-    EyeDirection_tangentspace =  fragTBN * EyeDirection_cameraspace;*/
 }
 
 
