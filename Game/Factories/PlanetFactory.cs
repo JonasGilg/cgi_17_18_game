@@ -48,7 +48,8 @@ namespace Game.Utils {
 				var asteroid = AsteroidFactory.GenerateGravityAsteroid(asteroidType, planet);
 				
 				asteroid.TransformComponent.Parent = planet.TransformComponent;
-				asteroid.TransformComponent.Scale = new Vector3d(100+_random.NextDouble()*500,100+_random.NextDouble()*500,100+_random.NextDouble()*500);
+				//asteroid.TransformComponent.Scale = new Vector3d(100+_random.NextDouble()*500,100+_random.NextDouble()*500,100+_random.NextDouble()*500);
+				asteroid.TransformComponent.Scale = new Vector3d(100);
 				asteroid.MoveComponent.AngularVelocity = new Vector3d(0.0, 0.5, 0.0);
 				asteroid.MoveComponent.LinearVelocity = new Vector3d(0.0, 0.0, 0.0);
 				GravityMovement component = (GravityMovement) asteroid.MoveComponent;
