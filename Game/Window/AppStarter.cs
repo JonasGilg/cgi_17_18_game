@@ -122,7 +122,7 @@ namespace Game.Window {
 		[STAThread]
 		public static void Main() {
 			using (var example = new AppStarter()) {
-				example.Run(200);
+				example.Run(200, 200);
 			}
 		}
 	}
