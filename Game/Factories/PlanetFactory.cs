@@ -42,11 +42,11 @@ namespace Game.Utils {
 			Vector3d rotation) {
 			//TODO randomize angle, distance, speed, size, etc
 			var planet = GeneratePlanet(planetTexture, position, scale, rotation);
-			
-			
+
+
 			for (var i = 0; i < numberAsteroids; i++) {
 				var asteroid = AsteroidFactory.GenerateGravityAsteroid(asteroidType, planet);
-				
+
 				asteroid.TransformComponent.Parent = planet.TransformComponent;
 				//asteroid.TransformComponent.Scale = new Vector3d(100+_random.NextDouble()*500,100+_random.NextDouble()*500,100+_random.NextDouble()*500);
 				asteroid.TransformComponent.Scale = new Vector3d(100);
@@ -58,7 +58,6 @@ namespace Game.Utils {
 				component.Distance = 4000;
 				World.AddToWorld(asteroid);
 			}
-
 			return planet;
 		}
 	}
