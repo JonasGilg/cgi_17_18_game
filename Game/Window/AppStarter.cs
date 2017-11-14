@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using Engine;
 using Engine.GUI;
 using Engine.Material;
@@ -122,7 +122,7 @@ namespace Game.Window {
 		[STAThread]
 		public static void Main() {
 			using (var example = new AppStarter()) {
-				example.Run(200,200);
+				example.Run(200, 200);
 			}
 		}
 	}
