@@ -1,11 +1,11 @@
 ﻿using System;
-using OpenTK.Graphics.OpenGL;
 using Engine.Model;
+using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Material {
 	public class SimpleReflectionMaterial : BaseMaterial {
-		private readonly int _modelviewProjectionMatrixLocation;
-		private readonly int _modelviewMatrixLocation;
+		private readonly int modelviewProjectionMatrixLocation;
+		private readonly int modelviewMatrixLocation;
 
 		public SimpleReflectionMaterial() {
 			// shader-programm is loaded
@@ -21,10 +21,10 @@ namespace Engine.Material {
 			GL.LinkProgram(Program);
 
 			// the location of the "uniform"-paramter "modelview_projection_matrix" on the shader is saved to modelviewProjectionMatrixLocation
-			_modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
+			modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
 
 			// the location of the "uniform"-paramter "modelview_matrix" on the shader is saved to modelviewMatrixLocation
-			_modelviewMatrixLocation = GL.GetUniformLocation(Program, "modelview_matrix");
+			modelviewMatrixLocation = GL.GetUniformLocation(Program, "modelview_matrix");
 		}
 
 		public override void Draw(Model3D model, int textureId, float shininess = 0f, int normalmap = -1) {
@@ -45,18 +45,18 @@ namespace Engine.Material {
 				model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection;
 
 			// Matrix is passed to the shader
-			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelviewProjection);
+			GL.UniformMatrix4(modelviewProjectionMatrixLocation, false, ref modelviewProjection);
 
 			// The "modelView-matrix is assembled together
 			var modelviewMatrix = model.Transformation * DisplayCamera.Transformation;
 
 			// ... and also passed to the shader
-			GL.UniformMatrix4(_modelviewMatrixLocation, false, ref modelviewMatrix);
+			GL.UniformMatrix4(modelviewMatrixLocation, false, ref modelviewMatrix);
 
 
 			// the object is drawn
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
-			
+
 			GL.BindVertexArray(0);
 		}
 	}

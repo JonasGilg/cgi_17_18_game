@@ -1,29 +1,15 @@
-﻿using Engine.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Engine.Collision {
 	public class PhysicsMaterial {
-		private double _bounce;
-		public double Bounciness {
-			get => _bounce;
-			set => Math1D.Clamp(value, 0, 1);
-		}
+		private readonly double bounciness;
+		public double Bounciness => bounciness;
 
-		private double _friction;
-
-		public double Friction {
-			get => _friction;
-			set => Math1D.Clamp(value, 0, 1);
-		}
+		private readonly double friction;
+		public double Friction => friction;
 
 		public PhysicsMaterial(double bounciness, double friction) {
-			Bounciness = bounciness;
-			Friction = friction;
+			this.bounciness = bounciness;
+			this.friction = friction;
 		}
-
 	}
 }

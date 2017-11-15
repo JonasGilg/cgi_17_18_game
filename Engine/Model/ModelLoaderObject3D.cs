@@ -6,7 +6,8 @@ using OpenTK;
 
 namespace Engine.Model {
 	public static class ModelLoaderObject3D {
-		public static Model3D Load(string filePath, GameObject gameObject = null, float scale = 1.0f, bool doAverageTangets = false,
+		public static Model3D Load(string filePath, GameObject gameObject = null, float scale = 1.0f,
+			bool doAverageTangets = false,
 			bool createVAO = true) {
 			var model = new Model3D(gameObject);
 

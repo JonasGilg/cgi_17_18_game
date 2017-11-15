@@ -1,7 +1,5 @@
-﻿
-using Engine.Util;
+﻿using Engine.Util;
 using OpenTK;
-using Engine.Component;
 
 namespace Engine {
 	public class MoveComponent : Component.Component {
@@ -23,8 +21,8 @@ namespace Engine {
 			var angularChange = AngularVelocity * Time.DeltaTimeUpdate;
 			var rotationAxis = angularChange == Vector3d.Zero ? Vector3d.One : angularChange.Normalized();
 			var rotationAngle = angularChange.Length;
-			GameObject.TransformComponent.Orientation = Quaterniond.FromAxisAngle(rotationAxis, rotationAngle) * GameObject.TransformComponent.Orientation;
+			GameObject.TransformComponent.Orientation = Quaterniond.FromAxisAngle(rotationAxis, rotationAngle) *
+			                                            GameObject.TransformComponent.Orientation;
 		}
-		
 	}
 }

@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Material {
 	public class SimpleTextureMaterial : BaseMaterial {
-		private readonly int _modelviewProjectionMatrixLocation;
+		private readonly int modelviewProjectionMatrixLocation;
 
 		public SimpleTextureMaterial() {
 			// Shader-Programm wird aus den externen Files generiert...
@@ -22,7 +22,7 @@ namespace Engine.Material {
 			GL.LinkProgram(Program);
 
 			// Die Stelle an der im Shader der per "uniform" der Input-Paremeter "modelview_projection_matrix" definiert wird, wird ermittelt.
-			_modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
+			modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
 		}
 
 		public override void Draw(Model3D model, int textureId, float shininess = 0f, int normalmap = -1) {
@@ -42,11 +42,11 @@ namespace Engine.Material {
 				(model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection).ToFloat();
 
 			// Die Matrix wird dem Shader als Parameter übergeben
-			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelviewProjection);
+			GL.UniformMatrix4(modelviewProjectionMatrixLocation, false, ref modelviewProjection);
 
 			// Das Objekt wird gezeichnet
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
-			
+
 			GL.BindVertexArray(0);
 		}
 	}

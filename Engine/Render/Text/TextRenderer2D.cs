@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Engine.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Util {
 	public static class TextRenderer2D {
-		private static readonly int Program;
-		private static readonly Font Font;
-		private static readonly int PositionLocation;
-		private static readonly int UVLocation;
+		private static readonly int PROGRAM;
+		private static readonly Font FONT;
+		private static readonly int POSITION_LOCATION;
+		private static readonly int UV_LOCATION;
 
 		static TextRenderer2D() {
-			PositionLocation = GL.GenBuffer();
-			UVLocation = GL.GenBuffer();
-			
-			Program = ShaderLoader.LoadShader("Render/Text/Text_VS.glsl", "Render/Text/Text_FS.glsl");
-			GL.LinkProgram(Program);
+			POSITION_LOCATION = GL.GenBuffer();
+			UV_LOCATION = GL.GenBuffer();
+
+			PROGRAM = ShaderLoader.LoadShader("Render/Text/Text_VS.glsl", "Render/Text/Text_FS.glsl");
+			GL.LinkProgram(PROGRAM);
 
 			var fontId = FontManager.CreateFont("data/Font/CrystalFont.bmp", "data/Font/CrystalFontData.csv");
-			Font = FontManager.GetFont(fontId);
+			FONT = FontManager.GetFont(fontId);
 		}
 
 		public static void DrawString(string text, Vector2 position, float scale = 1) {
@@ -29,16 +28,17 @@ namespace Engine.Util {
 
 			var currX = 0.0f;
 			for (var i = 0; i < text.Length; i++) {
-				var charDimensions = Font.GetCharDimensions(text[i]);
+				var charDimensions = FONT.GetCharDimensions(text[i]);
 				var charWidth = charDimensions.W;
 
 				var vertexDownLeft = new Vector2(position.X + currX, position.Y);
 				var vertexDownRight = new Vector2(position.X + charWidth + currX, position.Y);
-				var vertexUpRight = new Vector2(position.X + charWidth + currX, position.Y - (Font.FontHeight / (float) Font.ImageHeight));
-				var vertexUpLeft = new Vector2(position.X + currX, position.Y - (Font.CellHeight / (float) Font.ImageHeight));
-				
+				var vertexUpRight = new Vector2(position.X + charWidth + currX,
+					position.Y - (FONT.FontHeight / (float) FONT.ImageHeight));
+				var vertexUpLeft = new Vector2(position.X + currX, position.Y - (FONT.CellHeight / (float) FONT.ImageHeight));
+
 				currX += charWidth;
-				
+
 				var x = charDimensions.X;
 				var y = charDimensions.Y;
 				var w = charDimensions.W;
@@ -48,15 +48,15 @@ namespace Engine.Util {
 				var uvDownRight = new Vector2(x + w, y);
 				var uvUpRight = new Vector2(x + w, y + h);
 				var uvUpLeft = new Vector2(x, y + h);
-				
+
 				vertices.Add(vertexUpLeft);
 				vertices.Add(vertexDownLeft);
 				vertices.Add(vertexUpRight);
-				
+
 				uvs.Add(uvUpLeft);
 				uvs.Add(uvDownLeft);
 				uvs.Add(uvUpRight);
-				
+
 				vertices.Add(vertexDownRight);
 				vertices.Add(vertexUpRight);
 				vertices.Add(vertexDownLeft);
@@ -65,34 +65,35 @@ namespace Engine.Util {
 				uvs.Add(uvUpRight);
 				uvs.Add(uvDownLeft);
 			}
-			
-			GL.BindBuffer(BufferTarget.ArrayBuffer, PositionLocation);
-			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Count * Vector2.SizeInBytes, vertices.ToArray(), BufferUsageHint.StaticDraw);
-			
-			GL.BindBuffer(BufferTarget.ArrayBuffer, UVLocation);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, POSITION_LOCATION);
+			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Count * Vector2.SizeInBytes, vertices.ToArray(),
+				BufferUsageHint.StaticDraw);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, UV_LOCATION);
 			GL.BufferData(BufferTarget.ArrayBuffer, uvs.Count * Vector2.SizeInBytes, uvs.ToArray(), BufferUsageHint.StaticDraw);
-			
-			GL.UseProgram(Program);
-			
+
+			GL.UseProgram(PROGRAM);
+
 			GL.ActiveTexture(TextureUnit.Texture0);
-			GL.BindTexture(TextureTarget.Texture2D, Font.TexId);
-			
+			GL.BindTexture(TextureTarget.Texture2D, FONT.TexId);
+
 			GL.EnableVertexAttribArray(0);
 			GL.EnableVertexAttribArray(1);
-			
-			GL.BindBuffer(BufferTarget.ArrayBuffer, PositionLocation);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, POSITION_LOCATION);
 			GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 0, IntPtr.Zero);
-			
-			GL.BindBuffer(BufferTarget.ArrayBuffer, UVLocation);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, UV_LOCATION);
 			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, IntPtr.Zero);
 
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			GL.DrawArrays(PrimitiveType.Triangles, 0, vertices.Count);
-			
+
 			GL.Disable(EnableCap.Blend);
-			
+
 			GL.DisableVertexAttribArray(0);
 			GL.DisableVertexAttribArray(1);
 		}

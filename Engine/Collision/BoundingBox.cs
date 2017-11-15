@@ -1,19 +1,12 @@
 ﻿using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Engine.Collision {
 	public class BoundingBox {
-		public Vector3d minVec;
-		public Vector3d maxVec;
+		public Vector3d MinVec;
+		public Vector3d MaxVec;
 
 		public bool Intersects(BoundingBox bbox) {
 			return false;
 		}
 	}
-
-	
 }

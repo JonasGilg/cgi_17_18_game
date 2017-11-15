@@ -7,11 +7,12 @@ using Keyboard = Engine.Input.Keyboard;
 
 namespace Game.Components {
 	public abstract class MoveInputComponent : Component {
-		protected const double MovementMultiplier = 100;
+		protected const double MOVEMENT_MULTIPLIER = 100;
 		protected readonly TransformComponent TransformComponent;
 		protected readonly MoveComponent MoveComponent;
-		
-		public MoveInputComponent(GameObject gameObject, TransformComponent transformComponent, MoveComponent moveComponent) : base(gameObject) {
+
+		protected MoveInputComponent(GameObject gameObject, TransformComponent transformComponent,
+			MoveComponent moveComponent) : base(gameObject) {
 			TransformComponent = transformComponent;
 			MoveComponent = moveComponent;
 		}

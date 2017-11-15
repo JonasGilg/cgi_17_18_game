@@ -1,31 +1,26 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using Engine.Model;
 using Engine.Texture;
 using Engine.Util;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using GL = OpenTK.Graphics.OpenGL.GL;
-using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace Engine.Render.Skybox {
 	public static class Skybox {
-		private static readonly int Programm;
-		private static readonly int SkyBoxTexture;
-		private static readonly int ViewProjectionLocation;
+		private static readonly int PROGRAMM;
+		private static readonly int SKY_BOX_TEXTURE;
+		private static readonly int VIEW_PROJECTION_LOCATION;
 
-		private static readonly Model3D SkyboxModel;
+		private static readonly Model3D SKYBOX_MODEL;
 
-		private static readonly TimingStats RenderTiming = new TimingStats("Skybox");
+		private static readonly TimingStats RENDER_TIMING = new TimingStats("Skybox");
 
 		static Skybox() {
-			TimingRegistry.AddRenderTiming(RenderTiming);
+			TimingRegistry.AddRenderTiming(RENDER_TIMING);
 
-			SkyboxModel = ModelLoaderObject3D.Load("data/objects/Skybox.obj");
-			Programm = ShaderLoader.LoadShader("Render/Skybox/Skybox_VS.glsl", "Render/Skybox/Skybox_FS.glsl");
+			SKYBOX_MODEL = ModelLoaderObject3D.Load("data/objects/Skybox.obj");
+			PROGRAMM = ShaderLoader.LoadShader("Render/Skybox/Skybox_VS.glsl", "Render/Skybox/Skybox_FS.glsl");
 
-			SkyBoxTexture = TextureManager.LoadCubemap(new[] {
+			SKY_BOX_TEXTURE = TextureManager.LoadCubemap(new[] {
 				"data/textures/skybox/skybox_right1.png",
 				"data/textures/skybox/skybox_left2.png",
 				"data/textures/skybox/skybox_top3.png",
@@ -34,34 +29,34 @@ namespace Engine.Render.Skybox {
 				"data/textures/skybox/skybox_back6.png"
 			});
 
-			GL.LinkProgram(Programm);
+			GL.LinkProgram(PROGRAMM);
 
-			ViewProjectionLocation = GL.GetUniformLocation(Programm, "viewProjection");
+			VIEW_PROJECTION_LOCATION = GL.GetUniformLocation(PROGRAMM, "viewProjection");
 		}
 
 		public static void Draw() {
-			RenderTiming.Start();
+			RENDER_TIMING.Start();
 
 			GL.Disable(EnableCap.DepthTest);
 			GL.DepthMask(false);
 
-			GL.UseProgram(Programm);
+			GL.UseProgram(PROGRAMM);
 
 			var perspectiveProjection =
 				(DisplayCamera.Transformation.ClearTranslation() * DisplayCamera.PerspectiveProjection).ToFloat();
-			GL.UniformMatrix4(ViewProjectionLocation, false, ref perspectiveProjection);
+			GL.UniformMatrix4(VIEW_PROJECTION_LOCATION, false, ref perspectiveProjection);
 
-			GL.BindVertexArray(SkyboxModel.VAO);
-			GL.BindTexture(TextureTarget.TextureCubeMap, SkyBoxTexture);
+			GL.BindVertexArray(SKYBOX_MODEL.VAO);
+			GL.BindTexture(TextureTarget.TextureCubeMap, SKY_BOX_TEXTURE);
 
 			GL.DepthFunc(DepthFunction.Lequal);
-			GL.DrawElements(PrimitiveType.Triangles, SkyboxModel.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+			GL.DrawElements(PrimitiveType.Triangles, SKYBOX_MODEL.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 			GL.DepthFunc(DepthFunction.Less);
 
 			GL.DepthMask(true);
 			GL.Enable(EnableCap.DepthTest);
 
-			RenderTiming.Stop();
+			RENDER_TIMING.Stop();
 		}
 	}
 }

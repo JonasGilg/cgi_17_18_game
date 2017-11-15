@@ -1,5 +1,4 @@
-﻿using System;
-using Engine;
+﻿using Engine;
 using Engine.Component;
 using Engine.Util;
 using OpenTK;
@@ -16,32 +15,32 @@ namespace Game.Components {
 
 			if (Keyboard.Down(Key.W)) {
 				var translateForward = TransformComponent.Orientation.Rotate(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0));
-				MoveComponent.LinearVelocity += translateForward * MovementMultiplier;
+				MoveComponent.LinearVelocity += translateForward * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.S)) {
 				var translateBack = TransformComponent.Orientation.Rotate(new Vector3d(-Time.DeltaTimeUpdate, 0.0, 0.0));
-				MoveComponent.LinearVelocity += translateBack * MovementMultiplier;
+				MoveComponent.LinearVelocity += translateBack * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.Q)) {
 				var translateLeft = TransformComponent.Orientation.Rotate(new Vector3d(0.0, 0.0, -Time.DeltaTimeUpdate));
-				TransformComponent.Position += translateLeft * MovementMultiplier;
+				TransformComponent.Position += translateLeft * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.E)) {
 				var translateRight = TransformComponent.Orientation.Rotate(new Vector3d(0.0, 0.0, Time.DeltaTimeUpdate));
-				TransformComponent.Position += translateRight * MovementMultiplier;
+				TransformComponent.Position += translateRight * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.Space)) {
 				var translateUp = TransformComponent.Orientation.Rotate(new Vector3d(0.0, Time.DeltaTimeUpdate, 0.0));
-				TransformComponent.Position += translateUp * MovementMultiplier;
+				TransformComponent.Position += translateUp * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.X)) {
 				var translateDown = TransformComponent.Orientation.Rotate(new Vector3d(0.0, -Time.DeltaTimeUpdate, 0.0));
-				TransformComponent.Position += translateDown * MovementMultiplier;
+				TransformComponent.Position += translateDown * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.A)) {

@@ -10,19 +10,19 @@ namespace Engine.Model {
 		public Matrix4d Transformation = Matrix4d.Identity;
 
 		// lists, filled with the 3d-data
-		private readonly List<Vector3> _positions;
+		private readonly List<Vector3> positions;
 
-		private readonly List<Vector3> _normals;
-		private readonly List<Vector2> _uVs;
-		private readonly List<Vector3> _tangents;
-		private readonly List<Vector3> _biTangents;
+		private readonly List<Vector3> normals;
+		private readonly List<Vector2> uVs;
+		private readonly List<Vector3> tangents;
+		private readonly List<Vector3> biTangents;
 
 		public Model3D(GameObject gameObject) : base(gameObject) {
-			_positions = new List<Vector3>();
-			_normals = new List<Vector3>();
-			_uVs = new List<Vector2>();
-			_tangents = new List<Vector3>();
-			_biTangents = new List<Vector3>();
+			positions = new List<Vector3>();
+			normals = new List<Vector3>();
+			uVs = new List<Vector2>();
+			tangents = new List<Vector3>();
+			biTangents = new List<Vector3>();
 			Indices = new List<int>();
 		}
 
@@ -38,25 +38,25 @@ namespace Engine.Model {
 			var allData = new List<float>();
 
 			// "interleaved" means position, normal and uv in one block for each vertex
-			for (var i = 0; i < _positions.Count; i++) {
-				allData.Add(_positions[i].X);
-				allData.Add(_positions[i].Y);
-				allData.Add(_positions[i].Z);
+			for (var i = 0; i < positions.Count; i++) {
+				allData.Add(positions[i].X);
+				allData.Add(positions[i].Y);
+				allData.Add(positions[i].Z);
 
-				allData.Add(_normals[i].X);
-				allData.Add(_normals[i].Y);
-				allData.Add(_normals[i].Z);
+				allData.Add(normals[i].X);
+				allData.Add(normals[i].Y);
+				allData.Add(normals[i].Z);
 
-				allData.Add(_uVs[i].X);
-				allData.Add(_uVs[i].Y);
+				allData.Add(uVs[i].X);
+				allData.Add(uVs[i].Y);
 
-				allData.Add(_tangents[i].X);
-				allData.Add(_tangents[i].Y);
-				allData.Add(_tangents[i].Z);
+				allData.Add(tangents[i].X);
+				allData.Add(tangents[i].Y);
+				allData.Add(tangents[i].Z);
 
-				allData.Add(_biTangents[i].X);
-				allData.Add(_biTangents[i].Y);
-				allData.Add(_biTangents[i].Z);
+				allData.Add(biTangents[i].X);
+				allData.Add(biTangents[i].Y);
+				allData.Add(biTangents[i].Z);
 			}
 
 			// generate the VBO for the "interleaved" data
@@ -128,7 +128,7 @@ namespace Engine.Model {
 			GL.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, true, strideSize,
 				Vector3.SizeInBytes * 3 + Vector2.SizeInBytes);
 
-			
+
 			// BindBuffer to 0, so the following commands do not overwrite the current VAO
 			GL.BindVertexArray(0);
 
@@ -140,19 +140,19 @@ namespace Engine.Model {
 		// Adds a triangle
 		public void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 n1, Vector3 n2, Vector3 n3, Vector2 uv1,
 			Vector2 uv2, Vector2 uv3) {
-			var index = _positions.Count;
+			var index = positions.Count;
 
-			_positions.Add(v1);
-			_positions.Add(v2);
-			_positions.Add(v3);
+			positions.Add(v1);
+			positions.Add(v2);
+			positions.Add(v3);
 
-			_normals.Add(n1);
-			_normals.Add(n2);
-			_normals.Add(n3);
+			normals.Add(n1);
+			normals.Add(n2);
+			normals.Add(n3);
 
-			_uVs.Add(uv1);
-			_uVs.Add(uv2);
-			_uVs.Add(uv3);
+			uVs.Add(uv1);
+			uVs.Add(uv2);
+			uVs.Add(uv3);
 
 
 			// calculate tangents / bi-tangents
@@ -186,13 +186,13 @@ namespace Engine.Model {
 			}
 
 
-			_tangents.Add(tangent);
-			_tangents.Add(tangent);
-			_tangents.Add(tangent);
+			tangents.Add(tangent);
+			tangents.Add(tangent);
+			tangents.Add(tangent);
 
-			_biTangents.Add(biTangent);
-			_biTangents.Add(biTangent);
-			_biTangents.Add(biTangent);
+			biTangents.Add(biTangent);
+			biTangents.Add(biTangent);
+			biTangents.Add(biTangent);
 
 			Indices.Add(index);
 			Indices.Add(index + 2);
@@ -200,18 +200,18 @@ namespace Engine.Model {
 		}
 
 		public void AverageTangents() {
-			var len = _positions.Count;
+			var len = positions.Count;
 
 			for (var i = 0; i < len - 1; i++) {
 				for (var o = i + 1; o < len; o++) {
-					if (_positions[i] == _positions[o] && _normals[i] == _normals[o] && _uVs[i] == _uVs[o]) {
-						var tanI = _tangents[i];
-						_tangents[i] += _tangents[o];
-						_tangents[o] += tanI;
+					if (positions[i] == positions[o] && normals[i] == normals[o] && uVs[i] == uVs[o]) {
+						var tanI = tangents[i];
+						tangents[i] += tangents[o];
+						tangents[o] += tanI;
 
-						var biTanI = _biTangents[i];
-						_biTangents[i] += _biTangents[o];
-						_biTangents[o] += biTanI;
+						var biTanI = biTangents[i];
+						biTangents[i] += biTangents[o];
+						biTangents[o] += biTanI;
 					}
 				}
 			}
@@ -219,7 +219,7 @@ namespace Engine.Model {
 
 		public double GetRadius() {
 			var maxLength = 0.0;
-			foreach (var pos in _positions) {
+			foreach (var pos in positions) {
 				var calculatedLen = (pos * GameObject.TransformComponent.Scale.ToFloat()).Length;
 				if (calculatedLen > maxLength) maxLength = calculatedLen;
 			}

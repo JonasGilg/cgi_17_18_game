@@ -1,6 +1,6 @@
 ﻿namespace Engine.Constants {
 	public static class PhysicsConstants {
-		public const float StandardGravity = 9.80665f;
-		public const float GravitationalConstant = 6.67408E-11f;
+		public const float STANDARD_GRAVITY = 9.80665f;
+		public const float GRAVITATIONAL_CONSTANT = 6.67408E-11f;
 	}
 }

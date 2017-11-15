@@ -1,32 +1,32 @@
-﻿﻿using System;
+﻿using System;
 using Engine;
 using Engine.Util;
 using OpenTK;
 
 namespace Game.Components {
-    public class GravityMovement : MoveComponent {
-        public double Distance = 4000;
-        public double Speed = 1.0 / 5.0;
-        public double _currentAngle;
+	public class GravityMovement : MoveComponent {
+		private const double DISTANCE = 4000;
+		private const double SPEED = 1.0 / 5.0;
+		public double currentAngle;
 
-        public GravityMovement(GameObject gameObject, double currentAngle) : base(gameObject) {
-            LinearVelocity = Vector3d.Zero;
-            _currentAngle = currentAngle;
-        }
+		public GravityMovement(GameObject gameObject, double currentAngle) : base(gameObject) {
+			LinearVelocity = Vector3d.Zero;
+			this.currentAngle = currentAngle;
+		}
 
-        public override void Update() {
-            ComputeGravitationalMovement();
-            base.Update();
-        }
+		public override void Update() {
+			ComputeGravitationalMovement();
+			base.Update();
+		}
 
-        private void ComputeGravitationalMovement() {
-            GameObject.TransformComponent.Position.X = Math.Cos(_currentAngle) * Distance;
-            GameObject.TransformComponent.Position.Z = Math.Sin(_currentAngle) * Distance;
+		private void ComputeGravitationalMovement() {
+			GameObject.TransformComponent.Position.X = Math.Cos(currentAngle) * DISTANCE;
+			GameObject.TransformComponent.Position.Z = Math.Sin(currentAngle) * DISTANCE;
 
-            _currentAngle += Speed * Time.DeltaTimeUpdate;
-    
-            if(_currentAngle > 2 * Math.PI)
-                _currentAngle -= 2 * Math.PI;
-        }
-    }
+			currentAngle += SPEED * Time.DeltaTimeUpdate;
+
+			if (currentAngle > 2 * Math.PI)
+				currentAngle -= 2 * Math.PI;
+		}
+	}
 }

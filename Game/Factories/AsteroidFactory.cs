@@ -6,34 +6,34 @@ using Game.GameObjects;
 
 namespace Game.Utils {
 	public static class AsteroidFactory {
-		private static Random _random = new Random();
+		private static readonly Random RANDOM = new Random();
 		public enum AsteroidType {
-			Standard,
-			Strawberry
+			STANDARD,
+			STRAWBERRY
 		}
 
-		public static readonly Dictionary<AsteroidType, string> AsteroidModelDictionary =
+		private static readonly Dictionary<AsteroidType, string> ASTEROID_MODEL_DICTIONARY =
 			new Dictionary<AsteroidType, string> {
-				{AsteroidType.Standard, "data/objects/asteroids/asteroid_"},
-				{AsteroidType.Strawberry, "data/objects/asteroids/strawberry.obj"}
+				{AsteroidType.STANDARD, "data/objects/asteroids/asteroid_"},
+				{AsteroidType.STRAWBERRY, "data/objects/asteroids/strawberry.obj"}
 			};
 
-		public static readonly Dictionary<AsteroidType, string> AsteroidTexturesDictionary =
+		private static readonly Dictionary<AsteroidType, string> ASTEROID_TEXTURES_DICTIONARY =
 			new Dictionary<AsteroidType, string> {
-				{AsteroidType.Standard, "data/textures/asteroids/asteroid_0.png"},
-				{AsteroidType.Strawberry, "data/textures/asteroids/strawberry.png"}
+				{AsteroidType.STANDARD, "data/textures/asteroids/asteroid_0.png"},
+				{AsteroidType.STRAWBERRY, "data/textures/asteroids/strawberry.png"}
 			};
 
 		public static Asteroid GenerateAsteroid(AsteroidType type) {
-			var textureId = TextureManager.LoadTexture(AsteroidTexturesDictionary[type]);
-			var asteroid = new Asteroid(AsteroidModelDictionary[type], textureId);
+			var textureId = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[type]);
+			var asteroid = new Asteroid(ASTEROID_MODEL_DICTIONARY[type], textureId);
 			return asteroid;
 		}
 
 		public static Asteroid GenerateGravityAsteroid(AsteroidType type, GameObject referenceObject) {
-			var rng = _random.Next(0, 6);
-			var textureId = TextureManager.LoadTexture(AsteroidTexturesDictionary[type]);
-			var asteroid = new Asteroid(AsteroidModelDictionary[type]+rng+".obj", textureId, referenceObject);
+			var rng = RANDOM.Next(0, 6);
+			var textureId = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[type]);
+			var asteroid = new Asteroid(ASTEROID_MODEL_DICTIONARY[type]+rng+".obj", textureId, referenceObject);
 			return asteroid;
 		}
 	}

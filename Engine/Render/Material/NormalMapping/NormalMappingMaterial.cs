@@ -6,20 +6,20 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Material {
 	public class NormalMappingMaterial : BaseMaterial {
-		private readonly int _viewMatrixLocation;
-		private readonly int _modelMatrixLocation;
-		private readonly int _modelView3x3Location;
-		private readonly int _modelviewProjectionMatrixLocation;
+		private readonly int viewMatrixLocation;
+		private readonly int modelMatrixLocation;
+		private readonly int modelView3X3Location;
+		private readonly int modelviewProjectionMatrixLocation;
 
-		private readonly int _lightDirectionLocation;
-		private readonly int _lightAmbientLocation;
-		private readonly int _lightDiffuseLocation;
-		private readonly int _lightSpecularLocation;
-		private readonly int _cameraPositionLocation;
-		private readonly int _materialShininessLocation;
+		private readonly int lightDirectionLocation;
+		private readonly int lightAmbientLocation;
+		private readonly int lightDiffuseLocation;
+		private readonly int lightSpecularLocation;
+		private readonly int cameraPositionLocation;
+		private readonly int materialShininessLocation;
 
-		private readonly int _colorTextureLocation;
-		private readonly int _normalTextureLocation;
+		private readonly int colorTextureLocation;
+		private readonly int normalTextureLocation;
 
 		public NormalMappingMaterial() {
 			CreateShaderProgram("Render/Material/NormalMapping/NormalMapping_VS.glsl",
@@ -33,21 +33,21 @@ namespace Engine.Material {
 
 			GL.LinkProgram(Program);
 
-			_modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
-			_modelMatrixLocation = GL.GetUniformLocation(Program, "model_matrix");
-			_viewMatrixLocation = GL.GetUniformLocation(Program, "view_matrix");
+			modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
+			modelMatrixLocation = GL.GetUniformLocation(Program, "model_matrix");
+			viewMatrixLocation = GL.GetUniformLocation(Program, "view_matrix");
 
-			_materialShininessLocation = GL.GetUniformLocation(Program, "specular_shininess");
+			materialShininessLocation = GL.GetUniformLocation(Program, "specular_shininess");
 
-			_lightDirectionLocation = GL.GetUniformLocation(Program, "light_origin");
-			_lightAmbientLocation = GL.GetUniformLocation(Program, "light_ambient_color");
-			_lightDiffuseLocation = GL.GetUniformLocation(Program, "light_diffuse_color");
-			_lightSpecularLocation = GL.GetUniformLocation(Program, "light_specular_color");
-			_cameraPositionLocation = GL.GetUniformLocation(Program, "camera_position");
-			_colorTextureLocation = GL.GetUniformLocation(Program, "color_texture");
-			_normalTextureLocation = GL.GetUniformLocation(Program, "normalmap_texture");
-			_viewMatrixLocation = GL.GetUniformLocation(Program, "view_matrix");
-			_modelView3x3Location = GL.GetUniformLocation(Program, "model_view_3x3_matrix");
+			lightDirectionLocation = GL.GetUniformLocation(Program, "light_origin");
+			lightAmbientLocation = GL.GetUniformLocation(Program, "light_ambient_color");
+			lightDiffuseLocation = GL.GetUniformLocation(Program, "light_diffuse_color");
+			lightSpecularLocation = GL.GetUniformLocation(Program, "light_specular_color");
+			cameraPositionLocation = GL.GetUniformLocation(Program, "camera_position");
+			colorTextureLocation = GL.GetUniformLocation(Program, "color_texture");
+			normalTextureLocation = GL.GetUniformLocation(Program, "normalmap_texture");
+			viewMatrixLocation = GL.GetUniformLocation(Program, "view_matrix");
+			modelView3X3Location = GL.GetUniformLocation(Program, "model_view_3x3_matrix");
 		}
 
 
@@ -56,39 +56,41 @@ namespace Engine.Material {
 
 			GL.UseProgram(Program);
 
-			GL.Uniform1(_colorTextureLocation, 0);
+			GL.Uniform1(colorTextureLocation, 0);
 			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.Texture2D, textureId);
 
-			GL.Uniform1(_normalTextureLocation, 1);
+			GL.Uniform1(normalTextureLocation, 1);
 			GL.ActiveTexture(TextureUnit.Texture1);
 			GL.BindTexture(TextureTarget.Texture2D, normalmap);
 
-			var modelViewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection).ToFloat();
-			GL.UniformMatrix4(_modelviewProjectionMatrixLocation, false, ref modelViewProjection);
+			var modelViewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection)
+				.ToFloat();
+			GL.UniformMatrix4(modelviewProjectionMatrixLocation, false, ref modelViewProjection);
 
 			var modelMatrix = model.Transformation.ToFloat();
-			GL.UniformMatrix4(_modelMatrixLocation, false, ref modelMatrix);
+			GL.UniformMatrix4(modelMatrixLocation, false, ref modelMatrix);
 
 			var viewMatrix = DisplayCamera.Transformation.ToFloat();
-			GL.UniformMatrix4(_viewMatrixLocation, false, ref viewMatrix);
-			
+			GL.UniformMatrix4(viewMatrixLocation, false, ref viewMatrix);
+
 			var modelView3x3 = new Matrix3d(DisplayCamera.Transformation * model.Transformation).ToFloat();
-			GL.UniformMatrix3(_modelView3x3Location, false, ref modelView3x3);
+			GL.UniformMatrix3(modelView3X3Location, false, ref modelView3x3);
 
-			GL.Uniform3(_lightDirectionLocation, Light.LightOrigin.ToFloat());
-			GL.Uniform4(_lightAmbientLocation, Light.LightAmbient);
-			GL.Uniform4(_lightDiffuseLocation, Light.LightDiffuse);
-			GL.Uniform4(_lightSpecularLocation, Light.LightSpecular);
+			GL.Uniform3(lightDirectionLocation, Light.LightOrigin.ToFloat());
+			GL.Uniform4(lightAmbientLocation, Light.LightAmbient);
+			GL.Uniform4(lightDiffuseLocation, Light.LightDiffuse);
+			GL.Uniform4(lightSpecularLocation, Light.LightSpecular);
 
-			GL.Uniform1(_materialShininessLocation, shininess);
+			GL.Uniform1(materialShininessLocation, shininess);
 
-			GL.Uniform4(_cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y, (float) DisplayCamera.Position.Z, 1);
+			GL.Uniform4(cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y,
+				(float) DisplayCamera.Position.Z, 1);
 
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
 			GL.ActiveTexture(TextureUnit.Texture0);
-			
+
 			GL.BindVertexArray(0);
 		}
 	}

@@ -10,17 +10,18 @@ namespace Engine.Component {
 		public Quaterniond Orientation;
 		public Vector3d Scale;
 
-		public Vector3d WorldPosition => _parent != null ? _parent.WorldPosition + Position : Position;
-		public Quaterniond WorldOrientation => _parent != null ? _parent.WorldOrientation * Orientation : Orientation;
+		public Vector3d WorldPosition => parent != null ? parent.WorldPosition + Position : Position;
+		public Quaterniond WorldOrientation => parent != null ? parent.WorldOrientation * Orientation : Orientation;
 
-		public TransformComponent(Vector3d position, Quaterniond orientation, Vector3d scale, GameObject owner) : base(owner) {
+		public TransformComponent(Vector3d position, Quaterniond orientation, Vector3d scale, GameObject owner) :
+			base(owner) {
 			Position = position;
 			Orientation = orientation;
 			Scale = scale;
-			
+
 			Children = new List<TransformComponent>();
 		}
-		
+
 		public TransformComponent(GameObject owner) : this(Vector3d.Zero, owner) { }
 
 		public TransformComponent(Vector3d position, GameObject owner) : this(position, Quaterniond.Identity,
@@ -32,16 +33,16 @@ namespace Engine.Component {
 		public TransformComponent(TransformComponent other) : this(other.Position, other.Orientation, other.Scale,
 			other.GameObject) { }
 
-		public TransformComponent(Matrix4d transformMatrix, GameObject owner ) : this(
+		public TransformComponent(Matrix4d transformMatrix, GameObject owner) : this(
 			transformMatrix.ExtractTranslation(),
 			transformMatrix.ExtractRotation(), transformMatrix.ExtractScale(), owner) { }
 
-		private TransformComponent _parent;
-		public List<TransformComponent> Children;
+		private TransformComponent parent;
+		public readonly List<TransformComponent> Children;
 
 
 		public TransformComponent Parent {
-			get => _parent;
+			get => parent;
 			set {
 				var oldParent = Parent;
 				if (oldParent == value) return;
@@ -49,7 +50,7 @@ namespace Engine.Component {
 				oldParent?.Children.Remove(this);
 				value?.Children.Add(this);
 
-				_parent = value;
+				parent = value;
 			}
 		}
 
@@ -64,7 +65,8 @@ namespace Engine.Component {
 				WorldMatrix = LocalMatrix;
 			}
 			else {
-				WorldMatrix = Matrix4d.Scale(Scale) * Matrix4d.CreateFromQuaternion(WorldOrientation) * Matrix4d.CreateTranslation(WorldPosition);
+				WorldMatrix = Matrix4d.Scale(Scale) * Matrix4d.CreateFromQuaternion(WorldOrientation) *
+				              Matrix4d.CreateTranslation(WorldPosition);
 			}
 		}
 

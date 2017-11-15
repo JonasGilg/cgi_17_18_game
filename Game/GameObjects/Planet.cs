@@ -1,7 +1,8 @@
-﻿using Engine;
+﻿using System;
+using Engine;
+using Engine.Component;
 using Engine.Material;
 using Engine.Model;
-using Engine.Component;
 using Game.Components;
 
 namespace Game.GameObjects {
@@ -13,7 +14,7 @@ namespace Game.GameObjects {
 		public Planet(int textureId, GameObject referenceObject = null) {
 			RenderComponent = new RenderComponent(
 				ModelLoaderObject3D.Load("data/objects/Planet.obj", this),
-				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
+				MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
 				textureId,
 				this
 			);
@@ -25,16 +26,13 @@ namespace Game.GameObjects {
 			}
 			
 			CollisionComponent = new SphereCollider(this, RenderComponent.Model,
-				
-				collision => {
-					System.Console.WriteLine(ToString()+" collided with "+collision.gameObject.ToString());
-				});
+				collision => { Console.WriteLine(ToString() + " collided with " + collision.GameObject.ToString()); });
 			CollisionComponent.Register();
 		}
 
 		public override void Awake() {
 			base.Awake();
-			
+
 			Radius = RenderComponent.Model.GetRadius();
 			TransformComponent.UpdateWorldMatrix();
 		}

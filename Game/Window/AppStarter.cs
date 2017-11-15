@@ -14,18 +14,19 @@ using EngineMouse = Engine.Input.Mouse;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-		private Vector3d StartingPoint = new Vector3d(7000.0,0.0,-1000.0);
+		private readonly Vector3d startingPoint = new Vector3d(7000.0, 0.0, -1000.0);
+
 		private AppStarter() : base(1600, 900, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
 
-		private readonly HUDElement _upsCounter = HUD.CreateHUDElement("", new Vector2(-1f, 1f));
-		private readonly HUDElement _fpsCounter = HUD.CreateHUDElement("", new Vector2(-1f, 0.94f));
+		private readonly HUDElement upsCounter = HUD.CreateHUDElement("", new Vector2(-1f, 1f));
+		private readonly HUDElement fpsCounter = HUD.CreateHUDElement("", new Vector2(-1f, 0.94f));
 
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
-			HUD.AddHUDElement(_upsCounter);
-			HUD.AddHUDElement(_fpsCounter);
+			HUD.AddHUDElement(upsCounter);
+			HUD.AddHUDElement(fpsCounter);
 
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 
@@ -36,23 +37,23 @@ namespace Game.Window {
 				new Vector4(.950f, .950f, .950f, 0f));
 
 			//sun
-			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.Sun, new Vector3d(0, 0, 0), new Vector3d(2000.0),
+			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0, 0, 0), new Vector3d(2000.0),
 				new Vector3d(0, 0.1, 0));
-			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.Simple);
+			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SIMPLE);
 			World.AddToWorld(sun);
 
 
 			for (var i = 1; i < 3; i++) {
 				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
-					AsteroidFactory.AsteroidType.Standard, 30, new Vector3d(10000.0 * i, 0, 0),
-					new Vector3d(1000.0), new Vector3d(0, 0.5, 0),sun);
+					AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(10000.0 * i, 0, 0),
+					new Vector3d(1000.0), new Vector3d(0, 0.5, 0), sun);
 				World.AddToWorld(planet);
 			}
 
 			var ship = new SpaceShip {
 				TransformComponent = {
 					Scale = new Vector3d(0.02f),
-					Position = StartingPoint,
+					Position = startingPoint,
 					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0)
 				}
 			};
@@ -71,7 +72,7 @@ namespace Game.Window {
 			EngineMouse.Update(Mouse.GetState());
 			Time.UpdateUpdateTime(e.Time);
 
-			_upsCounter.Text = $"{((int) (1 / Time.AverageUpdateTime())).ToString()}UPS";
+			upsCounter.Text = $"{((int) (1 / Time.AverageUpdateTime())).ToString()}UPS";
 
 			if (EngineKeyboard.Released(Key.Escape)) {
 				Exit();
@@ -102,7 +103,7 @@ namespace Game.Window {
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			Time.UpdateRenderTime(e.Time);
 
-			_fpsCounter.Text = ((int) (1 / Time.AverageRenderTime())).ToString() + "FPS";
+			fpsCounter.Text = ((int) (1 / Time.AverageRenderTime())).ToString() + "FPS";
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit | ClearBufferMask.DepthBufferBit);
 

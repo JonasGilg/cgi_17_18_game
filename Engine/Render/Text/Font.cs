@@ -4,12 +4,12 @@ using System.Linq;
 namespace Engine.Util {
 	public class Font {
 		public readonly string Name;
-		
+
 		public readonly int ImageWidth;
 		public readonly int ImageHeight;
 		public readonly int CellWidth;
 		public readonly int CellHeight;
-		
+
 		public readonly int StartChar;
 
 		public readonly int FontHeight;
@@ -18,8 +18,9 @@ namespace Engine.Util {
 		public readonly Dictionary<char, int> CharWidhts;
 
 		public readonly int TexId;
-		
-		public Font(int texId, string name, int imageWidth, int imageHeight, int cellWidth, int cellHeight, int startChar, int fontHeight, int fontWidth) {
+
+		public Font(int texId, string name, int imageWidth, int imageHeight, int cellWidth, int cellHeight, int startChar,
+			int fontHeight, int fontWidth) {
 			TexId = texId;
 			Name = name;
 			ImageWidth = imageWidth;
@@ -38,8 +39,9 @@ namespace Engine.Util {
 
 			var x = position * CellWidth % ImageWidth;
 			var y = position * CellWidth / ImageWidth * CellHeight;
-			
-			return new Rectangle(x / (float) ImageWidth, y / (float) ImageHeight, charWidth / (float) ImageWidth, FontHeight / (float) ImageHeight);
+
+			return new Rectangle(x / (float) ImageWidth, y / (float) ImageHeight, charWidth / (float) ImageWidth,
+				FontHeight / (float) ImageHeight);
 		}
 
 		public struct Rectangle {
@@ -47,7 +49,7 @@ namespace Engine.Util {
 			public readonly float Y;
 			public readonly float W;
 			public readonly float H;
-			
+
 			public Rectangle(float x, float y, float w, float h) {
 				X = x;
 				Y = y;

@@ -3,10 +3,8 @@
 namespace Engine {
 	public class SphereCollider : CollisionComponent {
 		public SphereCollider(GameObject gameObject, Model3D model, Collisionhandler collisionFunction) : base(gameObject,
-			model, collisionFunction) {
-			
-		}
-		
+			model, collisionFunction) { }
+
 		public override bool IsColliding(CollisionComponent otherCollider) {
 			switch (otherCollider) {
 				case SphereCollider sphere:
@@ -20,6 +18,5 @@ namespace Engine {
 					return false;
 			}
 		}
-		
 	}
 }

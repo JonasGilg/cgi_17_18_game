@@ -3,12 +3,12 @@
 namespace Engine {
 	public class CameraComponent : Component.Component {
 		private enum PlaneEnum {
-			NearPlane = 0,
-			FarPlane = 1,
-			LeftPlane = 2,
-			RightPlane = 3,
-			TopPlane = 4,
-			BottomPlane = 5
+			NEAR_PLANE = 0,
+			FAR_PLANE = 1,
+			LEFT_PLANE = 2,
+			RIGHT_PLANE = 3,
+			TOP_PLANE = 4,
+			BOTTOM_PLANE = 5
 		}
 
 		private struct Plane {
@@ -18,13 +18,13 @@ namespace Engine {
 
 		public Vector3d Position { get; private set; }
 		public Matrix4d LookAtMatrix { get; private set; }
-		private readonly Plane[] _planes;
+		private readonly Plane[] planes;
 
 		public CameraComponent(GameObject gameObject) : base(gameObject) {
-			_planes = new Plane[6];
+			planes = new Plane[6];
 		}
 
-		public void SetLookAt(Vector3d eye, Vector3d target, Vector3d up) {
+		protected void SetLookAt(Vector3d eye, Vector3d target, Vector3d up) {
 			LookAtMatrix = Matrix4d.LookAt(eye, target, up);
 			Position = eye;
 
@@ -41,7 +41,7 @@ namespace Engine {
 				},
 				D = mat.M44 + mat.M41
 			};
-			_planes[(int) PlaneEnum.LeftPlane] = plane;
+			planes[(int) PlaneEnum.LEFT_PLANE] = plane;
 
 			// right
 			plane = new Plane {
@@ -52,7 +52,7 @@ namespace Engine {
 				},
 				D = mat.M44 - mat.M41
 			};
-			_planes[(int) PlaneEnum.RightPlane] = plane;
+			planes[(int) PlaneEnum.RIGHT_PLANE] = plane;
 
 			// bottom
 			plane = new Plane {
@@ -63,7 +63,7 @@ namespace Engine {
 				},
 				D = mat.M44 + mat.M42
 			};
-			_planes[(int) PlaneEnum.BottomPlane] = plane;
+			planes[(int) PlaneEnum.BOTTOM_PLANE] = plane;
 
 			// top
 			plane = new Plane {
@@ -74,7 +74,7 @@ namespace Engine {
 				},
 				D = mat.M44 - mat.M42
 			};
-			_planes[(int) PlaneEnum.TopPlane] = plane;
+			planes[(int) PlaneEnum.TOP_PLANE] = plane;
 
 			// near
 			plane = new Plane {
@@ -85,7 +85,7 @@ namespace Engine {
 				},
 				D = mat.M44 + mat.M43
 			};
-			_planes[(int) PlaneEnum.NearPlane] = plane;
+			planes[(int) PlaneEnum.NEAR_PLANE] = plane;
 
 			// far
 			plane = new Plane {
@@ -96,11 +96,11 @@ namespace Engine {
 				},
 				D = mat.M44 - mat.M43
 			};
-			_planes[(int) PlaneEnum.FarPlane] = plane;
+			planes[(int) PlaneEnum.FAR_PLANE] = plane;
 
 			// normalize
 			for (var i = 0; i < 6; i++) {
-				plane = _planes[i];
+				plane = planes[i];
 
 				var length = plane.Normal.Length;
 				plane.Normal.X = plane.Normal.X / length;
@@ -108,12 +108,12 @@ namespace Engine {
 				plane.Normal.Z = plane.Normal.Z / length;
 				plane.D = plane.D / length;
 
-				_planes[i] = plane;
+				planes[i] = plane;
 			}
 		}
 
 		private double SignedDistanceToPoint(int planeID, Vector3d pt) {
-			return Vector3d.Dot(_planes[planeID].Normal, pt) + _planes[planeID].D;
+			return Vector3d.Dot(planes[planeID].Normal, pt) + planes[planeID].D;
 		}
 
 		public bool SphereIsInFrustum(Vector3d center, double radius) {

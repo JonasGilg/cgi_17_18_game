@@ -1,77 +1,76 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Engine.Render.Skybox;
 using Engine.Util;
 
 namespace Engine {
 	public static class World {
 		//game objects
-		public static readonly List<GameObject> Objects = new List<GameObject>();
-		
-		//components
-		public static readonly List<CollisionComponent> CollisionComponents = new List<CollisionComponent>();
+		private static readonly List<GameObject> OBJECTS = new List<GameObject>();
 
-		
+		//components
+		private static readonly List<CollisionComponent> COLLISION_COMPONENTS = new List<CollisionComponent>();
+
 		//stats
-		private static readonly TimingStats UpdateStats = new TimingStats("World");
-		private static readonly TimingStats RenderStats = new TimingStats("World");
+		private static readonly TimingStats UPDATE_STATS = new TimingStats("World");
+
+		private static readonly TimingStats RENDER_STATS = new TimingStats("World");
 
 		static World() {
-			TimingRegistry.AddUpdateTiming(UpdateStats);
-			TimingRegistry.AddRenderTiming(RenderStats);
+			TimingRegistry.AddUpdateTiming(UPDATE_STATS);
+			TimingRegistry.AddRenderTiming(RENDER_STATS);
 		}
 
 		public static void UpdateWorld() {
-			UpdateStats.Start();
-			
-			for (var i = 0; i < Objects.Count; i++) {
-				Objects[i].Update();
+			UPDATE_STATS.Start();
+
+			for (var i = 0; i < OBJECTS.Count; i++) {
+				OBJECTS[i].Update();
 			}
 			//check for collision
-			checkCollisions();
+			CheckCollisions();
 
 
-			UpdateStats.Stop();
+			UPDATE_STATS.Stop();
 		}
 
 		public static void RenderWorld() {
-			RenderStats.Start();
+			RENDER_STATS.Start();
 
 			//TODO better perfomance possible if skybox is rendered last (that needs a refactoring of the shader though)
 			Skybox.Draw();
-			for (var i = 0; i < Objects.Count; i++) {
-				if (DisplayCamera.SphereIsInFrustum(Objects[i].TransformComponent.WorldPosition, Objects[i].Radius)) {
-					Objects[i].Draw();
+			for (var i = 0; i < OBJECTS.Count; i++) {
+				if (DisplayCamera.SphereIsInFrustum(OBJECTS[i].TransformComponent.WorldPosition, OBJECTS[i].Radius)) {
+					OBJECTS[i].Draw();
 				}
 			}
 
-			RenderStats.Stop();
+			RENDER_STATS.Stop();
 		}
 
 		public static void AddToWorld(GameObject obj) {
 			obj.Awake();
-			Objects.Add(obj);
+			OBJECTS.Add(obj);
 		}
 
-		public static void registerCollisionComponent(CollisionComponent component) {
-			CollisionComponents.Add(component);
+		public static void RegisterCollisionComponent(CollisionComponent component) {
+			COLLISION_COMPONENTS.Add(component);
 		}
 
-		public static void unregisterCollisionComponent(CollisionComponent component) {
-			CollisionComponents.Remove(component);
+		public static void UnregisterCollisionComponent(CollisionComponent component) {
+			COLLISION_COMPONENTS.Remove(component);
 		}
 
 
-		private static void checkCollisions() {
-			for (var i = 0; i < CollisionComponents.Count; i++) {
-				var currObj = CollisionComponents[i];
-				for (var j = 0; j < CollisionComponents.Count; j++) {
-					
-					if (i != j) { //cant collide with yourself
-						var collidedWith = CollisionComponents[j];
+		private static void CheckCollisions() {
+			for (var i = 0; i < COLLISION_COMPONENTS.Count; i++) {
+				var currObj = COLLISION_COMPONENTS[i];
+				for (var j = 0; j < COLLISION_COMPONENTS.Count; j++) {
+					if (i != j) {
+						//cant collide with yourself
+						var collidedWith = COLLISION_COMPONENTS[j];
 						if (currObj.IsColliding(collidedWith)) {
 							currObj.OnCollision(new Collision.Collision {
-								gameObject = collidedWith.GameObject
+								GameObject = collidedWith.GameObject
 							});
 						}
 					}

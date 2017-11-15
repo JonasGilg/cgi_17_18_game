@@ -7,39 +7,40 @@ using Keyboard = Engine.Input.Keyboard;
 
 namespace Game.Components {
 	public class RLSpaceMovementComponent : MoveInputComponent {
-		public RLSpaceMovementComponent(GameObject gameObject, TransformComponent transformComponent, MoveComponent moveComponent) : base(gameObject, transformComponent, moveComponent) { }
-		
+		public RLSpaceMovementComponent(GameObject gameObject, TransformComponent transformComponent,
+			MoveComponent moveComponent) : base(gameObject, transformComponent, moveComponent) { }
+
 		public override void Update() {
 			base.Update();
-			
+
 			if (Keyboard.Down(Key.W)) {
 				var translateForward = TransformComponent.Orientation.Rotate(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0));
-				MoveComponent.LinearVelocity += translateForward * MovementMultiplier;
+				MoveComponent.LinearVelocity += translateForward * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.S)) {
 				var translateBack = TransformComponent.Orientation.Rotate(new Vector3d(-Time.DeltaTimeUpdate, 0.0, 0.0));
-				MoveComponent.LinearVelocity += translateBack * MovementMultiplier;
+				MoveComponent.LinearVelocity += translateBack * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.Q)) {
 				var translateLeft = TransformComponent.Orientation.Rotate(new Vector3d(0.0, 0.0, -Time.DeltaTimeUpdate));
-				MoveComponent.LinearVelocity += translateLeft * MovementMultiplier;
+				MoveComponent.LinearVelocity += translateLeft * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.E)) {
 				var translateRight = TransformComponent.Orientation.Rotate(new Vector3d(0.0, 0.0, Time.DeltaTimeUpdate));
-				MoveComponent.LinearVelocity += translateRight * MovementMultiplier;
+				MoveComponent.LinearVelocity += translateRight * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.Space)) {
 				var translateUp = TransformComponent.Orientation.Rotate(new Vector3d(0.0, Time.DeltaTimeUpdate, 0.0));
-				MoveComponent.LinearVelocity += translateUp * MovementMultiplier;
+				MoveComponent.LinearVelocity += translateUp * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.X)) {
 				var translateDown = TransformComponent.Orientation.Rotate(new Vector3d(0.0, -Time.DeltaTimeUpdate, 0.0));
-				MoveComponent.LinearVelocity += translateDown * MovementMultiplier;
+				MoveComponent.LinearVelocity += translateDown * MOVEMENT_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.A)) {

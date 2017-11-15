@@ -2,24 +2,24 @@
 
 namespace Engine.Material {
 	public enum Material {
-		Simple,
-		SimpleReflection,
-		AmbientDiffuseSpecular,
-		NormalMapping
+		SIMPLE,
+		SIMPLE_REFLECTION,
+		AMBIENT_DIFFUSE_SPECULAR,
+		NORMAL_MAPPING
 	}
-	
+
 	public static class MaterialManager {
-		private static readonly Dictionary<Material, BaseMaterial> Materials;
+		private static readonly Dictionary<Material, BaseMaterial> MATERIALS;
 
 		static MaterialManager() {
-			Materials = new Dictionary<Material, BaseMaterial> {
-				[Material.Simple] = new SimpleTextureMaterial(),
-				[Material.SimpleReflection] = new SimpleReflectionMaterial(),
-				[Material.AmbientDiffuseSpecular] = new AmbientDiffuseSpecularMaterial(),
-				[Material.NormalMapping] = new NormalMappingMaterial()
+			MATERIALS = new Dictionary<Material, BaseMaterial> {
+				[Material.SIMPLE] = new SimpleTextureMaterial(),
+				[Material.SIMPLE_REFLECTION] = new SimpleReflectionMaterial(),
+				[Material.AMBIENT_DIFFUSE_SPECULAR] = new AmbientDiffuseSpecularMaterial(),
+				[Material.NORMAL_MAPPING] = new NormalMappingMaterial()
 			};
 		}
 
-		public static BaseMaterial GetMaterial(Material material) => Materials[material];
+		public static BaseMaterial GetMaterial(Material material) => MATERIALS[material];
 	}
 }

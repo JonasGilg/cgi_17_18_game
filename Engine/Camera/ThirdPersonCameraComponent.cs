@@ -1,20 +1,19 @@
 ﻿using System;
 using Engine.Util;
-using Engine.Component;
 using OpenTK;
 using OpenTK.Input;
 using Mouse = Engine.Input.Mouse;
 
 namespace Engine.Component {
 	public class ThirdPersonCameraComponent : CameraComponent {
-		private readonly Vector3d _offset;
-		private double _zoom;
-		private Vector2d _rotation;
+		private readonly Vector3d offset;
+		private double zoom;
+		private Vector2d rotation;
 
 		public ThirdPersonCameraComponent(Vector3d offset, GameObject gameObject) : base(gameObject) {
-			_offset = offset;
-			_zoom = 1.0;
-			_rotation = Vector2d.Zero;
+			this.offset = offset;
+			zoom = 1.0;
+			rotation = Vector2d.Zero;
 		}
 
 		public override void Update() {
@@ -22,25 +21,27 @@ namespace Engine.Component {
 
 			if (Mouse.Down(MouseButton.Right)) {
 				var factor = Time.DeltaTimeUpdate * 0.3;
-				
-				_rotation.X += -Mouse.CursorDelta.X * factor;
+
+				rotation.X += -Mouse.CursorDelta.X * factor;
 
 				const double maxRotation = Math.PI / 2 - 0.2;
 				const double minRotation = -maxRotation;
 				var deltaY = -Mouse.CursorDelta.Y * factor;
-				_rotation.Y = Math1D.Clamp(_rotation.Y + deltaY, minRotation, maxRotation);
+				rotation.Y = Math1D.Clamp(rotation.Y + deltaY, minRotation, maxRotation);
 			}
 			else {
-				_rotation = Vector2d.Lerp(_rotation, Vector2d.Zero, Time.DeltaTimeUpdate * 10);
+				rotation = Vector2d.Lerp(rotation, Vector2d.Zero, Time.DeltaTimeUpdate * 10);
 			}
 
-			_zoom = Math1D.Clamp(_zoom + Mouse.ScrollDelta / 10, 0.5, 2);
+			zoom = Math1D.Clamp(zoom + Mouse.ScrollDelta / 10, 0.5, 2);
 
-			var rotation = Quaterniond.FromEulerAngles(_rotation.Y, _rotation.X, 0);
-			
-			var eyePosition = (GameObject.TransformComponent.Orientation * rotation).Rotate(_offset * _zoom) + GameObject.TransformComponent.Position;
+			var rot = Quaterniond.FromEulerAngles(rotation.Y, rotation.X, 0);
 
-			SetLookAt(eyePosition, GameObject.TransformComponent.Position, GameObject.TransformComponent.Orientation.Rotate(Vector3d.UnitY));
+			var eyePosition = (GameObject.TransformComponent.Orientation * rot).Rotate(offset * zoom) +
+			                  GameObject.TransformComponent.Position;
+
+			SetLookAt(eyePosition, GameObject.TransformComponent.Position,
+				GameObject.TransformComponent.Orientation.Rotate(Vector3d.UnitY));
 		}
 	}
 }
