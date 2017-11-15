@@ -2,6 +2,7 @@
 using Engine.Material;
 using Engine.Model;
 using Engine.Component;
+using Game.Components;
 
 namespace Game.GameObjects {
 	public class Planet : GameObject {
@@ -9,14 +10,20 @@ namespace Game.GameObjects {
 		public readonly MoveComponent MoveComponent;
 		public readonly CollisionComponent CollisionComponent;
 
-		public Planet(int textureId) {
+		public Planet(int textureId, GameObject referenceObject = null) {
 			RenderComponent = new RenderComponent(
 				ModelLoaderObject3D.Load("data/objects/Planet.obj", this),
 				MaterialManager.GetMaterial(Material.AmbientDiffuseSpecular),
 				textureId,
 				this
 			);
-			MoveComponent = new MoveComponent(this);
+			if (referenceObject != null) {
+				MoveComponent = new GravityMovement(this, 0.0);
+			}
+			else {
+				MoveComponent = new MoveComponent(this);
+			}
+			
 			CollisionComponent = new SphereCollider(this, RenderComponent.Model,
 				
 				collision => {

@@ -5,8 +5,8 @@ using OpenTK;
 
 namespace Game.Components {
     public class GravityMovement : MoveComponent {
-        public double Distance = 2000;
-        public double Speed = 1.0 / 180.0;
+        public double Distance = 4000;
+        public double Speed = 1.0 / 5.0;
         public double _currentAngle;
 
         public GravityMovement(GameObject gameObject, double currentAngle) : base(gameObject) {

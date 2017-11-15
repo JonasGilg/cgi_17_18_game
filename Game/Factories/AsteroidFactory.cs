@@ -33,7 +33,7 @@ namespace Game.Utils {
 		public static Asteroid GenerateGravityAsteroid(AsteroidType type, GameObject referenceObject) {
 			var rng = _random.Next(0, 6);
 			var textureId = TextureManager.LoadTexture(AsteroidTexturesDictionary[type]);
-			var asteroid = new Asteroid(AsteroidModelDictionary[type]+rng+".obj", textureId, referenceObject);
+			var asteroid = new Asteroid(AsteroidModelDictionary[type]+rng+".obj", textureId);
 			return asteroid;
 		}
 	}
