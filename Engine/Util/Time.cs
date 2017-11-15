@@ -103,7 +103,7 @@ namespace Engine.Util {
 #if(DEBUG)
 			stopwatch.Stop();
 			lastFrameTimes.Enqueue(stopwatch.ElapsedTicks);
-			if (lastFrameTimes.Count > QueueSize) {
+			if (lastFrameTimes.Count > QUEUE_SIZE) {
 				lastFrameTimes.Dequeue();
 			}
 #endif
