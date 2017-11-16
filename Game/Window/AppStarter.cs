@@ -60,7 +60,7 @@ namespace Game.Window {
 				}
 			};
 			World.AddToWorld(ship);
-			
+
 			var blackHole = new BlackHole {
 				TransformComponent = {
 					Scale = new Vector3d(500),
@@ -69,6 +69,7 @@ namespace Game.Window {
 				}
 			};
 			World.AddToWorld(blackHole);
+		
 
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Less);

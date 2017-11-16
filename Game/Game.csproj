@@ -87,28 +87,28 @@
     <Content Include="data\Font\CrystalFontData.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\asteroids\asteroid_0.obj">
+    <Content Include="data\objects\asteroids\standard\asteroid_0.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\asteroids\asteroid_1.obj">
+    <Content Include="data\objects\asteroids\standard\asteroid_1.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\asteroids\asteroid_2.obj">
+    <Content Include="data\objects\asteroids\standard\asteroid_2.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\asteroids\asteroid_3.obj">
+    <Content Include="data\objects\asteroids\standard\asteroid_3.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\asteroids\asteroid_4.obj">
+    <Content Include="data\objects\asteroids\standard\asteroid_4.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\asteroids\asteroid_5.obj">
+    <Content Include="data\objects\asteroids\standard\asteroid_5.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\asteroids\asteroid_6.obj">
+    <Content Include="data\objects\asteroids\standard\asteroid_6.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\asteroids\strawberry.obj">
+    <Content Include="data\objects\asteroids\strawberry\strawberry.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\objects\Planet.obj">
@@ -120,13 +120,37 @@
     <Content Include="data\objects\SpaceShip.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\asteroids\asteroid_0.png">
+    <Content Include="data\textures\asteroids\standard\textures\asteroid_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\asteroids\asteroid_1.png">
+    <Content Include="data\textures\asteroids\standard\textures\asteroid_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\asteroids\strawberry.png">
+    <Content Include="data\textures\asteroids\standard\textures\asteroid_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\textures\asteroid_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\textures\asteroid_4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\textures\jpeg\jasteroid_0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\textures\jpeg\jasteroid_1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\textures\jpeg\jasteroid_2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\textures\jpeg\jasteroid_3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\textures\jpeg\jasteroid_4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\strawberry\textures\strawberry.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\textures\NormalMap.png">
@@ -171,6 +195,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\BlenderFiles\asteroids\" />
+    <Folder Include="data\textures\asteroids\standard\normalmaps" />
+    <Folder Include="data\textures\asteroids\strawberry\normalmaps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
