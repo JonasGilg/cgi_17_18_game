@@ -75,9 +75,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="data\BlenderFiles\Neptune.blend" />
+    <Content Include="data\BlenderFiles\SpaceShip\BumpMap.png" />
     <Content Include="data\BlenderFiles\SpaceShip\SpaceShip.blend" />
-    <Content Include="data\BlenderFiles\SpaceShip\Texture.png" />
-    <Content Include="data\BlenderFiles\SpaceShip\UV.pdn" />
+    <Content Include="data\BlenderFiles\SpaceShip\SpaceShip.pdn" />
+    <Content Include="data\BlenderFiles\SpaceShip\SpaceShipModified.blend" />
     <Content Include="data\BlenderFiles\SpaceShip\UV.png" />
     <Content Include="data\Font\CrystalFont.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
