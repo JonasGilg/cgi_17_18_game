@@ -52,43 +52,4 @@ void main() {
     vec4 colorGammaCorrected = pow(colorLinear, vec4(1.0 / screenGamma));
         
     outputColor = surfaceColor * colorGammaCorrected;
-    
-    /*vec3 TextureNormal_tangentspace = normalize(texture(normalmap_texture, vec2(fragTexcoord.x, fragTexcoord.y)).rgb * 2.0 - 1.0);
-    
-    float distance = length(light_origin - fragPosition);
-
-    vec3 n = TextureNormal_tangentspace;
-    vec3 l = normalize(LightDirection_tangentspace);
-    float cosTheta = clamp(dot(n, l), 0, 1);
-
-    vec3 E = normalize(EyeDirection_tangentspace);
-    vec3 R = reflect(-l, n);
-    float cosAlpha = clamp(dot(E, R), 0, 1);
-    
-    outputColor = texture(color_texture, fragTexcoord) *
-        (light_ambient_color +
-        light_diffuse_color * cosTheta / (distance * distance) +
-        light_specular_color * pow(cosAlpha, specular_shininess) / (distance * distance));*/
-
-
-    /*vec3 normal = texture(normalmap_texture, fragTexcoord).rgb;
-    normal = normalize(normal * 2.0 - 1.0); 
-    normal = normalize(fragTBN * normal);
-    
-    vec3 lightDir = normalize(light_origin - fragPosition);
-    
-    vec4 v = normalize(camera_position - model_matrix * vec4(fragPosition, 1));
-    
-    vec3 h = normalize(lightDir + vec3(v));
-    float ndoth = dot( normal, h );
-    float specularIntensity = pow(ndoth, specular_shininess);
-
-    float brightness = clamp(dot(normalize(normal), lightDir), 0, 1);
-    
-    vec4 surfaceColor = texture(color_texture, fragTexcoord);
-
-    //				 Ambient						      + Diffuse 								          + Specular 
-    // outputColor = (surfaceColor * light_ambient_color) + (surfaceColor * brightness * light_diffuse_color) + specularIntensity * light_specular_color;
-    // upper line 
-    outputColor = surfaceColor * (light_ambient_color +  brightness * light_diffuse_color) + specularIntensity * light_specular_color;*/
 }
