@@ -119,7 +119,7 @@ namespace Game.Window {
 			GL.Viewport(0, 0, Width, Height);
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 		}
-
+		
 		[STAThread]
 		public static void Main() {
 			using (var example = new AppStarter()) {
