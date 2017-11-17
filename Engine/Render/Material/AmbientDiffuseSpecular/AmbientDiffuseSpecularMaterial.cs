@@ -47,9 +47,9 @@ namespace Engine.Material {
 			cameraPositionLocation = GL.GetUniformLocation(Program, "camera_position");
 		}
 
-		public override void Draw(Model3D model, int textureId, float shininess = 0, int normalmap = -1) {
+		public override void Draw(Model3D model, MaterialSettings materialSettings) {
 			// set the texture
-			GL.BindTexture(TextureTarget.Texture2D, textureId);
+			GL.BindTexture(TextureTarget.Texture2D, materialSettings.ColorTexture);
 
 			// using the Vertex-Array-Object of out object
 			GL.BindVertexArray(model.VAO);
@@ -78,7 +78,7 @@ namespace Engine.Material {
 			GL.Uniform4(lightSpecularLocation, Light.LightSpecular);
 
 			// Shininess
-			GL.Uniform1(materialShininessLocation, shininess);
+			GL.Uniform1(materialShininessLocation, materialSettings.Shininess);
 
 			// Pass positions of the camera to calculate the view direction
 			GL.Uniform4(cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y,

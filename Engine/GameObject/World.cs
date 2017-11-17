@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Engine.Render;
 using Engine.Render.Skybox;
 using Engine.Util;
 
@@ -12,7 +13,6 @@ namespace Engine {
 
 		//stats
 		private static readonly TimingStats UPDATE_STATS = new TimingStats("World");
-
 		private static readonly TimingStats RENDER_STATS = new TimingStats("World");
 
 		static World() {
@@ -29,7 +29,6 @@ namespace Engine {
 			//check for collision
 			CheckCollisions();
 
-
 			UPDATE_STATS.Stop();
 		}
 
@@ -38,11 +37,14 @@ namespace Engine {
 
 			//TODO better perfomance possible if skybox is rendered last (that needs a refactoring of the shader though)
 			Skybox.Draw();
-			for (var i = 0; i < OBJECTS.Count; i++) {
-				if (DisplayCamera.SphereIsInFrustum(OBJECTS[i].TransformComponent.WorldPosition, OBJECTS[i].Radius)) {
+			
+			/*for (var i = 0; i < OBJECTS.Count; i++) {
+				if (DisplayCamera.IsSphereInFrustum(OBJECTS[i].TransformComponent.WorldPosition, OBJECTS[i].Radius)) {
 					OBJECTS[i].Draw();
 				}
-			}
+			}*/
+			
+			RenderEngine.Draw();
 
 			RENDER_STATS.Stop();
 		}
@@ -59,7 +61,6 @@ namespace Engine {
 		public static void UnregisterCollisionComponent(CollisionComponent component) {
 			COLLISION_COMPONENTS.Remove(component);
 		}
-
 
 		private static void CheckCollisions() {
 			for (var i = 0; i < COLLISION_COMPONENTS.Count; i++) {

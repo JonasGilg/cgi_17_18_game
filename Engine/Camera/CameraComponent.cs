@@ -20,9 +20,7 @@ namespace Engine {
 		public Matrix4d LookAtMatrix { get; private set; }
 		private readonly Plane[] planes;
 
-		public CameraComponent(GameObject gameObject) : base(gameObject) {
-			planes = new Plane[6];
-		}
+		public CameraComponent(GameObject gameObject) : base(gameObject) => planes = new Plane[6];
 
 		protected void SetLookAt(Vector3d eye, Vector3d target, Vector3d up) {
 			LookAtMatrix = Matrix4d.LookAt(eye, target, up);
@@ -112,17 +110,41 @@ namespace Engine {
 			}
 		}
 
-		private double SignedDistanceToPoint(int planeID, Vector3d pt) {
-			return Vector3d.Dot(planes[planeID].Normal, pt) + planes[planeID].D;
-		}
+		private double SignedDistanceToPoint(int planeID, Vector3d pt) => Vector3d.Dot(planes[planeID].Normal, pt) + planes[planeID].D;
 
-		public bool SphereIsInFrustum(Vector3d center, double radius) {
-			for (var i = 0; i < 6; i++) {
+		public bool IsSphereInFrustum(Vector3d center, double radius) {
+			for (var i = 0; i < planes.Length; i++) {
 				if (SignedDistanceToPoint(i, center) < -radius) {
 					return false;
 				}
 			}
 			return true;
+		}
+
+		public Intersect IsAABBInFrustum(AxisAlignedBoundingBox aabb) {
+			var result = Intersect.INSIDE;
+
+			for (var i = 0; i < planes.Length; i++) {
+				var plane = planes[i];
+
+				var nx = plane.Normal.X > 0.0;
+				var ny = plane.Normal.Y > 0.0;
+				var nz = plane.Normal.Z > 0.0;
+
+				var dot = (plane.Normal.X * aabb.GetMinOrMax(nx).X) +
+				          (plane.Normal.Y * aabb.GetMinOrMax(ny).Y) +
+				          (plane.Normal.Z * aabb.GetMinOrMax(nz).Z);
+
+				if (dot < -plane.D) result = Intersect.OUTSIDE;
+
+				var dot2 = (plane.Normal.X * aabb.GetMinOrMax(!nx).X) +
+				           (plane.Normal.Y * aabb.GetMinOrMax(!ny).Y) +
+				           (plane.Normal.Z * aabb.GetMinOrMax(!nz).Z);
+
+				if (dot2 <= -plane.D) result = Intersect.OVERLAP;
+			}
+
+			return result;
 		}
 
 		public override void Update() { }

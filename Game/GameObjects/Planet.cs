@@ -3,6 +3,7 @@ using Engine;
 using Engine.Component;
 using Engine.Material;
 using Engine.Model;
+using Engine.Render;
 using Game.Components;
 
 namespace Game.GameObjects {
@@ -15,9 +16,15 @@ namespace Game.GameObjects {
 			RenderComponent = new RenderComponent(
 				ModelLoaderObject3D.Load("data/objects/Planet.obj", this),
 				MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
-				textureId,
+				new MaterialSettings {
+					ColorTexture = textureId,
+					Shininess = 0.0
+				},
 				this
 			);
+			
+			RenderEngine.RegisterRenderComponent(RenderComponent);
+			
 			if (referenceObject != null) {
 				MoveComponent = new GravityMovement(this, 0.0);
 			}
@@ -32,8 +39,8 @@ namespace Game.GameObjects {
 
 		public override void Awake() {
 			base.Awake();
-
-			Radius = RenderComponent.Model.GetRadius();
+			Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
+			RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
 			TransformComponent.UpdateWorldMatrix();
 		}
 
@@ -41,11 +48,6 @@ namespace Game.GameObjects {
 			MoveComponent.Update();
 			base.Update();
 			RenderComponent.Update();
-		}
-
-		public override void Draw() {
-			base.Draw();
-			RenderComponent.Draw();
 		}
 	}
 }

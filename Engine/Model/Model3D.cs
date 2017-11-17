@@ -16,6 +16,16 @@ namespace Engine.Model {
 		private readonly List<Vector2> uVs;
 		private readonly List<Vector3> tangents;
 		private readonly List<Vector3> biTangents;
+		
+		private Vector3d min = Vector3d.Zero;
+		private Vector3d max = Vector3d.Zero;
+
+		public AxisAlignedBoundingBox AABB => AxisAlignedBoundingBox.FromMinMax(min, max);
+
+		public double Radius(Vector3d scale) {
+			var newAABB = AABB * scale;
+			return Math.Max(Math.Max(newAABB.HalfDimension.X, newAABB.HalfDimension.Y), newAABB.HalfDimension.Z);
+		}
 
 		public Model3D(GameObject gameObject) : base(gameObject) {
 			positions = new List<Vector3>();
@@ -146,6 +156,14 @@ namespace Engine.Model {
 			positions.Add(v2);
 			positions.Add(v3);
 
+			min.X = Math.Min(Math.Min(Math.Min(min.X, v1.X), v2.X), v3.X);
+			min.Y = Math.Min(Math.Min(Math.Min(min.Y, v1.Y), v2.Y), v3.Y);
+			min.Z = Math.Min(Math.Min(Math.Min(min.Z, v1.Z), v2.Z), v3.Z);
+			
+			max.X = Math.Max(Math.Max(Math.Max(max.X, v1.X), v2.X), v3.X);
+			max.Y = Math.Max(Math.Max(Math.Max(max.Y, v1.Y), v2.Y), v3.Y);
+			max.Z = Math.Max(Math.Max(Math.Max(max.Z, v1.Z), v2.Z), v3.Z);
+			
 			normals.Add(n1);
 			normals.Add(n2);
 			normals.Add(n3);
@@ -153,7 +171,6 @@ namespace Engine.Model {
 			uVs.Add(uv1);
 			uVs.Add(uv2);
 			uVs.Add(uv3);
-
 
 			// calculate tangents / bi-tangents
 			var edge1 = v2 - v1;
@@ -215,15 +232,6 @@ namespace Engine.Model {
 					}
 				}
 			}
-		}
-
-		public double GetRadius() {
-			var maxLength = 0.0;
-			foreach (var pos in positions) {
-				var calculatedLen = (pos * GameObject.TransformComponent.Scale.ToFloat()).Length;
-				if (calculatedLen > maxLength) maxLength = calculatedLen;
-			}
-			return maxLength;
 		}
 
 		// unloads from graphics memory

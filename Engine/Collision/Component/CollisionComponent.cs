@@ -4,15 +4,18 @@ using Engine.Model;
 namespace Engine {
 	public delegate void Collisionhandler(Collision.Collision col);
 
-	public abstract class CollisionComponent : Component.Component {
+	public abstract class CollisionComponent : Component.Component, IOctreeItem {
 		private readonly Model3D model3D;
+		private readonly AxisAlignedBoundingBox aabb;
+		
 		public PhysicsMaterial PhysicsMaterial;
 		public readonly Collisionhandler OnCollision;
 
 		protected CollisionComponent(GameObject gameObject, Model3D model, Collisionhandler collisionFunction) :
 			base(gameObject) {
 			model3D = model;
-
+			aabb = model.AABB;
+			
 			OnCollision = collisionFunction;
 		}
 
@@ -27,5 +30,7 @@ namespace Engine {
 		}
 
 		public abstract bool IsColliding(CollisionComponent otherCollider);
+
+		public AxisAlignedBoundingBox GetAABB() => aabb;
 	}
 }

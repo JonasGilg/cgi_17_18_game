@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Engine;
 using Engine.Component;
 using Engine.GUI;
 using Engine.Material;
 using Engine.Model;
+using Engine.Render;
 using Engine.Texture;
 using Game.Components;
 using OpenTK;
@@ -30,12 +32,18 @@ namespace Game.GameObjects {
 
 			moveComponent = new MoveComponent(this);
 			cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);
-			renderComponent = new NormalMapRenderComponent(
+			renderComponent = new RenderComponent(
 				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj", this),
-				TextureManager.LoadTexture("data/textures/SpaceShip.png"),
-				TextureManager.LoadTexture("data/textures/NormalMap.png"),
+				MaterialManager.GetMaterial(Material.NORMAL_MAPPING),
+				new MaterialSettings {
+					ColorTexture = TextureManager.LoadTexture("data/textures/SpaceShip.png"),
+					NormalTexture = TextureManager.LoadTexture("data/textures/NormalMap.png"),
+					Shininess = 16.0
+				},
 				this
 			);
+			
+			RenderEngine.RegisterRenderComponent(renderComponent);
 
 			CollisionComponent = new SphereCollider(this, renderComponent.Model,
 				collision => { Console.WriteLine(ToString() + " collided with " + collision.GameObject.ToString()); });
@@ -44,12 +52,6 @@ namespace Game.GameObjects {
 			DisplayCamera.SetActiveCamera(cameraComponent);
 
 			moveInputComponent = new ArcadeMoveInputComponent(this, TransformComponent, moveComponent);
-		}
-
-		public override void Awake() {
-			base.Awake();
-
-			Radius = renderComponent.Model.GetRadius();
 		}
 
 		public override void Update() {
@@ -72,9 +74,10 @@ namespace Game.GameObjects {
 			speed.Text = $"   SPEED: {moveComponent.LinearVelocity.LengthFast:N2}M/S";
 		}
 
-		public override void Draw() {
-			base.Draw();
-			renderComponent.Draw(16f);
+		public override void Awake() {
+			base.Awake();
+			Radius = renderComponent.Model.Radius(TransformComponent.Scale);
+			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
 		}
 	}
 }

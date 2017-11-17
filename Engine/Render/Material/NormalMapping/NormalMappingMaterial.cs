@@ -51,18 +51,18 @@ namespace Engine.Material {
 		}
 
 
-		public override void Draw(Model3D model, int textureId, float shininess = 0f, int normalmap = -1) {
+		public override void Draw(Model3D model, MaterialSettings materialSettings) {
 			GL.BindVertexArray(model.VAO);
 
 			GL.UseProgram(Program);
 
 			GL.Uniform1(colorTextureLocation, 0);
 			GL.ActiveTexture(TextureUnit.Texture0);
-			GL.BindTexture(TextureTarget.Texture2D, textureId);
+			GL.BindTexture(TextureTarget.Texture2D, materialSettings.ColorTexture);
 
 			GL.Uniform1(normalTextureLocation, 1);
 			GL.ActiveTexture(TextureUnit.Texture1);
-			GL.BindTexture(TextureTarget.Texture2D, normalmap);
+			GL.BindTexture(TextureTarget.Texture2D, materialSettings.NormalTexture);
 
 			var modelViewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection)
 				.ToFloat();
@@ -82,7 +82,7 @@ namespace Engine.Material {
 			GL.Uniform4(lightDiffuseLocation, Light.LightDiffuse);
 			GL.Uniform4(lightSpecularLocation, Light.LightSpecular);
 
-			GL.Uniform1(materialShininessLocation, shininess);
+			GL.Uniform1(materialShininessLocation, materialSettings.Shininess);
 
 			GL.Uniform4(cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y,
 				(float) DisplayCamera.Position.Z, 1);

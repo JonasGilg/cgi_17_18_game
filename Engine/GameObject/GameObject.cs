@@ -12,14 +12,8 @@ namespace Engine {
 
 		public virtual void Awake() { }
 
-		public virtual void Update() {
-			TransformComponent.Update();
-		}
+		public virtual void Update() => TransformComponent.Update();
 
-		public virtual void Draw() { }
-
-		public override string ToString() {
-			return base.ToString() + "(#" + GetHashCode() + ")";
-		}
+		public override string ToString() => base.ToString() + "(#" + GetHashCode() + ")";
 	}
 }

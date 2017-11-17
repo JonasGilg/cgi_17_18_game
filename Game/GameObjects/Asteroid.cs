@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Engine;
 using Engine.Component;
 using Engine.Material;
 using Engine.Model;
+using Engine.Render;
 using Game.Components;
 
 namespace Game.GameObjects {
@@ -15,13 +17,18 @@ namespace Game.GameObjects {
 			MoveComponent = referenceObject != null ? new GravityMovement(this, 0.0) : new MoveComponent(this);
 
 			var model = ModelLoaderObject3D.Load(modelObjectPath, this);
-
+			
 			renderComponent = new RenderComponent(
 				model,
 				MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
-				textureId,
+				new MaterialSettings {
+					ColorTexture = textureId,
+					Shininess = 1
+				},
 				this
 			);
+			
+			RenderEngine.RegisterRenderComponent(renderComponent);
 
 			CollisionComponent = new SphereCollider(this, renderComponent.Model,
 				collision => { Console.WriteLine("Asteroid collided with" + collision.GameObject.ToString()); });
@@ -30,19 +37,14 @@ namespace Game.GameObjects {
 
 		public override void Awake() {
 			base.Awake();
-
-			Radius = renderComponent.Model.GetRadius();
+			Radius = renderComponent.Model.Radius(TransformComponent.Scale);
+			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
 		}
 
 		public override void Update() {
 			MoveComponent.Update();
 			base.Update();
 			renderComponent.Update();
-		}
-
-		public override void Draw() {
-			base.Draw();
-			renderComponent.Draw(0.1f);
 		}
 	}
 }

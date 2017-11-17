@@ -47,7 +47,6 @@
     <Compile Include="Camera\CameraComponent.cs" />
     <Compile Include="Camera\DisplayCamera.cs" />
     <Compile Include="Camera\ThirdPersonCameraComponent.cs" />
-    <Compile Include="Collision\BoundingBox.cs" />
     <Compile Include="Collision\Collision.cs" />
     <Compile Include="Collision\Component\BoxCollider.cs" />
     <Compile Include="Collision\Component\CollisionComponent.cs" />
@@ -67,8 +66,8 @@
     <Compile Include="Model\Model3D.cs" />
     <Compile Include="Model\ModelLoaderObject3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Render\Component\NormalMapRenderComponent.cs" />
     <Compile Include="Render\Component\RenderComponent.cs" />
+    <Compile Include="Render\RenderEngine.cs" />
     <Compile Include="Render\Skybox\Skybox.cs" />
     <Compile Include="Render\Text\Font.cs" />
     <Compile Include="Render\Text\FontManager.cs" />

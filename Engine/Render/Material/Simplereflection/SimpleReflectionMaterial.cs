@@ -27,9 +27,9 @@ namespace Engine.Material {
 			modelviewMatrixLocation = GL.GetUniformLocation(Program, "modelview_matrix");
 		}
 
-		public override void Draw(Model3D model, int textureId, float shininess = 0f, int normalmap = -1) {
+		public override void Draw(Model3D model, MaterialSettings materialSettings) {
 			// set the texture
-			GL.BindTexture(TextureTarget.Texture2D, textureId);
+			GL.BindTexture(TextureTarget.Texture2D, materialSettings.ColorTexture);
 
 			// using the Vertex-Array-Object of out object
 			GL.BindVertexArray(model.VAO);

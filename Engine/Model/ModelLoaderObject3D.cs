@@ -5,6 +5,7 @@ using System.IO;
 using OpenTK;
 
 namespace Engine.Model {
+	
 	public static class ModelLoaderObject3D {
 		public static Model3D Load(string filePath, GameObject gameObject = null, float scale = 1.0f,
 			bool doAverageTangets = false,
