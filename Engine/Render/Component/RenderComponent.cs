@@ -20,12 +20,14 @@ namespace Engine.Component {
 		}
 
 		public override void Update() {
+			
 			Model.Update();
+			
 			/*RenderEngine.UnregisterRenderComponent(this);
 			RenderEngine.RegisterRenderComponent(this);*/
 		}
 
-		public AxisAlignedBoundingBox GetAABB() => AABB + GameObject.TransformComponent.Position;
+		public AxisAlignedBoundingBox GetAABB() => AABB + GameObject.TransformComponent.WorldPosition;
 
 		public override int GetHashCode() => id;
 	}

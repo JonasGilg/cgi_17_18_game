@@ -122,11 +122,10 @@ namespace Engine {
 		}
 
 		public Intersect IsAABBInFrustum(AxisAlignedBoundingBox aabb) {
-			var result = Intersect.INSIDE;
-
-			for (var i = 0; i < planes.Length; i++) {
+			//var result = Intersect.INSIDE;
+			/**for (var i = 0; i < planes.Length; i++) {
 				var plane = planes[i];
-
+				
 				var nx = plane.Normal.X > 0.0;
 				var ny = plane.Normal.Y > 0.0;
 				var nz = plane.Normal.Z > 0.0;
@@ -142,9 +141,21 @@ namespace Engine {
 				           (plane.Normal.Z * aabb.GetMinOrMax(!nz).Z);
 
 				if (dot2 <= -plane.D) result = Intersect.OVERLAP;
-			}
+			}**/
+			// return result
+			
+			
+			for (var i = 0; i < planes.Length; i++) {
 
-			return result;
+				if (SignedDistanceToPoint(i, aabb.getVertexP(planes[i].Normal)) < 0) {
+					return Intersect.OUTSIDE;
+				}
+				if (SignedDistanceToPoint(i, aabb.getVertexN(planes[i].Normal)) < 0) {
+					return Intersect.OVERLAP;
+				}
+				
+			}
+			return Intersect.INSIDE;
 		}
 
 		public override void Update() { }

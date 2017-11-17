@@ -67,6 +67,7 @@
     <Compile Include="Model\ModelLoaderObject3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\Component\RenderComponent.cs" />
+    <Compile Include="Render\DebugDrawing\BoxDrawing\HitBox.cs" />
     <Compile Include="Render\RenderEngine.cs" />
     <Compile Include="Render\Skybox\Skybox.cs" />
     <Compile Include="Render\Text\Font.cs" />

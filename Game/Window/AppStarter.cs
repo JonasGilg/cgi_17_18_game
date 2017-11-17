@@ -44,7 +44,7 @@ namespace Game.Window {
 
 			for (var i = 1; i < 3; i++) {
 				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
-					AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(10000.0 * i, 0, 0),
+					AsteroidFactory.AsteroidType.STANDARD, 0, new Vector3d(10000.0 * i, 0, 0),
 					new Vector3d(1000.0), new Vector3d(0, 0.5, 0), sun);
 				World.AddToWorld(planet);
 			}
@@ -58,6 +58,7 @@ namespace Game.Window {
 			};
 			World.AddToWorld(ship);
 			
+			/**
 			var blackHole = new BlackHole {
 				TransformComponent = {
 					Scale = new Vector3d(500),
@@ -66,7 +67,7 @@ namespace Game.Window {
 				}
 			};
 			World.AddToWorld(blackHole);
-
+			**/
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Less);
 

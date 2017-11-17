@@ -45,8 +45,13 @@ namespace Engine.Material {
 				var entity = objectsToDraw[i];
 				entity.Model.Transformation = entity.GameObject.TransformComponent.WorldMatrix;
 				Draw(entity.Model, entity.MaterialSettings);
+				DrawAABB(entity.AABB);
 			}
 			objectsToDraw.Clear();
+		}
+
+		public void DrawAABB(AxisAlignedBoundingBox aabb) {
+			
 		}
 	}
 }

@@ -59,6 +59,7 @@ namespace Game.GameObjects {
 			moveComponent.Update();
 			base.Update();
 			renderComponent.Update();
+			//Console.Out.WriteLine(renderComponent.AABB.Center.ToString());
 			cameraComponent.Update();
 
 			if (Keyboard.Released(Key.Keypad1)) {

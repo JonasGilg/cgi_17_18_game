@@ -241,6 +241,7 @@ namespace Engine.Model {
 
 		public override void Update() {
 			Transformation = GameObject.TransformComponent.WorldMatrix;
+			
 		}
 	}
 }

@@ -27,9 +27,8 @@ namespace Engine.Render {
 					counter++;
 				}
 			}
-
 			Console.Out.WriteLine(counter);
-
+			
 			MaterialManager.DrawAll();
 		}
 
