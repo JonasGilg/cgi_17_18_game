@@ -43,11 +43,26 @@ namespace Game.Utils {
 			TextureManager.LoadTexture("data/textures/asteroids/standard/textures/asteroid_2.png"),
 			TextureManager.LoadTexture("data/textures/asteroids/standard/textures/asteroid_3.png"),
 			TextureManager.LoadTexture("data/textures/asteroids/standard/textures/asteroid_4.png"),
+			
 			TextureManager.LoadTexture("data/textures/asteroids/standard/textures/jpeg/jasteroid_0.png"),
 			TextureManager.LoadTexture("data/textures/asteroids/standard/textures/jpeg/jasteroid_1.png"),
 			TextureManager.LoadTexture("data/textures/asteroids/standard/textures/jpeg/jasteroid_2.png"),
 			TextureManager.LoadTexture("data/textures/asteroids/standard/textures/jpeg/jasteroid_3.png"),
 			TextureManager.LoadTexture("data/textures/asteroids/standard/textures/jpeg/jasteroid_4.png")
+		};
+
+		private static readonly List<int> STANDARD_NORMALMAPS = new List<int> {
+			TextureManager.LoadTexture("data/textures/asteroids/standard/normalmaps/nm_asteroid_0.png"),
+			TextureManager.LoadTexture("data/textures/asteroids/standard/normalmaps/nm_asteroid_1.png"),
+			TextureManager.LoadTexture("data/textures/asteroids/standard/normalmaps/nm_asteroid_2.png"),
+			TextureManager.LoadTexture("data/textures/asteroids/standard/normalmaps/nm_asteroid_3.png"),
+			TextureManager.LoadTexture("data/textures/asteroids/standard/normalmaps/nm_asteroid_4.png"),
+
+			TextureManager.LoadTexture("data/textures/asteroids/standard/normalmaps/jpeg/nm_jasteroid_0.png"),
+			TextureManager.LoadTexture("data/textures/asteroids/standard/normalmaps/jpeg/nm_jasteroid_1.png"),
+			TextureManager.LoadTexture("data/textures/asteroids/standard/normalmaps/jpeg/nm_jasteroid_2.png"),
+			TextureManager.LoadTexture("data/textures/asteroids/standard/normalmaps/jpeg/nm_jasteroid_3.png"),
+			TextureManager.LoadTexture("data/textures/asteroids/standard/normalmaps/jpeg/nm_jasteroid_4.png")
 		};
 
 		private static readonly List<int> STRAWBERY_TEXTURES = new List<int> {

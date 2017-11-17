@@ -120,6 +120,36 @@
     <Content Include="data\objects\SpaceShip.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\textures\asteroids\standard\normalmaps\jpeg\nm_jasteroid_0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\normalmaps\jpeg\nm_jasteroid_1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\normalmaps\jpeg\nm_jasteroid_2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\normalmaps\jpeg\nm_jasteroid_3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\normalmaps\jpeg\nm_jasteroid_4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\normalmaps\nm_asteroid_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\normalmaps\nm_asteroid_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\normalmaps\nm_asteroid_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\normalmaps\nm_asteroid_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\asteroids\standard\normalmaps\nm_asteroid_4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\textures\asteroids\standard\textures\asteroid_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -195,7 +225,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\BlenderFiles\asteroids\" />
-    <Folder Include="data\textures\asteroids\standard\normalmaps" />
     <Folder Include="data\textures\asteroids\strawberry\normalmaps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
