@@ -21,12 +21,12 @@ namespace Engine.Render.Skybox {
 			PROGRAMM = ShaderLoader.LoadShader("Render/Skybox/Skybox_VS.glsl", "Render/Skybox/Skybox_FS.glsl");
 
 			SKY_BOX_TEXTURE = TextureManager.LoadCubemap(new[] {
-				"data/textures/skybox/skybox_right1.png",
-				"data/textures/skybox/skybox_left2.png",
-				"data/textures/skybox/skybox_top3.png",
-				"data/textures/skybox/skybox_bottom4.png",
-				"data/textures/skybox/skybox_front5.png",
-				"data/textures/skybox/skybox_back6.png"
+				"data/textures/skybox/debugBox/skybox_right1.png",
+				"data/textures/skybox/debugBox/skybox_left2.png",
+				"data/textures/skybox/debugBox/skybox_top3.png",
+				"data/textures/skybox/debugBox/skybox_bottom4.png",
+				"data/textures/skybox/debugBox/skybox_front5.png",
+				"data/textures/skybox/debugBox/skybox_back6.png"
 			});
 
 			GL.LinkProgram(PROGRAMM);

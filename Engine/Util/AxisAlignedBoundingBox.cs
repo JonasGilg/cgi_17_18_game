@@ -54,7 +54,7 @@ namespace Engine {
 			return p;
 		}
 
-		public Vector3d getVertexN(Vector3d planeNormal) {
+		public Vector3d getVertexN(Vector3d planeNormal){
 			Vector3d n = Max;
 			if (planeNormal.X >= 0) {
 				n.X = Min.X;
