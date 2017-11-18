@@ -21,13 +21,15 @@ namespace Engine.Render {
 			var inView = /* GetInFrustum();*/ RENDER_OCTREE.Items;
 
 			var counter = 0;
+			var objects = "";
 			foreach (var renderComponent in inView) {
 				if (DisplayCamera.IsAABBInFrustum(renderComponent.GetAABB()) != Intersect.OUTSIDE) {
 					renderComponent.Material.RegisterForDraw(renderComponent);
 					counter++;
+					objects += " " + renderComponent.GameObject.ToString() + " ";
 				}
 			}
-			Console.Out.WriteLine(counter);
+			Console.Out.WriteLine(counter+":"+objects);
 			
 			MaterialManager.DrawAll();
 		}

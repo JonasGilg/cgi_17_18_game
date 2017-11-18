@@ -73,6 +73,8 @@ namespace Game.GameObjects {
 			position.Text =
 				$"POSITION: {TransformComponent.WorldPosition.X:N0}, {TransformComponent.WorldPosition.Y:N0}, {TransformComponent.WorldPosition.Z:N0}";
 			speed.Text = $"   SPEED: {moveComponent.LinearVelocity.LengthFast:N2}M/S";
+
+			
 		}
 
 		public override void Awake() {

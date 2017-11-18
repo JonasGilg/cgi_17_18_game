@@ -49,5 +49,9 @@ namespace Game.GameObjects {
 			base.Update();
 			RenderComponent.Update();
 		}
+
+		public override string ToString() {
+			return TransformComponent.WorldPosition.ToString();
+		}
 	}
 }

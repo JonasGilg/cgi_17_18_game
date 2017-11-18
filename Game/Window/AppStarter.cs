@@ -14,7 +14,7 @@ using EngineMouse = Engine.Input.Mouse;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-		private readonly Vector3d startingPoint = new Vector3d(7000.0, 0.0, -1000.0);
+		private readonly Vector3d startingPoint = new Vector3d(7000.0, 0.0, 0.0);
 
 		private AppStarter() : base(1600, 900, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
@@ -35,20 +35,20 @@ namespace Game.Window {
 				new Vector4(.010f, .010f, .010f, 0f),
 				new Vector4(.950f, .950f, .950f, 0f),
 				new Vector4(.950f, .950f, .950f, 0f));
-
+			/**
 			//sun
 			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0, 0, 0), new Vector3d(2000.0),
 				new Vector3d(0, 0.1, 0));
 			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SIMPLE);
 			World.AddToWorld(sun);
-
+			//planets
 			for (var i = 1; i < 3; i++) {
 				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
 					AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(10000.0 * i, 0, 0),
 					new Vector3d(1000.0), new Vector3d(0, 0.5, 0), sun);
 				World.AddToWorld(planet);
 			}
-
+			
 			var ship = new SpaceShip {
 				TransformComponent = {
 					Scale = new Vector3d(0.02f),
@@ -57,6 +57,38 @@ namespace Game.Window {
 				}
 			};
 			World.AddToWorld(ship);
+			**/
+			
+			//start of debugworld
+			var planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, new Vector3d(10000.0,0.0,0.0), new Vector3d(1000),
+				new Vector3d(0.0, 0.5, 0.0));
+			World.AddToWorld(planet);
+			planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, new Vector3d(-10000.0,0.0,0.0), new Vector3d(1000),
+				new Vector3d(0.0, 0.5, 0.0));
+			World.AddToWorld(planet);
+			planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0.0,10000.0,0.0), new Vector3d(1000),
+				new Vector3d(0.0, 0.5, 0.0));
+			World.AddToWorld(planet);
+			planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0.0,-10000.0,0.0), new Vector3d(1000),
+				new Vector3d(0.0, 0.5, 0.0));
+			World.AddToWorld(planet);
+			planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.JUPITER, new Vector3d(0.0,0.0,10000.0), new Vector3d(1000),
+				new Vector3d(0.0, 0.5, 0.0));
+			World.AddToWorld(planet);
+			planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.JUPITER, new Vector3d(0.0,0.0,-10000.0), new Vector3d(1000),
+				new Vector3d(0.0, 0.5, 0.0));
+			World.AddToWorld(planet);
+
+			var ship = new SpaceShip {
+				TransformComponent = {
+					Scale = new Vector3d(0.02f),
+					Position = new Vector3d(0.0),
+					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0)
+				}
+			};
+			World.AddToWorld(ship);
+			// end of debug world
+			
 			
 			/**
 			var blackHole = new BlackHole {
