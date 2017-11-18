@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using Engine.Material.BlackHole;
 
 namespace Engine.Material {
 	public enum Material {
 		SIMPLE,
 		SIMPLE_REFLECTION,
 		AMBIENT_DIFFUSE_SPECULAR,
-		NORMAL_MAPPING
+		NORMAL_MAPPING,
+		BLACK_HOLE
 	}
 
 	public static class MaterialManager {
@@ -16,7 +18,8 @@ namespace Engine.Material {
 				[Material.SIMPLE] = new SimpleTextureMaterial(),
 				[Material.SIMPLE_REFLECTION] = new SimpleReflectionMaterial(),
 				[Material.AMBIENT_DIFFUSE_SPECULAR] = new AmbientDiffuseSpecularMaterial(),
-				[Material.NORMAL_MAPPING] = new NormalMappingMaterial()
+				[Material.NORMAL_MAPPING] = new NormalMappingMaterial(),
+				[Material.BLACK_HOLE] = new BlackHoleMaterial()
 			};
 		}
 

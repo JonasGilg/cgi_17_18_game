@@ -63,8 +63,8 @@ namespace Game.Window {
 			
 			var blackHole = new BlackHole {
 				TransformComponent = {
-					Scale = new Vector3d(500),
-					Position = startingPoint + new Vector3d(1000.0,500.0,0.0),
+					Scale = new Vector3d(300),
+					Position = startingPoint + new Vector3d(1000.0,0.0,0.0),
 					Orientation = Quaterniond.Identity
 				}
 			};

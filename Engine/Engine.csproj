@@ -69,6 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\Component\NormalMapRenderComponent.cs" />
     <Compile Include="Render\Component\RenderComponent.cs" />
+    <Compile Include="Render\Material\BlackHole\BlackHoleMaterial.cs" />
     <Compile Include="Render\Skybox\Skybox.cs" />
     <Compile Include="Render\Text\Font.cs" />
     <Compile Include="Render\Text\FontManager.cs" />
@@ -92,6 +93,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Render\Material\BlackHole\BlackHole_FS.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Material\BlackHole\BlackHole_VS.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Render\Skybox\Skybox_FS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
