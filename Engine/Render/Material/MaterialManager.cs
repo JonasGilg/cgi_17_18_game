@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Engine.Material.BlackHole;
+using Engine.Material;
 
 namespace Engine.Material {
 	public enum Material {
