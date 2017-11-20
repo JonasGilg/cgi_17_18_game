@@ -67,8 +67,8 @@ namespace Engine.Material {
             
             //var pos = DisplayCamera.
             GL.Uniform2(materialPositionLocation, new Vector2(0.5f,0.5f));
-            GL.Uniform1(materialRatioLocation, 0.5625);
-            GL.Uniform1(materialRadiusLocation, 200.0);
+            GL.Uniform1(materialRatioLocation, 0.5625f);
+            GL.Uniform1(materialRadiusLocation, 200.0f);
             GL.Uniform1(materialDistanceLocation, Math3D.Distance(model.GameObject.TransformComponent.Position.ToFloat(),DisplayCamera.Position.ToFloat()));
 
             // Das Objekt wird gezeichnet

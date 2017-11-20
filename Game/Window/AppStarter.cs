@@ -16,7 +16,7 @@ namespace Game.Window {
 	internal class AppStarter : GameWindow {
 		private readonly Vector3d startingPoint = new Vector3d(7000.0, 0.0, -1000.0);
 
-		private AppStarter() : base(1600, 900, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
+		private AppStarter() : base(1600, 900, new GraphicsMode(32, 24, 8, 8), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
 
