@@ -39,8 +39,7 @@ namespace Engine {
 			};
 
 
-		public Vector3d getVertexP(Vector3d planeNormal) {
-			
+		public Vector3d GetVertexP(Vector3d planeNormal) {
 			Vector3d p = Min;
 			if (planeNormal.X >= 0) {
 				p.X = Max.X;
@@ -54,7 +53,7 @@ namespace Engine {
 			return p;
 		}
 
-		public Vector3d getVertexN(Vector3d planeNormal){
+		public Vector3d GetVertexN(Vector3d planeNormal) {
 			Vector3d n = Max;
 			if (planeNormal.X >= 0) {
 				n.X = Min.X;
@@ -68,6 +67,7 @@ namespace Engine {
 
 			return n;
 		}
+
 		public Vector3d GetMinOrMax(bool max) => max ? Max : Min;
 
 		public bool IsInside(Vector3d point) => ((point.X > Min.X) && (point.X < Max.X) && (point.Y > Min.Y) &&
@@ -94,5 +94,7 @@ namespace Engine {
 
 		public static AxisAlignedBoundingBox operator *(AxisAlignedBoundingBox self, Vector3d scale)
 			=> FromCenterAndDimension(self.Center, self.HalfDimension * scale);
+
+		public override string ToString() => $"Center: {Center}, HalfDim: {HalfDimension}, Min: {Min}, Max: {Max}";
 	}
 }

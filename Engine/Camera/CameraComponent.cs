@@ -220,10 +220,10 @@ namespace Engine {
 			var result = Intersect.INSIDE;
 			for (var i = 0; i < planes.Length; i++) {
 				
-				if (SignedDistanceToPoint(i, aabb.getVertexP(planes[i].Normal)) > 0) {
+				if (SignedDistanceToPoint(i, aabb.GetVertexP(planes[i].Normal)) > 0) {
 					result = Intersect.OUTSIDE;
 				}
-				if (SignedDistanceToPoint(i, aabb.getVertexN(planes[i].Normal)) > 0) {
+				if (SignedDistanceToPoint(i, aabb.GetVertexN(planes[i].Normal)) > 0) {
 					result = Intersect.OVERLAP;
 				}
 				

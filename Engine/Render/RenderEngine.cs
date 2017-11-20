@@ -26,7 +26,9 @@ namespace Engine.Render {
 				if (DisplayCamera.IsAABBInFrustum(renderComponent.GetAABB()) != Intersect.OUTSIDE) {
 					renderComponent.Material.RegisterForDraw(renderComponent);
 					counter++;
-					objects += " " + renderComponent.GameObject.ToString() + " ";
+					if (renderComponent.Material.GetType() == typeof(NormalMappingMaterial))
+						objects += renderComponent.GetAABB();
+					/*objects += " " + renderComponent.GameObject.ToString() + " ";*/
 				}
 			}
 			Console.Out.WriteLine(counter+":"+objects);
