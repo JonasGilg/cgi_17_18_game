@@ -50,7 +50,6 @@ namespace Engine.Material {
             // Die Matrix wird dem Shader als Parameter übergeben
             GL.UniformMatrix4(modelviewProjectionMatrixLocation, false, ref modelviewProjection);
             GL.Uniform1(timeLocation, (float) Time.TotalTime);
-            Console.WriteLine(Time.TotalTime);
             
 
             // Das Objekt wird gezeichnet
