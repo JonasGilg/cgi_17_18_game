@@ -38,36 +38,6 @@ namespace Engine {
 				Max = Vector3d.Zero
 			};
 
-
-		public Vector3d GetVertexP(Vector3d planeNormal) {
-			Vector3d p = Min;
-			if (planeNormal.X >= 0) {
-				p.X = Max.X;
-			}
-			if (planeNormal.Y >= 0) {
-				p.Y = Max.Y;
-			}
-			if (planeNormal.Z >= 0) {
-				p.Z = Max.Z;
-			}
-			return p;
-		}
-
-		public Vector3d GetVertexN(Vector3d planeNormal) {
-			Vector3d n = Max;
-			if (planeNormal.X >= 0) {
-				n.X = Min.X;
-			}
-			if (planeNormal.Y >= 0) {
-				n.Y = Min.Y;
-			}
-			if (planeNormal.Z >= 0) {
-				n.Z = Min.Z;
-			}
-
-			return n;
-		}
-
 		public Vector3d GetMinOrMax(bool max) => max ? Max : Min;
 
 		public bool IsInside(Vector3d point) => ((point.X > Min.X) && (point.X < Max.X) && (point.Y > Min.Y) &&

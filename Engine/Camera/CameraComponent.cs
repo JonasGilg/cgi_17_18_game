@@ -1,4 +1,6 @@
-﻿using OpenTK;
+﻿using System;
+using Engine.Util;
+using OpenTK;
 
 namespace Engine {
 	public class CameraComponent : Component.Component {
@@ -26,11 +28,11 @@ namespace Engine {
 			LookAtMatrix = Matrix4d.LookAt(eye, target, up);
 			Position = eye;
 
-			CreateViewFrustumPlanes(Matrix4d.Identity * LookAtMatrix   /*DisplayCamera.PerspectiveProjection*/);
+			CreateViewFrustumPlanes(LookAtMatrix  * DisplayCamera.PerspectiveProjection);
 		}
 
 		private void CreateViewFrustumPlanes(Matrix4d mat) {
-			/**
+			
 			// by Mohrmann
 			// left
 			var plane = new Plane {
@@ -97,9 +99,9 @@ namespace Engine {
 				D = mat.M44 - mat.M43
 			};
 			planes[(int) PlaneEnum.FAR_PLANE] = plane;
-			**/
 			
 			
+			/*
 			// gamedevs.org
 			// left
 			var plane = new Plane {
@@ -166,7 +168,7 @@ namespace Engine {
 				D = (mat.M44 - mat.M34)
 			};
 			planes[(int) PlaneEnum.FAR_PLANE] = plane;
-			
+			*/
 			
 			
 			// normalize
@@ -185,50 +187,19 @@ namespace Engine {
 		}
 
 		private double SignedDistanceToPoint(int planeID, Vector3d pt) => Vector3d.Dot(planes[planeID].Normal, pt) + planes[planeID].D;
-		public bool IsSphereInFrustum(Vector3d center, double radius) {
+
+		public Intersect IsSphereInFrustum(Sphere boundingSphere) {
+			var farIn = 0;
+			
 			for (var i = 0; i < planes.Length; i++) {
-				if (SignedDistanceToPoint(i, center) < -radius) {
-					return false;
-				}
+				var dist = SignedDistanceToPoint(i, boundingSphere.Center);
+				if (dist < -boundingSphere.Radius)
+					return Intersect.OUTSIDE;
+				if (dist > boundingSphere.Radius)
+					farIn++;
 			}
-			return true;
-		}
-
-		public Intersect IsAABBInFrustum(AxisAlignedBoundingBox aabb) {
-			//var result = Intersect.INSIDE;
-			/**for (var i = 0; i < planes.Length; i++) {
-				var plane = planes[i];
-				
-				var nx = plane.Normal.X > 0.0;
-				var ny = plane.Normal.Y > 0.0;
-				var nz = plane.Normal.Z > 0.0;
-
-				var dot = (plane.Normal.X * aabb.GetMinOrMax(nx).X) +
-				          (plane.Normal.Y * aabb.GetMinOrMax(ny).Y) +
-				          (plane.Normal.Z * aabb.GetMinOrMax(nz).Z);
-
-				if (dot < -plane.D) result = Intersect.OUTSIDE;
-
-				var dot2 = (plane.Normal.X * aabb.GetMinOrMax(!nx).X) +
-				           (plane.Normal.Y * aabb.GetMinOrMax(!ny).Y) +
-				           (plane.Normal.Z * aabb.GetMinOrMax(!nz).Z);
-
-				if (dot2 <= -plane.D) result = Intersect.OVERLAP;
-			}**/
-			// return result
-
-			var result = Intersect.INSIDE;
-			for (var i = 0; i < planes.Length; i++) {
-				
-				if (SignedDistanceToPoint(i, aabb.GetVertexP(planes[i].Normal)) > 0) {
-					result = Intersect.OUTSIDE;
-				}
-				if (SignedDistanceToPoint(i, aabb.GetVertexN(planes[i].Normal)) > 0) {
-					result = Intersect.OVERLAP;
-				}
-				
-			}
-			return result;
+			
+			return farIn == planes.Length ? Intersect.INSIDE : Intersect.OVERLAP;
 		}
 
 		public override void Update() { }

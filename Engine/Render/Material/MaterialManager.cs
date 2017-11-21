@@ -5,10 +5,9 @@ namespace Engine.Material {
 	/// An Enum of all available Materials in the order of which they are drawn.
 	/// </summary>
 	public enum Material {
-		SIMPLE = 0,
-		SIMPLE_REFLECTION = 1,
-		AMBIENT_DIFFUSE_SPECULAR = 2,
-		NORMAL_MAPPING = 3
+		AMBIENT_DIFFUSE_SPECULAR = 0,
+		NORMAL_MAPPING = 1,
+		SIMPLE_TEXTURE_MATERIAL = 2
 	}
 
 	public static class MaterialManager {
@@ -16,11 +15,10 @@ namespace Engine.Material {
 
 		static MaterialManager() {
 			MATERIALS = new BaseMaterial[Enum.GetNames(typeof(Material)).Length];
-
-			MATERIALS[(int) Material.SIMPLE] = new SimpleTextureMaterial();
-			MATERIALS[(int) Material.SIMPLE_REFLECTION] = new SimpleReflectionMaterial();
+			
 			MATERIALS[(int) Material.AMBIENT_DIFFUSE_SPECULAR] = new AmbientDiffuseSpecularMaterial();
 			MATERIALS[(int) Material.NORMAL_MAPPING] = new NormalMappingMaterial();
+			MATERIALS[(int) Material.SIMPLE_TEXTURE_MATERIAL] = new SimpleTextureMaterial();
 		}
 
 		public static BaseMaterial GetMaterial(Material material) => MATERIALS[(int) material];

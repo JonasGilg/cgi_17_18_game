@@ -35,12 +35,13 @@ namespace Game.Window {
 				new Vector4(.010f, .010f, .010f, 0f),
 				new Vector4(.950f, .950f, .950f, 0f),
 				new Vector4(.950f, .950f, .950f, 0f));
-			/**
+
 			//sun
 			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0, 0, 0), new Vector3d(2000.0),
 				new Vector3d(0, 0.1, 0));
-			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SIMPLE);
+			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SIMPLE_TEXTURE_MATERIAL);
 			World.AddToWorld(sun);
+			
 			//planets
 			for (var i = 1; i < 3; i++) {
 				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
@@ -57,40 +58,7 @@ namespace Game.Window {
 				}
 			};
 			World.AddToWorld(ship);
-			**/
-			
-			//start of debugworld
-			var planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, new Vector3d(10000.0,0.0,0.0), new Vector3d(1000),
-				new Vector3d(0.0, 0.5, 0.0));
-			World.AddToWorld(planet);
-			planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, new Vector3d(-10000.0,0.0,0.0), new Vector3d(1000),
-				new Vector3d(0.0, 0.5, 0.0));
-			World.AddToWorld(planet);
-			planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0.0,10000.0,0.0), new Vector3d(1000),
-				new Vector3d(0.0, 0.5, 0.0));
-			World.AddToWorld(planet);
-			planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0.0,-10000.0,0.0), new Vector3d(1000),
-				new Vector3d(0.0, 0.5, 0.0));
-			World.AddToWorld(planet);
-			planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.JUPITER, new Vector3d(0.0,0.0,10000.0), new Vector3d(1000),
-				new Vector3d(0.0, 0.5, 0.0));
-			World.AddToWorld(planet);
-			planet = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.JUPITER, new Vector3d(0.0,0.0,-10000.0), new Vector3d(1000),
-				new Vector3d(0.0, 0.5, 0.0));
-			World.AddToWorld(planet);
 
-			var ship = new SpaceShip {
-				TransformComponent = {
-					Scale = new Vector3d(0.02f),
-					Position = new Vector3d(0.0),
-					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0)
-				}
-			};
-			World.AddToWorld(ship);
-			// end of debug world
-			
-			
-			/**
 			var blackHole = new BlackHole {
 				TransformComponent = {
 					Scale = new Vector3d(500),
@@ -99,13 +67,12 @@ namespace Game.Window {
 				}
 			};
 			World.AddToWorld(blackHole);
-			**/
+
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Less);
 
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Front);
-			GL.ClearColor(1f, 0f, 0f, 0f);
 		}
 
 		protected override void OnUpdateFrame(FrameEventArgs e) {

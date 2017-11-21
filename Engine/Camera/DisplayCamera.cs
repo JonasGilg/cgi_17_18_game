@@ -1,4 +1,5 @@
 ﻿using System;
+using Engine.Util;
 using OpenTK;
 
 namespace Engine {
@@ -17,10 +18,8 @@ namespace Engine {
 
 		public static void SetActiveCamera(CameraComponent camera) => activeCamera = camera;
 
-		public static bool IsSphereInFrustum(Vector3d center, double radius) =>
-			activeCamera.IsSphereInFrustum(center, radius);
-
-		public static Intersect IsAABBInFrustum(AxisAlignedBoundingBox aabb) => activeCamera.IsAABBInFrustum(aabb);
+		public static Intersect IsSphereInFrustum(Sphere boundingSphere) =>
+			activeCamera.IsSphereInFrustum(boundingSphere);
 
 		public static void SetWidthHeightFov(int width, int height, double fov) {
 			var aspectRatio = width / (float) height;

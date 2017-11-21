@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Engine.Component;
 using Engine.Material;
+using Engine.Util;
 
 namespace Engine.Render {
 	public static class RenderEngine {
@@ -18,20 +19,17 @@ namespace Engine.Render {
 			=> RENDER_OCTREE.RemoveItem(renderComponent);
 
 		public static void Draw() {
-			var inView = /* GetInFrustum();*/ RENDER_OCTREE.Items;
+			var inView = RENDER_OCTREE.Items;
 
 			var counter = 0;
-			var objects = "";
 			foreach (var renderComponent in inView) {
-				if (DisplayCamera.IsAABBInFrustum(renderComponent.GetAABB()) != Intersect.OUTSIDE) {
+				if (DisplayCamera.IsSphereInFrustum(renderComponent.GetBoundingSphere()) != Intersect.OUTSIDE) {
 					renderComponent.Material.RegisterForDraw(renderComponent);
 					counter++;
-					if (renderComponent.Material.GetType() == typeof(NormalMappingMaterial))
-						objects += renderComponent.GetAABB();
-					/*objects += " " + renderComponent.GameObject.ToString() + " ";*/
 				}
 			}
-			Console.Out.WriteLine(counter+":"+objects);
+
+			Console.Out.WriteLine(counter);
 			
 			MaterialManager.DrawAll();
 		}
@@ -46,7 +44,7 @@ namespace Engine.Render {
 			for (var i = 0; i < tree.Children.Length; i++) {
 				var child = tree.Children[i];
 				if (child != null) {
-					var intersect = DisplayCamera.IsAABBInFrustum(child.AABB);
+					var intersect = DisplayCamera.IsSphereInFrustum(new Sphere(child.AABB.Center, child.AABB.Max.LengthFast));
 
 					if (intersect == Intersect.INSIDE || child.TreeCurrDepth == child.TreeMaxDepth) {
 						for (var j = 0; j < child.Items.Count; j++) {

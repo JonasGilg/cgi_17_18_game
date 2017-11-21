@@ -1,5 +1,6 @@
 ﻿using Engine.Collision;
 using Engine.Model;
+using Engine.Util;
 
 namespace Engine {
 	public delegate void Collisionhandler(Collision.Collision col);
@@ -32,5 +33,6 @@ namespace Engine {
 		public abstract bool IsColliding(CollisionComponent otherCollider);
 
 		public AxisAlignedBoundingBox GetAABB() => aabb;
+		public Sphere GetBoundingSphere() => new Sphere(GameObject.TransformComponent.WorldPosition, GameObject.Radius);
 	}
 }

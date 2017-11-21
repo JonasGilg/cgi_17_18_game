@@ -1,5 +1,6 @@
 ﻿using Engine.Material;
 using Engine.Model;
+using Engine.Util;
 
 namespace Engine.Component {
 	public class RenderComponent : Component, IOctreeItem {
@@ -28,6 +29,7 @@ namespace Engine.Component {
 		}
 
 		public AxisAlignedBoundingBox GetAABB() => AABB + GameObject.TransformComponent.WorldPosition;
+		public Sphere GetBoundingSphere() => new Sphere(GameObject.TransformComponent.WorldPosition, GameObject.Radius);
 
 		public override int GetHashCode() => id;
 	}

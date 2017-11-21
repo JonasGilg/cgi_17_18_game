@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Engine.Util;
 using OpenTK;
 using AABB = Engine.AxisAlignedBoundingBox;
 
@@ -88,5 +89,6 @@ namespace Engine {
 
 	public interface IOctreeItem {
 		AABB GetAABB();
+		Sphere GetBoundingSphere();
 	}
 }
