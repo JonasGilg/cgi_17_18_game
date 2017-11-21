@@ -82,7 +82,7 @@ namespace Engine.Material {
 			GL.Uniform4(lightDiffuseLocation, Light.LightDiffuse);
 			GL.Uniform4(lightSpecularLocation, Light.LightSpecular);
 
-			GL.Uniform1(materialShininessLocation, materialSettings.Shininess);
+			GL.Uniform1(materialShininessLocation, (float) materialSettings.Shininess);
 
 			GL.Uniform4(cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y,
 				(float) DisplayCamera.Position.Z, 1);

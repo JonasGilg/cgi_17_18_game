@@ -78,7 +78,7 @@ namespace Engine.Material {
 			GL.Uniform4(lightSpecularLocation, Light.LightSpecular);
 
 			// Shininess
-			GL.Uniform1(materialShininessLocation, materialSettings.Shininess);
+			GL.Uniform1(materialShininessLocation, (float) materialSettings.Shininess);
 
 			// Pass positions of the camera to calculate the view direction
 			GL.Uniform4(cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y,
