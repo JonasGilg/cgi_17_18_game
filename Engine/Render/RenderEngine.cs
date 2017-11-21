@@ -21,15 +21,11 @@ namespace Engine.Render {
 		public static void Draw() {
 			var inView = RENDER_OCTREE.Items;
 
-			var counter = 0;
 			foreach (var renderComponent in inView) {
 				if (DisplayCamera.IsSphereInFrustum(renderComponent.GetBoundingSphere()) != Intersect.OUTSIDE) {
 					renderComponent.Material.RegisterForDraw(renderComponent);
-					counter++;
 				}
 			}
-
-			Console.Out.WriteLine(counter);
 			
 			MaterialManager.DrawAll();
 		}

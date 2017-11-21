@@ -5,7 +5,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Model {
-	public class Model3D : Component.Component {
+	public class Model3D {
 		// the transformation (position, rotation, scale) of the object
 		public Matrix4d Transformation = Matrix4d.Identity;
 
@@ -27,7 +27,7 @@ namespace Engine.Model {
 			return Math.Max(Math.Max(newAABB.HalfDimension.X, newAABB.HalfDimension.Y), newAABB.HalfDimension.Z);
 		}
 
-		public Model3D(GameObject gameObject) : base(gameObject) {
+		public Model3D() {
 			positions = new List<Vector3>();
 			normals = new List<Vector3>();
 			uVs = new List<Vector2>();
@@ -237,11 +237,6 @@ namespace Engine.Model {
 		// unloads from graphics memory
 		public void UnLoad() {
 			// tbd.
-		}
-
-		public override void Update() {
-			Transformation = GameObject.TransformComponent.WorldMatrix;
-			
 		}
 	}
 }

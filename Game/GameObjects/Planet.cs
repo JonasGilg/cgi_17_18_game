@@ -8,13 +8,15 @@ using Game.Components;
 
 namespace Game.GameObjects {
 	public class Planet : GameObject {
+		private static Model3D PLANET_MODEL = ModelLoaderObject3D.Load("data/objects/Planet.obj");
+		
 		public readonly RenderComponent RenderComponent;
 		public readonly MoveComponent MoveComponent;
 		public readonly CollisionComponent CollisionComponent;
 
 		public Planet(int textureId, GameObject referenceObject = null) {
 			RenderComponent = new RenderComponent(
-				ModelLoaderObject3D.Load("data/objects/Planet.obj", this),
+				PLANET_MODEL,
 				MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
 				new MaterialSettings {
 					ColorTexture = textureId,

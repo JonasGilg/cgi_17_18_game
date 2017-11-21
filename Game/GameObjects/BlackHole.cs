@@ -14,7 +14,7 @@ namespace Game.GameObjects {
 
         public BlackHole() {
             RenderComponent = new RenderComponent(
-                ModelLoaderObject3D.Load("data/objects/Planet.obj", this),
+                ModelLoaderObject3D.Load("data/objects/Planet.obj"),
                 MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
                 new MaterialSettings {
                     ColorTexture = TextureManager.LoadTexture("data/textures/black.png")

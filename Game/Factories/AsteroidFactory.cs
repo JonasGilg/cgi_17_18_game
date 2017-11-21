@@ -1,12 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine;
+using Engine.Model;
 using Engine.Texture;
 using Game.GameObjects;
 
 namespace Game.Utils {
+	internal static class AsteroidModelRegistry {
+		private const int NUM_MODELS = 7;
+		private const string PATH = "data/objects/asteroids/asteroid_";
+
+		private static readonly Model3D[] ASTEROID_MODELS;
+		private static readonly Random RANDOM;
+
+		static AsteroidModelRegistry() {
+			ASTEROID_MODELS = new Model3D[NUM_MODELS];
+			RANDOM = new Random();
+
+			for (var i = 0; i < NUM_MODELS; i++) {
+				ASTEROID_MODELS[i] = ModelLoaderObject3D.Load(PATH + i + ".obj");
+			}
+		}
+
+		public static Model3D GetRandomAsteroidModel() => ASTEROID_MODELS[RANDOM.Next(NUM_MODELS)];
+	}
+	
 	public static class AsteroidFactory {
-		private static readonly Random RANDOM = new Random();
 		public enum AsteroidType {
 			STANDARD,
 			STRAWBERRY
@@ -26,14 +45,13 @@ namespace Game.Utils {
 
 		public static Asteroid GenerateAsteroid(AsteroidType type) {
 			var textureId = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[type]);
-			var asteroid = new Asteroid(ASTEROID_MODEL_DICTIONARY[type], textureId);
+			var asteroid = new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(), textureId);
 			return asteroid;
 		}
 
 		public static Asteroid GenerateGravityAsteroid(AsteroidType type, GameObject referenceObject) {
-			var rng = RANDOM.Next(0, 6);
 			var textureId = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[type]);
-			var asteroid = new Asteroid(ASTEROID_MODEL_DICTIONARY[type]+rng+".obj", textureId, referenceObject);
+			var asteroid = new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(), textureId, referenceObject);
 			return asteroid;
 		}
 	}

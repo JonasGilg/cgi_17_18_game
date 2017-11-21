@@ -21,9 +21,6 @@ namespace Engine.Component {
 		}
 
 		public override void Update() {
-			
-			Model.Update();
-			
 			/*RenderEngine.UnregisterRenderComponent(this);
 			RenderEngine.RegisterRenderComponent(this);*/
 		}

@@ -33,7 +33,7 @@ namespace Game.GameObjects {
 			moveComponent = new MoveComponent(this);
 			cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);
 			renderComponent = new RenderComponent(
-				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj", this),
+				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj"),
 				MaterialManager.GetMaterial(Material.NORMAL_MAPPING),
 				new MaterialSettings {
 					ColorTexture = TextureManager.LoadTexture("data/textures/SpaceShip.png"),

@@ -12,10 +12,8 @@ namespace Game.GameObjects {
 		private readonly RenderComponent renderComponent;
 		public readonly SphereCollider CollisionComponent;
 
-		public Asteroid(string modelObjectPath, int textureId, GameObject referenceObject = null) {
+		public Asteroid(Model3D model, int textureId, GameObject referenceObject = null) {
 			MoveComponent = referenceObject != null ? new GravityMovement(this, 0.0) : new MoveComponent(this);
-
-			var model = ModelLoaderObject3D.Load(modelObjectPath, this);
 			
 			renderComponent = new RenderComponent(
 				model,
