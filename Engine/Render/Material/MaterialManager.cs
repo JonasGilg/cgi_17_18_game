@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Engine.Material {
 	/// <summary>
@@ -7,7 +7,9 @@ namespace Engine.Material {
 	public enum Material {
 		AMBIENT_DIFFUSE_SPECULAR = 0,
 		NORMAL_MAPPING = 1,
-		SIMPLE_TEXTURE_MATERIAL = 2
+		SIMPLE_TEXTURE_MATERIAL = 2,
+		BLACK_HOLE = 3,
+		SUN_LAVAFLOW, = 4
 	}
 
 	public static class MaterialManager {
@@ -19,6 +21,9 @@ namespace Engine.Material {
 			MATERIALS[(int) Material.AMBIENT_DIFFUSE_SPECULAR] = new AmbientDiffuseSpecularMaterial();
 			MATERIALS[(int) Material.NORMAL_MAPPING] = new NormalMappingMaterial();
 			MATERIALS[(int) Material.SIMPLE_TEXTURE_MATERIAL] = new SimpleTextureMaterial();
+			MATERIALS[(int) Material.BLACK_HOLE] = new BlackHoleMaterial();
+			MATERIALS[(int) Material.SUN_LAVAFLOW] = new SunLavaflowMaterial();
+		};
 		}
 
 		public static BaseMaterial GetMaterial(Material material) => MATERIALS[(int) material];

@@ -67,6 +67,8 @@
     <Compile Include="Model\ModelLoaderObject3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\Component\RenderComponent.cs" />
+    <Compile Include="Render\Material\BlackHole\BlackHoleMaterial.cs" />
+    <Compile Include="Render\Material\SunLavaflow\SunLavaflowMaterial.cs" />
     <Compile Include="Render\DebugDrawing\BoxDrawing\HitBox.cs" />
     <Compile Include="Render\RenderEngine.cs" />
     <Compile Include="Render\Skybox\Skybox.cs" />
@@ -93,6 +95,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Render\Material\BlackHole\BlackHole_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Material\BlackHole\BlackHole_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Material\SunLavaflow\SunLavaflow_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Material\SunLavaflow\SunLavaflow_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Render\Skybox\Skybox_FS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

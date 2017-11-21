@@ -16,7 +16,7 @@ namespace Game.Window {
 	internal class AppStarter : GameWindow {
 		private readonly Vector3d startingPoint = new Vector3d(7000.0, 0.0, 0.0);
 
-		private AppStarter() : base(1600, 900, new GraphicsMode(32, 24, 8, 2), "Space Game", GameWindowFlags.Default,
+		private AppStarter() : base(1600, 900, new GraphicsMode(32, 24, 8, 8), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
 
@@ -39,7 +39,7 @@ namespace Game.Window {
 			//sun
 			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0, 0, 0), new Vector3d(2000.0),
 				new Vector3d(0, 0.1, 0));
-			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SIMPLE_TEXTURE_MATERIAL);
+			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SUN_LAVAFLOW);
 			World.AddToWorld(sun);
 			
 			//planets
@@ -61,8 +61,8 @@ namespace Game.Window {
 
 			var blackHole = new BlackHole {
 				TransformComponent = {
-					Scale = new Vector3d(500),
-					Position = startingPoint + new Vector3d(1000.0,500.0,0.0),
+					Scale = new Vector3d(100),
+					Position = startingPoint + new Vector3d(1000.0,0.0,0.0),
 					Orientation = Quaterniond.Identity
 				}
 			};

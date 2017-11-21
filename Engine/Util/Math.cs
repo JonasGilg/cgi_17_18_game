@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 
 namespace Engine.Util {
 	public static class Math3D {
@@ -21,6 +22,18 @@ namespace Engine.Util {
 		public static Vector3 ToFloat(this Vector3d vec) => new Vector3((float) vec.X, (float) vec.Y, (float) vec.Z);
 
 		public static Vector3d ToDouble(this Vector3 vec) => new Vector3d(vec.X, vec.Y, vec.Z);
+		
+		public static Vector2 ToFloat(this Vector2d vec) => new Vector2((float)vec.X, (float)vec.Y);
+		
+		public static Vector2d ToDouble(this Vector2 vec) => new Vector2d(vec.X, vec.Y);
+
+		public static float Distance(Vector3 first, Vector3 second) {
+			float deltaX = second.X - first.X;
+			float deltaY = second.Y - first.Y;
+			float deltaZ = second.Z - first.Z;
+
+			return (float) Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+		}
 	}
 
 	public static class Math1D {
