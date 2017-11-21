@@ -5,7 +5,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Material {
-    public class SunLavaflowMaterial : BaseMaterial{
+    public class SunLavaflowMaterial : BaseMaterial {
         private readonly int modelviewProjectionMatrixLocation;
         public int timeLocation;
 
@@ -31,9 +31,9 @@ namespace Engine.Material {
         }
         
         
-        public override void Draw(Model3D model, int textureId, float shininess = 0, int normalMap = -1) {
+        public override void Draw(Model3D model, MaterialSettings materialSettings) {
             // Textur wird "gebunden"
-            GL.BindTexture(TextureTarget.Texture2D, textureId);
+            GL.BindTexture(TextureTarget.Texture2D, materialSettings.ColorTexture);
 
             // das Vertex-Array-Objekt unseres Objekts wird benutzt
             GL.BindVertexArray(model.VAO);
