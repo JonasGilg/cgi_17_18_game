@@ -8,8 +8,8 @@ using Game.Components;
 
 namespace Game.GameObjects {
 	public class Planet : GameObject {
-		private static Model3D PLANET_MODEL = ModelLoaderObject3D.Load("data/objects/Planet.obj");
-		
+		private static readonly Model3D PLANET_MODEL = ModelLoaderObject3D.Load("data/objects/Planet.obj");
+
 		public readonly RenderComponent RenderComponent;
 		public readonly MoveComponent MoveComponent;
 		public readonly CollisionComponent CollisionComponent;
@@ -24,16 +24,16 @@ namespace Game.GameObjects {
 				},
 				this
 			);
-			
+
 			RenderEngine.RegisterRenderComponent(RenderComponent);
-			
+
 			if (referenceObject != null) {
 				MoveComponent = new GravityMovement(this, 0.0);
 			}
 			else {
 				MoveComponent = new MoveComponent(this);
 			}
-			
+
 			CollisionComponent = new SphereCollider(this, RenderComponent.Model,
 				collision => { Console.WriteLine(ToString() + " collided with " + collision.GameObject.ToString()); });
 			CollisionComponent.Register();

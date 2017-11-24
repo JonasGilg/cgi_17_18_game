@@ -14,6 +14,6 @@ namespace Engine {
 
 		public virtual void Update() => TransformComponent.Update();
 
-		public override string ToString() => base.ToString() + "(#" + GetHashCode() + ")";
+		public override string ToString() => GetType().Name + "(#" + GetHashCode() + ")";
 	}
 }
