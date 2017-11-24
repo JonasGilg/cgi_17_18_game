@@ -50,48 +50,49 @@ namespace Engine.Material {
 			modelView3X3Location = GL.GetUniformLocation(Program, "model_view_3x3_matrix");
 		}
 
+		protected override void PreDraw() {
+			GL.UseProgram(Program);
+			
+			GL.Uniform1(colorTextureLocation, 0);
+			GL.Uniform1(normalTextureLocation, 1);
+			
+			var viewMatrix = DisplayCamera.Transformation.ToFloat();
+			GL.UniformMatrix4(viewMatrixLocation, false, ref viewMatrix);
+			
+			GL.Uniform3(lightDirectionLocation, Light.LightOrigin.ToFloat());
+			GL.Uniform4(lightAmbientLocation, Light.LightAmbient);
+			GL.Uniform4(lightDiffuseLocation, Light.LightDiffuse);
+			GL.Uniform4(lightSpecularLocation, Light.LightSpecular);
+			
+			GL.Uniform4(cameraPositionLocation, new Vector4(DisplayCamera.Position.ToFloat(), 1));
+		}
 
-		public override void Draw(Model3D model, MaterialSettings materialSettings) {
+		protected override void PostDraw() {
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindVertexArray(0);
+		}
+
+		protected override void Draw(Model3D model, MaterialSettings materialSettings) {
 			GL.BindVertexArray(model.VAO);
 
-			GL.UseProgram(Program);
 
-			GL.Uniform1(colorTextureLocation, 0);
 			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.Texture2D, materialSettings.ColorTexture);
 
-			GL.Uniform1(normalTextureLocation, 1);
 			GL.ActiveTexture(TextureUnit.Texture1);
 			GL.BindTexture(TextureTarget.Texture2D, materialSettings.NormalTexture);
 
-			var modelViewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection)
-				.ToFloat();
+			var modelViewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection).ToFloat();
 			GL.UniformMatrix4(modelviewProjectionMatrixLocation, false, ref modelViewProjection);
 
 			var modelMatrix = model.Transformation.ToFloat();
 			GL.UniformMatrix4(modelMatrixLocation, false, ref modelMatrix);
 
-			var viewMatrix = DisplayCamera.Transformation.ToFloat();
-			GL.UniformMatrix4(viewMatrixLocation, false, ref viewMatrix);
-
 			var modelView3x3 = new Matrix3d(DisplayCamera.Transformation * model.Transformation).ToFloat();
 			GL.UniformMatrix3(modelView3X3Location, false, ref modelView3x3);
-
-			GL.Uniform3(lightDirectionLocation, Light.LightOrigin.ToFloat());
-			GL.Uniform4(lightAmbientLocation, Light.LightAmbient);
-			GL.Uniform4(lightDiffuseLocation, Light.LightDiffuse);
-			GL.Uniform4(lightSpecularLocation, Light.LightSpecular);
-
 			GL.Uniform1(materialShininessLocation, (float) materialSettings.Shininess);
 
-			GL.Uniform4(cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y,
-				(float) DisplayCamera.Position.Z, 1);
-
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
-
-			GL.ActiveTexture(TextureUnit.Texture0);
-
-			GL.BindVertexArray(0);
 		}
 	}
 }

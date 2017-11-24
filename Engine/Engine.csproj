@@ -79,7 +79,6 @@
     <Compile Include="Render\Material\BaseMaterial.cs" />
     <Compile Include="Render\Material\MaterialManager.cs" />
     <Compile Include="Render\Material\NormalMapping\NormalMappingMaterial.cs" />
-    <Compile Include="Render\Material\Simplereflection\SimpleReflectionMaterial.cs" />
     <Compile Include="Render\Material\Simpletexture\SimpleTextureMaterial.cs" />
     <Compile Include="Render\ShaderLoader.cs" />
     <Compile Include="Texture\TextureManager.cs" />
@@ -130,12 +129,6 @@
     </Content>
     <Content Include="Render\Material\NormalMapping\NormalMapping_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Render\Material\Simplereflection\SimpleReflection_FS.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Render\Material\Simplereflection\SimpleReflection_VS.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Render\Material\Simpletexture\Simple_FS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

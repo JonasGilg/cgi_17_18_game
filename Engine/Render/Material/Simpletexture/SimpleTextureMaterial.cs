@@ -25,29 +25,17 @@ namespace Engine.Material {
 			modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
 		}
 
-		public override void Draw(Model3D model, MaterialSettings materialSettings) {
-			// Textur wird "gebunden"
+		protected override void PreDraw() => GL.UseProgram(Program);
+		protected override void PostDraw() => GL.BindVertexArray(0);
+
+		protected override void Draw(Model3D model, MaterialSettings materialSettings) {
+			GL.BindVertexArray(model.VAO);
 			GL.BindTexture(TextureTarget.Texture2D, materialSettings.ColorTexture);
 
-			// das Vertex-Array-Objekt unseres Objekts wird benutzt
-			GL.BindVertexArray(model.VAO);
-
-			// Unser Shader Programm wird benutzt
-			GL.UseProgram(Program);
-
-			// Die Matrix, welche wir als "modelview_projection_matrix" übergeben, wird zusammengebaut:
-			// Objekt-Transformation * Kamera-Transformation * Perspektivische Projektion der kamera.
-			// Auf dem Shader wird jede Vertex-Position mit dieser Matrix multipliziert. Resultat ist die Position auf dem Screen.
-			var modelviewProjection =
-				(model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection).ToFloat();
-
-			// Die Matrix wird dem Shader als Parameter übergeben
+			var modelviewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection).ToFloat();
 			GL.UniformMatrix4(modelviewProjectionMatrixLocation, false, ref modelviewProjection);
 
-			// Das Objekt wird gezeichnet
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
-
-			GL.BindVertexArray(0);
 		}
 	}
 }

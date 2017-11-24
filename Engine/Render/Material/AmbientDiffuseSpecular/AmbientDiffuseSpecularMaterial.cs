@@ -1,6 +1,7 @@
 ﻿using System;
 using Engine.Model;
 using Engine.Util;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Material {
@@ -47,47 +48,33 @@ namespace Engine.Material {
 			cameraPositionLocation = GL.GetUniformLocation(Program, "camera_position");
 		}
 
-		public override void Draw(Model3D model, MaterialSettings materialSettings) {
-			// set the texture
-			GL.BindTexture(TextureTarget.Texture2D, materialSettings.ColorTexture);
-
-			// using the Vertex-Array-Object of out object
-			GL.BindVertexArray(model.VAO);
-
-			// using our shader
+		protected override void PreDraw() {
 			GL.UseProgram(Program);
 
-			// The matrix which we give as "modelview_projection_matrix" is assembled:
-			// object-transformation * camera-transformation * perspective projection of the camera
-			// on the shader each vertex-position is multiplied by this matrix. The result is the final position on the scree
-			var modelViewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection)
-				.ToFloat();
-
-			// modelViewProjection is passed to the shader
-			GL.UniformMatrix4(modelviewProjectionMatrixLocation, false, ref modelViewProjection);
-
-			// The model matrix (just the transformation of the object) is also given to the shader. We want to multiply our normals with this matrix, to have them in world space.
-			var modelMatrix = model.Transformation.ToFloat();
-			GL.UniformMatrix4(modelMatrixLocation, false, ref modelMatrix);
-
-			// Die Licht Parameter werden übergeben
-			GL.Uniform3(lightOriginLocation, (float) Light.LightOrigin.X, (float) Light.LightOrigin.Y,
-				(float) Light.LightOrigin.Z);
+			GL.Uniform3(lightOriginLocation, Light.LightOrigin.ToFloat());
 			GL.Uniform4(lightAmbientLocation, Light.LightAmbient);
 			GL.Uniform4(lightDiffuseLocation, Light.LightDiffuse);
 			GL.Uniform4(lightSpecularLocation, Light.LightSpecular);
+			
+			GL.Uniform4(cameraPositionLocation, new Vector4(DisplayCamera.Position.ToFloat(), 1));
+		}
 
-			// Shininess
+		protected override void PostDraw() {
+			GL.BindVertexArray(0);
+		}
+
+		protected override void Draw(Model3D model, MaterialSettings materialSettings) {
+			GL.BindTexture(TextureTarget.Texture2D, materialSettings.ColorTexture);
+			GL.BindVertexArray(model.VAO);
+
+			var modelViewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection).ToFloat();
+			GL.UniformMatrix4(modelviewProjectionMatrixLocation, false, ref modelViewProjection);
+
+			var modelMatrix = model.Transformation.ToFloat();
+			GL.UniformMatrix4(modelMatrixLocation, false, ref modelMatrix);
 			GL.Uniform1(materialShininessLocation, (float) materialSettings.Shininess);
 
-			// Pass positions of the camera to calculate the view direction
-			GL.Uniform4(cameraPositionLocation, (float) DisplayCamera.Position.X, (float) DisplayCamera.Position.Y,
-				(float) DisplayCamera.Position.Z, 1);
-
-			// The object is drawn
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
-
-			GL.BindVertexArray(0);
 		}
 	}
 }

@@ -27,8 +27,10 @@ namespace Engine.Material {
 			// hint: "Program" is not linked yet
 		}
 
-		public abstract void Draw(Model3D model, MaterialSettings materialSettings);
-
+		protected abstract void PreDraw();
+		protected abstract void Draw(Model3D model, MaterialSettings materialSettings);
+		protected abstract void PostDraw();
+		
 		/// <summary>
 		/// Adds an entity to be drawn this frame.
 		/// </summary>
@@ -41,12 +43,14 @@ namespace Engine.Material {
 		/// Draws all objects, that are registered to be drawn this frame.
 		/// </summary>
 		public void DrawAll() {
+			PreDraw();
 			for (var i = 0; i < objectsToDraw.Count; i++) {
 				var entity = objectsToDraw[i];
 				entity.Model.Transformation = entity.GameObject.TransformComponent.WorldMatrix;
 				Draw(entity.Model, entity.MaterialSettings);
 				DrawAABB(entity.AABB);
 			}
+			PostDraw();
 			objectsToDraw.Clear();
 		}
 
