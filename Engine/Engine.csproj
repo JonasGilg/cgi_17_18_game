@@ -86,6 +86,7 @@
     <Compile Include="Util\Input.cs" />
     <Compile Include="Util\Math.cs" />
     <Compile Include="Util\Octree.cs" />
+    <Compile Include="Util\Output.cs" />
     <Compile Include="Util\Sphere.cs" />
     <Compile Include="Util\Time.cs" />
   </ItemGroup>
