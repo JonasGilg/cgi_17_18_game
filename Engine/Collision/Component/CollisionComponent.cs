@@ -5,7 +5,7 @@ using Engine.Util;
 namespace Engine {
 	public delegate void Collisionhandler(Collision.Collision col);
 
-	public abstract class CollisionComponent : Component.Component, IOctreeItem {
+	public abstract class CollisionComponent : Component.Component, IOctreeItem<CollisionComponent> {
 		private readonly Model3D model3D;
 		private readonly AxisAlignedBoundingBox aabb;
 		

@@ -3,7 +3,7 @@ using Engine.Model;
 using Engine.Util;
 
 namespace Engine.Component {
-	public class RenderComponent : Component, IOctreeItem {
+	public class RenderComponent : Component, IOctreeItem<RenderComponent> {
 		private static int idCounter;
 		private readonly int id = idCounter++;
 		

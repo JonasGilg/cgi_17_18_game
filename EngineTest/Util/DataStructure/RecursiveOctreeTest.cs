@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using System.Collections.Generic;
+using Engine;
 using NUnit.Framework;
 using OpenTK;
 using AABB = Engine.AxisAlignedBoundingBox;
@@ -96,12 +97,17 @@ namespace EngineTest.Util.DataStructure {
 		}
 	}
 
-	class TestClass : IOctreeItem {
+	class TestClass : IOctreeItem<TestClass> {
 		private static int counter;
 		private readonly int hash = counter++;
 		
 		private readonly AABB aabb;
 		public TestClass(AABB bb) => aabb = bb;
+		
+		public ICollection<IOctree<IOctreeItem<TestClass>>> GetParents() {
+			throw new System.NotImplementedException();
+		}
+
 		public AABB GetAABB() => aabb;
 
 		public override int GetHashCode() => hash;

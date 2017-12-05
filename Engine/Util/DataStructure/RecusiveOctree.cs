@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using Engine.Util;
 using OpenTK;
 using AABB = Engine.AxisAlignedBoundingBox;
 
 namespace Engine {
-	public class RecusiveOctree<T> : IOctree<T> where T : IOctreeItem {
+	public class RecusiveOctree<T> : IOctree<T> where T : IOctreeItem<T> {
 		private const double UNIVERSE_SIZE = 1_000_000;
 		private const double SMALLEST_CELL_SIZE = 10;
 
@@ -70,6 +71,10 @@ namespace Engine {
 			}
 		}
 
+		/// <summary>
+		/// Recursive removal from the octree.
+		/// </summary>
+		/// <param name="item"></param>
 		public void Remove(T item) {
 			if (items.Remove(item)) {
 				for (var i = 0; i < children.Length; i++) {
@@ -94,17 +99,13 @@ namespace Engine {
 			}
 		}*/
 
-		public ICollection<T> Items() => items;
+		public IImmutableSet<T> Items() => items.ToImmutableHashSet();
 		public IOctree<T> Parent() => parent;
-		public IOctree<T>[] Children() => children;
+		public ImmutableArray<IOctree<T>> Children() => children.ToImmutableArray();
 		public bool IsLeaf() => treeCurrDepth == treeMaxDepth;
 		public AxisAlignedBoundingBox BoundingBox() => aabb;
 
 		//TODO precompute sphere
 		public Sphere BoundingSphere() => new Sphere(aabb.Center, aabb.Max.LengthFast);
-	}
-
-	public interface IOctreeItem {
-		AABB GetAABB();
 	}
 }
