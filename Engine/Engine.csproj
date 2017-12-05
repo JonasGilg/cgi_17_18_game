@@ -83,9 +83,10 @@
     <Compile Include="Render\ShaderLoader.cs" />
     <Compile Include="Texture\TextureManager.cs" />
     <Compile Include="Util\AxisAlignedBoundingBox.cs" />
+    <Compile Include="Util\DataStructure\IOctree.cs" />
+    <Compile Include="Util\DataStructure\RecusiveOctree.cs" />
     <Compile Include="Util\Input.cs" />
     <Compile Include="Util\Math.cs" />
-    <Compile Include="Util\Octree.cs" />
     <Compile Include="Util\Sphere.cs" />
     <Compile Include="Util\Time.cs" />
   </ItemGroup>
