@@ -38,7 +38,7 @@ namespace Game.Window {
 
 			//sun
 			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0, 0, 0), new Vector3d(2000.0),
-				new Vector3d(0, 0.1, 0));
+				new Vector3d(0));
 			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SUN_LAVAFLOW);
 			World.AddToWorld(sun);
 			
