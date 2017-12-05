@@ -63,6 +63,14 @@ namespace EngineTest.Util.DataStructure {
 			var item = new TestClass(AABB.FromCenterAndDimension(new Vector3d(-31), Vector3d.One));
 			octree.Insert(item);
 
+			Assert.AreEqual(null, octree.Children()[1]);
+			Assert.AreEqual(null, octree.Children()[2]);
+			Assert.AreEqual(null, octree.Children()[3]);
+			Assert.AreEqual(null, octree.Children()[4]);
+			Assert.AreEqual(null, octree.Children()[5]);
+			Assert.AreEqual(null, octree.Children()[6]);
+			Assert.AreEqual(null, octree.Children()[7]);
+			
 			var counter = 0;
 			var section = octree;
 			while (!section.IsLeaf()) {
