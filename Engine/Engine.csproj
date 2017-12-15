@@ -71,6 +71,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\Component\RenderComponent.cs" />
     <Compile Include="Render\Material\BlackHole\BlackHoleMaterial.cs" />
+    <Compile Include="Render\Material\PostProcessing\PostProcessing.cs" />
+    <Compile Include="Render\Material\PostProcessing\PostProcessingMaterial.cs" />
+    <Compile Include="Render\Material\PostProcessing\TestEffect.cs" />
     <Compile Include="Render\Material\SunLavaflow\SunLavaflowMaterial.cs" />
     <Compile Include="Render\DebugDrawing\BoxDrawing\HitBox.cs" />
     <Compile Include="Render\RenderEngine.cs" />
@@ -103,6 +106,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Render\Material\BlackHole\BlackHole_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Material\PostProcessing\test_effect_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Material\PostProcessing\test_effect_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Render\Material\SunLavaflow\SunLavaflow_FS.glsl">

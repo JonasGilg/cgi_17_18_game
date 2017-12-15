@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Engine.Material;
 using Engine.Render;
 using Engine.Render.Skybox;
 using Engine.Util;
+using Engine.Output;
+using OpenTK.Graphics.OpenGL;
+using TextureMinFilter = OpenTK.Graphics.OpenGL4.TextureMinFilter;
 
 namespace Engine {
 	public static class World {
@@ -14,6 +19,7 @@ namespace Engine {
 		//stats
 		private static readonly TimingStats UPDATE_STATS = new TimingStats("World");
 		private static readonly TimingStats RENDER_STATS = new TimingStats("World");
+		
 
 		static World() {
 			TimingRegistry.AddUpdateTiming(UPDATE_STATS);
@@ -45,9 +51,12 @@ namespace Engine {
 			}*/
 			
 			RenderEngine.Draw();
-
+			
+			PostProcessing.DrawMaterials();
+			
 			RENDER_STATS.Stop();
 		}
+
 
 		public static void AddToWorld(GameObject obj) {
 			obj.Awake();
