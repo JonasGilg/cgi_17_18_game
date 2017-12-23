@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using Engine.Util;
 using AABB = Engine.AxisAlignedBoundingBox;
 
@@ -7,10 +7,10 @@ namespace Engine {
 		void Insert(T item);
 		void Remove(T item);
 
-		IImmutableSet<T> Items();
+		ISet<T> Items();
 		
 		IOctree<T> Parent();
-		ImmutableArray<IOctree<T>> Children();
+		IOctree<T>[] Children();
 		
 		bool IsLeaf();
 		

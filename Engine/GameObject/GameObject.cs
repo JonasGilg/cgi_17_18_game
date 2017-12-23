@@ -1,9 +1,11 @@
 ﻿using Engine.Component;
+using Engine.Util;
 
 namespace Engine {
 	public abstract class GameObject {
 		public readonly TransformComponent TransformComponent;
 		public double Radius;
+		public Sphere BoundingSphere() => new Sphere(TransformComponent.WorldPosition, Radius);
 
 		protected GameObject() {
 			TransformComponent = new TransformComponent(this);
@@ -14,6 +16,6 @@ namespace Engine {
 
 		public virtual void Update() => TransformComponent.Update();
 
-		public override string ToString() => GetType().Name + "(#" + GetHashCode() + ")";
+		public override string ToString() => GetType().Name + "(#" + GetHashCode().ToString() + ")";
 	}
 }

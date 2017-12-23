@@ -6,6 +6,7 @@ namespace Engine.Material {
 
         static PostProcessing() {
             Effects = new List<PostProcessingMaterial>();
+            //Effects.Add(new TestEffect());
         }
         public static void DrawMaterials() {
             foreach (var material in Effects) {

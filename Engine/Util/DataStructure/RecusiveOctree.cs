@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using Engine.Util;
 using OpenTK;
 using AABB = Engine.AxisAlignedBoundingBox;
@@ -99,9 +98,9 @@ namespace Engine {
 			}
 		}*/
 
-		public IImmutableSet<T> Items() => items.ToImmutableHashSet();
+		public ISet<T> Items() => items;
 		public IOctree<T> Parent() => parent;
-		public ImmutableArray<IOctree<T>> Children() => children.ToImmutableArray();
+		public IOctree<T>[] Children() => children;
 		public bool IsLeaf() => treeCurrDepth == treeMaxDepth;
 		public AxisAlignedBoundingBox BoundingBox() => aabb;
 

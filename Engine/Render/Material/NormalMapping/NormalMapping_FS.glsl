@@ -50,6 +50,6 @@ void main() {
                            
     vec4 surfaceColor = texture2D(color_texture, fragTexcoord);
     vec4 colorGammaCorrected = pow(colorLinear, vec4(1.0 / screenGamma));
-        
+    
     outputColor = surfaceColor * colorGammaCorrected;
 }
