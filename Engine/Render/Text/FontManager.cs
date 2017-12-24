@@ -2,7 +2,7 @@
 using System.IO;
 using Engine.Texture;
 
-namespace Engine.Util {
+namespace Engine.Render {
 	public static class FontManager {
 		private static readonly Dictionary<int, Font> FONTS = new Dictionary<int, Font>();
 

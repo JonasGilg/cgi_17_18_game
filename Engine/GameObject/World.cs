@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Engine.Material;
 using Engine.Render;
 using Engine.Render.Skybox;
-using Engine.Util;
-using Engine.Output;
-using OpenTK.Graphics.OpenGL;
-using TextureMinFilter = OpenTK.Graphics.OpenGL4.TextureMinFilter;
 
 namespace Engine {
 	public static class World {
@@ -42,16 +37,8 @@ namespace Engine {
 			RENDER_STATS.Start();
 
 			//TODO better perfomance possible if skybox is rendered last (that needs a refactoring of the shader though)
-			Skybox.Draw();
-			
-			/*for (var i = 0; i < OBJECTS.Count; i++) {
-				if (DisplayCamera.IsSphereInFrustum(OBJECTS[i].TransformComponent.WorldPosition, OBJECTS[i].Radius)) {
-					OBJECTS[i].Draw();
-				}
-			}*/
-			
+			Skybox.Draw();			
 			RenderEngine.Draw();
-			
 			PostProcessing.DrawMaterials();
 			
 			RENDER_STATS.Stop();
@@ -63,13 +50,9 @@ namespace Engine {
 			OBJECTS.Add(obj);
 		}
 
-		public static void RegisterCollisionComponent(CollisionComponent component) {
-			COLLISION_COMPONENTS.Add(component);
-		}
+		public static void RegisterCollisionComponent(CollisionComponent component) => COLLISION_COMPONENTS.Add(component);
 
-		public static void UnregisterCollisionComponent(CollisionComponent component) {
-			COLLISION_COMPONENTS.Remove(component);
-		}
+		public static void UnregisterCollisionComponent(CollisionComponent component) => COLLISION_COMPONENTS.Remove(component);
 
 		private static void CheckCollisions() {
 			for (var i = 0; i < COLLISION_COMPONENTS.Count; i++) {

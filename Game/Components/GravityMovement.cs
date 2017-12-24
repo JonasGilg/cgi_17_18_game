@@ -1,6 +1,6 @@
 ﻿using System;
 using Engine;
-using Engine.Util;
+using Engine.Render;
 using OpenTK;
 
 namespace Game.Components {

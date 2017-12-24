@@ -1,6 +1,6 @@
 ﻿using System;
 using Engine.Model;
-using Engine.Util;
+using Engine.Render;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Material {

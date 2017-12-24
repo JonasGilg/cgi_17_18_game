@@ -22,7 +22,6 @@ namespace Game.GameObjects {
 		private readonly HUDElement speed;
 		private readonly HUDElement position;
 
-
 		public SpaceShip() {
 			speed = HUD.CreateHUDElement("", new Vector2(-1f, -0.94f));
 			position = HUD.CreateHUDElement("", new Vector2(-1f, -0.88f));
@@ -45,7 +44,7 @@ namespace Game.GameObjects {
 			RenderEngine.RegisterRenderComponent(renderComponent);
 
 			CollisionComponent = new SphereCollider(this, renderComponent.Model,
-				collision => { Console.WriteLine(ToString() + " collided with " + collision.GameObject.ToString()); });
+				collision => { moveComponent.LinearVelocity = Vector3d.Zero;/*Console.WriteLine(ToString() + " collided with " + collision.GameObject.ToString());*/ });
 			CollisionComponent.Register();
 
 			DisplayCamera.SetActiveCamera(cameraComponent);

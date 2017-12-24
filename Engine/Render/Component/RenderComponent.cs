@@ -1,6 +1,6 @@
 ﻿using Engine.Material;
 using Engine.Model;
-using Engine.Util;
+using Engine.Render;
 
 namespace Engine.Component {
 	public class RenderComponent : Component, IOctreeItem<RenderComponent> {

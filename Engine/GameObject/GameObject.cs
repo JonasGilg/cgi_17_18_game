@@ -1,5 +1,5 @@
 ﻿using Engine.Component;
-using Engine.Util;
+using Engine.Render;
 
 namespace Engine {
 	public abstract class GameObject {

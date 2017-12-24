@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Engine.Util {
+namespace Engine.Render {
 	public class Font {
 		public readonly string Name;
 

@@ -4,7 +4,7 @@ using Engine.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace Engine.Util {
+namespace Engine.Render {
 	public static class TextRenderer2D {
 		private static readonly int PROGRAM;
 		private static readonly Font FONT;
@@ -28,7 +28,15 @@ namespace Engine.Util {
 
 			var currX = 0.0f;
 			for (var i = 0; i < text.Length; i++) {
-				var charDimensions = FONT.GetCharDimensions(text[i]);
+
+				Font.Rectangle charDimensions;
+				try {
+					charDimensions = FONT.GetCharDimensions(text[i]);
+				}
+				catch (KeyNotFoundException e) {
+					Console.WriteLine($"Character: '{(int) text[i]}' is not supported!");
+					charDimensions = FONT.GetCharDimensions('?');
+				}
 				var charWidth = charDimensions.W;
 
 				var vertexDownLeft = new Vector2(position.X + currX, position.Y);

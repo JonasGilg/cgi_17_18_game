@@ -1,6 +1,8 @@
-﻿using Engine;
+﻿using System;
+using System.Security.AccessControl;
+using Engine;
 using Engine.Component;
-using Engine.Util;
+using Engine.Render;
 using OpenTK;
 using OpenTK.Input;
 using Keyboard = Engine.Input.Keyboard;
@@ -10,6 +12,14 @@ namespace Game.Components {
 		public ArcadeMoveInputComponent(GameObject gameObject, TransformComponent transformComponent,
 			MoveComponent moveComponent) : base(gameObject, transformComponent, moveComponent) { }
 
+		private const double maxSpeed = 1000.0;
+		private const double maxRotationSpeed = Math.PI / 180.0;
+
+		private const double accelaration = 10.0;
+		private const double rotationAccelaration = Math.PI / 180.0 / 10.0;
+
+		private const double rotationDampening = rotationAccelaration;
+		
 		public override void Update() {
 			base.Update();
 

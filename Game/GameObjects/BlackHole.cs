@@ -26,7 +26,7 @@ namespace Game.GameObjects {
             MoveComponent = new MoveComponent(this);
             
             CollisionComponent = new SphereCollider(this, RenderComponent.Model,
-                collision => { Console.WriteLine(collision.GameObject.ToString() + " collided with a black hole"); });
+                collision => { /*Console.WriteLine(collision.GameObject.ToString() + " collided with a black hole");*/ });
             CollisionComponent.Register();
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Engine.Util {
+namespace Engine.Render {
 	public static class Time {
 		private const int QUEUE_SIZE = 30;
 

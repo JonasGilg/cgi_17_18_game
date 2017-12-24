@@ -1,7 +1,7 @@
 ﻿using System;
 using Engine.Model;
 using Engine.Texture;
-using Engine.Util;
+using Engine.Render;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Render.Skybox {

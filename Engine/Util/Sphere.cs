@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace Engine.Util {
+namespace Engine.Render {
 	public struct Sphere {
 		public readonly Vector3d Center;
 		public readonly double Radius;

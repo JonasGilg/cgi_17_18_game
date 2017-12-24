@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Engine.Util;
+using Engine.Render;
 using OpenTK;
 using AABB = Engine.AxisAlignedBoundingBox;
 
 namespace Engine {
 	public class RecusiveOctree<T> : IOctree<T> where T : IOctreeItem<T> {
-		private const double UNIVERSE_SIZE = 1_000_000;
-		private const double SMALLEST_CELL_SIZE = 10;
+		private const double DEFAULT_UNIVERSE_SIZE = 1_000_000;
+		private const double DEFAULT_CELL_SIZE = 10;
 
 		private readonly IOctree<T> parent;
 		private readonly IOctree<T>[] children;
@@ -18,7 +18,7 @@ namespace Engine {
 
 		private AABB aabb;
 
-		public RecusiveOctree(double treeSize = UNIVERSE_SIZE, double cellSize = SMALLEST_CELL_SIZE) {
+		public RecusiveOctree(double treeSize = DEFAULT_UNIVERSE_SIZE, double cellSize = DEFAULT_CELL_SIZE) {
 			treeMaxDepth = (int) Math.Ceiling(Math.Log(treeSize / cellSize, 2));
 			treeCurrDepth = 0;
 

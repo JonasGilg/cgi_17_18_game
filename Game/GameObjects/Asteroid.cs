@@ -28,7 +28,7 @@ namespace Game.GameObjects {
 			RenderEngine.RegisterRenderComponent(renderComponent);
 
 			CollisionComponent = new SphereCollider(this, renderComponent.Model,
-				collision => { Console.WriteLine("Asteroid collided with" + collision.GameObject.ToString()); });
+				collision => { /*Console.WriteLine("Asteroid collided with" + collision.GameObject.ToString());*/ });
 			CollisionComponent.Register();
 		}
 

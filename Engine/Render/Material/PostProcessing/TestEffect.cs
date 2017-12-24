@@ -2,7 +2,6 @@
 using System.Drawing;
 using Engine.Output;
 using Engine.Render;
-using Engine.Util;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 

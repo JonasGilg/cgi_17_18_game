@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK;
 
-namespace Engine.Util {
+namespace Engine.Render {
 	public static class Math3D {
 		public static Vector3d Rotate(this Quaterniond quat, Vector3d vec) {
 			Vector3d.Transform(ref vec, ref quat, out var result);
