@@ -110,6 +110,7 @@ namespace Game.Window {
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			Time.UpdateRenderTime(e.Time);
+			Statistics.UpdateTimeSpent();
 
 			fpsCounter.Text = ((int) (1 / Time.AverageRenderTime())).ToString() + "FPS";
 

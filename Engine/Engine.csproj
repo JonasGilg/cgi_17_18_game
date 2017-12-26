@@ -61,6 +61,7 @@
     <Compile Include="Component\TransformComponent.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="GameObject\GameObject.cs" />
+    <Compile Include="GameObject\Statistics.cs" />
     <Compile Include="GameObject\World.cs" />
     <Compile Include="GUI\HUD.cs" />
     <Compile Include="GUI\HUDElement.cs" />
