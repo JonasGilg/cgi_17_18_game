@@ -54,9 +54,11 @@
     <Compile Include="Components\GravityMovement.cs" />
     <Compile Include="Components\MoveInputComponent.cs" />
     <Compile Include="Components\RLMoveInputComponent.cs" />
+    <Compile Include="Factories\MetalChunkFactory.cs" />
     <Compile Include="Factories\PlanetFactory.cs" />
     <Compile Include="GameObjects\Asteroid.cs" />
     <Compile Include="GameObjects\BlackHole.cs" />
+    <Compile Include="GameObjects\MetalChunk.cs" />
     <Compile Include="GameObjects\Planet.cs" />
     <Compile Include="GameObjects\SpaceShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

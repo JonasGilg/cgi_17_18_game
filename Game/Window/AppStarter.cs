@@ -59,6 +59,8 @@ namespace Game.Window {
 			};
 			World.AddToWorld(ship);
 
+			generateMetalChunks();
+			
 			var blackHole = new BlackHole {
 				TransformComponent = {
 					Scale = new Vector3d(100),
@@ -127,6 +129,17 @@ namespace Game.Window {
 		protected override void OnResize(EventArgs e) {
 			GL.Viewport(0, 0, Width, Height);
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
+		}
+
+		/// <summary>
+		/// this method populates the world with metal chunks
+		/// </summary>
+		private void generateMetalChunks() {
+			
+			//use MetalChunkFactory to generate more instances
+			MetalChunkFactory.GenerateSingle(startingPoint + new Vector3d(500.0,0,0),MetalType.Bronze);
+			
+			
 		}
 		
 		[STAThread]
