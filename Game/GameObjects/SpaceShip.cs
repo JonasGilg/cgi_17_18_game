@@ -43,8 +43,19 @@ namespace Game.GameObjects {
 			
 			RenderEngine.RegisterRenderComponent(renderComponent);
 
-			CollisionComponent = new SphereCollider(this, renderComponent.Model,
-				collision => { moveComponent.LinearVelocity = Vector3d.Zero;/*Console.WriteLine(ToString() + " collided with " + collision.GameObject.ToString());*/ });
+			CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
+				Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString());
+				switch (collision.otherGameObject) {
+					case Asteroid asteroid:
+						moveComponent.LinearVelocity *= -1;//* asteroid.CollisionComponent.PhysicsMaterial.Bounciness;
+						//moveComponent.LinearVelocity = Vector3d.Cross(moveComponent.LinearVelocity, asteroid.MoveComponent.LinearVelocity);
+						break;
+					case Planet planet:
+						moveComponent.LinearVelocity *= -1;//* planet.CollisionComponent.PhysicsMaterial.Bounciness;
+						//moveComponent.LinearVelocity = Vector3d.Cross(moveComponent.LinearVelocity, planet.MoveComponent.LinearVelocity);
+						break;
+				}
+			});
 			CollisionComponent.Register();
 
 			DisplayCamera.SetActiveCamera(cameraComponent);

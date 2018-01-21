@@ -63,7 +63,8 @@ namespace Engine {
 						var collidedWith = COLLISION_COMPONENTS[j];
 						if (currObj.IsColliding(collidedWith)) {
 							currObj.OnCollision(new Collision.Collision {
-								GameObject = collidedWith.GameObject
+								otherGameObject = collidedWith.GameObject,
+								OtherCollisonComponent = collidedWith
 							});
 						}
 					}

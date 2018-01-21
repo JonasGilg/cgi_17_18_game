@@ -35,7 +35,7 @@ namespace Game.GameObjects {
 			}
 
 			CollisionComponent = new SphereCollider(this, RenderComponent.Model,
-				collision => { Console.WriteLine(ToString() + " collided with " + collision.GameObject.ToString()); });
+				collision => { Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString()); });
 			CollisionComponent.Register();
 		}
 

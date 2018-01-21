@@ -12,12 +12,13 @@ namespace Engine {
 		public PhysicsMaterial PhysicsMaterial;
 		public readonly Collisionhandler OnCollision;
 
-		protected CollisionComponent(GameObject gameObject, Model3D model, Collisionhandler collisionFunction) :
+		protected CollisionComponent(GameObject gameObject, Model3D model, Collisionhandler collisionFunction, PhysicsMaterial physicsMaterial = null) :
 			base(gameObject) {
 			model3D = model;
 			aabb = model.AABB;
 			
 			OnCollision = collisionFunction;
+			PhysicsMaterial = physicsMaterial ?? new DefaultPhysicsMaterial();
 		}
 
 		public override void Update() { }
