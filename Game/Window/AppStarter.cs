@@ -37,7 +37,7 @@ namespace Game.Window {
 				new Vector4(.950f, .950f, .950f, 0f));
 
 			//sun
-			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0, 0, 0), new Vector3d(2000.0),
+			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(-4000, 0, 0), new Vector3d(2000.0),
 				new Vector3d(0));
 			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SUN_LAVAFLOW);
 			World.AddToWorld(sun);
@@ -53,7 +53,7 @@ namespace Game.Window {
 			var ship = new SpaceShip {
 				TransformComponent = {
 					Scale = new Vector3d(0.02f),
-					Position = startingPoint,
+					Position = startingPoint - new Vector3d(9000,0,0),
 					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0)
 				}
 			};
@@ -137,9 +137,11 @@ namespace Game.Window {
 		private void generateMetalChunks() {
 			
 			//use MetalChunkFactory to generate more instances
-			MetalChunkFactory.GenerateSingle(startingPoint + new Vector3d(500.0,0,0),MetalType.Bronze);
+			MetalChunkFactory.GenerateLine(startingPoint + new Vector3d(500,0,1000),startingPoint + new Vector3d(500,800,1000), MetalType.Bronze,10);
 			
+			MetalChunkFactory.GenerateRing(new Vector3d(0, 0, 0),new Vector3d(0,0,0),MetalType.Gold, 32, 500,40);
 			
+			//MetalChunkFactory.GenerateEye(startingPoint + new Vector3d(0, 200, 0),new Vector3d(45,90,0),MetalType.Silver, 16, 100.0, MetalType.Gold);
 		}
 		
 		[STAThread]

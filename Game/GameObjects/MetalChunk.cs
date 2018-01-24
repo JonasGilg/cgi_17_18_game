@@ -6,8 +6,9 @@ using Engine.Render;
 using Engine.Texture;
 
 namespace Game.GameObjects {
+    
     public enum MetalType {
-        Bronze, Silver, Gold
+        Charcoal,Bronze, Silver, Gold
     }
     
     public class MetalChunk : GameObject {
@@ -18,6 +19,9 @@ namespace Game.GameObjects {
         public MetalChunk(MetalType type) {
             //TODO assign correct physical based rendering settings for each metal type
             switch (type) {
+                case MetalType.Charcoal:
+                    points = -5;
+                    break;
                 case MetalType.Bronze:
                     points = 1;
                     break;

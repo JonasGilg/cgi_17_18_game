@@ -34,6 +34,10 @@ namespace Engine.Render {
 
 			return (float) Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 		}
+
+		public static Vector3d InMiddleOf(Vector3d first, Vector3d second) {
+			return (first + second) / 2;
+		}
 	}
 
 	public static class Math1D {
