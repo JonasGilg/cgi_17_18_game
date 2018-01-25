@@ -28,7 +28,11 @@ namespace Game.GameObjects {
 			RenderEngine.RegisterRenderComponent(renderComponent);
 
 			CollisionComponent = new SphereCollider(this, renderComponent.Model,
-				collision => { /*Console.WriteLine("Asteroid collided with" + collision.GameObject.ToString());*/ });
+				collision => {
+					if (collision.otherGameObject is Asteroid asteroid) {
+						Console.WriteLine("Asteroid " + ToString() + " collided with Asteroid " + asteroid.ToString());
+					}
+				});
 			CollisionComponent.Register();
 		}
 
@@ -42,6 +46,12 @@ namespace Game.GameObjects {
 			MoveComponent.Update();
 			base.Update();
 			renderComponent.Update();
+		}
+
+		public override void Destroy() {
+			base.Destroy();
+			RenderEngine.UnregisterRenderComponent(renderComponent);
+			CollisionComponent.Unregister();
 		}
 	}
 }

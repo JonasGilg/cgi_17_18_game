@@ -35,13 +35,13 @@ namespace Game.Window {
 				new Vector4(.010f, .010f, .010f, 0f),
 				new Vector4(.950f, .950f, .950f, 0f),
 				new Vector4(.950f, .950f, .950f, 0f));
-
+			
 			//sun
 			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0, 0, 0), new Vector3d(2000.0),
 				new Vector3d(0));
 			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SUN_LAVAFLOW);
 			World.AddToWorld(sun);
-			
+
 			//planets
 			for (var i = 1; i < 3; i++) {
 				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
@@ -49,7 +49,7 @@ namespace Game.Window {
 					new Vector3d(1000.0), new Vector3d(0, 0.5, 0), sun);
 				World.AddToWorld(planet);
 			}
-			
+
 			var ship = new SpaceShip {
 				TransformComponent = {
 					Scale = new Vector3d(0.02f),
@@ -59,12 +59,12 @@ namespace Game.Window {
 			};
 			World.AddToWorld(ship);
 
-			generateMetalChunks();
-			
+			GenerateMetalChunks();
+
 			var blackHole = new BlackHole {
 				TransformComponent = {
 					Scale = new Vector3d(100),
-					Position = startingPoint + new Vector3d(1000.0,0.0,0.0),
+					Position = startingPoint + new Vector3d(1000.0, 0.0, 0.0),
 					Orientation = Quaterniond.Identity
 				}
 			};
@@ -133,14 +133,15 @@ namespace Game.Window {
 		/// <summary>
 		/// this method populates the world with metal chunks
 		/// </summary>
-		private void generateMetalChunks() {
-			
+		private void GenerateMetalChunks() {
 			//use MetalChunkFactory to generate more instances
-			MetalChunkFactory.GenerateSingle(startingPoint + new Vector3d(500.0,0,0),MetalType.Bronze);
+			MetalChunkFactory.GenerateLine(startingPoint + new Vector3d(500, 0, 1000), startingPoint + new Vector3d(500, 800, 1000), MetalType.Bronze, 10);
+
+			MetalChunkFactory.GenerateRing(startingPoint + new Vector3d(200, 0, 0), new Vector3d(0, 0, 45), MetalType.Gold, 10, 100);
 			
-			
+			//MetalChunkFactory.GenerateEye(startingPoint + new Vector3d(0, 200, 0),new Vector3d(45,90,0),MetalType.Silver, 16, 100.0, MetalType.Gold);
 		}
-		
+
 		[STAThread]
 		public static void Main() {
 			using (var example = new AppStarter()) {

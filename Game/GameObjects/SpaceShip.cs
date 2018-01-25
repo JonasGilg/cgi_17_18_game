@@ -22,7 +22,21 @@ namespace Game.GameObjects {
 		private readonly HudTextElement speed;
 		private readonly HudTextElement position;
 
+		//TODO implement invulnerability for collision with planet and asteroids + blinking effect
+		public const int invulnerabilityTime = 2000; //milliseconds
+		
+		public const int maxHP = 5;
+		public int currentHP;
+		private readonly HUDElement healthPoints;
+
 		public SpaceShip() {
+			currentHP = maxHP;
+			speed = HUD.CreateHUDElement("", new Vector2(-1f, -0.94f));
+			position = HUD.CreateHUDElement("", new Vector2(-1f, -0.88f));
+			healthPoints = HUD.CreateHUDElement("", new Vector2(-1f, -0.82f));
+			HUD.AddHUDElement(speed);
+			HUD.AddHUDElement(position);
+			HUD.AddHUDElement(healthPoints);
 			speed = HUD.CreateHudTextElement("", new Vector2(-1f, -0.94f));
 			position = HUD.CreateHudTextElement("", new Vector2(-1f, -0.88f));
 			HUD.AddHudTextElement(speed);
@@ -47,12 +61,19 @@ namespace Game.GameObjects {
 				Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString());
 				switch (collision.otherGameObject) {
 					case Asteroid asteroid:
+						currentHP--;
 						moveComponent.LinearVelocity *= -1;//* asteroid.CollisionComponent.PhysicsMaterial.Bounciness;
 						//moveComponent.LinearVelocity = Vector3d.Cross(moveComponent.LinearVelocity, asteroid.MoveComponent.LinearVelocity);
 						break;
 					case Planet planet:
-						moveComponent.LinearVelocity *= -1;//* planet.CollisionComponent.PhysicsMaterial.Bounciness;
+						currentHP = 0;
+						moveComponent.LinearVelocity *= -1;// * planet.CollisionComponent.PhysicsMaterial.Bounciness;
 						//moveComponent.LinearVelocity = Vector3d.Cross(moveComponent.LinearVelocity, planet.MoveComponent.LinearVelocity);
+						break;
+					case MetalChunk chunk:
+						Statistics.IncreaseScore(chunk.points);
+						Console.WriteLine(chunk.points + " points collected");
+						chunk.Destroy();
 						break;
 				}
 			});
@@ -82,14 +103,24 @@ namespace Game.GameObjects {
 			position.Text =
 				$"POSITION: {TransformComponent.WorldPosition.X:N0}, {TransformComponent.WorldPosition.Y:N0}, {TransformComponent.WorldPosition.Z:N0}";
 			speed.Text = $"   SPEED: {moveComponent.LinearVelocity.LengthFast:N2}M/S";
+			healthPoints.Text = $"HP: {currentHP}/{maxHP}";
 
-			
 		}
 
 		public override void Awake() {
 			base.Awake();
 			Radius = renderComponent.Model.Radius(TransformComponent.Scale);
 			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
+		}
+		
+		public override void Destroy() {
+			base.Destroy();
+			RenderEngine.UnregisterRenderComponent(renderComponent);
+			CollisionComponent.Unregister();
+		}
+
+		public override void OnDestroy() {
+			//TODO explosion animation here
 		}
 	}
 }

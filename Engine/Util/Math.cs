@@ -7,12 +7,23 @@ namespace Engine.Render {
 			Vector3d.Transform(ref vec, ref quat, out var result);
 			return result;
 		}
+		
+		public static Vector3d ToRadiansVector3D(this Vector3d degreesVector) => new Vector3d(
+			degreesVector.X.ToRadians(),
+			degreesVector.Y.ToRadians(),
+			degreesVector.Z.ToRadians());
 
 		public static Matrix4 ToFloat(this Matrix4d matrix) => new Matrix4(
 			(float) matrix.M11, (float) matrix.M12, (float) matrix.M13, (float) matrix.M14,
 			(float) matrix.M21, (float) matrix.M22, (float) matrix.M23, (float) matrix.M24,
 			(float) matrix.M31, (float) matrix.M32, (float) matrix.M33, (float) matrix.M34,
 			(float) matrix.M41, (float) matrix.M42, (float) matrix.M43, (float) matrix.M44);
+		
+		public static Matrix4d ToDouble(this Matrix4 matrix) => new Matrix4d(
+			matrix.M11, matrix.M12, matrix.M13, matrix.M14,
+			matrix.M21, matrix.M22, matrix.M23, matrix.M24,
+			matrix.M31, matrix.M32, matrix.M33, matrix.M34,
+			matrix.M41, matrix.M42, matrix.M43, matrix.M44);
 
 		public static Matrix3 ToFloat(this Matrix3d matrix) => new Matrix3(
 			(float) matrix.M11, (float) matrix.M12, (float) matrix.M13,
@@ -34,9 +45,19 @@ namespace Engine.Render {
 
 			return (float) Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 		}
+
+		public static Vector3d InMiddleOf(Vector3d first, Vector3d second) {
+			return (first + second) / 2;
+		}
 	}
 
 	public static class Math1D {
+		public const double TAU = Math.PI * 2;
+
+		public static double ToRadians(this double degrees) => degrees * Math.PI / 180;
+		
+		public static double ToDegrees(this double radians) => radians * 180 / Math.PI ;
+		
 		public static double Clamp(double val, double min, double max) => val < min ? min :
 			val > max ? max : val;
 	}

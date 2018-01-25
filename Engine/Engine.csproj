@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.9.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
-      <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
       <HintPath>..\packages\OpenTK.3.0.0-pre\lib\net20\OpenTK.dll</HintPath>
     </Reference>
@@ -66,13 +63,22 @@
     <Compile Include="GUI\HUD.cs" />
     <Compile Include="GUI\HudObjectMarker.cs" />
     <Compile Include="GUI\HUDTextElement.cs" />
+    <Compile Include="Light\BaseLighting.cs" />
+    <Compile Include="Light\IBL\ImageBasedLighting.cs" />
     <Compile Include="Light\Light.cs" />
+    <Compile Include="Light\Local\PointLight.cs" />
+    <Compile Include="Light\Simple\SimpleLighting.cs" />
     <Compile Include="Model\FastNoise.cs" />
     <Compile Include="Model\Model3D.cs" />
     <Compile Include="Model\ModelLoaderObject3D.cs" />
+    <Compile Include="PostProcessing\BasePostprocessing.cs" />
+    <Compile Include="PostProcessing\Blur\BlurFullscreenMaterial.cs" />
+    <Compile Include="PostProcessing\Blur\BlurHorizontalMaterial.cs" />
+    <Compile Include="PostProcessing\Blur\BlurVerticalMaterial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\Billboard\HudObjectMarkerRenderer.cs" />
     <Compile Include="Render\Component\RenderComponent.cs" />
+    <Compile Include="Render\DeferredRendering.cs" />
     <Compile Include="Render\Material\BlackHole\BlackHoleMaterial.cs" />
     <Compile Include="Render\Material\PostProcessing\PostProcessing.cs" />
     <Compile Include="Render\Material\PostProcessing\PostProcessingMaterial.cs" />
@@ -97,6 +103,7 @@
     <Compile Include="Util\Input.cs" />
     <Compile Include="Util\Math.cs" />
     <Compile Include="Util\Output.cs" />
+    <Compile Include="Util\ShaderCompiler.cs" />
     <Compile Include="Util\Sphere.cs" />
     <Compile Include="Util\Time.cs" />
   </ItemGroup>
@@ -105,6 +112,45 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Light\IBL\IBL_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Light\IBL\IBL_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Light\IBL\ibl_brdf_lut.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Light\Local\PointLight_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Light\Local\PointLight_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Light\Simple\Simple_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Light\Simple\Simple_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostProcessing\Blur\BlurFullscreen_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostProcessing\Blur\BlurFullscreen_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostProcessing\Blur\BlurHorizontal_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostProcessing\Blur\BlurHorizontal_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostProcessing\Blur\BlurVertical_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostProcessing\Blur\BlurVertical_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Render\Billboard\Billboard_FS.glsl" />
     <Content Include="Render\Billboard\Billboard_VS.glsl" />
     <Content Include="Render\Material\BlackHole\BlackHole_FS.glsl">
