@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
@@ -47,6 +48,109 @@ namespace Engine.Texture {
 
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int) TextureMinFilter.Linear);
+
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int) TextureWrapMode.ClampToEdge);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int) TextureWrapMode.ClampToEdge);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int) TextureWrapMode.ClampToEdge);
+
+			GL.BindTexture(TextureTarget.TextureCubeMap, 0);
+
+			return textureID;
+		}
+
+		public static int LoadIBLSpecularMap(string baseName, string fileType) {
+			var textureID = GL.GenTexture();
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.TextureCubeMap, textureID);
+
+			for (var i = 0; i < 9; i++) {
+				for (var o = 0; o < 6; o++) {
+					TextureTarget target;
+					switch (o) {
+						case 0:
+							target = TextureTarget.TextureCubeMapPositiveX;
+							break;
+						case 1:
+							target = TextureTarget.TextureCubeMapNegativeX;
+							break;
+						case 2:
+							target = TextureTarget.TextureCubeMapPositiveY;
+							break;
+						case 3:
+							target = TextureTarget.TextureCubeMapNegativeY;
+							break;
+						case 4:
+							target = TextureTarget.TextureCubeMapPositiveZ;
+							break;
+						default:
+							target = TextureTarget.TextureCubeMapNegativeZ;
+							break;
+					}
+
+					var fileName = baseName + "_m0" + i.ToString() + "_c0" + o.ToString() + "." + fileType;
+					var bmp = new Bitmap(fileName);
+					var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+					GL.TexImage2D(target, i, PixelInternalFormat.Rgba, bmpData.Width, bmpData.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
+				}
+			}
+
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.LinearMipmapLinear);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int) TextureMinFilter.Linear);
+
+			//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int) TextureWrapMode.ClampToEdge);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int) TextureWrapMode.ClampToEdge);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int) TextureWrapMode.ClampToEdge);
+
+			GL.BindTexture(TextureTarget.TextureCubeMap, 0);
+
+			return textureID;
+		}
+
+
+		public static int LoadIBLIrradianceMap(string baseName, string fileType) {
+			var textureID = GL.GenTexture();
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.TextureCubeMap, textureID);
+
+			for (var o = 0; o < 6; o++) {
+				TextureTarget target;
+				switch (o) {
+					case 0:
+						target = TextureTarget.TextureCubeMapPositiveX;
+						break;
+					case 1:
+						target = TextureTarget.TextureCubeMapNegativeX;
+						break;
+					case 2:
+						target = TextureTarget.TextureCubeMapPositiveY;
+						break;
+					case 3:
+						target = TextureTarget.TextureCubeMapNegativeY;
+						break;
+					case 4:
+						target = TextureTarget.TextureCubeMapPositiveZ;
+						break;
+					default:
+						target = TextureTarget.TextureCubeMapNegativeZ;
+						break;
+				}
+
+				var fileName = baseName + "_c0" + o.ToString() + "." + fileType;
+				var bmp = new Bitmap(fileName);
+				var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+				GL.TexImage2D(target, 0, PixelInternalFormat.Rgba, bmpData.Width, bmpData.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
+			}
+
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
+			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int) TextureMinFilter.Linear);
+
+			//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int) TextureWrapMode.ClampToEdge);
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int) TextureWrapMode.ClampToEdge);

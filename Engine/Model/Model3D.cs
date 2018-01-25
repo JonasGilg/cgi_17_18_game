@@ -215,6 +215,11 @@ namespace Engine.Model {
 			Indices.Add(index + 2);
 			Indices.Add(index + 1);
 		}
+		
+		public void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3, Vector2 uv1, Vector2 uv2, Vector2 uv3) {
+			var normal = Vector3.Cross(v2 - v1, v3 - v1).Normalized();
+			AddTriangle(v1, v2, v3, normal, normal, normal, uv1, uv2, uv3);
+		}
 
 		public void AverageTangents() {
 			var len = positions.Count;

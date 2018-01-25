@@ -13,6 +13,12 @@ namespace Engine.Render {
 			(float) matrix.M21, (float) matrix.M22, (float) matrix.M23, (float) matrix.M24,
 			(float) matrix.M31, (float) matrix.M32, (float) matrix.M33, (float) matrix.M34,
 			(float) matrix.M41, (float) matrix.M42, (float) matrix.M43, (float) matrix.M44);
+		
+		public static Matrix4d ToDouble(this Matrix4 matrix) => new Matrix4d(
+			matrix.M11, matrix.M12, matrix.M13, matrix.M14,
+			matrix.M21, matrix.M22, matrix.M23, matrix.M24,
+			matrix.M31, matrix.M32, matrix.M33, matrix.M34,
+			matrix.M41, matrix.M42, matrix.M43, matrix.M44);
 
 		public static Matrix3 ToFloat(this Matrix3d matrix) => new Matrix3(
 			(float) matrix.M11, (float) matrix.M12, (float) matrix.M13,
@@ -41,6 +47,8 @@ namespace Engine.Render {
 	}
 
 	public static class Math1D {
+		public const double TAU = Math.PI * 2;
+		
 		public static double Clamp(double val, double min, double max) => val < min ? min :
 			val > max ? max : val;
 	}

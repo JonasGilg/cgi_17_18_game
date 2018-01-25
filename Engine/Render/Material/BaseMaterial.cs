@@ -2,6 +2,7 @@
 using Engine.Component;
 using Engine.Model;
 using Engine.Render;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Material {
@@ -11,7 +12,13 @@ namespace Engine.Material {
 		public int CubeTexture;
 		public double Shininess;
 
-		// values for blending
+		public int MetalnessTexture;
+		public int RoughnessTexture;
+		public int AOTexture;
+		public int GlowTexture;
+
+		public Vector3 Color;
+		
 		public BlendingFactorSrc SrcBlendFactor;
 		public BlendingFactorDest DestBlendFactor;
 	}
