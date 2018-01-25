@@ -27,20 +27,17 @@ namespace Game.GameObjects {
 		
 		public const int maxHP = 5;
 		public int currentHP;
-		private readonly HUDElement healthPoints;
+		private readonly HudTextElement healthPoints;
 
 		public SpaceShip() {
 			currentHP = maxHP;
-			speed = HUD.CreateHUDElement("", new Vector2(-1f, -0.94f));
-			position = HUD.CreateHUDElement("", new Vector2(-1f, -0.88f));
-			healthPoints = HUD.CreateHUDElement("", new Vector2(-1f, -0.82f));
-			HUD.AddHUDElement(speed);
-			HUD.AddHUDElement(position);
-			HUD.AddHUDElement(healthPoints);
 			speed = HUD.CreateHudTextElement("", new Vector2(-1f, -0.94f));
 			position = HUD.CreateHudTextElement("", new Vector2(-1f, -0.88f));
+			healthPoints = HUD.CreateHudTextElement("", new Vector2(-1f, -0.82f));
 			HUD.AddHudTextElement(speed);
 			HUD.AddHudTextElement(position);
+			HUD.AddHudTextElement(healthPoints);
+			
 
 			moveComponent = new MoveComponent(this);
 			cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);
