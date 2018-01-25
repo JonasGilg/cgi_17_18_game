@@ -134,6 +134,7 @@
     <Content Include="data\textures\asteroids\strawberry.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\textures\billboard\canvas_box_test.png" />
     <Content Include="data\textures\NormalMap.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

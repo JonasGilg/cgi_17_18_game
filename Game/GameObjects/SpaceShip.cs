@@ -19,14 +19,14 @@ namespace Game.GameObjects {
 		private readonly MoveInputComponent moveInputComponent;
 		public readonly SphereCollider CollisionComponent;
 
-		private readonly HUDElement speed;
-		private readonly HUDElement position;
+		private readonly HudTextElement speed;
+		private readonly HudTextElement position;
 
 		public SpaceShip() {
-			speed = HUD.CreateHUDElement("", new Vector2(-1f, -0.94f));
-			position = HUD.CreateHUDElement("", new Vector2(-1f, -0.88f));
-			HUD.AddHUDElement(speed);
-			HUD.AddHUDElement(position);
+			speed = HUD.CreateHudTextElement("", new Vector2(-1f, -0.94f));
+			position = HUD.CreateHudTextElement("", new Vector2(-1f, -0.88f));
+			HUD.AddHudTextElement(speed);
+			HUD.AddHudTextElement(position);
 
 			moveComponent = new MoveComponent(this);
 			cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);

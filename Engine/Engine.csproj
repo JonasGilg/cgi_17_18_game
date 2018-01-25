@@ -64,12 +64,14 @@
     <Compile Include="GameObject\Statistics.cs" />
     <Compile Include="GameObject\World.cs" />
     <Compile Include="GUI\HUD.cs" />
-    <Compile Include="GUI\HUDElement.cs" />
+    <Compile Include="GUI\HudObjectMarker.cs" />
+    <Compile Include="GUI\HUDTextElement.cs" />
     <Compile Include="Light\Light.cs" />
     <Compile Include="Model\FastNoise.cs" />
     <Compile Include="Model\Model3D.cs" />
     <Compile Include="Model\ModelLoaderObject3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Render\Billboard\HudObjectMarkerRenderer.cs" />
     <Compile Include="Render\Component\RenderComponent.cs" />
     <Compile Include="Render\Material\BlackHole\BlackHoleMaterial.cs" />
     <Compile Include="Render\Material\PostProcessing\PostProcessing.cs" />
@@ -103,6 +105,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Render\Billboard\Billboard_FS.glsl" />
+    <Content Include="Render\Billboard\Billboard_VS.glsl" />
     <Content Include="Render\Material\BlackHole\BlackHole_FS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

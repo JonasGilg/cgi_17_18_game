@@ -20,13 +20,13 @@ namespace Game.Window {
 			DisplayDevice.Default,
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
 
-		private readonly HUDElement upsCounter = HUD.CreateHUDElement("", new Vector2(-1f, 1f));
-		private readonly HUDElement fpsCounter = HUD.CreateHUDElement("", new Vector2(-1f, 0.94f));
+		private readonly HudTextElement upsCounter = HUD.CreateHudTextElement("", new Vector2(-1f, 1f));
+		private readonly HudTextElement fpsCounter = HUD.CreateHudTextElement("", new Vector2(-1f, 0.94f));
 
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
-			HUD.AddHUDElement(upsCounter);
-			HUD.AddHUDElement(fpsCounter);
+			HUD.AddHudTextElement(upsCounter);
+			HUD.AddHudTextElement(fpsCounter);
 
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 
@@ -119,7 +119,6 @@ namespace Game.Window {
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit | ClearBufferMask.DepthBufferBit);
 
 			World.RenderWorld();
-
 			HUD.Draw();
 			SwapBuffers();
 		}
