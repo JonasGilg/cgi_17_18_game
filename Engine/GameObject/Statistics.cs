@@ -6,7 +6,7 @@ using OpenTK;
 namespace Engine {
     public static class Statistics {
         private static int Score = 0;
-        private static readonly HUDElement _score = HUD.CreateHUDElement("SCORE : 0", new Vector2(-1f, -0.82f));
+        private static readonly HUDElement _score = HUD.CreateHUDElement("SCORE : 0", new Vector2(-1f, 0.82f));
 
         private static readonly HUDElement _timeSpent = HUD.CreateHUDElement("TIME SPENT : 0", new Vector2(-1f, 0.88f));
 

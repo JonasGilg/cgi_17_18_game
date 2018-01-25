@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using System;
+using Engine;
 using Engine.Component;
 using Engine.Material;
 using Engine.Model;
@@ -43,6 +44,12 @@ namespace Game.GameObjects {
                 this
             );
             RenderEngine.RegisterRenderComponent(renderComponent);
+            
+            CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
+                Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString());
+                
+            });
+            CollisionComponent.Register();
         }
         
         public override void Awake() {
@@ -55,5 +62,18 @@ namespace Game.GameObjects {
             base.Update();
             renderComponent.Update();
         }
+        
+        public override void Destroy() {
+            base.Destroy();
+            RenderEngine.UnregisterRenderComponent(renderComponent);
+            CollisionComponent.Unregister();
+        }
+
+        public override void OnDestroy() {
+            //TODO chunk should disappear with a small effect (e.g light)
+        }
+
+        public override string ToString() => TransformComponent.WorldPosition.ToString();
+        
     }
 }

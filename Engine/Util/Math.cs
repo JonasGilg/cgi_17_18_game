@@ -7,6 +7,11 @@ namespace Engine.Render {
 			Vector3d.Transform(ref vec, ref quat, out var result);
 			return result;
 		}
+		
+		public static Vector3d ToRadiansVector3D(this Vector3d degreesVector) => new Vector3d(
+			degreesVector.X.ToRadians(),
+			degreesVector.Y.ToRadians(),
+			degreesVector.Z.ToRadians());
 
 		public static Matrix4 ToFloat(this Matrix4d matrix) => new Matrix4(
 			(float) matrix.M11, (float) matrix.M12, (float) matrix.M13, (float) matrix.M14,
@@ -48,6 +53,10 @@ namespace Engine.Render {
 
 	public static class Math1D {
 		public const double TAU = Math.PI * 2;
+
+		public static double ToRadians(this double degrees) => degrees * Math.PI / 180;
+		
+		public static double ToDegrees(this double radians) => radians * 180 / Math.PI ;
 		
 		public static double Clamp(double val, double min, double max) => val < min ? min :
 			val > max ? max : val;

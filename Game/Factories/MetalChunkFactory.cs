@@ -20,7 +20,7 @@ namespace Game.Utils {
         /// <param name="scale"></param>
         /// <returns></returns>
         public static MetalChunk GenerateSingle(Vector3d position, MetalType type, double scale = 10.0) {
-            var chunk = new MetalChunk(MetalType.Bronze) {
+            var chunk = new MetalChunk(type) {
                 TransformComponent = {
                     Scale = new Vector3d(scale),
                     Position = position,
@@ -59,7 +59,7 @@ namespace Game.Utils {
 
                      if (count > 2) { //this block is only useful when count is greater than 2
                          var equiDistance = (endPosition - startPosition) / (count - 1);
-                         for (int i = 1 - 1; i < count-1; i++) {
+                         for (int i = 1 ; i < count-1; i++) {
                              positions.Add(startPosition + (equiDistance * i));
                          }
                      }
@@ -76,7 +76,8 @@ namespace Game.Utils {
         }
 
         /// <summary>
-        /// Generates a ring of metal chunks
+        /// Generates a ring of metal chunks.
+        /// The angle is measured in degrees!
         /// </summary>
         /// <param name="center"></param>
         /// <param name="eulerAngle"></param>
@@ -92,34 +93,25 @@ namespace Game.Utils {
             var chunks = new List<MetalChunk>();
             if (count < 1) return chunks; //nothing to generate if count is 0
             
-            //calculate positions
-            var positions = new List<Vector3d>();
             
-            var ring = new MetalChunkShape() {
+            for (int i = 0; i < count; i++) {
+                var pos = new Vector3d(radius * Math.Cos(i * Math.PI * 2 / count), radius * Math.Sin(i * Math.PI * 2 / count), center.Z);
+                var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
+                chunks.Add( GenerateSingle(rotatedPos, type, scale) );
+            }
+            
+            var ring = new MetalChunkShape(chunks) {
                 TransformComponent = {
                     Position = center
                 }
             };
-            
-            //TODO use the eulerAngle to rotate the ring
-            for (int i = 0; i < count; i++) {
-                var pos = new Vector3d(radius * Math.Cos(i * Math.PI * 2 / count), radius * Math.Sin(i * Math.PI * 2 / count), center.Z);
-                var result = Matrix4.Mult(Matrix4.CreateTranslation(pos.ToFloat()),Matrix4.CreateFromQuaternion(Quaternion.FromEulerAngles(eulerAngle.ToFloat()))).ExtractTranslation().ToDouble();
-                result += center;
-                positions.Add( result );
-            }
-            
-            foreach (var pos in positions) {
-                var chunk = GenerateSingle(pos, type, scale);
-                //chunk.TransformComponent.Parent = ring.TransformComponent;
-                chunks.Add( chunk );
-            }
 
             return chunks;
         }
 
         /// <summary>
-        /// Generates a ring of metal chunks with a chunk in its center
+        /// Generates a ring of metal chunks with a chunk in its center.
+        /// The angle is measured in degrees!
         /// </summary>
         /// <param name="center"></param>
         /// <param name="eulerAngle"></param>
@@ -138,6 +130,12 @@ namespace Game.Utils {
             
             chunks.AddRange(GenerateRing(center,eulerAngle,ringType,ringCount,radius,ringScale));
             chunks.Add(GenerateSingle(center,eyeType,eyeScale));
+            
+            var eye = new MetalChunkShape(chunks) {
+                TransformComponent = {
+                    Position = center
+                }
+            };
 
             return chunks;
         }

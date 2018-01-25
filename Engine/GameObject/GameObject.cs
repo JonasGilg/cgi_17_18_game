@@ -16,6 +16,18 @@ namespace Engine {
 
 		public virtual void Update() => TransformComponent.Update();
 
+		/// <summary>
+		/// used to clean up the object (aka Destructor)
+		/// </summary>
+		public virtual void Destroy() {
+			OnDestroy();
+		}
+		
+		/// <summary>
+		/// hook method to implement behaviour happening at destruction time
+		/// </summary>
+		public virtual void OnDestroy() { }
+
 		public override string ToString() => GetType().Name + "(#" + GetHashCode().ToString() + ")";
 	}
 }

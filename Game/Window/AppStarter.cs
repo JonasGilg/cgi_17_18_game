@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using Engine;
 using Engine.GUI;
 using Engine.Material;
@@ -37,7 +37,7 @@ namespace Game.Window {
 				new Vector4(.950f, .950f, .950f, 0f));
 			
 			//sun
-			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(-4000, 0, 0), new Vector3d(2000.0),
+			var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0, 0, 0), new Vector3d(2000.0),
 				new Vector3d(0));
 			sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SUN_LAVAFLOW);
 			World.AddToWorld(sun);
@@ -53,13 +53,13 @@ namespace Game.Window {
 			var ship = new SpaceShip {
 				TransformComponent = {
 					Scale = new Vector3d(0.02f),
-					Position = startingPoint - new Vector3d(9000, 0, 0),
+					Position = startingPoint,
 					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0)
 				}
 			};
 			World.AddToWorld(ship);
 
-			generateMetalChunks();
+			GenerateMetalChunks();
 
 			var blackHole = new BlackHole {
 				TransformComponent = {
@@ -134,11 +134,11 @@ namespace Game.Window {
 		/// <summary>
 		/// this method populates the world with metal chunks
 		/// </summary>
-		private void generateMetalChunks() {
+		private void GenerateMetalChunks() {
 			//use MetalChunkFactory to generate more instances
 			MetalChunkFactory.GenerateLine(startingPoint + new Vector3d(500, 0, 1000), startingPoint + new Vector3d(500, 800, 1000), MetalType.Bronze, 10);
 
-			MetalChunkFactory.GenerateRing(new Vector3d(0, 0, 0), new Vector3d(Math.PI / 4, 0, Math.PI / 4), MetalType.Gold, 32, 500, 40);
+			MetalChunkFactory.GenerateRing(startingPoint + new Vector3d(200, 0, 0), new Vector3d(0, 0, 45), MetalType.Gold, 10, 100);
 			
 			//MetalChunkFactory.GenerateEye(startingPoint + new Vector3d(0, 200, 0),new Vector3d(45,90,0),MetalType.Silver, 16, 100.0, MetalType.Gold);
 		}
