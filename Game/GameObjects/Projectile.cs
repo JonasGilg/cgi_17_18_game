@@ -5,30 +5,35 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
+using Engine.Util;
 
 namespace Game.GameObjects {
     public class Projectile : GameObject{
+        private static readonly Model3D MODEL = ModelLoaderObject3D.Load("data/objects/asteroids/asteroid_0.obj");
+        private static readonly MaterialSettings MATERIAL_SETTINGS = new MaterialSettings {
+            ColorTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png"),
+            Shininess = 1
+        };
+
         public readonly MoveComponent MoveComponent;
         private readonly RenderComponent renderComponent;
         public readonly SphereCollider CollisionComponent;
+
 
         public Projectile() {
             MoveComponent = new MoveComponent(this);
             
             //TODO modify renderComponent
             renderComponent = new RenderComponent(
-                ModelLoaderObject3D.Load("data/objects/asteroids/asteroid_0.obj"),
+                MODEL,
                 MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
-                new MaterialSettings {
-                    ColorTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png"),
-                    Shininess = 1
-                },
+                MATERIAL_SETTINGS,
                 this
             );
             RenderEngine.RegisterRenderComponent(renderComponent);
             
             CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
-                Console.WriteLine("Projectile hit " + collision.otherGameObject.ToString());
+                IO.PrintAsync("Projectile hit " + collision.otherGameObject.ToString());
                 switch (collision.otherGameObject) {
                     case Asteroid asteroid:
                         asteroid.hp--;

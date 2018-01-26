@@ -2,6 +2,7 @@
 using Engine;
 using Engine.Component;
 using Engine.Render;
+using Engine.Util;
 using Game.GameObjects;
 using OpenTK;
 using OpenTK.Input;
@@ -16,7 +17,7 @@ namespace Game.Components {
 
         public override void Update() {
             if (Keyboard.Pressed(Key.F)) {
-                Console.WriteLine("FIRING!");
+                IO.PrintAsync("FIRING!");
                 var projectile = new Projectile {
                     TransformComponent = {
                         Scale = new Vector3d(5),
