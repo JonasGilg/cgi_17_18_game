@@ -12,6 +12,17 @@ namespace Game.GameObjects {
 		private readonly RenderComponent renderComponent;
 		public readonly SphereCollider CollisionComponent;
 
+		private int _hp = 3;
+		public int hp {
+			get => _hp;
+			set {
+				_hp = value;
+				if (_hp <= 0) {
+					Destroy();
+				}
+			}
+		}
+
 		public Asteroid(Model3D model, int textureId, GameObject referenceObject = null) {
 			MoveComponent = referenceObject != null ? new GravityMovement(this, 0.0) : new MoveComponent(this);
 			

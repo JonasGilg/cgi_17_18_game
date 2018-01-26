@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Components\ArcadeMoveInputComponent.cs" />
     <Compile Include="Components\BounceMaterial.cs" />
+    <Compile Include="Components\FiringComponent.cs" />
     <Compile Include="Components\GravityMovement.cs" />
     <Compile Include="Components\MoveInputComponent.cs" />
     <Compile Include="Components\RLMoveInputComponent.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="GameObjects\MetalChunk.cs" />
     <Compile Include="GameObjects\MetalChunkShape.cs" />
     <Compile Include="GameObjects\Planet.cs" />
+    <Compile Include="GameObjects\Projectile.cs" />
     <Compile Include="GameObjects\SpaceShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\AsteroidFactory.cs" />
