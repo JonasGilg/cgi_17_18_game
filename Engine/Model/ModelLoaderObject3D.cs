@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using OpenTK;
 
 namespace Engine.Model {
@@ -17,7 +19,7 @@ namespace Engine.Model {
 			var vn = new List<Vector3>();
 
 			var input = File.ReadLines(filePath);
-
+			
 			foreach (var line in input) {
 				var parts = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 				if (parts.Length > 0) {

@@ -1,6 +1,7 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
+using System.Threading;
+using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
@@ -36,15 +37,22 @@ namespace Engine.Texture {
 			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.TextureCubeMap, textureID);
 
-			for (var i = 0; i < faces.Length; i++) {
+			var bmpData = new BitmapData[faces.Length];
+
+			var loop = Parallel.For(0, faces.Length, i => {
 				var bmp = new Bitmap(faces[i]);
-				var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
+				bmpData[i] = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
 					PixelFormat.Format32bppArgb);
 				bmp.Dispose();
+			});
 
-				GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i, 0, PixelInternalFormat.Rgba, bmpData.Width, bmpData.Height,
-					0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
+			while (!loop.IsCompleted) Thread.Yield();
+
+			for (var i = 0; i < faces.Length; i++) {
+				GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i, 0, PixelInternalFormat.Rgba, bmpData[i].Width, bmpData[i].Height,
+					0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData[i].Scan0);
 			}
+
 
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int) TextureMinFilter.Linear);
@@ -63,36 +71,25 @@ namespace Engine.Texture {
 			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.TextureCubeMap, textureID);
 
-			for (var i = 0; i < 9; i++) {
-				for (var o = 0; o < 6; o++) {
-					TextureTarget target;
-					switch (o) {
-						case 0:
-							target = TextureTarget.TextureCubeMapPositiveX;
-							break;
-						case 1:
-							target = TextureTarget.TextureCubeMapNegativeX;
-							break;
-						case 2:
-							target = TextureTarget.TextureCubeMapPositiveY;
-							break;
-						case 3:
-							target = TextureTarget.TextureCubeMapNegativeY;
-							break;
-						case 4:
-							target = TextureTarget.TextureCubeMapPositiveZ;
-							break;
-						default:
-							target = TextureTarget.TextureCubeMapNegativeZ;
-							break;
-					}
+			const int numTextures = 9 * 6;
+			
+			var bmpData = new BitmapData[numTextures];
 
-					var fileName = baseName + "_m0" + i.ToString() + "_c0" + o.ToString() + "." + fileType;
-					var bmp = new Bitmap(fileName);
-					var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+			var loop = Parallel.For(0, numTextures, l => {
+				var i = l / 6;
+				var o = l % 6;
 
-					GL.TexImage2D(target, i, PixelInternalFormat.Rgba, bmpData.Width, bmpData.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
-				}
+				var fileName = baseName + "_m0" + i.ToString() + "_c0" + o.ToString() + "." + fileType;
+				var bmp = new Bitmap(fileName);
+				bmpData[l] = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+			});
+
+			while (!loop.IsCompleted) Thread.Yield();
+
+			for (var l = 0; l < numTextures; l++) {
+				var i = l / 6;
+				var o = l % 6;
+				GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + o, i, PixelInternalFormat.Rgba, bmpData[l].Width, bmpData[l].Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData[l].Scan0);
 			}
 
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.LinearMipmapLinear);
@@ -116,34 +113,18 @@ namespace Engine.Texture {
 			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.TextureCubeMap, textureID);
 
-			for (var o = 0; o < 6; o++) {
-				TextureTarget target;
-				switch (o) {
-					case 0:
-						target = TextureTarget.TextureCubeMapPositiveX;
-						break;
-					case 1:
-						target = TextureTarget.TextureCubeMapNegativeX;
-						break;
-					case 2:
-						target = TextureTarget.TextureCubeMapPositiveY;
-						break;
-					case 3:
-						target = TextureTarget.TextureCubeMapNegativeY;
-						break;
-					case 4:
-						target = TextureTarget.TextureCubeMapPositiveZ;
-						break;
-					default:
-						target = TextureTarget.TextureCubeMapNegativeZ;
-						break;
-				}
+			var bmpData = new BitmapData[6];
 
-				var fileName = baseName + "_c0" + o.ToString() + "." + fileType;
+			var loop = Parallel.For(0, 6, i => {
+				var fileName = baseName + "_c0" + i.ToString() + "." + fileType;
 				var bmp = new Bitmap(fileName);
-				var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+				bmpData[i] = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+			});
 
-				GL.TexImage2D(target, 0, PixelInternalFormat.Rgba, bmpData.Width, bmpData.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
+			while (!loop.IsCompleted) Thread.Yield();
+
+			for (var i = 0; i < 6; i++) {
+				GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i, 0, PixelInternalFormat.Rgba, bmpData[i].Width, bmpData[i].Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData[i].Scan0);
 			}
 
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
