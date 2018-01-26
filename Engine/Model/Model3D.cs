@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,9 +54,9 @@ namespace Engine.Model {
 			var allData = new float[positions.Count * size];
 			
 			// "interleaved" means position, normal and uv in one block for each vertex
-			var loop = Parallel.For(0, positions.Count, i => {
+			Parallel.For(0, positions.Count, i => {
 				var pos = i * size;
-				
+
 				allData[pos++] = positions[i].X;
 				allData[pos++] = positions[i].Y;
 				allData[pos++] = positions[i].Z;
@@ -74,9 +75,8 @@ namespace Engine.Model {
 				allData[pos++] = biTangents[i].X;
 				allData[pos++] = biTangents[i].Y;
 				allData[pos] = biTangents[i].Z;
+		
 			});
-
-			while (!loop.IsCompleted) Thread.Yield();
 
 			// generate the VBO for the "interleaved" data
 			GL.GenBuffers(1, out int allBufferVBO);

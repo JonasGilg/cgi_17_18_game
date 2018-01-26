@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Engine.Render;
 using OpenTK;
 
@@ -183,7 +185,6 @@ namespace Engine {
 
 				planes[i] = plane;
 			}
-			
 		}
 
 		private double SignedDistanceToPoint(int planeID, Vector3d pt) => Vector3d.Dot(planes[planeID].Normal, pt) + planes[planeID].D;

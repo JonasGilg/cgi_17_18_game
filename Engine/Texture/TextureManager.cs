@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,20 +41,17 @@ namespace Engine.Texture {
 
 			var bmpData = new BitmapData[faces.Length];
 
-			var loop = Parallel.For(0, faces.Length, i => {
+			Parallel.For(0, faces.Length, i => {
 				var bmp = new Bitmap(faces[i]);
 				bmpData[i] = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
 					PixelFormat.Format32bppArgb);
 				bmp.Dispose();
 			});
 
-			while (!loop.IsCompleted) Thread.Yield();
-
 			for (var i = 0; i < faces.Length; i++) {
 				GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i, 0, PixelInternalFormat.Rgba, bmpData[i].Width, bmpData[i].Height,
 					0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData[i].Scan0);
 			}
-
 
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
 			GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int) TextureMinFilter.Linear);
@@ -75,7 +74,7 @@ namespace Engine.Texture {
 			
 			var bmpData = new BitmapData[numTextures];
 
-			var loop = Parallel.For(0, numTextures, l => {
+			Parallel.For(0, numTextures, l => {
 				var i = l / 6;
 				var o = l % 6;
 
@@ -83,8 +82,6 @@ namespace Engine.Texture {
 				var bmp = new Bitmap(fileName);
 				bmpData[l] = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
 			});
-
-			while (!loop.IsCompleted) Thread.Yield();
 
 			for (var l = 0; l < numTextures; l++) {
 				var i = l / 6;
@@ -115,13 +112,11 @@ namespace Engine.Texture {
 
 			var bmpData = new BitmapData[6];
 
-			var loop = Parallel.For(0, 6, i => {
+			Parallel.For(0, 6, i => {
 				var fileName = baseName + "_c0" + i.ToString() + "." + fileType;
 				var bmp = new Bitmap(fileName);
 				bmpData[i] = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
 			});
-
-			while (!loop.IsCompleted) Thread.Yield();
 
 			for (var i = 0; i < 6; i++) {
 				GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i, 0, PixelInternalFormat.Rgba, bmpData[i].Width, bmpData[i].Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData[i].Scan0);

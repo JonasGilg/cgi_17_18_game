@@ -48,7 +48,6 @@ namespace Game.Utils {
 			//TODO every planet gets tagged now. But we need a List of Planets at some time anyways...  :)
 			HUD.AddHudObjectMarker(HUD.CreateHudObjectMarker(planet));
 			
-			
 			for (var i = 0; i < numberAsteroids; i++) {
 				var asteroid = AsteroidFactory.GenerateGravityAsteroid(asteroidType, planet);
 

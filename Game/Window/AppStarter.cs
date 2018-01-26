@@ -68,6 +68,7 @@ namespace Game.Window {
 					Orientation = Quaterniond.Identity
 				}
 			};
+			
 			World.AddToWorld(blackHole);
 
 			GL.Enable(EnableCap.DepthTest);
