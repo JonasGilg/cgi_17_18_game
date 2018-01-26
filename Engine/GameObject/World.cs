@@ -20,6 +20,7 @@ namespace Engine {
 			TimingRegistry.AddUpdateTiming(UPDATE_STATS);
 			TimingRegistry.AddRenderTiming(RENDER_STATS);
 		}
+		
 
 		public static void UpdateWorld() {
 			UPDATE_STATS.Start();

@@ -1,9 +1,10 @@
-﻿using Engine.GUI;
+﻿using System;
+using Engine.GUI;
 using Engine.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace Engine.Material.Billboard {
+namespace Engine.Render.Billboard {
 	public static class HudObjectMarkerRenderer {
 		private static int PROGRAM;
 
@@ -14,6 +15,7 @@ namespace Engine.Material.Billboard {
 		}
 
 		public static void Draw(HudObjectMarker objectMarker) {
+			
 			
 		}
 	}

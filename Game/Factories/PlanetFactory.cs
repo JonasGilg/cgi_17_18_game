@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine;
+using Engine.GUI;
 using Engine.Texture;
 using Game.Components;
 using Game.GameObjects;
@@ -43,7 +44,11 @@ namespace Game.Utils {
 			//TODO randomize angle, distance, speed, size, etc
 			var planet = GeneratePlanet(planetTexture, position, scale, rotation);
 
-
+			
+			//TODO every planet gets tagged now. But we need a List of Planets at some time anyways...  :)
+			HUD.AddHudObjectMarker(HUD.CreateHudObjectMarker(planet));
+			
+			
 			for (var i = 0; i < numberAsteroids; i++) {
 				var asteroid = AsteroidFactory.GenerateGravityAsteroid(asteroidType, planet);
 

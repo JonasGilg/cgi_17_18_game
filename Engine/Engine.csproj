@@ -151,8 +151,12 @@
     <Content Include="PostProcessing\Blur\BlurVertical_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Render\Billboard\Billboard_FS.glsl" />
-    <Content Include="Render\Billboard\Billboard_VS.glsl" />
+    <Content Include="Render\Billboard\Billboard_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Billboard\Billboard_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Render\Material\BlackHole\BlackHole_FS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

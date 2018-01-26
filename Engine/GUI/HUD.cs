@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using Engine.Material.Billboard;
 using Engine.Render;
+using Engine.Render.Billboard;
+using Engine.Texture;
 using OpenTK;
 
 namespace Engine.GUI {
@@ -10,12 +11,18 @@ namespace Engine.GUI {
 		private static int elementCounter;
 		private static readonly TimingStats RENDER_STATS = new TimingStats("HUD");
 
+		//TODO this is temporarely
+		
 		static HUD() {
 			TimingRegistry.AddRenderTiming(RENDER_STATS);
+			
 		}
 		
 		// START: OBJECT MARKER 
-		public static HudObjectMarker CreateHudObjectMarker(GameObject gameObject, int textureId) => new HudObjectMarker(elementCounter++,gameObject, textureId);
+		public static HudObjectMarker CreateHudObjectMarker(GameObject gameObject) {
+			int OBJECT_MARKER_TEXTURE_ID = TextureManager.LoadTexture("data/textures/billboard/planet_tag.png");
+			return new HudObjectMarker(elementCounter++, gameObject, OBJECT_MARKER_TEXTURE_ID);
+		}
 
 		public static void AddHudObjectMarker(HudObjectMarker objectMarker) =>
 			HUD_OBJECT_MARKER_ELEMENTS.Add(objectMarker.id, objectMarker);
