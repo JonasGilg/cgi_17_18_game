@@ -60,8 +60,7 @@ namespace Engine {
 		public static void UnregisterCollisionComponent(CollisionComponent component) => COLLISION_COMPONENTS.Remove(component);
 
 		private static void CheckCollisions() {
-			//TODO the collision handling may need to be handled after the parallel collision check
-			Parallel.For(0, COLLISION_COMPONENTS.Count, i => {
+			for (int i = 0; i < COLLISION_COMPONENTS.Count; i++) {
 				var currObj = COLLISION_COMPONENTS[i];
 				for (var j = 0; j < COLLISION_COMPONENTS.Count; j++) {
 					if (i != j) {
@@ -75,7 +74,7 @@ namespace Engine {
 						}
 					}
 				}
-			});
+			}
 		}
 	}
 }

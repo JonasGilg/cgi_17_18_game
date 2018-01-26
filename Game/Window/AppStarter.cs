@@ -3,6 +3,7 @@ using Engine;
 using Engine.GUI;
 using Engine.Material;
 using Engine.Render;
+ using Engine.Util;
  using Game.GameObjects;
 using Game.Utils;
 using OpenTK;
@@ -104,7 +105,7 @@ namespace Game.Window {
 			}
 
 #if(DEBUG)
-//Console.Out.WriteLine(TimingRegistry.GetStatsText());
+IO.PrintAsync(TimingRegistry.GetStatsText());
 #endif
 
 			World.UpdateWorld();
