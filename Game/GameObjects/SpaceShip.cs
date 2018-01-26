@@ -13,7 +13,7 @@ using Keyboard = Engine.Input.Keyboard;
 
 namespace Game.GameObjects {
 	public class SpaceShip : GameObject {
-		private readonly MoveComponent moveComponent;
+		public readonly MoveComponent moveComponent;
 		private readonly CameraComponent cameraComponent;
 		private readonly RenderComponent renderComponent;
 		private readonly MoveInputComponent moveInputComponent;

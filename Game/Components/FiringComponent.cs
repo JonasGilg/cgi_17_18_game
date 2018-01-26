@@ -17,7 +17,6 @@ namespace Game.Components {
         public override void Update() {
             if (Keyboard.Pressed(Key.F)) {
                 Console.WriteLine("FIRING!");
-                Console.WriteLine();
                 var projectile = new Projectile {
                     TransformComponent = {
                         Scale = new Vector3d(5),
@@ -25,7 +24,8 @@ namespace Game.Components {
                         Orientation = Quaterniond.Identity
                     },
                     MoveComponent = {
-                        LinearVelocity = GameObject.TransformComponent.Orientation.Rotate(Vector3d.UnitX * 500)
+                        LinearVelocity = GameObject.TransformComponent.Orientation.Rotate(Vector3d.UnitX * 500) +
+                                         ((SpaceShip) GameObject).moveComponent.LinearVelocity
                     }
                 };
                 World.AddToWorld(projectile);
