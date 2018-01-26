@@ -18,6 +18,7 @@ namespace Game.GameObjects {
 		private readonly RenderComponent renderComponent;
 		private readonly MoveInputComponent moveInputComponent;
 		public readonly SphereCollider CollisionComponent;
+		private readonly FiringComponent firingComponent;
 
 		private readonly HudTextElement speed;
 		private readonly HudTextElement position;
@@ -79,6 +80,8 @@ namespace Game.GameObjects {
 			DisplayCamera.SetActiveCamera(cameraComponent);
 
 			moveInputComponent = new ArcadeMoveInputComponent(this, TransformComponent, moveComponent);
+			
+			firingComponent = new FiringComponent(this);
 		}
 
 		public override void Update() {
@@ -88,6 +91,7 @@ namespace Game.GameObjects {
 			renderComponent.Update();
 			//Console.Out.WriteLine(renderComponent.AABB.Center.ToString());
 			cameraComponent.Update();
+			firingComponent.Update();
 
 			if (Keyboard.Released(Key.Keypad1)) {
 				renderComponent.Material = MaterialManager.GetMaterial(Material.NORMAL_MAPPING);

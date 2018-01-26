@@ -14,6 +14,17 @@ namespace Game.GameObjects {
 		public readonly MoveComponent MoveComponent;
 		public readonly CollisionComponent CollisionComponent;
 
+		private int _hp = 10;
+		public int hp {
+			get => _hp;
+			set {
+				_hp = value;
+				if (_hp <= 0) {
+					Destroy();
+				}
+			}
+		}
+
 		public Planet(int textureId, GameObject referenceObject = null) {
 			RenderComponent = new RenderComponent(
 				PLANET_MODEL,
@@ -50,6 +61,16 @@ namespace Game.GameObjects {
 			MoveComponent.Update();
 			base.Update();
 			RenderComponent.Update();
+		}
+		
+		public override void Destroy() {
+			base.Destroy();
+			RenderEngine.UnregisterRenderComponent(RenderComponent);
+			CollisionComponent.Unregister();
+		}
+
+		public override void OnDestroy() {
+			//TODO BIIIG explosion
 		}
 
 		public override string ToString() {
