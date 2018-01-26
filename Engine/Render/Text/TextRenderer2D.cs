@@ -27,6 +27,7 @@ namespace Engine.Render {
 			var uvs = new List<Vector2>();
 
 			var currX = 0.0f;
+			//TODO can be parallized
 			for (var i = 0; i < text.Length; i++) {
 
 				Font.Rectangle charDimensions;
