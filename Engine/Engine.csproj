@@ -76,7 +76,6 @@
     <Compile Include="PostProcessing\Blur\BlurHorizontalMaterial.cs" />
     <Compile Include="PostProcessing\Blur\BlurVerticalMaterial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Render\Billboard\HudObjectMarkerRenderer.cs" />
     <Compile Include="Render\Component\RenderComponent.cs" />
     <Compile Include="Render\DeferredRendering.cs" />
     <Compile Include="Render\Material\BlackHole\BlackHoleMaterial.cs" />
@@ -85,6 +84,9 @@
     <Compile Include="Render\Material\PostProcessing\TestEffect.cs" />
     <Compile Include="Render\Material\SunLavaflow\SunLavaflowMaterial.cs" />
     <Compile Include="Render\DebugDrawing\BoxDrawing\HitBox.cs" />
+    <Compile Include="Render\ObjectMarker\HudObjectMarkerRenderer.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Render\RenderEngine.cs" />
     <Compile Include="Render\Skybox\Skybox.cs" />
     <Compile Include="Render\Text\Font.cs" />
@@ -151,12 +153,6 @@
     <Content Include="PostProcessing\Blur\BlurVertical_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Render\Billboard\Billboard_FS.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Render\Billboard\Billboard_VS.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Render\Material\BlackHole\BlackHole_FS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -173,6 +169,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Render\Material\SunLavaflow\SunLavaflow_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\ObjectMarker\ObjectMarker_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\ObjectMarker\ObjectMarker_GS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\ObjectMarker\ObjectMarker_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Render\Skybox\Skybox_FS.glsl">
@@ -205,6 +210,9 @@
     <Content Include="Render\Material\Simpletexture\Simple_VS.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Render\Billboard" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
