@@ -18,10 +18,11 @@ namespace Game.Components {
         public override void Update() {
             if (Keyboard.Pressed(Key.F)) {
                 IO.PrintAsync("FIRING!");
+                //var shipRadius = GameObject.Radius / GameObject.TransformComponent.Scale.X; // the radius of the ship must be scaled back
                 var projectile = new Projectile {
                     TransformComponent = {
-                        Scale = new Vector3d(5),
-                        Position = GameObject.TransformComponent.Position,
+                        Position = GameObject.TransformComponent.Position +
+                                   GameObject.TransformComponent.Orientation.Rotate(new Vector3d(GameObject.Radius,0,0)),
                         Orientation = Quaterniond.Identity
                     },
                     MoveComponent = {
@@ -30,6 +31,7 @@ namespace Game.Components {
                     }
                 };
                 World.AddToWorld(projectile);
+                projectile.DestroyAfter(10000);
             }
         }
     }

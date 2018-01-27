@@ -5,14 +5,16 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
+using OpenTK;
 
 namespace Game.GameObjects {
     
     public enum MetalType {
-        Charcoal,Bronze, Silver, Gold
+        Charcoal, Copper, Silver, Gold
     }
     
     public class MetalChunk : GameObject {
+        private static readonly Model3D Model = ModelLoaderObject3D.Load("data/objects/asteroids/asteroid_0.obj");
         private readonly RenderComponent renderComponent;
         public readonly SphereCollider CollisionComponent;
         public int points;
@@ -23,7 +25,7 @@ namespace Game.GameObjects {
                 case MetalType.Charcoal:
                     points = -5;
                     break;
-                case MetalType.Bronze:
+                case MetalType.Copper:
                     points = 1;
                     break;
                 case MetalType.Silver:
@@ -35,11 +37,13 @@ namespace Game.GameObjects {
             }
             //TODO modify renderComponent according to type
             renderComponent = new RenderComponent(
-                ModelLoaderObject3D.Load("data/objects/asteroids/asteroid_0.obj"),
+                Model,
                 MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
                 new MaterialSettings {
                     ColorTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png"),
-                    Shininess = 1
+                    Shininess = 1/*,
+                    MetalnessTexture = TextureManager.LoadTexture("data/textures/pbr/" + type.ToString().ToLower() + "-metalness.png"),
+                    RoughnessTexture = TextureManager.LoadTexture("data/textures/pbr/" + type.ToString().ToLower() + "-roughness.png")*/
                 },
                 this
             );

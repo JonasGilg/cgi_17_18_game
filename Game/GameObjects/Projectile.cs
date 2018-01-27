@@ -9,9 +9,9 @@ using Engine.Util;
 
 namespace Game.GameObjects {
     public class Projectile : GameObject{
-        private static readonly Model3D MODEL = ModelLoaderObject3D.Load("data/objects/asteroids/asteroid_0.obj");
+        private static readonly Model3D MODEL = ModelLoaderObject3D.Load("data/objects/Planet.obj");
         private static readonly MaterialSettings MATERIAL_SETTINGS = new MaterialSettings {
-            ColorTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png"),
+            ColorTexture = TextureManager.LoadTexture("data/textures/powerfulred.png"),
             Shininess = 1
         };
 

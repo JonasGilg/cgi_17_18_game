@@ -52,6 +52,7 @@
     <Compile Include="Components\GravityMovement.cs" />
     <Compile Include="Components\MoveInputComponent.cs" />
     <Compile Include="Components\RLMoveInputComponent.cs" />
+    <Compile Include="Factories\LevelGenerator.cs" />
     <Compile Include="Factories\MetalChunkFactory.cs" />
     <Compile Include="Factories\PlanetFactory.cs" />
     <Compile Include="GameObjects\Asteroid.cs" />
@@ -324,6 +325,18 @@
     <Content Include="data\textures\NormalMap.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\textures\pbr\charcoal_basecolor.png" />
+    <Content Include="data\textures\pbr\charcoal_metalness.png" />
+    <Content Include="data\textures\pbr\charcoal_roughness.png" />
+    <Content Include="data\textures\pbr\copper_basecolor.png" />
+    <Content Include="data\textures\pbr\copper_metalness.png" />
+    <Content Include="data\textures\pbr\copper_roughness.png" />
+    <Content Include="data\textures\pbr\gold_basecolor.png" />
+    <Content Include="data\textures\pbr\gold_metalness.png" />
+    <Content Include="data\textures\pbr\gold_roughness.png" />
+    <Content Include="data\textures\pbr\silver_basecolor.png" />
+    <Content Include="data\textures\pbr\silver_metalness.png" />
+    <Content Include="data\textures\pbr\silver_roughness.png" />
     <Content Include="data\textures\planets\2k_jupiter.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -333,6 +346,7 @@
     <Content Include="data\textures\planets\neptunemap.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\textures\powerfulred.png" />
     <Content Include="data\textures\shadow_color.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
