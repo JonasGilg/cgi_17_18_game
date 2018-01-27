@@ -2,6 +2,7 @@
 using Engine;
 using Engine.Component;
 using Engine.Render;
+using Engine.Util;
 using Game.GameObjects;
 using OpenTK;
 using OpenTK.Input;
@@ -16,11 +17,12 @@ namespace Game.Components {
 
         public override void Update() {
             if (Keyboard.Pressed(Key.F)) {
-                Console.WriteLine("FIRING!");
+                IO.PrintAsync("FIRING!");
+                //var shipRadius = GameObject.Radius / GameObject.TransformComponent.Scale.X; // the radius of the ship must be scaled back
                 var projectile = new Projectile {
                     TransformComponent = {
-                        Scale = new Vector3d(5),
-                        Position = GameObject.TransformComponent.Position,
+                        Position = GameObject.TransformComponent.Position +
+                                   GameObject.TransformComponent.Orientation.Rotate(new Vector3d(GameObject.Radius,0,0)),
                         Orientation = Quaterniond.Identity
                     },
                     MoveComponent = {
@@ -29,6 +31,7 @@ namespace Game.Components {
                     }
                 };
                 World.AddToWorld(projectile);
+                projectile.DestroyAfter(10000);
             }
         }
     }

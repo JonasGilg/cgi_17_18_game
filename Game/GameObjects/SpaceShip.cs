@@ -23,7 +23,7 @@ namespace Game.GameObjects {
 		private readonly HudTextElement speed;
 		private readonly HudTextElement position;
 
-		//TODO implement invulnerability for collision with planet and asteroids + blinking effect
+		//TODO implement invulnerability for collision with planet and asteroids + blinking effect?
 		public const int invulnerabilityTime = 2000; //milliseconds
 		
 		public const int maxHP = 5;
@@ -110,7 +110,7 @@ namespace Game.GameObjects {
 
 		public override void Awake() {
 			base.Awake();
-			Radius = renderComponent.Model.Radius(TransformComponent.Scale);
+			Radius = renderComponent.Model.Radius(Vector3d.One);
 			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
 		}
 		

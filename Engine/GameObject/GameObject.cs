@@ -1,4 +1,5 @@
-﻿using Engine.Component;
+﻿using System.Threading.Tasks;
+using Engine.Component;
 using Engine.Render;
 
 namespace Engine {
@@ -21,6 +22,11 @@ namespace Engine {
 		/// </summary>
 		public virtual void Destroy() {
 			OnDestroy();
+		}
+
+		public async void DestroyAfter(int millis) {
+			await Task.Delay(millis);
+			Destroy();
 		}
 		
 		/// <summary>

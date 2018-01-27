@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Engine.Material;
 using Engine.Render;
 using Engine.Render.Skybox;
@@ -14,13 +17,13 @@ namespace Engine {
 		//stats
 		private static readonly TimingStats UPDATE_STATS = new TimingStats("World");
 		private static readonly TimingStats RENDER_STATS = new TimingStats("World");
-		
+
 
 		static World() {
 			TimingRegistry.AddUpdateTiming(UPDATE_STATS);
 			TimingRegistry.AddRenderTiming(RENDER_STATS);
 		}
-		
+
 
 		public static void UpdateWorld() {
 			UPDATE_STATS.Start();
@@ -28,6 +31,7 @@ namespace Engine {
 			for (var i = 0; i < OBJECTS.Count; i++) {
 				OBJECTS[i].Update();
 			}
+
 			//check for collision
 			CheckCollisions();
 
@@ -38,10 +42,10 @@ namespace Engine {
 			RENDER_STATS.Start();
 
 			//TODO better perfomance possible if skybox is rendered last (that needs a refactoring of the shader though)
-			Skybox.Draw();			
+			Skybox.Draw();
 			RenderEngine.Draw();
 			PostProcessing.DrawMaterials();
-			
+
 			RENDER_STATS.Stop();
 		}
 
@@ -56,7 +60,7 @@ namespace Engine {
 		public static void UnregisterCollisionComponent(CollisionComponent component) => COLLISION_COMPONENTS.Remove(component);
 
 		private static void CheckCollisions() {
-			for (var i = 0; i < COLLISION_COMPONENTS.Count; i++) {
+			for (int i = 0; i < COLLISION_COMPONENTS.Count; i++) {
 				var currObj = COLLISION_COMPONENTS[i];
 				for (var j = 0; j < COLLISION_COMPONENTS.Count; j++) {
 					if (i != j) {

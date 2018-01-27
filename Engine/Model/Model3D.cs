@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 using Engine.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -44,30 +48,35 @@ namespace Engine.Model {
 
 		// generates the Vartex-Array-Objekt
 		public void CreateVAO() {
+			const int size = 14;
+			
 			// list of the complete vertex data
-			var allData = new List<float>();
-
+			var allData = new float[positions.Count * size];
+			
 			// "interleaved" means position, normal and uv in one block for each vertex
-			for (var i = 0; i < positions.Count; i++) {
-				allData.Add(positions[i].X);
-				allData.Add(positions[i].Y);
-				allData.Add(positions[i].Z);
+			Parallel.For(0, positions.Count, i => {
+				var pos = i * size;
 
-				allData.Add(normals[i].X);
-				allData.Add(normals[i].Y);
-				allData.Add(normals[i].Z);
+				allData[pos++] = positions[i].X;
+				allData[pos++] = positions[i].Y;
+				allData[pos++] = positions[i].Z;
 
-				allData.Add(uVs[i].X);
-				allData.Add(uVs[i].Y);
+				allData[pos++] = normals[i].X;
+				allData[pos++] = normals[i].Y;
+				allData[pos++] = normals[i].Z;
 
-				allData.Add(tangents[i].X);
-				allData.Add(tangents[i].Y);
-				allData.Add(tangents[i].Z);
+				allData[pos++] = uVs[i].X;
+				allData[pos++] = uVs[i].Y;
 
-				allData.Add(biTangents[i].X);
-				allData.Add(biTangents[i].Y);
-				allData.Add(biTangents[i].Z);
-			}
+				allData[pos++] = tangents[i].X;
+				allData[pos++] = tangents[i].Y;
+				allData[pos++] = tangents[i].Z;
+
+				allData[pos++] = biTangents[i].X;
+				allData[pos++] = biTangents[i].Y;
+				allData[pos] = biTangents[i].Z;
+		
+			});
 
 			// generate the VBO for the "interleaved" data
 			GL.GenBuffers(1, out int allBufferVBO);
@@ -76,7 +85,7 @@ namespace Engine.Model {
 			GL.BindBuffer(BufferTarget.ArrayBuffer, allBufferVBO);
 
 			// Data is uploaded to graphics memory
-			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr) (allData.Count * sizeof(float)), allData.ToArray(),
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr) (allData.Length * sizeof(float)), allData,
 				BufferUsageHint.StaticDraw);
 
 			// BindBuffer to 0, so the following commands do not overwrite the current vbo (state machine)

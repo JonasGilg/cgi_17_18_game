@@ -51,7 +51,6 @@ namespace Game.Utils {
 			
 			
 			
-			
 			for (var i = 0; i < numberAsteroids; i++) {
 				var asteroid = AsteroidFactory.GenerateGravityAsteroid(asteroidType, planet);
 

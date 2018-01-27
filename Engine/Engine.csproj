@@ -103,6 +103,7 @@
     <Compile Include="Util\DataStructure\IOctree.cs" />
     <Compile Include="Util\DataStructure\RecusiveOctree.cs" />
     <Compile Include="Util\Input.cs" />
+    <Compile Include="Util\IO.cs" />
     <Compile Include="Util\Math.cs" />
     <Compile Include="Util\Output.cs" />
     <Compile Include="Util\ShaderCompiler.cs" />
