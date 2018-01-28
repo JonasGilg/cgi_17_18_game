@@ -35,6 +35,9 @@ namespace Game.Utils {
 				MoveComponent = {AngularVelocity = rotation}
 			};
 
+			//TODO every planet gets tagged now. But we need a List of Planets at some time anyways...  :)
+			HUD.AddHudObjectMarker(HUD.CreateHudObjectMarker(result));
+
 			return result;
 		}
 
@@ -45,8 +48,8 @@ namespace Game.Utils {
 			var planet = GeneratePlanet(planetTexture, position, scale, rotation);
 
 			
-			//TODO every planet gets tagged now. But we need a List of Planets at some time anyways...  :)
-			HUD.AddHudObjectMarker(HUD.CreateHudObjectMarker(planet));
+			
+			
 			
 			for (var i = 0; i < numberAsteroids; i++) {
 				var asteroid = AsteroidFactory.GenerateGravityAsteroid(asteroidType, planet);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine;
+using Engine.GUI;
 using Engine.Model;
 using Engine.Texture;
 using Game.GameObjects;
@@ -46,6 +47,9 @@ namespace Game.Utils {
 		public static Asteroid GenerateAsteroid(AsteroidType type) {
 			var textureId = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[type]);
 			var asteroid = new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(), textureId);
+			
+			//TODO REMOVE THIS LINE
+			//HUD.AddHudObjectMarker(HUD.CreateHudObjectMarker(asteroid));
 			return asteroid;
 		}
 
