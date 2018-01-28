@@ -7,8 +7,6 @@ using OpenTK.Graphics.OpenGL;
 namespace Engine.Material {
 	public class SunLavaflowMaterial : BaseMaterial {
 		private readonly int modelviewProjectionMatrixLocation;
-		private readonly int timeLocation;
-		private readonly int resolutionLocation;
 
 		public SunLavaflowMaterial() {
 			// Shader-Programm wird aus den externen Files generiert...
@@ -27,17 +25,10 @@ namespace Engine.Material {
 			// Die Stelle an der im Shader der per "uniform" der Input-Paremeter "modelview_projection_matrix" definiert wird, wird ermittelt.
 			modelviewProjectionMatrixLocation = GL.GetUniformLocation(Program, "modelview_projection_matrix");
 
-			timeLocation = GL.GetUniformLocation(Program, "time");
-			resolutionLocation = GL.GetUniformLocation(Program, "time");
 		}
 
 		protected override void PreDraw() {
 			GL.UseProgram(Program);
-			GL.Uniform1(timeLocation, (float) Time.TotalTime);
-			
-			int width = DisplayDevice.Default.Width;
-			int height = DisplayDevice.Default.Height;
-			GL.Uniform2(resolutionLocation,new Vector2(width,height));
 		}
 
 		protected override void PostDraw() {
