@@ -36,7 +36,7 @@ namespace Game.Utils {
 			};
 
 			//TODO every planet gets tagged now. But we need a List of Planets at some time anyways...  :)
-			HUD.AddHudObjectMarker(HUD.CreateHudObjectMarker(result));
+			
 
 			return result;
 		}

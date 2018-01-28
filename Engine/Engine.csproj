@@ -87,6 +87,7 @@
     <Compile Include="Render\ObjectMarker\HudObjectMarkerRenderer.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Render\ObjectMarker\MarkerData.cs" />
     <Compile Include="Render\RenderEngine.cs" />
     <Compile Include="Render\Skybox\Skybox.cs" />
     <Compile Include="Render\Text\Font.cs" />

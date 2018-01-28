@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Engine.Component;
+using Engine.GUI;
 using Engine.Render;
 
 namespace Engine {
@@ -7,15 +8,18 @@ namespace Engine {
 		public readonly TransformComponent TransformComponent;
 		public double Radius;
 		public Sphere BoundingSphere() => new Sphere(TransformComponent.WorldPosition, Radius);
-
+		public readonly HudObjectMarker objectMarker;
+		
 		protected GameObject() {
 			TransformComponent = new TransformComponent(this);
 			Radius = 0;
 		}
-
+		
 		public virtual void Awake() { }
 
 		public virtual void Update() => TransformComponent.Update();
+		
+		
 
 		/// <summary>
 		/// used to clean up the object (aka Destructor)
@@ -28,6 +32,8 @@ namespace Engine {
 			await Task.Delay(millis);
 			Destroy();
 		}
+		
+		
 		
 		/// <summary>
 		/// hook method to implement behaviour happening at destruction time

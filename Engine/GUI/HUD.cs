@@ -21,7 +21,9 @@ namespace Engine.GUI {
 		// START: OBJECT MARKER 
 		public static HudObjectMarker CreateHudObjectMarker(GameObject gameObject) {
 			//int OBJECT_MARKER_TEXTURE_ID = TextureManager.LoadTexture("data/textures/billboard/planet_tag.png");
-			return new HudObjectMarker(elementCounter++, gameObject /*, OBJECT_MARKER_TEXTURE_ID*/);
+			var marker = new HudObjectMarker(elementCounter++, gameObject /*, OBJECT_MARKER_TEXTURE_ID*/);
+			marker.createVAO();
+			return marker;
 		}
 
 		public static void AddHudObjectMarker(HudObjectMarker objectMarker) =>
