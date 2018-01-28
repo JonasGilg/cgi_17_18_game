@@ -39,13 +39,18 @@ namespace Engine.Render.Billboard {
 
 			var scale =  objectMarker.GameObject.TransformComponent.Scale;
 
+			var translation = objectMarker.GameObject.TransformComponent.WorldMatrix.ExtractTranslation();
+			Matrix4d.CreateTranslation(ref translation, out var translationMatrix);
+			var translationMatrix2 = translationMatrix.ToFloat();
+			
 			var model_to_world = objectMarker.GameObject.TransformComponent.WorldMatrix;
 			var world_to_view = DisplayCamera.Transformation;
 			var view_to_projection = DisplayCamera.PerspectiveProjection.ClearRotation();
 
 			var fullMatrix =   view_to_projection * world_to_view * model_to_world;
-				
-			GL.UniformMatrix4(fullTransformationLocation,false, ref fullMatrix );
+
+			
+			GL.UniformMatrix4(fullTransformationLocation,false, ref translationMatrix);
 			GL.DrawElements(PrimitiveType.Lines, objectMarker.indicies.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
 			GL.BindVertexArray(0);

@@ -13,41 +13,48 @@ namespace Engine.GUI {
 		
 		private static float edgeLength = 0.8f;
 
-		float[] verticies = {
-			 1.0f, 1.0f, 0.0f,
-			 1.0f, edgeLength,0.0f,
-			 1.0f, -edgeLength,0.0f, 
-			 1.0f, -1.0f, 0.0f,
-			
-			 1.0f, -1.0f, 0.0f,
-			 edgeLength, -1.0f, 0.0f,
-			 -edgeLength, -1.0f, 0.0f,
-			 -1.0f, -1.0f, 0.0f,
-			
-			 -1.0f, -1.0f, 0.0f,
-			 -1.0f, -edgeLength, 0.0f,
-			 -1.0f, edgeLength, 0.0f,
-			 -1.0f, 1.0f, 0.0f,
-			
-			 -1.0f, 1.0f, 0.0f,
-			 -edgeLength, 1.0f, 0.0f,
-			 edgeLength, 1.0f, 0.0f,
-			 1.0f, 1.0f, 0.0f
-		};
 
-		public uint[] indicies = {
-			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
-		};
 
-		
 
-		public int vertexBufferSize() => (verticies.Length * Vector3.SizeInBytes);
 
-		public int indexBufferSize() => (indicies.Length * sizeof(uint));
+		public readonly int vertexBufferSize;
+
+		public readonly int indexBufferSize;
+
+		public readonly float[] verticies;
+		public readonly uint[] indicies;
 
 		
 		
 		public HudObjectMarker(int id, GameObject gameObject) {
+			verticies = new float[] {
+				1.0f, 1.0f, 0.0f,
+				1.0f, edgeLength,0.0f,
+				1.0f, -edgeLength,0.0f, 
+				1.0f, -1.0f, 0.0f,
+			
+				1.0f, -1.0f, 0.0f,
+				edgeLength, -1.0f, 0.0f,
+				-edgeLength, -1.0f, 0.0f,
+				-1.0f, -1.0f, 0.0f,
+			
+				-1.0f, -1.0f, 0.0f,
+				-1.0f, -edgeLength, 0.0f,
+				-1.0f, edgeLength, 0.0f,
+				-1.0f, 1.0f, 0.0f,
+			
+				-1.0f, 1.0f, 0.0f,
+				-edgeLength, 1.0f, 0.0f,
+				edgeLength, 1.0f, 0.0f,
+				1.0f, 1.0f, 0.0f
+			};
+
+		 	indicies = new uint[] {
+				0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+			};
+			
+			vertexBufferSize = (verticies.Length * Vector3.SizeInBytes);
+			indexBufferSize = (indicies.Length * sizeof(uint));
 			this.id = id;
 			GameObject = gameObject;
 
@@ -64,7 +71,7 @@ namespace Engine.GUI {
 			GL.BindBuffer(BufferTarget.ArrayBuffer, allBufferVBO);
 
 			// Data is uploaded to graphics memory
-			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr) (verticies.Length * sizeof(float)), verticies,
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr) (vertexBufferSize), verticies,
 				BufferUsageHint.StaticDraw);
 
 			// BindBuffer to 0, so the following commands do not overwrite the current vbo (state machine)
