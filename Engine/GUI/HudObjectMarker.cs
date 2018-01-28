@@ -103,6 +103,8 @@ namespace Engine.GUI {
 			
 			GL.BindVertexArray(0);
 			
+			GL.BindBuffer(BufferTarget.ArrayBuffer,0);
+			
 		}
 		
 		

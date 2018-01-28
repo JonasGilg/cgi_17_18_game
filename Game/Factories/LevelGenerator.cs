@@ -22,6 +22,7 @@ namespace Game.Utils {
             //HUD.AddHudObjectMarker(HUD.CreateHudObjectMarker(sun));
             World.AddToWorld(sun);
             //HUD.AddHudObjectMarker(HUD.CreateHudObjectMarker(sun));
+            //sun.activateMarker();
             
             Light.SetSpotLight(sun.TransformComponent.Position,
                 //           r      g      b      a
@@ -43,7 +44,7 @@ namespace Game.Utils {
             }
 
             planets.First().activateMarker();
-            planets.Last().activateMarker();
+            //planets.Last().activateMarker();
             
 
             //the player

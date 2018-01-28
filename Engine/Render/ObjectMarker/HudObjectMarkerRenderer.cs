@@ -23,10 +23,12 @@ namespace Engine.Render.Billboard {
 				"Render/ObjectMarker/ObjectMarker_FS.glsl",
 				"Render/ObjectMarker/ObjectMarker_GS.glsl"
 				);
-			GL.LinkProgram(PROGRAM);
+			
 			GL.BindAttribLocation(PROGRAM, 0, "position");
+			GL.LinkProgram(PROGRAM);
 			//colorLocation = GL.GetUniformLocation(PROGRAM, "colorVs");
 			fullTransformationLocation = GL.GetUniformLocation(PROGRAM, "fullTransformation");
+			
 			
 		}
 		public static void Draw(HudObjectMarker objectMarker) {
@@ -36,12 +38,17 @@ namespace Engine.Render.Billboard {
 			GL.BindVertexArray(objectMarker.VAO);
 
 			var scale =  objectMarker.GameObject.TransformComponent.Scale;
-			
-			Matrix4d fullMatrix = DisplayCamera.Transformation.ClearRotation() *
-			                      objectMarker.GameObject.TransformComponent.WorldMatrix
-				;
+
+			var model_to_world = objectMarker.GameObject.TransformComponent.WorldMatrix;
+			var world_to_view = DisplayCamera.Transformation;
+			var view_to_projection = DisplayCamera.PerspectiveProjection.ClearRotation();
+
+			var fullMatrix =   view_to_projection * world_to_view * model_to_world;
+				
 			GL.UniformMatrix4(fullTransformationLocation,false, ref fullMatrix );
 			GL.DrawElements(PrimitiveType.Lines, objectMarker.indicies.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
+
+			GL.BindVertexArray(0);
 		}
 		
 

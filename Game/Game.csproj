@@ -346,7 +346,9 @@
     <Content Include="data\textures\planets\neptunemap.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\powerfulred.png" />
+    <Content Include="data\textures\powerfulred.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\textures\shadow_color.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

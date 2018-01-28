@@ -8,7 +8,7 @@ namespace Engine {
 		public readonly TransformComponent TransformComponent;
 		public double Radius;
 		public Sphere BoundingSphere() => new Sphere(TransformComponent.WorldPosition, Radius);
-		public readonly HudObjectMarker objectMarker;
+		
 		
 		protected GameObject() {
 			TransformComponent = new TransformComponent(this);
