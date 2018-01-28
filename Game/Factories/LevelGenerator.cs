@@ -17,7 +17,7 @@ namespace Game.Utils {
         public static void GenerateLevel1() {
             //sun
             var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0, 0, 0), new Vector3d(2000.0),
-                new Vector3d(0));
+                new Vector3d(0,0.5,0));
             sun.RenderComponent.Material = MaterialManager.GetMaterial(Material.SUN_LAVAFLOW);
             //HUD.AddHudObjectMarker(HUD.CreateHudObjectMarker(sun));
             World.AddToWorld(sun);
