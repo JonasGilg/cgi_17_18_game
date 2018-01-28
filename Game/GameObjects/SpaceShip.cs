@@ -25,9 +25,21 @@ namespace Game.GameObjects {
 
 		//TODO implement invulnerability for collision with planet and asteroids + blinking effect?
 		public const int invulnerabilityTime = 2000; //milliseconds
+
+		public double invulnerableTill = Time.TotalTime;
 		
 		public const int maxHP = 5;
-		public int currentHP;
+
+		//private int _hp;
+		public int currentHP;/* {
+			get => _hp;
+			set {
+				_hp = value;
+				if (_hp <= 0) {
+					Destroy();
+				}
+			}
+		}*/
 		private readonly HudTextElement healthPoints;
 
 		public SpaceShip() {
@@ -59,14 +71,18 @@ namespace Game.GameObjects {
 				Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString());
 				switch (collision.otherGameObject) {
 					case Asteroid asteroid:
-						currentHP--;
+						if (invulnerableTill < Time.TotalTime) {
+							currentHP--;
+							invulnerableTill = Time.TotalTime + invulnerabilityTime;
+						}
 						moveComponent.LinearVelocity *= -1;//* asteroid.CollisionComponent.PhysicsMaterial.Bounciness;
-						//moveComponent.LinearVelocity = Vector3d.Cross(moveComponent.LinearVelocity, asteroid.MoveComponent.LinearVelocity);
 						break;
 					case Planet planet:
-						currentHP = 0;
+						if (invulnerableTill < Time.TotalTime) {
+							currentHP = 0;
+							invulnerableTill = Time.TotalTime + invulnerabilityTime;
+						}
 						moveComponent.LinearVelocity *= -1;// * planet.CollisionComponent.PhysicsMaterial.Bounciness;
-						//moveComponent.LinearVelocity = Vector3d.Cross(moveComponent.LinearVelocity, planet.MoveComponent.LinearVelocity);
 						break;
 					case MetalChunk chunk:
 						Statistics.IncreaseScore(chunk.points);
@@ -80,7 +96,7 @@ namespace Game.GameObjects {
 			DisplayCamera.SetActiveCamera(cameraComponent);
 
 			moveInputComponent = new ArcadeMoveInputComponent(this, TransformComponent, moveComponent);
-			
+
 			firingComponent = new FiringComponent(this);
 		}
 
