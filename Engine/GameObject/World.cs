@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Engine.Collision;
 using Engine.Material;
 using Engine.Render;
 using Engine.Render.Skybox;
@@ -11,8 +12,7 @@ namespace Engine {
 		//game objects
 		private static readonly List<GameObject> OBJECTS = new List<GameObject>();
 
-		//components
-		private static readonly List<CollisionComponent> COLLISION_COMPONENTS = new List<CollisionComponent>();
+		
 
 		//stats
 		private static readonly TimingStats UPDATE_STATS = new TimingStats("World");
@@ -33,7 +33,7 @@ namespace Engine {
 			}
 
 			//check for collision
-			CheckCollisions();
+			CollisionEngine.CheckCollisions();
 
 			UPDATE_STATS.Stop();
 		}
@@ -55,26 +55,17 @@ namespace Engine {
 			OBJECTS.Add(obj);
 		}
 
-		public static void RegisterCollisionComponent(CollisionComponent component) => COLLISION_COMPONENTS.Add(component);
-
-		public static void UnregisterCollisionComponent(CollisionComponent component) => COLLISION_COMPONENTS.Remove(component);
-
-		private static void CheckCollisions() {
-			for (int i = 0; i < COLLISION_COMPONENTS.Count; i++) {
-				var currObj = COLLISION_COMPONENTS[i];
-				for (var j = 0; j < COLLISION_COMPONENTS.Count; j++) {
-					if (i != j) {
-						//cant collide with yourself
-						var collidedWith = COLLISION_COMPONENTS[j];
-						if (currObj.IsColliding(collidedWith)) {
-							currObj.OnCollision(new Collision.Collision {
-								otherGameObject = collidedWith.GameObject,
-								OtherCollisonComponent = collidedWith
-							});
-						}
-					}
-				}
-			}
+		public static void RemoveFromWorld(GameObject obj) {
+			obj.Destroy();
+			OBJECTS.Remove(obj);
 		}
+
+		public static async void RemoveFromWorldAfter(GameObject obj, int millisDelay) {
+			await Task.Delay(millisDelay);
+			obj.Destroy();
+			OBJECTS.Remove(obj);
+		}
+
+		
 	}
 }

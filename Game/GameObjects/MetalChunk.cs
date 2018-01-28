@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine;
+using Engine.Collision;
 using Engine.Component;
 using Engine.Material;
 using Engine.Model;
@@ -53,7 +54,7 @@ namespace Game.GameObjects {
                 Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString());
                 
             });
-            CollisionComponent.Register();
+            CollisionEngine.Register(CollisionComponent);
         }
         
         public override void Awake() {
@@ -70,7 +71,7 @@ namespace Game.GameObjects {
         public override void Destroy() {
             base.Destroy();
             RenderEngine.UnregisterRenderComponent(renderComponent);
-            CollisionComponent.Unregister();
+            CollisionEngine.Unregister(CollisionComponent);
         }
 
         public override void OnDestroy() {

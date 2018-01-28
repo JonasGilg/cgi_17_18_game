@@ -31,7 +31,7 @@ namespace Game.Components {
                     }
                 };
                 World.AddToWorld(projectile);
-                projectile.DestroyAfter(10000);
+                World.RemoveFromWorldAfter(projectile,10000);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine;
+using Engine.Collision;
 using Engine.Component;
 using Engine.Material;
 using Engine.Model;
@@ -27,13 +28,19 @@ namespace Game.GameObjects {
             
             CollisionComponent = new SphereCollider(this, RenderComponent.Model,
                 collision => { /*Console.WriteLine(collision.GameObject.ToString() + " collided with a black hole");*/ });
-            CollisionComponent.Register();
+            CollisionEngine.Register(CollisionComponent);
         }
 
         public override void Awake() {
             base.Awake();
             Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
             RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
+        }
+        
+        public override void Destroy() {
+            base.Destroy();
+            RenderEngine.UnregisterRenderComponent(RenderComponent);
+            CollisionEngine.Unregister(CollisionComponent);
         }
 
         public override void Update() {

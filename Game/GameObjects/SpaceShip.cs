@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine;
+using Engine.Collision;
 using Engine.Component;
 using Engine.GUI;
 using Engine.Material;
@@ -91,7 +92,7 @@ namespace Game.GameObjects {
 						break;
 				}
 			});
-			CollisionComponent.Register();
+			CollisionEngine.Register(CollisionComponent);
 
 			DisplayCamera.SetActiveCamera(cameraComponent);
 
@@ -133,7 +134,7 @@ namespace Game.GameObjects {
 		public override void Destroy() {
 			base.Destroy();
 			RenderEngine.UnregisterRenderComponent(renderComponent);
-			CollisionComponent.Unregister();
+			CollisionEngine.Unregister(CollisionComponent);
 		}
 
 		public override void OnDestroy() {

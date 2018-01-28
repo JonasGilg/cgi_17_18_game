@@ -27,12 +27,6 @@ namespace Engine {
 		public virtual void Destroy() {
 			OnDestroy();
 		}
-
-		public async void DestroyAfter(int millis) {
-			await Task.Delay(millis);
-			Destroy();
-		}
-		
 		
 		
 		/// <summary>
