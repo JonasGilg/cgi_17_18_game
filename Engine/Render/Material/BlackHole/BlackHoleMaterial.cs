@@ -47,12 +47,9 @@ namespace Engine.Material {
 
 			var modelviewProjection = (model.Transformation * DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection).ToFloat();
 			GL.UniformMatrix4(modelviewProjectionMatrixLocation, false, ref modelviewProjection);
-			IO.PrintAsync("mvp: " + modelviewProjection);
 			var modelmatrix = model.Transformation.ToFloat();
 			GL.UniformMatrix4(modelMatrixLocation, false, ref modelmatrix);
-			IO.PrintAsync("model: " + modelmatrix);
 			GL.Uniform3(cameraPositionLocation, DisplayCamera.Position.ToFloat());
-			IO.PrintAsync("camera: " + DisplayCamera.Position.ToFloat());
 
 			GL.DrawElements(PrimitiveType.Triangles, model.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 		}
