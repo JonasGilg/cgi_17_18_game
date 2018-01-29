@@ -63,9 +63,9 @@ namespace Game.Components {
 		
 		
 		public override void Update() {
-			if (!alive()) {
+			/*if (!alive()) {
 				GamePlayEngine.GameOver();
-			}
+			}*/
 		}
 
 		public String healthPointStatus() {
