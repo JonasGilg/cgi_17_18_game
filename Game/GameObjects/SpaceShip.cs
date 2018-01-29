@@ -7,6 +7,7 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
+using Engine.Util;
 using Game.Components;
 using OpenTK;
 using OpenTK.Input;
@@ -72,7 +73,7 @@ namespace Game.GameObjects {
 			RenderEngine.RegisterRenderComponent(renderComponent);
 
 			CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
-				Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString());
+				IO.PrintAsync(" collided with " + collision.otherGameObject.ToString());
 				switch (collision.otherGameObject) {
 					case Asteroid asteroid:
 						if (invulnerableTill < Time.TotalTime) {

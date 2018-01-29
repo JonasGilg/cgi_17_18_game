@@ -31,6 +31,7 @@ namespace Game.GameObjects {
                 MATERIAL_SETTINGS,
                 this
             );
+            
             RenderEngine.RegisterRenderComponent(renderComponent);
             
             CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
