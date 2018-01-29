@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine;
+using Engine.Collision;
 using Engine.Component;
 using Engine.GUI;
 using Engine.Material;
@@ -51,15 +52,18 @@ namespace Game.GameObjects {
 			HUD.AddHudTextElement(position);
 			HUD.AddHudTextElement(healthPoints);
 			
-
 			moveComponent = new MoveComponent(this);
 			cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);
 			renderComponent = new RenderComponent(
 				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj"),
-				MaterialManager.GetMaterial(Material.NORMAL_MAPPING),
+				MaterialManager.GetMaterial(Material.PBR),
 				new MaterialSettings {
-					ColorTexture = TextureManager.LoadTexture("data/textures/SpaceShip.png"),
-					NormalTexture = TextureManager.LoadTexture("data/textures/NormalMap.png"),
+					ColorTexture = TextureManager.LoadTexture("data/textures/SpaceShip/SpaceShip.png"),
+					NormalTexture = TextureManager.LoadTexture("data/textures/SpaceShip/NormalMap.png"),
+					MetalnessTexture = TextureManager.LoadTexture("data/textures/SpaceShip/Metalness.png"),
+					RoughnessTexture = TextureManager.LoadTexture("data/textures/SpaceShip/Blur.png"),
+					AOTexture = TextureManager.LoadTexture("data/textures/SpaceShip/AmbientOcclusion.png"),
+					GlowTexture = TextureManager.LoadTexture("data/textures/SpaceShip/Blur.png"),
 					Shininess = 16.0
 				},
 				this
@@ -87,11 +91,11 @@ namespace Game.GameObjects {
 					case MetalChunk chunk:
 						Statistics.IncreaseScore(chunk.points);
 						Console.WriteLine(chunk.points + " points collected");
-						chunk.Destroy();
+						GameObject.Destroy(chunk);
 						break;
 				}
 			});
-			CollisionComponent.Register();
+			CollisionEngine.Register(CollisionComponent);
 
 			DisplayCamera.SetActiveCamera(cameraComponent);
 
@@ -130,14 +134,10 @@ namespace Game.GameObjects {
 			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
 		}
 		
-		public override void Destroy() {
-			base.Destroy();
-			RenderEngine.UnregisterRenderComponent(renderComponent);
-			CollisionComponent.Unregister();
-		}
-
-		public override void OnDestroy() {
+		protected override void OnDestroy() {
 			//TODO explosion animation here
+			RenderEngine.UnregisterRenderComponent(renderComponent);
+			CollisionEngine.Unregister(CollisionComponent);
 		}
 	}
 }

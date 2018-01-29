@@ -48,6 +48,7 @@
     <Compile Include="Camera\DisplayCamera.cs" />
     <Compile Include="Camera\ThirdPersonCameraComponent.cs" />
     <Compile Include="Collision\Collision.cs" />
+    <Compile Include="Collision\CollisionEngine.cs" />
     <Compile Include="Collision\Component\BoxCollider.cs" />
     <Compile Include="Collision\Component\CollisionComponent.cs" />
     <Compile Include="Collision\Component\DefaultPhysicsMaterial.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="GUI\HudObjectMarker.cs" />
     <Compile Include="GUI\HUDTextElement.cs" />
     <Compile Include="Light\BaseLighting.cs" />
+    <Compile Include="Light\CascadedShadowMapping.cs" />
     <Compile Include="Light\IBL\ImageBasedLighting.cs" />
     <Compile Include="Light\Light.cs" />
     <Compile Include="Light\Local\PointLight.cs" />
@@ -79,11 +81,11 @@
     <Compile Include="Render\Component\RenderComponent.cs" />
     <Compile Include="Render\DeferredRendering.cs" />
     <Compile Include="Render\Material\BlackHole\BlackHoleMaterial.cs" />
+    <Compile Include="Render\Material\Deferred\PBRMaterial.cs" />
     <Compile Include="Render\Material\PostProcessing\PostProcessing.cs" />
     <Compile Include="Render\Material\PostProcessing\PostProcessingMaterial.cs" />
     <Compile Include="Render\Material\PostProcessing\TestEffect.cs" />
     <Compile Include="Render\Material\SunLavaflow\SunLavaflowMaterial.cs" />
-    <Compile Include="Render\DebugDrawing\BoxDrawing\HitBox.cs" />
     <Compile Include="Render\ObjectMarker\HudObjectMarkerRenderer.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
@@ -159,6 +161,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Render\Material\BlackHole\BlackHole_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Material\Deferred\PBR_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Material\Deferred\PBR_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Render\Material\PostProcessing\test_effect_FS.glsl">

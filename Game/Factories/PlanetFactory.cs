@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Engine;
 using Engine.GUI;
+using Engine.Material;
 using Engine.Texture;
 using Game.Components;
 using Game.GameObjects;
@@ -34,6 +35,11 @@ namespace Game.Utils {
 				},
 				MoveComponent = {AngularVelocity = rotation}
 			};
+			
+			//special case for the sun
+			if (planetTexture == PlanetTexture.SUN) {
+				result.RenderComponent.Material = MaterialManager.GetMaterial(Material.SUN_LAVAFLOW);
+			}
 
 			//TODO every planet gets tagged now. But we need a List of Planets at some time anyways...  :)
 			

@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine;
+using Engine.Collision;
 using Engine.Component;
 using Engine.Material;
 using Engine.Model;
@@ -18,7 +19,8 @@ namespace Game.GameObjects {
 			set {
 				_hp = value;
 				if (_hp <= 0) {
-					Destroy();
+					Destroy(this);
+					Statistics.IncreaseScore();
 				}
 			}
 		}
@@ -44,7 +46,7 @@ namespace Game.GameObjects {
 						Console.WriteLine("Asteroid " + ToString() + " collided with Asteroid " + asteroid.ToString());
 					}
 				});
-			CollisionComponent.Register();
+			CollisionEngine.Register(CollisionComponent);
 		}
 
 		public override void Awake() {
@@ -59,10 +61,9 @@ namespace Game.GameObjects {
 			renderComponent.Update();
 		}
 
-		public override void Destroy() {
-			base.Destroy();
+		protected override void OnDestroy() {
 			RenderEngine.UnregisterRenderComponent(renderComponent);
-			CollisionComponent.Unregister();
+			CollisionEngine.Unregister(CollisionComponent);
 		}
 	}
 }

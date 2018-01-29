@@ -23,14 +23,6 @@ namespace Engine {
 
 		public override void Update() { }
 
-		public void Register() {
-			World.RegisterCollisionComponent(this);
-		}
-
-		public void Unregister() {
-			World.UnregisterCollisionComponent(this);
-		}
-
 		public abstract bool IsColliding(CollisionComponent otherCollider);
 
 		public AxisAlignedBoundingBox GetAABB() => aabb;

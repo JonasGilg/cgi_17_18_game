@@ -24,21 +24,22 @@ namespace Engine {
 		/// <summary>
 		/// used to clean up the object (aka Destructor)
 		/// </summary>
-		public virtual void Destroy() {
-			OnDestroy();
-		}
+		/*public static void Destroy(GameObject obj) {
+			obj.OnDestroy();
+			World.RemoveFromWorld(this);
+		}*/
 
-		public async void DestroyAfter(int millis) {
-			await Task.Delay(millis);
-			Destroy();
+		public static async void Destroy(GameObject obj,int millisDelay = 0) {
+			await Task.Delay(millisDelay);
+			obj.OnDestroy();
+			World.RemoveFromWorld(obj);
 		}
-		
 		
 		
 		/// <summary>
 		/// hook method to implement behaviour happening at destruction time
 		/// </summary>
-		public virtual void OnDestroy() { }
+		protected virtual void OnDestroy() { }
 
 		public override string ToString() => GetType().Name + "(#" + GetHashCode().ToString() + ")";
 	}

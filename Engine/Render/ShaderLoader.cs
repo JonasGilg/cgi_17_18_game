@@ -4,11 +4,11 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Render {
 	public static class ShaderLoader {
-		public static int LoadShader(string pathVs, string pathFs, string pathGs=null) {
+		public static int LoadShader(string pathVs, string pathFs, string pathGs = null) {
 			// shader files are read (text)
 			var vs = File.ReadAllText(pathVs);
 			var fs = File.ReadAllText(pathFs);
-			
+
 
 			// vertex and fragment shaders are created
 			var vertexObject = GL.CreateShader(ShaderType.VertexShader);
@@ -36,13 +36,13 @@ namespace Engine.Render {
 			var program = GL.CreateProgram();
 			GL.AttachShader(program, fragmentObject);
 			GL.AttachShader(program, vertexObject);
-			
+
 
 			//geometryshader
 			if (pathGs != null) {
 				var gs = File.ReadAllText(pathGs);
 				var geometryObject = GL.CreateShader(ShaderType.GeometryShader);
-				
+
 				//compiling
 				GL.ShaderSource(geometryObject, gs);
 				GL.CompileShader(geometryObject);
@@ -51,12 +51,11 @@ namespace Engine.Render {
 
 				if (statusCode != 1)
 					throw new ApplicationException(info);
-				
+
 				GL.AttachShader(program, geometryObject);
-				
 			}
-			
-			
+
+
 			return program;
 		}
 	}

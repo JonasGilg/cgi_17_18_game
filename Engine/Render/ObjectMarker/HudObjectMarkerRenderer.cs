@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -11,51 +11,43 @@ namespace Engine.Render.Billboard {
 	public static class HudObjectMarkerRenderer {
 		private static int PROGRAM;
 
-		private static readonly int fullTransformationLocation;
-		
-		
-		private static Color4 colorVector = new Color4(0.0f,1.0f,0.0f,0.5f);
-			
+		private static readonly int FULL_TRANSFORMATION_LOCATION;
+
+
+		private static Color4 colorVector = new Color4(0.0f, 1.0f, 0.0f, 0.5f);
+
 
 		static HudObjectMarkerRenderer() {
-			
 			PROGRAM = ShaderLoader.LoadShader("Render/ObjectMarker/ObjectMarker_VS.glsl",
-				"Render/ObjectMarker/ObjectMarker_FS.glsl",
-				"Render/ObjectMarker/ObjectMarker_GS.glsl"
-				);
-			
+				"Render/ObjectMarker/ObjectMarker_FS.glsl" /*,
+				"Render/ObjectMarker/ObjectMarker_GS.glsl"*/
+			);
+
 			GL.BindAttribLocation(PROGRAM, 0, "position");
 			GL.LinkProgram(PROGRAM);
 			//colorLocation = GL.GetUniformLocation(PROGRAM, "colorVs");
-			fullTransformationLocation = GL.GetUniformLocation(PROGRAM, "fullTransformation");
-			
-			
+			FULL_TRANSFORMATION_LOCATION = GL.GetUniformLocation(PROGRAM, "fullTransformation");
 		}
+
 		public static void Draw(HudObjectMarker objectMarker) {
-			Console.Out.WriteLine("MarkPosition" +objectMarker.GameObject.TransformComponent.WorldPosition + "   "+objectMarker.id);
 			GL.UseProgram(PROGRAM);
-			
+
 			GL.BindVertexArray(objectMarker.VAO);
 
-			var scale =  objectMarker.GameObject.TransformComponent.Scale;
-
-			var translation = objectMarker.GameObject.TransformComponent.WorldMatrix.ExtractTranslation();
-			Matrix4d.CreateTranslation(ref translation, out var translationMatrix);
-			var translationMatrix2 = translationMatrix.ToFloat();
+			var worldToView = DisplayCamera.Transformation;
+			var modelToWorld = objectMarker.GameObject.TransformComponent.WorldMatrix;
+			var viewToProjection = DisplayCamera.PerspectiveProjection;
 			
-			var model_to_world = objectMarker.GameObject.TransformComponent.WorldMatrix;
-			var world_to_view = DisplayCamera.Transformation;
-			var view_to_projection = DisplayCamera.PerspectiveProjection.ClearRotation();
+			var fullMatrix = ((modelToWorld * worldToView).ClearRotation() * viewToProjection).ToFloat();
+			GL.UniformMatrix4(FULL_TRANSFORMATION_LOCATION, false, ref fullMatrix);
 
-			var fullMatrix =   view_to_projection * world_to_view * model_to_world;
-
+			GL.Disable(EnableCap.DepthTest);
 			
-			GL.UniformMatrix4(fullTransformationLocation,false, ref translationMatrix);
 			GL.DrawElements(PrimitiveType.Lines, objectMarker.indicies.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
+			GL.Enable(EnableCap.DepthTest);
+			
 			GL.BindVertexArray(0);
 		}
-		
-
 	}
 }

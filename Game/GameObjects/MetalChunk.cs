@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine;
+using Engine.Collision;
 using Engine.Component;
 using Engine.Material;
 using Engine.Model;
@@ -53,7 +54,7 @@ namespace Game.GameObjects {
                 Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString());
                 
             });
-            CollisionComponent.Register();
+            CollisionEngine.Register(CollisionComponent);
         }
         
         public override void Awake() {
@@ -67,14 +68,10 @@ namespace Game.GameObjects {
             renderComponent.Update();
         }
         
-        public override void Destroy() {
-            base.Destroy();
-            RenderEngine.UnregisterRenderComponent(renderComponent);
-            CollisionComponent.Unregister();
-        }
-
-        public override void OnDestroy() {
+        protected override void OnDestroy() {
             //TODO chunk should disappear with a small effect (e.g light)
+            RenderEngine.UnregisterRenderComponent(renderComponent);
+            CollisionEngine.Unregister(CollisionComponent);
         }
 
         public override string ToString() => TransformComponent.WorldPosition.ToString();

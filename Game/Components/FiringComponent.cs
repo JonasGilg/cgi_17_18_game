@@ -31,7 +31,7 @@ namespace Game.Components {
                     }
                 };
                 World.AddToWorld(projectile);
-                projectile.DestroyAfter(10000);
+                GameObject.Destroy(projectile,10000);
             }
         }
     }

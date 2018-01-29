@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine;
+using Engine.Collision;
 using Engine.Component;
 using Engine.GUI;
 using Engine.Material;
@@ -23,7 +24,7 @@ namespace Game.GameObjects {
 			set {
 				_hp = value;
 				if (_hp <= 0) {
-					Destroy();
+					Destroy(this);
 				}
 			}
 		}
@@ -50,7 +51,7 @@ namespace Game.GameObjects {
 
 			CollisionComponent = new SphereCollider(this, RenderComponent.Model,
 				collision => { Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString()); });
-			CollisionComponent.Register();
+			CollisionEngine.Register(CollisionComponent);
 			
 			objectMarker =HUD.CreateHudObjectMarker(this);
 			
@@ -61,7 +62,7 @@ namespace Game.GameObjects {
 		}
 
 		public void deactivateMarker() {
-			HUD.RemoveHudObjectMarker(objectMarker.id);
+			HUD.RemoveHudObjectMarker(objectMarker.ID);
 		}
 
 		
@@ -80,15 +81,11 @@ namespace Game.GameObjects {
 			RenderComponent.Update();
 		}
 		
-		public override void Destroy() {
-			base.Destroy();
-			RenderEngine.UnregisterRenderComponent(RenderComponent);
-			HUD.RemoveHudObjectMarker(objectMarker.id);
-			CollisionComponent.Unregister();
-		}
-
-		public override void OnDestroy() {
+		protected override void OnDestroy() {
 			//TODO BIIIG explosion
+			RenderEngine.UnregisterRenderComponent(RenderComponent);
+			HUD.RemoveHudObjectMarker(objectMarker.ID);
+			CollisionEngine.Unregister(CollisionComponent);
 		}
 
 		public override string ToString() {

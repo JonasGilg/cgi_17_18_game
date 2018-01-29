@@ -26,7 +26,7 @@ namespace Engine.GUI {
 		}
 
 		public static void AddHudObjectMarker(HudObjectMarker objectMarker) =>
-			HUD_OBJECT_MARKER_ELEMENTS.Add(objectMarker.id, objectMarker);
+			HUD_OBJECT_MARKER_ELEMENTS.Add(objectMarker.ID, objectMarker);
 
 		public static void RemoveHudObjectMarker(int id) => HUD_OBJECT_MARKER_ELEMENTS.Remove(id);
 		

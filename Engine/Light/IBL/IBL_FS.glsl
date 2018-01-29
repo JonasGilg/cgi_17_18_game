@@ -18,13 +18,11 @@ in vec2 texcoord;
 out vec4 outputColor;
 
 
-vec3 FresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
-{
+vec3 FresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness) {
     return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }  
 
-void main()
-{             
+void main() {             
 	vec3 N = texture(gNormal, texcoord).rgb;
 	vec4 pos = texture(gPosition, texcoord);
 	vec3 glow = texture(gGlow, texcoord).rgb;
@@ -59,5 +57,4 @@ void main()
 	vec3 ambient = (kD * diffuse + specular) * matalAndShadow.g;
 
 	outputColor =  vec4(ambient + diffuse + specular + glow, 1);
-
 }
