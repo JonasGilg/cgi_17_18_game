@@ -1,5 +1,4 @@
-﻿using System;
-using Engine;
+﻿using Engine;
 using Engine.Collision;
 using Engine.Component;
 using Engine.GUI;
@@ -7,6 +6,7 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
+using Engine.Util;
 using Game.Components;
 using OpenTK;
 using OpenTK.Input;
@@ -26,8 +26,8 @@ namespace Game.GameObjects {
 
 		//TODO implement invulnerability for collision with planet and asteroids + blinking effect?
 		public const int invulnerabilityTime = 2000; //milliseconds
-
 		public double invulnerableTill = Time.TotalTime;
+		public bool IsInvulnerable => invulnerableTill > Time.TotalTime;
 		
 		public const int maxHP = 5;
 
@@ -69,25 +69,25 @@ namespace Game.GameObjects {
 			RenderEngine.RegisterRenderComponent(renderComponent);
 
 			CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
-				Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString());
+				IO.PrintAsync(ToString() + " collided with " + collision.otherGameObject.ToString());
 				switch (collision.otherGameObject) {
 					case Asteroid asteroid:
-						if (invulnerableTill < Time.TotalTime) {
+						if (!IsInvulnerable) {
 							currentHP--;
-							invulnerableTill = Time.TotalTime + invulnerabilityTime;
+							makeInvulnerable();
 						}
 						moveComponent.LinearVelocity *= -1;//* asteroid.CollisionComponent.PhysicsMaterial.Bounciness;
 						break;
 					case Planet planet:
-						if (invulnerableTill < Time.TotalTime) {
+						if (!IsInvulnerable) {
 							currentHP = 0;
-							invulnerableTill = Time.TotalTime + invulnerabilityTime;
+							makeInvulnerable();
 						}
 						moveComponent.LinearVelocity *= -1;// * planet.CollisionComponent.PhysicsMaterial.Bounciness;
 						break;
 					case MetalChunk chunk:
 						Statistics.IncreaseScore(chunk.points);
-						Console.WriteLine(chunk.points + " points collected");
+						IO.PrintAsync(chunk.points + " points collected");
 						GameObject.Destroy(chunk);
 						break;
 				}
@@ -100,6 +100,8 @@ namespace Game.GameObjects {
 
 			firingComponent = new FiringComponent(this);
 		}
+
+		private void makeInvulnerable() => invulnerableTill = Time.TotalTime + invulnerabilityTime;
 
 		public override void Update() {
 			moveInputComponent.Update();
