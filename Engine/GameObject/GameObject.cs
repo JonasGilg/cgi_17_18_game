@@ -18,16 +18,11 @@ namespace Engine {
 		public virtual void Awake() { }
 
 		public virtual void Update() => TransformComponent.Update();
-		
-		
 
-		/// <summary>
-		/// used to clean up the object (aka Destructor)
-		/// </summary>
-		/*public static void Destroy(GameObject obj) {
-			obj.OnDestroy();
-			World.RemoveFromWorld(this);
-		}*/
+		public static void Instatiate(GameObject obj) {
+			obj.Awake();
+			World.AddToWorld(obj);
+		}
 
 		public static async void Destroy(GameObject obj,int millisDelay = 0) {
 			await Task.Delay(millisDelay);

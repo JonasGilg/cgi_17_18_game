@@ -10,7 +10,7 @@ using Engine.Render.Skybox;
 namespace Engine {
 	public static class World {
 		//game objects
-		private static readonly List<GameObject> OBJECTS = new List<GameObject>();
+		private static List<GameObject> OBJECTS = new List<GameObject>();
 
 		
 
@@ -32,7 +32,6 @@ namespace Engine {
 				OBJECTS[i].Update();
 			}
 
-			//check for collision
 			CollisionEngine.CheckCollisions();
 
 			UPDATE_STATS.Stop();
@@ -51,13 +50,21 @@ namespace Engine {
 
 
 		public static void AddToWorld(GameObject obj) {
-			obj.Awake();
 			OBJECTS.Add(obj);
 		}
 
 		public static void RemoveFromWorld(GameObject obj) => OBJECTS.Remove(obj);
-		
 
-		
+		public static void ClearWorld() {
+			//Removing objects directly from the OBJECTS list results in a ModificationException
+			//workaround: copy all elements to an array, assign empty list to OBJECTS and delete the elements in the created array
+			var toDelete = new GameObject[OBJECTS.Count];
+			OBJECTS.CopyTo(toDelete);
+			OBJECTS = new List<GameObject>();
+			foreach (var obj in toDelete) {
+				GameObject.Destroy(obj);
+			}
+		}
+
 	}
 }

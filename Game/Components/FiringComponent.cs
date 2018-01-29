@@ -30,7 +30,7 @@ namespace Game.Components {
                                          ((SpaceShip) GameObject).moveComponent.LinearVelocity
                     }
                 };
-                World.AddToWorld(projectile);
+                GameObject.Instatiate(projectile);
                 GameObject.Destroy(projectile,10000);
             }
         }
