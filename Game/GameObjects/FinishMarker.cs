@@ -6,6 +6,7 @@ using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
 using Engine.Util;
+using Game.GamePlay;
 using Game.Utils;
 using OpenTK;
 
@@ -32,19 +33,21 @@ namespace Game.GameObjects {
                 MATERIAL_SETTINGS,
                 this
             );
-            RenderEngine.RegisterRenderComponent(renderComponent);
+            
             
             CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
                 if (collision.otherGameObject is SpaceShip) {
-                    IO.PrintAsync("Level " + LevelGenerator.CurrentLevelIndex + " completed!");
-                    LevelGenerator.LoadNextLevel();
+                    IO.PrintAsync("Level " + GamePlayEngine.CurrentLevelIndex + " completed!");
+                    GamePlayEngine.LoadNextLevel();
                 }
             });
-            CollisionEngine.Register(CollisionComponent);
+            
         }
         
         public override void Awake() {
             base.Awake();
+            RenderEngine.RegisterRenderComponent(renderComponent);
+            CollisionEngine.Register(CollisionComponent);
             Radius = renderComponent.Model.Radius(TransformComponent.Scale);
             renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
         }

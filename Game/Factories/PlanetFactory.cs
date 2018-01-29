@@ -68,7 +68,7 @@ namespace Game.Utils {
 				var component = (GravityMovement) asteroid.MoveComponent;
 				component.currentAngle = i * 1.0 / 5;
 				
-				GameObject.Instatiate(asteroid);
+				GameObject.Instantiate(asteroid);
 			}
 			return planet;
 		}

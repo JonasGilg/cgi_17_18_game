@@ -22,17 +22,20 @@ namespace Game.GameObjects {
                 },
                 this
             );
-            RenderEngine.RegisterRenderComponent(RenderComponent);
+            
             
             MoveComponent = new MoveComponent(this);
             
             CollisionComponent = new SphereCollider(this, RenderComponent.Model,
                 collision => { /*Console.WriteLine(collision.GameObject.ToString() + " collided with a black hole");*/ });
-            CollisionEngine.Register(CollisionComponent);
+            
         }
 
         public override void Awake() {
             base.Awake();
+            RenderEngine.RegisterRenderComponent(RenderComponent);
+            CollisionEngine.Register(CollisionComponent);
+            
             Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
             RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
         }

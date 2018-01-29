@@ -31,7 +31,7 @@ namespace Game.GameObjects {
                 this
             );
             
-            RenderEngine.RegisterRenderComponent(renderComponent);
+            
             
             CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
                 IO.PrintAsync("Projectile hit " + collision.otherGameObject.ToString());
@@ -49,11 +49,13 @@ namespace Game.GameObjects {
                 }
                 Destroy(this);
             });
-            CollisionEngine.Register(CollisionComponent);
+            
         }
         
         public override void Awake() {
             base.Awake();
+            RenderEngine.RegisterRenderComponent(renderComponent);
+            CollisionEngine.Register(CollisionComponent);
             Radius = renderComponent.Model.Radius(TransformComponent.Scale);
             renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
         }

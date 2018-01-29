@@ -48,17 +48,19 @@ namespace Game.GameObjects {
                 },
                 this
             );
-            RenderEngine.RegisterRenderComponent(renderComponent);
+            
             
             CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
                 Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString());
                 
             });
-            CollisionEngine.Register(CollisionComponent);
+            
         }
         
         public override void Awake() {
             base.Awake();
+            RenderEngine.RegisterRenderComponent(renderComponent);
+            CollisionEngine.Register(CollisionComponent);
             Radius = renderComponent.Model.Radius(TransformComponent.Scale);
             renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
         }

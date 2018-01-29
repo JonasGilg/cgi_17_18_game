@@ -58,7 +58,6 @@ namespace Game.GameObjects {
 				this
 			);
 			
-			RenderEngine.RegisterRenderComponent(renderComponent);
 
 			CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
 				IO.PrintAsync(ToString() + " collided with " + collision.otherGameObject.ToString());
@@ -78,9 +77,6 @@ namespace Game.GameObjects {
 						break;
 				}
 			});
-			CollisionEngine.Register(CollisionComponent);
-
-			DisplayCamera.SetActiveCamera(cameraComponent);
 
 			moveInputComponent = new ArcadeMoveInputComponent(this, TransformComponent, moveComponent);
 
@@ -118,6 +114,11 @@ namespace Game.GameObjects {
 
 		public override void Awake() {
 			base.Awake();
+			
+			RenderEngine.RegisterRenderComponent(renderComponent);
+			CollisionEngine.Register(CollisionComponent);
+			DisplayCamera.SetActiveCamera(cameraComponent);
+			
 			Radius = renderComponent.Model.Radius(Vector3d.One);
 			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
 		}

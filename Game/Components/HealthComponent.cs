@@ -38,7 +38,11 @@ namespace Game.Components {
 		public void takeDamage(int dmg) {
 			if (!IsInvulnerable) {
 				currentHP -= dmg;
-				refreshInvulnerability();
+				if (!alive()) {
+					GamePlayEngine.GameOver();
+				} else {
+					refreshInvulnerability();
+				}
 			}
 		}
 

@@ -5,7 +5,7 @@ using Engine.Render;
 
 namespace Engine {
 	public abstract class GameObject {
-		public readonly TransformComponent TransformComponent;
+		public TransformComponent TransformComponent;
 		public double Radius;
 		public Sphere BoundingSphere() => new Sphere(TransformComponent.WorldPosition, Radius);
 		
@@ -19,7 +19,7 @@ namespace Engine {
 
 		public virtual void Update() => TransformComponent.Update();
 
-		public static void Instatiate(GameObject obj) {
+		public static void Instantiate(GameObject obj) {
 			obj.Awake();
 			World.AddToWorld(obj);
 		}

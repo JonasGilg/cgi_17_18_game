@@ -27,7 +27,7 @@ namespace Game.Utils {
                     Orientation = Quaterniond.Identity
                 }
             };
-            GameObject.Instatiate(chunk);
+            GameObject.Instantiate(chunk);
             return chunk;
         }
         

@@ -40,7 +40,7 @@ namespace Game.GameObjects {
 				this
 			);
 
-			RenderEngine.RegisterRenderComponent(RenderComponent);
+			
 
 			if (referenceObject != null) {
 				MoveComponent = new GravityMovement(this, 0.0);
@@ -51,7 +51,7 @@ namespace Game.GameObjects {
 
 			CollisionComponent = new SphereCollider(this, RenderComponent.Model,
 				collision => { Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString()); });
-			CollisionEngine.Register(CollisionComponent);
+			
 			
 			objectMarker =HUD.CreateHudObjectMarker(this);
 			
@@ -69,6 +69,9 @@ namespace Game.GameObjects {
 
 		public override void Awake() {
 			base.Awake();
+			RenderEngine.RegisterRenderComponent(RenderComponent);
+			CollisionEngine.Register(CollisionComponent);
+			
 			Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
 			RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
 			TransformComponent.UpdateWorldMatrix();
@@ -84,8 +87,8 @@ namespace Game.GameObjects {
 		protected override void OnDestroy() {
 			//TODO BIIIG explosion
 			RenderEngine.UnregisterRenderComponent(RenderComponent);
-			HUD.RemoveHudObjectMarker(objectMarker.ID);
 			CollisionEngine.Unregister(CollisionComponent);
+			HUD.RemoveHudObjectMarker(objectMarker.ID);
 		}
 
 		public override string ToString() {
