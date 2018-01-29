@@ -61,7 +61,7 @@ namespace Game.GameObjects {
 		}
 
 		public void deactivateMarker() {
-			HUD.RemoveHudObjectMarker(objectMarker.id);
+			HUD.RemoveHudObjectMarker(objectMarker.ID);
 		}
 
 		
@@ -83,7 +83,7 @@ namespace Game.GameObjects {
 		public override void Destroy() {
 			base.Destroy();
 			RenderEngine.UnregisterRenderComponent(RenderComponent);
-			HUD.RemoveHudObjectMarker(objectMarker.id);
+			HUD.RemoveHudObjectMarker(objectMarker.ID);
 			CollisionComponent.Unregister();
 		}
 

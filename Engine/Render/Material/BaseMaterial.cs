@@ -30,8 +30,6 @@ namespace Engine.Material {
 
 		protected void CreateShaderProgram(string pathVs, string pathFs) {
 			Program = ShaderLoader.LoadShader(pathVs, pathFs);
-
-			// hint: "Program" is not linked yet
 		}
 
 		protected abstract void PreDraw();
@@ -55,14 +53,9 @@ namespace Engine.Material {
 				var entity = objectsToDraw[i];
 				entity.Model.Transformation = entity.GameObject.TransformComponent.WorldMatrix;
 				Draw(entity.Model, entity.MaterialSettings);
-				DrawAABB(entity.AABB);
 			}
 			PostDraw();
 			objectsToDraw.Clear();
-		}
-
-		public void DrawAABB(AxisAlignedBoundingBox aabb) {
-			
 		}
 	}
 }

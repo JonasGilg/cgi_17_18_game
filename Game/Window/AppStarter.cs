@@ -27,10 +27,14 @@ namespace Game.Window {
 			base.OnLoad(e);
 			HUD.AddHudTextElement(upsCounter);
 			HUD.AddHudTextElement(fpsCounter);
-
+			
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 			
 			LevelGenerator.GenerateLevel1();
+			
+			CascadedShadowMapping.Init(4096, 2048, 1024, 15, 20, 90, 1);
+			CascadedShadowMapping.SetLightDirection(Vector3d.UnitX);
+			DeferredRendering.Init(Width, Height);
 
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Less);
@@ -76,6 +80,13 @@ IO.PrintAsync(TimingRegistry.GetStatsText());
 			Time.UpdateRenderTime(e.Time);
 			Statistics.UpdateTimeSpent();
 
+			DeferredRendering.StartGBufferRendering();
+			GL.CullFace(CullFaceMode.Front);
+			
+			MaterialManager.GetMaterial(Material.PBR).DrawAll();
+			RenderEngine.Draw();
+			DeferredRendering.CopyDepthToMainScreen();
+			
 			fpsCounter.Text = ((int) (1 / Time.AverageRenderTime())).ToString() + "FPS";
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit | ClearBufferMask.DepthBufferBit);
