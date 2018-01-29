@@ -322,45 +322,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\textures\billboard\canvas_box_test.png" />
-    <Content Include="data\textures\NormalMap.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\charcoal_basecolor.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\charcoal_metalness.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\charcoal_roughness.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\copper_basecolor.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\copper_metalness.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\copper_roughness.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\gold_basecolor.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\gold_metalness.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\gold_roughness.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\silver_basecolor.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\silver_metalness.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\pbr\silver_roughness.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="data\textures\pbr\charcoal_basecolor.png" />
+    <Content Include="data\textures\pbr\charcoal_metalness.png" />
+    <Content Include="data\textures\pbr\charcoal_roughness.png" />
+    <Content Include="data\textures\pbr\copper_basecolor.png" />
+    <Content Include="data\textures\pbr\copper_metalness.png" />
+    <Content Include="data\textures\pbr\copper_roughness.png" />
+    <Content Include="data\textures\pbr\gold_basecolor.png" />
+    <Content Include="data\textures\pbr\gold_metalness.png" />
+    <Content Include="data\textures\pbr\gold_roughness.png" />
+    <Content Include="data\textures\pbr\silver_basecolor.png" />
+    <Content Include="data\textures\pbr\silver_metalness.png" />
+    <Content Include="data\textures\pbr\silver_roughness.png" />
     <Content Include="data\textures\planets\2k_jupiter.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -412,7 +385,25 @@
     <Content Include="data\textures\skybox\skybox_top3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\SpaceShip.png">
+    <Content Include="data\textures\black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\SpaceShip\AmbientOcclusion.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\SpaceShip\Blur.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\SpaceShip\Metalness.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\SpaceShip\NormalMap.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\SpaceShip\Roughness.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\SpaceShip\SpaceShip.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\textures\black.png">

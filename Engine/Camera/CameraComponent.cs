@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Engine.Render;
+﻿using Engine.Render;
 using OpenTK;
 
 namespace Engine {
@@ -15,16 +12,17 @@ namespace Engine {
 			BOTTOM_PLANE = 5
 		}
 
-		private struct Plane {
+		public struct Plane {
 			public double D;
 			public Vector3d Normal;
 		}
 
 		public Vector3d Position { get; private set; }
-		public Matrix4d LookAtMatrix { get; private set; }
-		private readonly Plane[] planes;
+		public Matrix4d PerspectiveProjection;
+		public Matrix4d LookAtMatrix;
+		public readonly Plane[] Planes;
 
-		public CameraComponent(GameObject gameObject) : base(gameObject) => planes = new Plane[6];
+		public CameraComponent(GameObject gameObject) : base(gameObject) => Planes = new Plane[6];
 
 		protected void SetLookAt(Vector3d eye, Vector3d target, Vector3d up) {
 			LookAtMatrix = Matrix4d.LookAt(eye, target, up);
@@ -33,7 +31,7 @@ namespace Engine {
 			CreateViewFrustumPlanes(LookAtMatrix  * DisplayCamera.PerspectiveProjection);
 		}
 
-		private void CreateViewFrustumPlanes(Matrix4d mat) {
+		internal void CreateViewFrustumPlanes(Matrix4d mat) {
 			
 			// by Mohrmann
 			// left
@@ -45,7 +43,7 @@ namespace Engine {
 				},
 				D = mat.M44 + mat.M41
 			};
-			planes[(int) PlaneEnum.LEFT_PLANE] = plane;
+			Planes[(int) PlaneEnum.LEFT_PLANE] = plane;
 
 			// right
 			plane = new Plane {
@@ -56,7 +54,7 @@ namespace Engine {
 				},
 				D = mat.M44 - mat.M41
 			};
-			planes[(int) PlaneEnum.RIGHT_PLANE] = plane;
+			Planes[(int) PlaneEnum.RIGHT_PLANE] = plane;
 
 			// bottom
 			plane = new Plane {
@@ -67,7 +65,7 @@ namespace Engine {
 				},
 				D = mat.M44 + mat.M42
 			};
-			planes[(int) PlaneEnum.BOTTOM_PLANE] = plane;
+			Planes[(int) PlaneEnum.BOTTOM_PLANE] = plane;
 
 			// top
 			plane = new Plane {
@@ -78,7 +76,7 @@ namespace Engine {
 				},
 				D = mat.M44 - mat.M42
 			};
-			planes[(int) PlaneEnum.TOP_PLANE] = plane;
+			Planes[(int) PlaneEnum.TOP_PLANE] = plane;
 
 			// near
 			plane = new Plane {
@@ -89,7 +87,7 @@ namespace Engine {
 				},
 				D = mat.M44 + mat.M43
 			};
-			planes[(int) PlaneEnum.NEAR_PLANE] = plane;
+			Planes[(int) PlaneEnum.NEAR_PLANE] = plane;
 
 			// far
 			plane = new Plane {
@@ -100,7 +98,7 @@ namespace Engine {
 				},
 				D = mat.M44 - mat.M43
 			};
-			planes[(int) PlaneEnum.FAR_PLANE] = plane;
+			Planes[(int) PlaneEnum.FAR_PLANE] = plane;
 			
 			
 			/*
@@ -175,7 +173,7 @@ namespace Engine {
 			
 			// normalize
 			for (var i = 0; i < 6; i++) {
-				plane = planes[i];
+				plane = Planes[i];
 
 				var length = plane.Normal.Length;
 				plane.Normal.X = plane.Normal.X / length;
@@ -183,16 +181,16 @@ namespace Engine {
 				plane.Normal.Z = plane.Normal.Z / length;
 				plane.D = plane.D / length;
 
-				planes[i] = plane;
+				Planes[i] = plane;
 			}
 		}
 
-		private double SignedDistanceToPoint(int planeID, Vector3d pt) => Vector3d.Dot(planes[planeID].Normal, pt) + planes[planeID].D;
+		private double SignedDistanceToPoint(int planeID, Vector3d pt) => Vector3d.Dot(Planes[planeID].Normal, pt) + Planes[planeID].D;
 
 		public Intersect IsSphereInFrustum(Sphere boundingSphere) {
 			var farIn = 0;
 			
-			for (var i = 0; i < planes.Length; i++) {
+			for (var i = 0; i < Planes.Length; i++) {
 				var dist = SignedDistanceToPoint(i, boundingSphere.Center);
 				if (dist < -boundingSphere.Radius)
 					return Intersect.OUTSIDE;
@@ -200,7 +198,7 @@ namespace Engine {
 					farIn++;
 			}
 			
-			return farIn == planes.Length ? Intersect.INSIDE : Intersect.OVERLAP;
+			return farIn == Planes.Length ? Intersect.INSIDE : Intersect.OVERLAP;
 		}
 
 		public override void Update() { }

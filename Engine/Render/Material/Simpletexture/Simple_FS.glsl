@@ -7,7 +7,6 @@ in vec2 texcoord;
 
 out vec4 outputColor;
 
-void main()
-{
+void main() {
     outputColor = texture2D(sampler, texcoord);
 }

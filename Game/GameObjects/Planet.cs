@@ -62,7 +62,7 @@ namespace Game.GameObjects {
 		}
 
 		public void deactivateMarker() {
-			HUD.RemoveHudObjectMarker(objectMarker.id);
+			HUD.RemoveHudObjectMarker(objectMarker.ID);
 		}
 
 		
@@ -84,7 +84,7 @@ namespace Game.GameObjects {
 		protected override void OnDestroy() {
 			//TODO BIIIG explosion
 			RenderEngine.UnregisterRenderComponent(RenderComponent);
-			HUD.RemoveHudObjectMarker(objectMarker.id);
+			HUD.RemoveHudObjectMarker(objectMarker.ID);
 			CollisionEngine.Unregister(CollisionComponent);
 		}
 
