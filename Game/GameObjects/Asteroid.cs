@@ -19,7 +19,8 @@ namespace Game.GameObjects {
 			set {
 				_hp = value;
 				if (_hp <= 0) {
-					Destroy();
+					Destroy(this);
+					Statistics.IncreaseScore();
 				}
 			}
 		}
@@ -60,8 +61,7 @@ namespace Game.GameObjects {
 			renderComponent.Update();
 		}
 
-		public override void Destroy() {
-			base.Destroy();
+		protected override void OnDestroy() {
 			RenderEngine.UnregisterRenderComponent(renderComponent);
 			CollisionEngine.Unregister(CollisionComponent);
 		}

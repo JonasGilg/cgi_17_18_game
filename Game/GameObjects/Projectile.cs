@@ -47,7 +47,7 @@ namespace Game.GameObjects {
                     case Projectile proj:
                         return;
                 }
-                Destroy();
+                World.RemoveFromWorld(this);
             });
             CollisionEngine.Register(CollisionComponent);
         }
@@ -64,13 +64,10 @@ namespace Game.GameObjects {
             renderComponent.Update();
         }
         
-        public override void Destroy() {
-            base.Destroy();
+
+        protected override void OnDestroy() {
             RenderEngine.UnregisterRenderComponent(renderComponent);
             CollisionEngine.Unregister(CollisionComponent);
-        }
-
-        public override void OnDestroy() {
             //TODO disappear with small explosion
         }
 

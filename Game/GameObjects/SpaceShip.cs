@@ -88,7 +88,7 @@ namespace Game.GameObjects {
 					case MetalChunk chunk:
 						Statistics.IncreaseScore(chunk.points);
 						Console.WriteLine(chunk.points + " points collected");
-						chunk.Destroy();
+						GameObject.Destroy(chunk);
 						break;
 				}
 			});
@@ -131,14 +131,10 @@ namespace Game.GameObjects {
 			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
 		}
 		
-		public override void Destroy() {
-			base.Destroy();
+		protected override void OnDestroy() {
+			//TODO explosion animation here
 			RenderEngine.UnregisterRenderComponent(renderComponent);
 			CollisionEngine.Unregister(CollisionComponent);
-		}
-
-		public override void OnDestroy() {
-			//TODO explosion animation here
 		}
 	}
 }

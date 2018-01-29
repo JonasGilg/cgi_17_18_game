@@ -55,16 +55,8 @@ namespace Engine {
 			OBJECTS.Add(obj);
 		}
 
-		public static void RemoveFromWorld(GameObject obj) {
-			obj.Destroy();
-			OBJECTS.Remove(obj);
-		}
-
-		public static async void RemoveFromWorldAfter(GameObject obj, int millisDelay) {
-			await Task.Delay(millisDelay);
-			obj.Destroy();
-			OBJECTS.Remove(obj);
-		}
+		public static void RemoveFromWorld(GameObject obj) => OBJECTS.Remove(obj);
+		
 
 		
 	}

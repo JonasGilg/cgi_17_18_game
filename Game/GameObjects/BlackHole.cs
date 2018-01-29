@@ -37,8 +37,7 @@ namespace Game.GameObjects {
             RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
         }
         
-        public override void Destroy() {
-            base.Destroy();
+        protected override void OnDestroy() {
             RenderEngine.UnregisterRenderComponent(RenderComponent);
             CollisionEngine.Unregister(CollisionComponent);
         }

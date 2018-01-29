@@ -68,14 +68,10 @@ namespace Game.GameObjects {
             renderComponent.Update();
         }
         
-        public override void Destroy() {
-            base.Destroy();
+        protected override void OnDestroy() {
+            //TODO chunk should disappear with a small effect (e.g light)
             RenderEngine.UnregisterRenderComponent(renderComponent);
             CollisionEngine.Unregister(CollisionComponent);
-        }
-
-        public override void OnDestroy() {
-            //TODO chunk should disappear with a small effect (e.g light)
         }
 
         public override string ToString() => TransformComponent.WorldPosition.ToString();

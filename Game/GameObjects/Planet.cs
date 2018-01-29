@@ -24,7 +24,7 @@ namespace Game.GameObjects {
 			set {
 				_hp = value;
 				if (_hp <= 0) {
-					Destroy();
+					Destroy(this);
 				}
 			}
 		}
@@ -81,15 +81,11 @@ namespace Game.GameObjects {
 			RenderComponent.Update();
 		}
 		
-		public override void Destroy() {
-			base.Destroy();
+		protected override void OnDestroy() {
+			//TODO BIIIG explosion
 			RenderEngine.UnregisterRenderComponent(RenderComponent);
 			HUD.RemoveHudObjectMarker(objectMarker.id);
 			CollisionEngine.Unregister(CollisionComponent);
-		}
-
-		public override void OnDestroy() {
-			//TODO BIIIG explosion
 		}
 
 		public override string ToString() {
