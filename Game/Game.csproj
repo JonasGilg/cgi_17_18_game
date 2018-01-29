@@ -50,6 +50,7 @@
     <Compile Include="Components\BounceMaterial.cs" />
     <Compile Include="Components\FiringComponent.cs" />
     <Compile Include="Components\GravityMovement.cs" />
+    <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\MoveInputComponent.cs" />
     <Compile Include="Components\RLMoveInputComponent.cs" />
     <Compile Include="Factories\LevelGenerator.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="GameObjects\Planet.cs" />
     <Compile Include="GameObjects\Projectile.cs" />
     <Compile Include="GameObjects\SpaceShip.cs" />
+    <Compile Include="GamePlay\GamePlayEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\AsteroidFactory.cs" />
     <Compile Include="Window\AppStarter.cs" />

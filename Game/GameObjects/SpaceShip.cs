@@ -21,6 +21,7 @@ namespace Game.GameObjects {
 		private readonly MoveInputComponent moveInputComponent;
 		public readonly SphereCollider CollisionComponent;
 		private readonly FiringComponent firingComponent;
+		public readonly HealthComponent healthComponent;
 
 		private readonly HudTextElement speed;
 		private readonly HudTextElement position;
@@ -30,22 +31,9 @@ namespace Game.GameObjects {
 		public double invulnerableTill = Time.TotalTime;
 		public bool IsInvulnerable => invulnerableTill > Time.TotalTime;
 		
-		public const int maxHP = 5;
-
-		//private int _hp;
-		public int currentHP;/* {
-			get => _hp;
-			set {
-				_hp = value;
-				if (_hp <= 0) {
-					Destroy();
-				}
-			}
-		}*/
 		private readonly HudTextElement healthPoints;
 
 		public SpaceShip() {
-			currentHP = maxHP;
 			speed = HUD.CreateHudTextElement("", new Vector2(-1f, -0.94f));
 			position = HUD.CreateHudTextElement("", new Vector2(-1f, -0.88f));
 			healthPoints = HUD.CreateHudTextElement("", new Vector2(-1f, -0.82f));
@@ -76,17 +64,11 @@ namespace Game.GameObjects {
 				IO.PrintAsync(ToString() + " collided with " + collision.otherGameObject.ToString());
 				switch (collision.otherGameObject) {
 					case Asteroid asteroid:
-						if (!IsInvulnerable) {
-							currentHP--;
-							makeInvulnerable();
-						}
+						healthComponent.takeDamage(1);
 						moveComponent.LinearVelocity *= -1;//* asteroid.CollisionComponent.PhysicsMaterial.Bounciness;
 						break;
 					case Planet planet:
-						if (!IsInvulnerable) {
-							currentHP = 0;
-							makeInvulnerable();
-						}
+						healthComponent.takeDamage(300);
 						moveComponent.LinearVelocity *= -1;// * planet.CollisionComponent.PhysicsMaterial.Bounciness;
 						break;
 					case MetalChunk chunk:
@@ -103,6 +85,8 @@ namespace Game.GameObjects {
 			moveInputComponent = new ArcadeMoveInputComponent(this, TransformComponent, moveComponent);
 
 			firingComponent = new FiringComponent(this);
+			
+			healthComponent = new HealthComponent(this);
 		}
 
 		private void makeInvulnerable() => invulnerableTill = Time.TotalTime + invulnerabilityTime;
@@ -115,6 +99,7 @@ namespace Game.GameObjects {
 			//Console.Out.WriteLine(renderComponent.AABB.Center.ToString());
 			cameraComponent.Update();
 			firingComponent.Update();
+			healthComponent.Update();
 
 			if (Keyboard.Released(Key.Keypad1)) {
 				renderComponent.Material = MaterialManager.GetMaterial(Material.NORMAL_MAPPING);
@@ -127,7 +112,7 @@ namespace Game.GameObjects {
 			position.Text =
 				$"POSITION: {TransformComponent.WorldPosition.X:N0}, {TransformComponent.WorldPosition.Y:N0}, {TransformComponent.WorldPosition.Z:N0}";
 			speed.Text = $"   SPEED: {moveComponent.LinearVelocity.LengthFast:N2}M/S";
-			healthPoints.Text = $"HP: {currentHP}/{maxHP}";
+			healthPoints.Text = healthComponent.healthPointStatus();
 
 		}
 
