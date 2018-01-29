@@ -15,6 +15,13 @@ namespace Game.GamePlay {
 				Orientation = Quaterniond.Identity
 			}
 		};
+
+		public static void ResetSpaceShip() {
+			spaceship.TransformComponent.Position = Vector3d.Zero;
+			spaceship.TransformComponent.Orientation = Quaterniond.Identity;
+			spaceship.moveComponent.LinearVelocity = Vector3d.Zero;
+			spaceship.moveComponent.AngularVelocity = Vector3d.Zero;
+		}
 		
 		public static int CurrentLevelIndex = -1;
 		public static Action[] LEVELS = {

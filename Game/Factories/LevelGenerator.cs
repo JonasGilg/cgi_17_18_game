@@ -48,14 +48,10 @@ namespace Game.Utils {
             
 
             //the player
-            var ship = new SpaceShip {
-                TransformComponent = {
-                    Scale = new Vector3d(0.02f),
-                    Position = startingPoint,
-                    Orientation = startOrientation
-                }
-            };
-            GameObject.Instantiate(ship);
+            GamePlayEngine.ResetSpaceShip();
+            GamePlayEngine.spaceship.TransformComponent.Position = startingPoint;
+            GamePlayEngine.spaceship.TransformComponent.Orientation = startOrientation;
+            GameObject.Instantiate(GamePlayEngine.spaceship);
 
             //black hole
             var blackHole = new BlackHole {
@@ -79,7 +75,7 @@ namespace Game.Utils {
 
         public static void GenerateLevel1b() {
             //sun
-            var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(5000,0,0), new Vector3d(2000.0),
+            var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(11000,0,0), new Vector3d(2000.0),
                 new Vector3d(0,0.5,0));
             GameObject.Instantiate(sun);
             
@@ -90,13 +86,27 @@ namespace Game.Utils {
                 new Vector4(.950f, .950f, .950f, 0f));
             
             //the player
-            GamePlayEngine.spaceship.TransformComponent.Position = Vector3d.Zero;
-            GamePlayEngine.spaceship.TransformComponent.Orientation = Quaterniond.Identity;
+            GamePlayEngine.ResetSpaceShip();
             GameObject.Instantiate(GamePlayEngine.spaceship);
-            
-            GameObject.Instantiate(new FinishMarker() {
+
+            MetalChunkFactory.GenerateSingle(new Vector3d(200,0,0),MetalType.Copper );
+            MetalChunkFactory.GenerateSingle(new Vector3d(350,0,50),MetalType.Copper );
+            MetalChunkFactory.GenerateSingle(new Vector3d(500,0,0),MetalType.Copper );
+            MetalChunkFactory.GenerateSingle(new Vector3d(650,0,-50),MetalType.Copper );
+            MetalChunkFactory.GenerateLine(new Vector3d(800, 0, 0), new Vector3d(1200, 0, 0), MetalType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(1400, 0, 100), new Vector3d(1800, 0, 100), MetalType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(2000, 0, -100), new Vector3d(2500, 0, -100), MetalType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(2700, 100, 0), new Vector3d(3500, 100, 0), MetalType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(3700, -100, 0), new Vector3d(4500, -100, 0), MetalType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(4700, 0, 100), new Vector3d(5200, 0, -100), MetalType.Copper, 15);
+            MetalChunkFactory.GenerateLine(new Vector3d(5400, 0, -100), new Vector3d(5900, 0, 100), MetalType.Copper, 15);
+            MetalChunkFactory.GenerateLine(new Vector3d(6100, 100, 0), new Vector3d(6600, -100, 0), MetalType.Copper, 15);
+            MetalChunkFactory.GenerateLine(new Vector3d(6800, -100, 0), new Vector3d(7300, 100, 0), MetalType.Copper, 15);
+
+            //finish
+            GameObject.Instantiate(new FinishMarker {
                 TransformComponent = {
-                    Position = new Vector3d(2000,0,0),
+                    Position = new Vector3d(7500,0,0),
                     Scale = new Vector3d(200)
                 }
             });
@@ -104,7 +114,7 @@ namespace Game.Utils {
         
         public static void GenerateLevel2() {
             //sun
-            var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(5000,0,0), new Vector3d(2000.0),
+            var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(11000,0,0), new Vector3d(2000.0),
                 new Vector3d(0,0.5,0));
             GameObject.Instantiate(sun);
             
@@ -115,18 +125,27 @@ namespace Game.Utils {
                 new Vector4(.950f, .950f, .950f, 0f));
             
             //the player
-            GameObject.Instantiate(new SpaceShip {
+            GamePlayEngine.ResetSpaceShip();
+            GameObject.Instantiate(GamePlayEngine.spaceship);
+
+            MetalChunkFactory.GenerateSingle(new Vector3d(200,0,0),MetalType.Copper );
+            MetalChunkFactory.GenerateSingle(new Vector3d(350,0,50),MetalType.Copper );
+            MetalChunkFactory.GenerateSingle(new Vector3d(500,0,0),MetalType.Copper );
+            MetalChunkFactory.GenerateSingle(new Vector3d(650,0,-50),MetalType.Copper );
+            MetalChunkFactory.GenerateLine(new Vector3d(800, 0, 0), new Vector3d(1200, 0, 0), MetalType.Copper, 5);
+            MetalChunkFactory.GenerateRing(new Vector3d(1500, -200, 0), Vector3d.Zero, MetalType.Copper, 30, 200);
+            MetalChunkFactory.GenerateLine(new Vector3d(2000, 0, -100), new Vector3d(2500, 0, -100), MetalType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(2700, 100, 0), new Vector3d(3500, 100, 0), MetalType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(3700, -100, 0), new Vector3d(4500, -100, 0), MetalType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(4700, 0, 100), new Vector3d(5200, 0, -100), MetalType.Copper, 15);
+            MetalChunkFactory.GenerateLine(new Vector3d(5400, 0, -100), new Vector3d(5900, 0, 100), MetalType.Copper, 15);
+            MetalChunkFactory.GenerateLine(new Vector3d(6100, 100, 0), new Vector3d(6600, -100, 0), MetalType.Copper, 15);
+            MetalChunkFactory.GenerateLine(new Vector3d(6800, -100, 0), new Vector3d(7300, 100, 0), MetalType.Copper, 15);
+
+            //finish
+            GameObject.Instantiate(new FinishMarker {
                 TransformComponent = {
-                    Scale = new Vector3d(0.02f),
-                    Position = new Vector3d(0,0,500),
-                    Orientation = Quaterniond.Identity
-                }
-            });
-            
-            //Finish
-            GameObject.Instantiate(new FinishMarker() {
-                TransformComponent = {
-                    Position = new Vector3d(2000,0,0),
+                    Position = new Vector3d(7500,0,0),
                     Scale = new Vector3d(200)
                 }
             });
@@ -134,13 +153,6 @@ namespace Game.Utils {
         
         public static void GenerateLevel3() {
             //the player
-            GameObject.Instantiate(new SpaceShip {
-                TransformComponent = {
-                    Scale = new Vector3d(0.02f),
-                    Position = new Vector3d(0,0,500),
-                    Orientation = Quaterniond.Identity
-                }
-            });
         }
         
         public static void GenerateLevel4() {

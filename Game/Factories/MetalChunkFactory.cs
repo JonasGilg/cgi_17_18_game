@@ -19,7 +19,7 @@ namespace Game.Utils {
         /// <param name="type"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public static MetalChunk GenerateSingle(Vector3d position, MetalType type, double scale = 10.0) {
+        public static MetalChunk GenerateSingle(Vector3d position, MetalType type, double scale = 5.0) {
             var chunk = new MetalChunk(type) {
                 TransformComponent = {
                     Scale = new Vector3d(scale),
@@ -43,7 +43,7 @@ namespace Game.Utils {
         /// Returns a list of the generated metal chunks.
         /// The returned list is empty if count is 0 oder less.
         /// </returns>
-        public static List<MetalChunk> GenerateLine(Vector3d startPosition, Vector3d endPosition, MetalType type, int count, double scale = 10.0 ) {
+        public static List<MetalChunk> GenerateLine(Vector3d startPosition, Vector3d endPosition, MetalType type, int count, double scale = 5.0 ) {
             var chunks = new List<MetalChunk>();
             if (count < 1) return chunks; //nothing to generate if count is 0
             
@@ -89,7 +89,7 @@ namespace Game.Utils {
         /// Returns a list of the generated metal chunks.
         /// The returned list is empty if count is 0 oder less.
         /// </returns>
-        public static List<MetalChunk> GenerateRing(Vector3d center, Vector3d eulerAngle, MetalType type, int count, double radius, double scale = 10.0 ) {
+        public static List<MetalChunk> GenerateRing(Vector3d center, Vector3d eulerAngle, MetalType type, int count, double radius, double scale = 5.0 ) {
             var chunks = new List<MetalChunk>();
             if (count < 1) return chunks; //nothing to generate if count is 0
             
@@ -125,7 +125,7 @@ namespace Game.Utils {
         /// Returns a list of the generated metal chunks.
         /// The returned list is empty if count is 0 oder less.
         /// </returns>
-        public static List<MetalChunk> GenerateEye(Vector3d center, Vector3d eulerAngle, MetalType ringType, int ringCount, double radius, MetalType eyeType, double ringScale = 10.0, double eyeScale = 10.0 ) {
+        public static List<MetalChunk> GenerateEye(Vector3d center, Vector3d eulerAngle, MetalType ringType, int ringCount, double radius, MetalType eyeType, double ringScale = 5.0, double eyeScale = 5.0 ) {
             var chunks = new List<MetalChunk>();
             
             chunks.AddRange(GenerateRing(center,eulerAngle,ringType,ringCount,radius,ringScale));
