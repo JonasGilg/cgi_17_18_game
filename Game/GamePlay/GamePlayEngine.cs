@@ -25,7 +25,8 @@ namespace Game.GamePlay {
 		
 		public static int CurrentLevelIndex = -1;
 		public static Action[] LEVELS = {
-			LevelGenerator.GenerateLevel1b,
+			LevelGenerator.GenerateLevel0,
+			LevelGenerator.GenerateLevel1,
 			LevelGenerator.GenerateLevel2,
 			LevelGenerator.GenerateLevel3,
 			LevelGenerator.GenerateLevel4,

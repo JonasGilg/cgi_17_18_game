@@ -149,7 +149,7 @@ namespace Game.Utils {
         /// Returns a list of the generated metal chunks.
         /// The returned list is empty if count is 0 oder less.
         /// </returns>
-        public static List<MetalChunk> GenerateOnPositions(Dictionary<Vector3d,MetalType> positionsAndTypes, double scale = 10.0 ) {
+        public static List<MetalChunk> GenerateOnPositions(Dictionary<Vector3d,MetalType> positionsAndTypes, double scale = 5.0 ) {
             var chunks = new List<MetalChunk>();
             if (positionsAndTypes.Count < 1) return chunks;
 

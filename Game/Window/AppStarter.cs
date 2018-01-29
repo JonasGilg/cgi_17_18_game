@@ -31,7 +31,7 @@ namespace Game.Window {
 			
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 			
-			LevelGenerator.GenerateLevel1();
+			GamePlayEngine.LoadLevel(2);
 			
 			CascadedShadowMapping.Init(4096, 2048, 1024, 15, 20, 90, 1);
 			CascadedShadowMapping.SetLightDirection(Vector3d.UnitX);
