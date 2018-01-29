@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine;
+using Engine.Collision;
 using Engine.Component;
 using Engine.Material;
 using Engine.Model;
@@ -46,9 +47,9 @@ namespace Game.GameObjects {
                     case Projectile proj:
                         return;
                 }
-                Destroy();
+                World.RemoveFromWorld(this);
             });
-            CollisionComponent.Register();
+            CollisionEngine.Register(CollisionComponent);
         }
         
         public override void Awake() {
@@ -63,13 +64,10 @@ namespace Game.GameObjects {
             renderComponent.Update();
         }
         
-        public override void Destroy() {
-            base.Destroy();
-            RenderEngine.UnregisterRenderComponent(renderComponent);
-            CollisionComponent.Unregister();
-        }
 
-        public override void OnDestroy() {
+        protected override void OnDestroy() {
+            RenderEngine.UnregisterRenderComponent(renderComponent);
+            CollisionEngine.Unregister(CollisionComponent);
             //TODO disappear with small explosion
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine;
+using Engine.Collision;
 using Engine.Component;
 using Engine.GUI;
 using Engine.Material;
@@ -90,11 +91,11 @@ namespace Game.GameObjects {
 					case MetalChunk chunk:
 						Statistics.IncreaseScore(chunk.points);
 						Console.WriteLine(chunk.points + " points collected");
-						chunk.Destroy();
+						GameObject.Destroy(chunk);
 						break;
 				}
 			});
-			CollisionComponent.Register();
+			CollisionEngine.Register(CollisionComponent);
 
 			DisplayCamera.SetActiveCamera(cameraComponent);
 
@@ -133,14 +134,10 @@ namespace Game.GameObjects {
 			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
 		}
 		
-		public override void Destroy() {
-			base.Destroy();
-			RenderEngine.UnregisterRenderComponent(renderComponent);
-			CollisionComponent.Unregister();
-		}
-
-		public override void OnDestroy() {
+		protected override void OnDestroy() {
 			//TODO explosion animation here
+			RenderEngine.UnregisterRenderComponent(renderComponent);
+			CollisionEngine.Unregister(CollisionComponent);
 		}
 	}
 }
