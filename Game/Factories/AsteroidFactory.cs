@@ -30,7 +30,7 @@ namespace Game.Utils {
 	internal static class AsteroidTextureRegistry {
 		//# of folders in textures/asteroid/PBR
 		private const int NUM_PACKS = 5;
-		private const string PATH = "data/textures/asteroid/PBR/";
+		private const string PATH = "data/textures/asteroids/PBR/";
 		private static readonly Random RANDOM;
 		private static readonly List<string> ASTEROID_TEXTURES_DICTIONARY =
 			new List<string>(){
