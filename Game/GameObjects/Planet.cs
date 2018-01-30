@@ -17,7 +17,7 @@ namespace Game.GameObjects {
 		public readonly MoveComponent MoveComponent;
 		public readonly CollisionComponent CollisionComponent;
 
-		public readonly HudObjectMarker objectMarker;
+		
 		
 
 		public Planet(int textureId, GameObject referenceObject = null) {
@@ -54,7 +54,7 @@ namespace Game.GameObjects {
 			);
 			
 			
-			objectMarker =HUD.CreateHudObjectMarker(this);
+			
 			
 		}
 		

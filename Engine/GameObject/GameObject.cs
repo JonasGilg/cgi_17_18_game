@@ -13,9 +13,13 @@ namespace Engine {
 
 		public Dictionary<ComponentType, List<Component.Component>> optionalComponents = new Dictionary<ComponentType, List<Component.Component>>();
 		
+		public readonly HudObjectMarker objectMarker;
+		
 		protected GameObject() {
 			TransformComponent = new TransformComponent(this);
 			Radius = 0;
+			
+			objectMarker =HUD.CreateHudObjectMarker(this);
 			
 		}
 		

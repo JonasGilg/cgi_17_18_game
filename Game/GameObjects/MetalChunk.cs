@@ -7,6 +7,7 @@ using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
 using Engine.Util;
+using Game.GamePlay;
 using OpenTK;
 
 namespace Game.GameObjects {
@@ -16,9 +17,11 @@ namespace Game.GameObjects {
     }
     
     public class MetalChunk : GameObject {
-        private static readonly Model3D Model = ModelLoaderObject3D.Load("data/objects/asteroids/asteroid_0.obj");
+        private static readonly Model3D Model = ModelLoaderObject3D.Load("data/objects/SupplyRing.obj");
+        private static readonly int colorTexture = TextureManager.LoadTexture("data/textures/supplyRing/gold.png");
         private readonly RenderComponent renderComponent;
         public readonly SphereCollider CollisionComponent;
+        public readonly MoveComponent MoveComponent;
         public int points;
 
         public MetalChunk(MetalType type) {
@@ -42,18 +45,23 @@ namespace Game.GameObjects {
                 Model,
                 MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
                 new MaterialSettings {
-                    ColorTexture = TextureManager.LoadTexture("data/textures/asteroids/asteroid_0.png"),
-                    Shininess = 1/*,
+                    ColorTexture = colorTexture,
+                    Shininess = 1.5/*,
                     MetalnessTexture = TextureManager.LoadTexture("data/textures/pbr/" + type.ToString().ToLower() + "-metalness.png"),
                     RoughnessTexture = TextureManager.LoadTexture("data/textures/pbr/" + type.ToString().ToLower() + "-roughness.png")*/
                 },
                 this
             );
             
+            MoveComponent = new MoveComponent(this);
             
-            CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
-                IO.PrintAsync(ToString() + " collided with " + collision.OtherCollisonComponent.GameObject.ToString());
-                
+            
+            
+            
+            CollisionComponent = new SphereCollider(this, renderComponent.Model, passiveMessage => {
+                if (GamePlayEngine.playerSpaceship.Equals(passiveMessage.OtherCollisonComponent.GameObject)) {
+                    GamePlayEngine.supplyRingCollected(this);
+                }
             });
             
         }
@@ -68,6 +76,7 @@ namespace Game.GameObjects {
 
         public override void Update() {
             base.Update();
+            MoveComponent.Update();
             renderComponent.Update();
         }
         

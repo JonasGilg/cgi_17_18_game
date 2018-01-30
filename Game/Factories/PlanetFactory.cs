@@ -70,6 +70,7 @@ namespace Game.Utils {
 				
 				GameObject.Instantiate(asteroid);
 			}
+			
 			return planet;
 		}
 	}
