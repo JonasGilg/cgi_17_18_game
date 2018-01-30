@@ -6,7 +6,7 @@ using Game.GamePlay;
 
 namespace Game.GameObjects {
     public class GoalRing : Ring {
-        private static int colorTexture = TextureManager.LoadTexture("data/textures/supplyRing/gold.png");
+        private static int colorTexture = TextureManager.LoadTexture("data/textures/supplyRing/violett.png");
         
         protected override CollisionComponent InitCollider() => new SphereCollider(this, Model, passiveMessage => {
             if (GamePlayEngine.playerSpaceship.Equals(passiveMessage.OtherCollisonComponent.GameObject)) {

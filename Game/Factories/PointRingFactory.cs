@@ -13,7 +13,7 @@ namespace Game.Utils {
     /// <summary>
     /// A Factory that can generate different configurations of metal chunks.
     /// </summary>
-    public static class MetalChunkFactory {
+    public static class PointRingFactory {
 
         /// <summary>
         /// Generates a single metal chunk on a chosen location with specific type and scale.
@@ -22,7 +22,7 @@ namespace Game.Utils {
         /// <param name="type"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public static Ring GenerateSingle(Vector3d position, PointType type, double scale = 5.0) {
+        public static PointRing GenerateSingle(Vector3d position, PointType type, double scale = 5.0) {
             var chunk = new PointRing(type) {
                 TransformComponent = {
                     Scale = new Vector3d(scale),

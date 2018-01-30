@@ -47,6 +47,7 @@ namespace Game.GameObjects {
         protected override CollisionComponent InitCollider() => new SphereCollider(this, Model, passiveMessage => {
             IO.PrintAsync("points collected");
             Statistics.IncreaseScore(points);
+            GameObject.Destroy(this);
         });
 
         protected override RenderComponent InitRenderer() => new RenderComponent(

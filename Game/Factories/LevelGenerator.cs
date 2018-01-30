@@ -11,8 +11,35 @@ using OpenTK;
 
 namespace Game.Utils {
     public static class LevelGenerator {
-        private static readonly Vector3d startingPoint = new Vector3d(0.0, 2000.0, -5500.0);
+        private static readonly Vector3d startingPoint = new Vector3d(-500.0, 0.0, 0.0);
         private static readonly Quaterniond startOrientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, -1.5);
+
+        public static void GenerateRACETRACK_1() {
+            Light.SetSpotLight(Vector3d.Zero, 
+                //           r      g      b      a
+                new Vector4(.010f, .010f, .010f, 0f),
+                new Vector4(.950f, .950f, .950f, 0f),
+                new Vector4(.950f, .950f, .950f, 0f));
+            
+            GamePlayEngine.ResetSpaceShip();
+            GamePlayEngine.playerSpaceship.TransformComponent.Position = startingPoint;
+            GamePlayEngine.playerSpaceship.TransformComponent.Orientation = startOrientation;
+            GameObject.Instantiate(GamePlayEngine.playerSpaceship);
+            
+            var itemList = TrackFactory.generateTrackList(20000.0);
+            for (int i = 0; i < itemList.Count; i++) {
+                
+            }
+            
+            var finishMarker = new FinishMarker {
+                TransformComponent = {
+                    Position = startingPoint,
+                    Scale = new Vector3d(200)
+                }
+            };
+            GamePlayEngine.currentFinishMarker = finishMarker;
+            
+        }
         
         public static void GenerateLevel0() {
             //sun
@@ -86,10 +113,10 @@ namespace Game.Utils {
                 }
             };
             GameObject.Instantiate(goalRing);
-            GamePlayEngine.registerSupplyRing(goalRing);
+            GamePlayEngine.registerGoalRing(goalRing);
         }
 
-
+           /*
         //############################################# LEVEL 1 #############################################
         public static void GenerateLevel1() {
             //sun
@@ -106,22 +133,22 @@ namespace Game.Utils {
             GamePlayEngine.ResetSpaceShip();
             GameObject.Instantiate(GamePlayEngine.playerSpaceship);
 
-            MetalChunkFactory.GenerateOnPositions(new Dictionary<Vector3d, PointType> {
+            PointRingFactory.GenerateOnPositions(new Dictionary<Vector3d, PointType> {
                 {new Vector3d(200,0,0),PointType.Copper},
                 {new Vector3d(350,0,50),PointType.Copper},
                 {new Vector3d(500,0,0),PointType.Copper},
                 {new Vector3d(650,0,-50),PointType.Copper}
             });
-            MetalChunkFactory.GenerateLine(new Vector3d(800, 0, 0), new Vector3d(1200, 0, 0), PointType.Copper, 5);
-            MetalChunkFactory.GenerateLine(new Vector3d(1400, 0, 100), new Vector3d(1800, 0, 100), PointType.Copper, 5);
-            MetalChunkFactory.GenerateLine(new Vector3d(2000, 0, -100), new Vector3d(2500, 0, -100), PointType.Copper, 5);
-            MetalChunkFactory.GenerateLine(new Vector3d(2700, 100, 0), new Vector3d(3500, 100, 0), PointType.Copper, 5);
-            MetalChunkFactory.GenerateSingle(new Vector3d(3600, 0, 0), PointType.Copper);
-            MetalChunkFactory.GenerateLine(new Vector3d(3700, -100, 0), new Vector3d(4500, -100, 0), PointType.Copper, 5);
-            MetalChunkFactory.GenerateLine(new Vector3d(4700, 0, 100), new Vector3d(5200, 0, -100), PointType.Copper, 15);
-            MetalChunkFactory.GenerateLine(new Vector3d(5400, 0, -100), new Vector3d(5900, 0, 100), PointType.Copper, 15);
-            MetalChunkFactory.GenerateLine(new Vector3d(6100, 100, 0), new Vector3d(6600, -100, 0), PointType.Copper, 15);
-            MetalChunkFactory.GenerateLine(new Vector3d(6800, -100, 0), new Vector3d(7300, 100, 0), PointType.Copper, 15);
+            PointRingFactory.GenerateLine(new Vector3d(800, 0, 0), new Vector3d(1200, 0, 0), PointType.Copper, 5);
+            PointRingFactory.GenerateLine(new Vector3d(1400, 0, 100), new Vector3d(1800, 0, 100), PointType.Copper, 5);
+            PointRingFactory.GenerateLine(new Vector3d(2000, 0, -100), new Vector3d(2500, 0, -100), PointType.Copper, 5);
+            PointRingFactory.GenerateLine(new Vector3d(2700, 100, 0), new Vector3d(3500, 100, 0), PointType.Copper, 5);
+            PointRingFactory.GenerateSingle(new Vector3d(3600, 0, 0), PointType.Copper);
+            PointRingFactory.GenerateLine(new Vector3d(3700, -100, 0), new Vector3d(4500, -100, 0), PointType.Copper, 5);
+            PointRingFactory.GenerateLine(new Vector3d(4700, 0, 100), new Vector3d(5200, 0, -100), PointType.Copper, 15);
+            PointRingFactory.GenerateLine(new Vector3d(5400, 0, -100), new Vector3d(5900, 0, 100), PointType.Copper, 15);
+            PointRingFactory.GenerateLine(new Vector3d(6100, 100, 0), new Vector3d(6600, -100, 0), PointType.Copper, 15);
+            PointRingFactory.GenerateLine(new Vector3d(6800, -100, 0), new Vector3d(7300, 100, 0), PointType.Copper, 15);
 
             //finish
             GameObject.Instantiate(new FinishMarker {
@@ -148,34 +175,34 @@ namespace Game.Utils {
             GamePlayEngine.ResetSpaceShip();
             GameObject.Instantiate(GamePlayEngine.playerSpaceship);
 
-            MetalChunkFactory.GenerateSingle(new Vector3d(200,0,0),PointType.Copper );
-            MetalChunkFactory.GenerateSingle(new Vector3d(350,0,50),PointType.Copper );
-            MetalChunkFactory.GenerateSingle(new Vector3d(500,0,0),PointType.Copper );
-            MetalChunkFactory.GenerateSingle(new Vector3d(650,0,-50),PointType.Copper );
+            PointRingFactory.GenerateSingle(new Vector3d(200,0,0),PointType.Copper );
+            PointRingFactory.GenerateSingle(new Vector3d(350,0,50),PointType.Copper );
+            PointRingFactory.GenerateSingle(new Vector3d(500,0,0),PointType.Copper );
+            PointRingFactory.GenerateSingle(new Vector3d(650,0,-50),PointType.Copper );
             
-            MetalChunkFactory.GenerateLine(new Vector3d(800, 0, 0), new Vector3d(1200, 0, 0), PointType.Copper, 5);
+            PointRingFactory.GenerateLine(new Vector3d(800, 0, 0), new Vector3d(1200, 0, 0), PointType.Copper, 5);
             
-            MetalChunkFactory.GenerateRing(new Vector3d(1500, -200, 0), Vector3d.Zero, PointType.Copper, 25, 200);
+            PointRingFactory.GenerateRing(new Vector3d(1500, -200, 0), Vector3d.Zero, PointType.Copper, 25, 200);
             
-            MetalChunkFactory.GenerateLine(new Vector3d(1600, 0, 0), new Vector3d(2500, 0, 0), PointType.Copper, 25);
-            MetalChunkFactory.GenerateLine(new Vector3d(2700, 0, 0), new Vector3d(3500, 100, 0), PointType.Copper, 20);
-            MetalChunkFactory.GenerateLine(new Vector3d(3600, 100, 0), new Vector3d(4400, 0, 100), PointType.Copper, 20);
-            MetalChunkFactory.GenerateLine(new Vector3d(4500, 0, 100), new Vector3d(5300, -100, 0), PointType.Copper, 20);
-            MetalChunkFactory.GenerateLine(new Vector3d(5400, -100, 0), new Vector3d(6100, 0, -100), PointType.Copper, 20);
-            MetalChunkFactory.GenerateLine(new Vector3d(6200, 0, -100), new Vector3d(6600, 100, 0), PointType.Copper, 10);
-            MetalChunkFactory.GenerateLine(new Vector3d(6700, 100, 0), new Vector3d(7100, 100, 0), PointType.Copper, 20);
-            MetalChunkFactory.GenerateLine(new Vector3d(7200, 100, 0), new Vector3d(8000, 0, 0), PointType.Copper, 20);
-            MetalChunkFactory.GenerateLine(new Vector3d(8100, 0, 0), new Vector3d(8700, 0, 0), PointType.Copper, 20);
+            PointRingFactory.GenerateLine(new Vector3d(1600, 0, 0), new Vector3d(2500, 0, 0), PointType.Copper, 25);
+            PointRingFactory.GenerateLine(new Vector3d(2700, 0, 0), new Vector3d(3500, 100, 0), PointType.Copper, 20);
+            PointRingFactory.GenerateLine(new Vector3d(3600, 100, 0), new Vector3d(4400, 0, 100), PointType.Copper, 20);
+            PointRingFactory.GenerateLine(new Vector3d(4500, 0, 100), new Vector3d(5300, -100, 0), PointType.Copper, 20);
+            PointRingFactory.GenerateLine(new Vector3d(5400, -100, 0), new Vector3d(6100, 0, -100), PointType.Copper, 20);
+            PointRingFactory.GenerateLine(new Vector3d(6200, 0, -100), new Vector3d(6600, 100, 0), PointType.Copper, 10);
+            PointRingFactory.GenerateLine(new Vector3d(6700, 100, 0), new Vector3d(7100, 100, 0), PointType.Copper, 20);
+            PointRingFactory.GenerateLine(new Vector3d(7200, 100, 0), new Vector3d(8000, 0, 0), PointType.Copper, 20);
+            PointRingFactory.GenerateLine(new Vector3d(8100, 0, 0), new Vector3d(8700, 0, 0), PointType.Copper, 20);
             
-            MetalChunkFactory.GenerateRing(new Vector3d(9000, 300, 300), new Vector3d(0,0,90), PointType.Copper, 25, 300);
+            PointRingFactory.GenerateRing(new Vector3d(9000, 300, 300), new Vector3d(0,0,90), PointType.Copper, 25, 300);
             
-            MetalChunkFactory.GenerateLine(new Vector3d(9300, 0, 0), new Vector3d(9500, 0, 0), PointType.Copper, 4);
+            PointRingFactory.GenerateLine(new Vector3d(9300, 0, 0), new Vector3d(9500, 0, 0), PointType.Copper, 4);
             
-            MetalChunkFactory.GenerateRing(new Vector3d(9700, 0, 0), new Vector3d(0,90,0), PointType.Copper, 5, 18);
-            MetalChunkFactory.GenerateRing(new Vector3d(9750, 0, 0), new Vector3d(0,90,0), PointType.Copper, 5, 18);
-            MetalChunkFactory.GenerateRing(new Vector3d(9800, 0, 0), new Vector3d(0,90,0), PointType.Copper, 5, 18);
-            MetalChunkFactory.GenerateRing(new Vector3d(9850, 0, 0), new Vector3d(0,90,0), PointType.Copper, 5, 18);
-            MetalChunkFactory.GenerateRing(new Vector3d(9900, 0, 0), new Vector3d(0,90,0), PointType.Copper, 5, 18);
+            PointRingFactory.GenerateRing(new Vector3d(9700, 0, 0), new Vector3d(0,90,0), PointType.Copper, 5, 18);
+            PointRingFactory.GenerateRing(new Vector3d(9750, 0, 0), new Vector3d(0,90,0), PointType.Copper, 5, 18);
+            PointRingFactory.GenerateRing(new Vector3d(9800, 0, 0), new Vector3d(0,90,0), PointType.Copper, 5, 18);
+            PointRingFactory.GenerateRing(new Vector3d(9850, 0, 0), new Vector3d(0,90,0), PointType.Copper, 5, 18);
+            PointRingFactory.GenerateRing(new Vector3d(9900, 0, 0), new Vector3d(0,90,0), PointType.Copper, 5, 18);
 
             //finish
             GameObject.Instantiate(new FinishMarker {
@@ -289,5 +316,6 @@ namespace Game.Utils {
                 }
             });
         }
+        */
     }
 }

@@ -56,9 +56,11 @@
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\MoveInputComponent.cs" />
     <Compile Include="Components\RLMoveInputComponent.cs" />
+    <Compile Include="Factories\GoalRingFactory.cs" />
     <Compile Include="Factories\LevelGenerator.cs" />
-    <Compile Include="Factories\MetalChunkFactory.cs" />
+    <Compile Include="Factories\PointRingFactory.cs" />
     <Compile Include="Factories\PlanetFactory.cs" />
+    <Compile Include="Factories\TrackFactory.cs" />
     <Compile Include="GameObjects\Asteroid.cs" />
     <Compile Include="GameObjects\BlackHole.cs" />
     <Compile Include="GameObjects\FinishMarker.cs" />
@@ -908,6 +910,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\textures\supplyRing\gold.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\supplyRing\violett.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
