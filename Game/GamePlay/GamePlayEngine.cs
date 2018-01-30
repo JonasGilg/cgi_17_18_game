@@ -8,7 +8,7 @@ using OpenTK;
 namespace Game.GamePlay {
 	public static class GamePlayEngine {
 
-		public static SpaceShip spaceship = new SpaceShip {
+		public static SpaceShip playerSpaceship = new SpaceShip {
 			TransformComponent = {
 				Scale = new Vector3d(0.02f),
 				Position = Vector3d.Zero,
@@ -17,10 +17,10 @@ namespace Game.GamePlay {
 		};
 
 		public static void ResetSpaceShip() {
-			spaceship.TransformComponent.Position = Vector3d.Zero;
-			spaceship.TransformComponent.Orientation = Quaterniond.Identity;
-			spaceship.moveComponent.LinearVelocity = Vector3d.Zero;
-			spaceship.moveComponent.AngularVelocity = Vector3d.Zero;
+			playerSpaceship.TransformComponent.Position = Vector3d.Zero;
+			playerSpaceship.TransformComponent.Orientation = Quaterniond.Identity;
+			playerSpaceship.moveComponent.LinearVelocity = Vector3d.Zero;
+			playerSpaceship.moveComponent.AngularVelocity = Vector3d.Zero;
 		}
 		
 		public static int CurrentLevelIndex = -1;
@@ -45,8 +45,17 @@ namespace Game.GamePlay {
 			LoadLevel(CurrentLevelIndex+1);
 		}
 		public static void GameOver() {
-			GameObject.Destroy(spaceship);
+			GameObject.Destroy(playerSpaceship);
 			HUD.AddHudTextElement(HUD.CreateHudTextElement("GAME OVER", new Vector2(-0.5f, 0.5f), 2000f));
+		}
+
+		public static void RemoveObjectFromWorld(GameObject gameObject) {
+			if (gameObject.Equals(playerSpaceship)) {
+				GameOver();
+			}
+			else {
+				GameObject.Destroy(gameObject);
+			}
 		}
 	}
 }

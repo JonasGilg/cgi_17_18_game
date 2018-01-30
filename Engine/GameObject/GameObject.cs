@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Engine.Component;
 using Engine.GUI;
 using Engine.Render;
@@ -8,11 +10,13 @@ namespace Engine {
 		public TransformComponent TransformComponent;
 		public double Radius;
 		public Sphere BoundingSphere() => new Sphere(TransformComponent.WorldPosition, Radius);
-		
+
+		public Dictionary<ComponentType, List<Component.Component>> optionalComponents = new Dictionary<ComponentType, List<Component.Component>>();
 		
 		protected GameObject() {
 			TransformComponent = new TransformComponent(this);
 			Radius = 0;
+			
 		}
 		
 		public virtual void Awake() { }
@@ -29,8 +33,15 @@ namespace Engine {
 			obj.OnDestroy();
 			World.RemoveFromWorld(obj);
 		}
-		
-		
+
+		public bool searchOptionalComponents(ComponentType type, out List<Component.Component> resultList) {
+			if (!optionalComponents.TryGetValue(type, out resultList)) {
+				return false;
+			}
+
+			return resultList.Count > 0;
+		}
+
 		/// <summary>
 		/// hook method to implement behaviour happening at destruction time
 		/// </summary>

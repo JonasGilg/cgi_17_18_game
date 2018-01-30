@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using Engine;
 using Engine.Collision;
 using Engine.Component;
@@ -18,16 +19,6 @@ namespace Game.GameObjects {
 
 		public readonly HudObjectMarker objectMarker;
 		
-		private int _hp = 10;
-		public int hp {
-			get => _hp;
-			set {
-				_hp = value;
-				if (_hp <= 0) {
-					Destroy(this);
-				}
-			}
-		}
 
 		public Planet(int textureId, GameObject referenceObject = null) {
 			RenderComponent = new RenderComponent(
@@ -48,9 +39,19 @@ namespace Game.GameObjects {
 			else {
 				MoveComponent = new MoveComponent(this);
 			}
-
+			
 			CollisionComponent = new SphereCollider(this, RenderComponent.Model,
-				collision => { Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString()); });
+				message => {
+				
+					if (message.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT, out var componentList)) {
+						for (int i = 0; i < componentList.Count; i++) {
+							((HealthComponent) componentList[i]).instaKill();
+						}	
+					}
+				}
+				//noActive,
+				//noPhysics
+			);
 			
 			
 			objectMarker =HUD.CreateHudObjectMarker(this);

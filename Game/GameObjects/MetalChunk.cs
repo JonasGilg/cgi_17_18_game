@@ -6,6 +6,7 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
+using Engine.Util;
 using OpenTK;
 
 namespace Game.GameObjects {
@@ -51,7 +52,7 @@ namespace Game.GameObjects {
             
             
             CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
-                Console.WriteLine(ToString() + " collided with " + collision.otherGameObject.ToString());
+                IO.PrintAsync(ToString() + " collided with " + collision.OtherCollisonComponent.GameObject.ToString());
                 
             });
             

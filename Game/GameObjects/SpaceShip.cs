@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Engine;
 using Engine.Collision;
 using Engine.Component;
@@ -21,18 +22,15 @@ namespace Game.GameObjects {
 		private readonly MoveInputComponent moveInputComponent;
 		public readonly SphereCollider CollisionComponent;
 		private readonly FiringComponent firingComponent;
-		public readonly HealthComponent healthComponent;
+		public readonly HealthComponent HealthComponent;
 
 		private readonly HudTextElement speed;
 		private readonly HudTextElement position;
-
-		//TODO implement invulnerability for collision with planet and asteroids + blinking effect?
-		public const int invulnerabilityTime = 2000; //milliseconds
-		public double invulnerableTill = Time.TotalTime;
-		public bool IsInvulnerable => invulnerableTill > Time.TotalTime;
-		
 		private readonly HudTextElement healthPoints;
 
+
+		private readonly int PASSIVE_SHIP_DAMAGE = 10;
+		
 		public SpaceShip() {
 			speed = HUD.CreateHudTextElement("", new Vector2(-1f, -0.94f));
 			position = HUD.CreateHudTextElement("", new Vector2(-1f, -0.88f));
@@ -57,35 +55,42 @@ namespace Game.GameObjects {
 				},
 				this
 			);
-			
-
-			CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
-				IO.PrintAsync(ToString() + " collided with " + collision.otherGameObject.ToString());
-				switch (collision.otherGameObject) {
-					case Asteroid asteroid:
-						healthComponent.takeDamage(1);
-						moveComponent.LinearVelocity *= -1;//* asteroid.CollisionComponent.PhysicsMaterial.Bounciness;
-						break;
-					case Planet planet:
-						healthComponent.takeDamage(300);
-						moveComponent.LinearVelocity *= -1;// * planet.CollisionComponent.PhysicsMaterial.Bounciness;
-						break;
-					case MetalChunk chunk:
-						Statistics.IncreaseScore(chunk.points);
-						IO.PrintAsync(chunk.points + " points collected");
-						GameObject.Destroy(chunk);
-						break;
-				}
-			});
-
+			optionalComponents.Add(ComponentType.RENDER_COMPONENT, new List<Component>{renderComponent});
 			moveInputComponent = new ArcadeMoveInputComponent(this, TransformComponent, moveComponent);
 
 			firingComponent = new FiringComponent(this);
 			
-			healthComponent = new HealthComponent(this);
-		}
+			HealthComponent = new HealthComponent(this,2000,true);
+			optionalComponents.Add(ComponentType.HEALTH_COMPONENT,new List<Component>{HealthComponent});
+			
 
-		private void makeInvulnerable() => invulnerableTill = Time.TotalTime + invulnerabilityTime;
+			CollisionComponent = new SphereCollider(this, renderComponent.Model, 
+				passiveMessage => {
+					IO.PrintAsync("PASSIVE: "+ToString() + " <-- " + passiveMessage.OtherCollisonComponent.GameObject.ToString());
+					if (passiveMessage.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT,
+						out var componentList)) {
+						for (int i = 0; i < componentList.Count; i++) {
+							((HealthComponent)componentList[i]).takeDamage(PASSIVE_SHIP_DAMAGE);
+							
+						}
+					}
+				},
+				activeMessage => {
+					IO.PrintAsync("ACTIVE: " + ToString() + " --> " + activeMessage.OtherCollisonComponent.GameObject.ToString());
+					if (activeMessage.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT,
+						out var componentList)) {
+						for (int i = 0; i < componentList.Count; i++) {
+							((HealthComponent)componentList[i]).takeDamage(PASSIVE_SHIP_DAMAGE);
+							
+						}
+					}
+				}
+				);
+
+			
+			
+			
+		}
 
 		public override void Update() {
 			moveInputComponent.Update();
@@ -95,7 +100,7 @@ namespace Game.GameObjects {
 			//Console.Out.WriteLine(renderComponent.AABB.Center.ToString());
 			cameraComponent.Update();
 			firingComponent.Update();
-			healthComponent.Update();
+			HealthComponent.Update();
 
 			if (Keyboard.Released(Key.Keypad1)) {
 				renderComponent.Material = MaterialManager.GetMaterial(Material.NORMAL_MAPPING);
@@ -108,7 +113,7 @@ namespace Game.GameObjects {
 			position.Text =
 				$"POSITION: {TransformComponent.WorldPosition.X:N0}, {TransformComponent.WorldPosition.Y:N0}, {TransformComponent.WorldPosition.Z:N0}";
 			speed.Text = $"   SPEED: {moveComponent.LinearVelocity.LengthFast:N2}M/S";
-			healthPoints.Text = healthComponent.healthPointStatus();
+			healthPoints.Text = HealthComponent.healthPointStatus();
 
 		}
 

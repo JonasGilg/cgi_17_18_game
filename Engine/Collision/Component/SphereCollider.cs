@@ -1,9 +1,21 @@
-﻿using Engine.Model;
+﻿using Engine.Collision;
+using Engine.Collision.Component;
+using Engine.Model;
 
 namespace Engine {
 	public class SphereCollider : CollisionComponent {
-		public SphereCollider(GameObject gameObject, Model3D model, Collisionhandler collisionFunction) : base(gameObject,
-			model, collisionFunction) { }
+		public SphereCollider(GameObject gameObject,
+			Model3D model,
+			ExecuteFunction passiveCollisionFunctions = null,
+			ExecuteFunction activeCollisionFunctions = null,
+			
+			PhysicsMaterial physicsMaterial = null)
+			: base(gameObject, model,
+				passiveCollisionFunctions,
+				activeCollisionFunctions,
+				physicsMaterial) {
+			
+		}
 
 		public override bool IsColliding(CollisionComponent otherCollider) {
 			switch (otherCollider) {
@@ -12,7 +24,7 @@ namespace Engine {
 					              - sphere.GameObject.TransformComponent.WorldPosition).Length;
 
 					return veclen < (GameObject.Radius + sphere.GameObject.Radius);
-				case BoxCollider box:
+				case BoxColliderColComponent box:
 					return false;
 				default:
 					return false;

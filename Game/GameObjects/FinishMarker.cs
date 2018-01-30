@@ -36,7 +36,7 @@ namespace Game.GameObjects {
             
             
             CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
-                if (collision.otherGameObject is SpaceShip) {
+                if (collision.OtherCollisonComponent.GameObject is SpaceShip) {
                     IO.PrintAsync("Level " + GamePlayEngine.CurrentLevelIndex + " completed!");
                     GamePlayEngine.LoadNextLevel();
                 }

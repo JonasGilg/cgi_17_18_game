@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using Engine;
 using Engine.Collision;
 using Engine.Component;
@@ -9,21 +11,13 @@ using Game.Components;
 
 namespace Game.GameObjects {
 	public class Asteroid : GameObject {
+		private static int ASTEROID_HP = 20;
 		public readonly MoveComponent MoveComponent;
 		private readonly RenderComponent renderComponent;
 		public readonly SphereCollider CollisionComponent;
+		public readonly HealthComponent HealthComponent;
 
-		private int _hp = 3;
-		public int hp {
-			get => _hp;
-			set {
-				_hp = value;
-				if (_hp <= 0) {
-					Destroy(this);
-					Statistics.IncreaseScore();
-				}
-			}
-		}
+		
 
 		public Asteroid(Model3D model, int textureId, GameObject referenceObject = null) {
 			MoveComponent = referenceObject != null ? new GravityMovement(this, 0.0) : new MoveComponent(this);
@@ -37,15 +31,21 @@ namespace Game.GameObjects {
 				},
 				this
 			);
+			HealthComponent = new HealthComponent(this,ASTEROID_HP);
+			optionalComponents.Add(ComponentType.HEALTH_COMPONENT,new List<Component>{HealthComponent});
 			
-			
-
 			CollisionComponent = new SphereCollider(this, renderComponent.Model,
-				collision => {
-					if (collision.otherGameObject is Asteroid asteroid) {
-						Console.WriteLine("Asteroid " + ToString() + " collided with Asteroid " + asteroid.ToString());
+				message => {
+				
+					if (message.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT, out var componentList)) {
+						for (int i = 0; i < componentList.Count; i++) {
+								((HealthComponent) componentList[i]).takeDamage(25);
+						}	
 					}
-				});
+				}
+				//noActive,
+				//noPhysics
+					);
 			
 		}
 

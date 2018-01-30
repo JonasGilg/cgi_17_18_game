@@ -13,15 +13,17 @@ namespace Game.Components {
 
 		
 		//invulnerabilitystats
-		public bool Invulnerability = false;
+		public bool CanBeInvulnerable;
 		private int invulnerabilityTime = 2000; //milliseconds
 		private double invulnerableTill;
-		public bool IsInvulnerable => invulnerableTill > Time.TotalTime;
+		public bool IsVulnerable => invulnerableTill < Time.TotalTime;
 
-		public HealthComponent(GameObject gameObject, int maxHP = 100, bool invulnerability=true) : base(gameObject) {
+		private readonly double INVULNERABILITY_EFFECT_FREQUENZY = 100.0;
+
+		public HealthComponent(GameObject gameObject, int maxHP = 100, bool canBeInvulnerable=false) : base(gameObject) {
 			this.maxHP = maxHP;
 			setHealthpoints(maxHP);
-			Invulnerability = invulnerability;
+			CanBeInvulnerable = canBeInvulnerable;
 		}
 
 		//static hp setter/getter
@@ -33,16 +35,15 @@ namespace Game.Components {
 
 		
 		//interactive dmg taking
-		
+		public void instaKill() {
+			if(IsVulnerable)
+			currentHP = 0;
+		}
 		
 		public void takeDamage(int dmg) {
-			if (!IsInvulnerable) {
+			if (IsVulnerable) {
 				currentHP -= dmg;
-				if (!alive()) {
-					GamePlayEngine.GameOver();
-				} else {
-					refreshInvulnerability();
-				}
+				resetInvulnerabilityTime();
 			}
 		}
 
@@ -55,17 +56,61 @@ namespace Game.Components {
 			}
 		}
 
-		private void refreshInvulnerability() {
-			invulnerableTill = Time.TotalTime + invulnerabilityTime;
+		private double invulTimeStep = 0;
+		private void resetInvulnerabilityTime() {
+			if (CanBeInvulnerable) {
+				invulnerableTill = Time.TotalTime + invulnerabilityTime;
+				invulTimeStep = Time.TotalTime + INVULNERABILITY_EFFECT_FREQUENZY ;
+			}
+			
 		}
 
 		public Boolean alive() => currentHP > 0;
 		
 		
 		public override void Update() {
-			/*if (!alive()) {
-				GamePlayEngine.GameOver();
-			}*/
+			invulnerabilityEffect();
+			aliveCheck();
+			
+		}
+
+		private bool getsRendered = true;
+		private void invulnerabilityEffect() {
+			if (CanBeInvulnerable && !IsVulnerable) {
+				if (Time.TotalTime > invulTimeStep) {
+					if (getsRendered) {
+						if (GameObject.searchOptionalComponents(ComponentType.RENDER_COMPONENT, out var resultList)) {
+							for (int i = 0; i < resultList.Count; i++) {
+								RenderEngine.UnregisterRenderComponent((RenderComponent)resultList[i]);
+							}
+						}
+						getsRendered = false;
+					}
+					else {
+						if (GameObject.searchOptionalComponents(ComponentType.RENDER_COMPONENT, out var resultList)) {
+							for (int i = 0; i < resultList.Count; i++) {
+								RenderEngine.RegisterRenderComponent((RenderComponent)resultList[i]);
+							}
+						}
+						getsRendered = true;
+					}
+					invulTimeStep += INVULNERABILITY_EFFECT_FREQUENZY;
+				}
+			}
+			else if (IsVulnerable && !getsRendered) {
+				if (GameObject.searchOptionalComponents(ComponentType.RENDER_COMPONENT, out var resultList)) {
+					for (int i = 0; i < resultList.Count; i++) {
+						RenderEngine.RegisterRenderComponent((RenderComponent)resultList[i]);
+					}
+				}
+				getsRendered = true;
+			}
+		}
+
+		private void aliveCheck() {
+			if (!alive()) {
+				GamePlayEngine.RemoveObjectFromWorld(GameObject);
+			}
 		}
 
 		public String healthPointStatus() {
