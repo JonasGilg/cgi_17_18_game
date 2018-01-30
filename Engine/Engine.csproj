@@ -106,6 +106,7 @@
     <Compile Include="Util\AxisAlignedBoundingBox.cs" />
     <Compile Include="Util\DataStructure\IOctree.cs" />
     <Compile Include="Util\DataStructure\RecusiveOctree.cs" />
+    <Compile Include="Util\EnumUtils.cs" />
     <Compile Include="Util\Input.cs" />
     <Compile Include="Util\IO.cs" />
     <Compile Include="Util\Math.cs" />

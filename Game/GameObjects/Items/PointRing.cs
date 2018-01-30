@@ -1,36 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Engine;
 using Engine.Component;
 using Engine.Material;
-using Engine.Model;
 using Engine.Texture;
 using Engine.Util;
 
 namespace Game.GameObjects {
     
     public enum PointType {
-        Charcoal, Copper, Silver, Gold
+        Copper, Silver, Gold
     }
     
+
+    internal static class PointRingTextureRegistry {
+        private const string PATH = "data/textures/pointring/";
+        public static Dictionary<PointType, MaterialSettings> MATERIAL_SETTINGS;
+
+        static PointRingTextureRegistry() {
+            MATERIAL_SETTINGS = new Dictionary<PointType, MaterialSettings>();
+            foreach (PointType ptype in EnumUtil.GetValues<PointType>()) {
+                MATERIAL_SETTINGS.Add(ptype, new MaterialSettings {
+                    ColorTexture = TextureManager.LoadTexture(PATH + ptype.ToString().ToLower() + "/color.png"),
+                    AOTexture = TextureManager.LoadTexture(PATH + ptype.ToString().ToLower() + "/ao.png"),
+                    NormalTexture = TextureManager.LoadTexture(PATH + ptype.ToString().ToLower() + "/normal.png"),
+                    MetalnessTexture = TextureManager.LoadTexture(PATH + ptype.ToString().ToLower() + "/metalness.png"),
+                    RoughnessTexture = TextureManager.LoadTexture(PATH + ptype.ToString().ToLower() + "/roughness.png"),
+                    GlowTexture = TextureManager.LoadTexture(PATH + ptype.ToString().ToLower() + "/blur.png")
+                });
+            }
+        }
+    }
+
     public class PointRing : Ring {
         public int points;
         public PointType pointType;
-
-        public static Dictionary<PointType, int> colorTextures = new Dictionary<PointType, int> {
-            {PointType.Copper,TextureManager.LoadTexture("data/textures/supplyRing/gold.png")},
-            {PointType.Silver,TextureManager.LoadTexture("data/textures/supplyRing/gold.png")},
-            {PointType.Gold,TextureManager.LoadTexture("data/textures/supplyRing/gold.png")},
-            {PointType.Charcoal,TextureManager.LoadTexture("data/textures/supplyRing/gold.png")},
-        };
         
 
         public PointRing(PointType type) {
-            //TODO assign correct physical based rendering settings for each metal type
+            pointType = type;
+            
             switch (type) {
-                case PointType.Charcoal:
-                    points = -5;
-                    break;
                 case PointType.Copper:
                     points = 1;
                     break;
@@ -41,7 +50,7 @@ namespace Game.GameObjects {
                     points = 20;
                     break;
             }
-            renderComponent.MaterialSettings.ColorTexture = colorTextures[pointType];
+            renderComponent.MaterialSettings = PointRingTextureRegistry.MATERIAL_SETTINGS[pointType];
         }
 
         protected override CollisionComponent InitCollider() => new SphereCollider(this, Model, passiveMessage => {
@@ -52,11 +61,9 @@ namespace Game.GameObjects {
 
         protected override RenderComponent InitRenderer() => new RenderComponent(
             Model,
-            MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
+            MaterialManager.GetMaterial(Material.PBR),
             new MaterialSettings {
-                Shininess = 1.5 /*,
-                    MetalnessTexture = TextureManager.LoadTexture("data/textures/pbr/" + type.ToString().ToLower() + "-metalness.png"),
-                    RoughnessTexture = TextureManager.LoadTexture("data/textures/pbr/" + type.ToString().ToLower() + "-roughness.png")*/
+                Shininess = 1.5
             },
             this
         );
