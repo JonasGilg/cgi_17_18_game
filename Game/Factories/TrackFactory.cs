@@ -14,14 +14,14 @@ namespace Game.Utils {
 	}
 	
 	public static class TrackFactory {
-		private const double DIAMETER = 25.0;
+		private const double DIAMETER = 50.0;
 		private static List<Item> TRACK_LIST;
 	
 		public static List<Item> generateTrackList(double length) {
 			TRACK_LIST = new List<Item>();
 			
 			var startpoint = new Vector3d(200.0,0,0);
-			TRACK_LIST = createHelix(startpoint, Vector3d.UnitX, 1000, 1000, 20, 20,true);
+			TRACK_LIST.AddRange(createHelix(startpoint, Vector3d.UnitX, 1000, 1000, 20, 20,true));
 			
 
 			return TRACK_LIST;
@@ -31,9 +31,9 @@ namespace Game.Utils {
 			/////TODO ////
 			var angleStep = MathHelper.TwoPi / density;
 
-			var directionStep = direction.Normalized() * distanceStep; 
-			
-			
+			var directionStep = direction.Normalized() * distanceStep;
+
+			var stepFraction = distanceStep / density;
 			///////////////////////////////
 			var resList = new List<Item>();
 			var currentPosition = startPosition;
@@ -44,17 +44,57 @@ namespace Game.Utils {
 			//from radius=0 -> maxRadius in 1 turn
 			var radiusGrowthStep = maxRadius / density;
 			float currentAngle = 0;
-			for (double i = radiusGrowthStep; i < maxRadius; i+=radiusGrowthStep) {
+			double currentRadius = radiusGrowthStep;
+			while(currentAngle<MathHelper.TwoPi){
 				
-				currentPosition = new Vector3d(
-					i*Math.Cos(currentAngle),
-					i*Math.Sin(currentAngle),
-					MathHelper.TwoPi*distanceStep
-					)+directionStep;
-				currentAngle += angleStep;
+				currentPosition += new Vector3d(
+					currentRadius*Math.Cos(currentAngle),
+					currentRadius*Math.Sin(currentAngle),
+					MathHelper.TwoPi*stepFraction
+					);
+				
 				
 				createAddGoldRing(currentPosition);
+				currentAngle += angleStep;
+				currentRadius += radiusGrowthStep;
 			}
+			
+			currentAngle = 0;
+			currentRadius = maxRadius;
+			for (int i = 1; i < steps-1; i++) {
+				while (currentAngle < MathHelper.TwoPi) {
+					currentPosition += new Vector3d(
+						currentRadius * Math.Cos(currentAngle),
+						currentRadius * Math.Sin(currentAngle),
+						MathHelper.TwoPi * stepFraction
+					);
+
+
+					createAddGoldRing(currentPosition);
+					currentAngle += angleStep;
+					
+				}
+
+				currentAngle = 0;
+				
+			}
+
+			currentAngle = 0;
+			currentRadius = maxRadius;
+			while(currentAngle<MathHelper.TwoPi){
+				
+				currentPosition += new Vector3d(
+					currentRadius*Math.Cos(currentAngle),
+					currentRadius*Math.Sin(currentAngle),
+					MathHelper.TwoPi*stepFraction
+				);
+				
+				
+				createAddGoldRing(currentPosition);
+				currentAngle += angleStep;
+				currentRadius -= radiusGrowthStep;
+			}
+				
 				
 			
 			
