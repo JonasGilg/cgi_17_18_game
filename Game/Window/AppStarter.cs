@@ -36,12 +36,12 @@ namespace Game.Window {
 			GamePlayEngine.LoadLevel(0);
 
 			RenderEngine.IBLData = new IBLData {
-				IrradianceCubeTexture = TextureManager.LoadIBLIrradianceMap("data/textures/IBL/Diffuse_Irradiance/skybox", "png"),
-				SpecularCubeTexture = TextureManager.LoadIBLSpecularMap("data/textures/IBL/Specular/skybox", "png")
+				IrradianceCubeTexture = TextureManager.LoadIBLIrradianceMap("data/textures/IBL/Diffuse_Irradiance/skybox_star", "png"),
+				SpecularCubeTexture = TextureManager.LoadIBLSpecularMap("data/textures/IBL/Specular/skybox_star", "png")
 			};
 			
 			CascadedShadowMapping.Init(4096, 2048, 1024, 15, 20, 90, 1);
-			CascadedShadowMapping.SetLightDirection(-Vector3d.UnitX);
+			CascadedShadowMapping.SetLightDirection(new Vector3d(1000, 235, -431));
 			DeferredRendering.Init(Width, Height);
 
 			GL.Enable(EnableCap.DepthTest);

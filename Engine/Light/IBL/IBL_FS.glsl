@@ -55,5 +55,5 @@ void main() {
   
 	vec3 ambient = (kD * diffuse + specular) * matalAndShadow.g;
 
-	outputColor =  vec4(ambient + diffuse + specular + glow, 1);
+	outputColor =  vec4(ambient + diffuse + specular + glow, 1) * vec4(0.8, 1.2, 1.2, 1);
 }

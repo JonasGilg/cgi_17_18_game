@@ -20,7 +20,7 @@ namespace Engine.Render.Skybox {
 			PROGRAMM = ShaderLoader.LoadShader("Render/Skybox/Skybox_VS.glsl", "Render/Skybox/Skybox_FS.glsl");
 			const string debugBox = "";
 			SKY_BOX_TEXTURE = TextureManager.LoadCubemap(new[] {
-				"data/textures/skybox/" + debugBox + "skybox_right1.png",
+				"data/textures/skybox/" + debugBox + "skybox_right1_modified.png",
 				"data/textures/skybox/" + debugBox + "skybox_left2.png",
 				"data/textures/skybox/" + debugBox + "skybox_top3.png",
 				"data/textures/skybox/" + debugBox + "skybox_bottom4.png",

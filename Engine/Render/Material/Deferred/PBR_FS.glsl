@@ -41,11 +41,11 @@ void main() {
 	
 	float visibility = 1.0;
 	if (-viewPosition.z < dist1) {
-		visibility = texture(shadowmap_texture1, vec3(ShadowCoord[0].xy, ShadowCoord[0].z / ShadowCoord[0].w * 0.998));
+		visibility = texture(shadowmap_texture1, vec3(ShadowCoord[0].xy, ShadowCoord[0].z / ShadowCoord[0].w * 0.99));
 	} else if (-viewPosition.z < dist2) {
-		visibility = texture(shadowmap_texture2, vec3(ShadowCoord[1].xy, ShadowCoord[1].z / ShadowCoord[1].w * 0.998));
+		visibility = texture(shadowmap_texture2, vec3(ShadowCoord[1].xy, ShadowCoord[1].z / ShadowCoord[1].w * 0.99));
 	} else if (-viewPosition.z < dist3) {
-		visibility = texture(shadowmap_texture3, vec3(ShadowCoord[2].xy, ShadowCoord[2].z / ShadowCoord[2].w * 0.998));
+		visibility = texture(shadowmap_texture3, vec3(ShadowCoord[2].xy, ShadowCoord[2].z / ShadowCoord[2].w * 0.99));
 	}
 	
 	gMetalnessShadow.r = texture(metalness_texture, texcoord).r;
