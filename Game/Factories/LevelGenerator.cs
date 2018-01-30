@@ -139,16 +139,17 @@ namespace Game.Utils {
                 {new Vector3d(500,0,0),PointType.Copper},
                 {new Vector3d(650,0,-50),PointType.Copper}
             });
-            PointRingFactory.GenerateLine(new Vector3d(800, 0, 0), new Vector3d(1200, 0, 0), PointType.Copper, 5);
-            PointRingFactory.GenerateLine(new Vector3d(1400, 0, 100), new Vector3d(1800, 0, 100), PointType.Copper, 5);
-            PointRingFactory.GenerateLine(new Vector3d(2000, 0, -100), new Vector3d(2500, 0, -100), PointType.Copper, 5);
-            PointRingFactory.GenerateLine(new Vector3d(2700, 100, 0), new Vector3d(3500, 100, 0), PointType.Copper, 5);
-            PointRingFactory.GenerateSingle(new Vector3d(3600, 0, 0), PointType.Copper);
-            PointRingFactory.GenerateLine(new Vector3d(3700, -100, 0), new Vector3d(4500, -100, 0), PointType.Copper, 5);
-            PointRingFactory.GenerateLine(new Vector3d(4700, 0, 100), new Vector3d(5200, 0, -100), PointType.Copper, 15);
-            PointRingFactory.GenerateLine(new Vector3d(5400, 0, -100), new Vector3d(5900, 0, 100), PointType.Copper, 15);
-            PointRingFactory.GenerateLine(new Vector3d(6100, 100, 0), new Vector3d(6600, -100, 0), PointType.Copper, 15);
-            PointRingFactory.GenerateLine(new Vector3d(6800, -100, 0), new Vector3d(7300, 100, 0), PointType.Copper, 15);
+            MetalChunkFactory.GeneratePointRingWithAsteroidRing(new Vector3d(100, 0, 0), new Vector3d(0,90,0), PointType.Silver, 10, 75);
+            MetalChunkFactory.GenerateLine(new Vector3d(800, 0, 0), new Vector3d(1200, 0, 0), PointType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(1400, 0, 100), new Vector3d(1800, 0, 100), PointType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(2000, 0, -100), new Vector3d(2500, 0, -100), PointType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(2700, 100, 0), new Vector3d(3500, 100, 0), PointType.Copper, 5);
+            MetalChunkFactory.GenerateSingle(new Vector3d(3600, 0, 0), PointType.Copper);
+            MetalChunkFactory.GenerateLine(new Vector3d(3700, -100, 0), new Vector3d(4500, -100, 0), PointType.Copper, 5);
+            MetalChunkFactory.GenerateLine(new Vector3d(4700, 0, 100), new Vector3d(5200, 0, -100), PointType.Copper, 15);
+            MetalChunkFactory.GenerateLine(new Vector3d(5400, 0, -100), new Vector3d(5900, 0, 100), PointType.Copper, 15);
+            MetalChunkFactory.GenerateLine(new Vector3d(6100, 100, 0), new Vector3d(6600, -100, 0), PointType.Copper, 15);
+            MetalChunkFactory.GenerateLine(new Vector3d(6800, -100, 0), new Vector3d(7300, 100, 0), PointType.Copper, 15);
 
             //finish
             GameObject.Instantiate(new FinishMarker {
