@@ -875,25 +875,25 @@
     <Content Include="data\textures\black.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\SpaceShip\AmbientOcclusion.png">
+    <Content Include="data\textures\SpaceShip\ao.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\SpaceShip\Blur.png">
+    <Content Include="data\textures\SpaceShip\blur.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\SpaceShip\Metalness.png">
+    <Content Include="data\textures\SpaceShip\color.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\SpaceShip\NormalMap.png">
+    <Content Include="data\textures\SpaceShip\metalness.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\textures\SpaceShip\Roughness.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\textures\SpaceShip\SpaceShip.png">
+    <Content Include="data\textures\SpaceShip\normal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\textures\black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\SpaceShip\roughness.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\textures\sun.png">
