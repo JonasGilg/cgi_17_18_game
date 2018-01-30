@@ -28,11 +28,10 @@ namespace Engine {
 			LookAtMatrix = Matrix4d.LookAt(eye, target, up);
 			Position = eye;
 
-			CreateViewFrustumPlanes(LookAtMatrix  * DisplayCamera.PerspectiveProjection);
+			CreateViewFrustumPlanes(LookAtMatrix * DisplayCamera.PerspectiveProjection);
 		}
 
 		internal void CreateViewFrustumPlanes(Matrix4d mat) {
-			
 			// by Mohrmann
 			// left
 			var plane = new Plane {
@@ -99,8 +98,8 @@ namespace Engine {
 				D = mat.M44 - mat.M43
 			};
 			Planes[(int) PlaneEnum.FAR_PLANE] = plane;
-			
-			
+
+
 			/*
 			// gamedevs.org
 			// left
@@ -169,8 +168,8 @@ namespace Engine {
 			};
 			planes[(int) PlaneEnum.FAR_PLANE] = plane;
 			*/
-			
-			
+
+
 			// normalize
 			for (var i = 0; i < 6; i++) {
 				plane = Planes[i];
@@ -189,7 +188,7 @@ namespace Engine {
 
 		public Intersect IsSphereInFrustum(Sphere boundingSphere) {
 			var farIn = 0;
-			
+
 			for (var i = 0; i < Planes.Length; i++) {
 				var dist = SignedDistanceToPoint(i, boundingSphere.Center);
 				if (dist < -boundingSphere.Radius)
@@ -197,7 +196,7 @@ namespace Engine {
 				if (dist > boundingSphere.Radius)
 					farIn++;
 			}
-			
+
 			return farIn == Planes.Length ? Intersect.INSIDE : Intersect.OVERLAP;
 		}
 

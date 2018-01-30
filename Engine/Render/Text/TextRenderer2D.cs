@@ -97,9 +97,11 @@ namespace Engine.Render {
 
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
+			GL.Disable(EnableCap.DepthTest);
+			
 			GL.DrawArrays(PrimitiveType.Triangles, 0, vertices.Count);
 
+			GL.Enable(EnableCap.DepthTest);
 			GL.Disable(EnableCap.Blend);
 
 			GL.DisableVertexAttribArray(0);

@@ -22,7 +22,7 @@ namespace Engine {
 
 		public static Cascade[] Cascades { get; private set; }
 		
-		private static CameraComponent lightCamera;
+		public static CameraComponent LightCamera;
 
 		private static int framebufferName;
 
@@ -38,7 +38,7 @@ namespace Engine {
 		public static Vector3d LightDirection;
 
 		public static void Init(int textureDimension1, int textureDimension2, int textureDimension3, float distance1, float distance2, float distance3, float minZdistance) {
-			lightCamera = new CameraComponent(null);
+			LightCamera = new CameraComponent(null);
 			dist1 = distance1;
 			dist2 = distance2;
 			dist3 = distance3;
@@ -79,8 +79,8 @@ namespace Engine {
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Back);
 
-			cameraStartPosition = lightCamera.Position;
-			nearNormal = lightCamera.Planes[0].Normal;
+			cameraStartPosition = DisplayCamera.Position;
+			nearNormal = DisplayCamera.Planes[0].Normal;
 
 			const float dist0 = 0.0f;
 
@@ -116,15 +116,15 @@ namespace Engine {
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			Matrix4d.CreateOrthographicOffCenter(-Cascades[target].CascadeXySize, Cascades[target].CascadeXySize, -Cascades[target].CascadeXySize, Cascades[target].CascadeXySize, -Cascades[target].CascadeZSize, Cascades[target].CascadeZSize, out var ddProjection);
-			lightCamera.PerspectiveProjection = ddProjection;
+			LightCamera.PerspectiveProjection = ddProjection;
 
 			GL.Viewport(0, 0, textureSizes[target], textureSizes[target]);
 
 			var textCamPosition = cameraStartPosition + nearNormal * Cascades[target].CascadeDistance;
-			lightCamera.LookAtMatrix = Matrix4d.LookAt(textCamPosition, textCamPosition - LightDirection, new Vector3d(0, 1, 0));
-			lightCamera.CreateViewFrustumPlanes(DisplayCamera.Transformation * DisplayCamera.PerspectiveProjection);
+			LightCamera.LookAtMatrix = Matrix4d.LookAt(textCamPosition, textCamPosition - LightDirection, new Vector3d(0, 1, 0));
+			LightCamera.CreateViewFrustumPlanes(LightCamera.LookAtMatrix * LightCamera.PerspectiveProjection);
 
-			Cascades[target].ShadowTransformation = DisplayCamera.Transformation;
+			Cascades[target].ShadowTransformation = LightCamera.LookAtMatrix;
 			Cascades[target].ShadowProjection = ddProjection;
 
 			Cascades[target].DepthBias = Matrix4.CreateScale(0.5f, 0.5f, 0.5f).ToDouble();

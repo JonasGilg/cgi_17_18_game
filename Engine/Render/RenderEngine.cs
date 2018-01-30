@@ -1,17 +1,21 @@
-﻿﻿using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Engine.Component;
 using Engine.Material;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Render {
 	public static class RenderEngine {
 		private static readonly IOctree<RenderComponent> RENDER_OCTREE;
 
+		public static IBLData IBLData;
+
 		static RenderEngine() {
 			RENDER_OCTREE = new RecusiveOctree<RenderComponent>();
 		}
 
-		public static void RegisterRenderComponent(RenderComponent renderComponent) 
+		public static void RegisterRenderComponent(RenderComponent renderComponent)
 			=> RENDER_OCTREE.Insert(renderComponent);
 
 		public static void UnregisterRenderComponent(RenderComponent renderComponent)
@@ -25,8 +29,29 @@ namespace Engine.Render {
 					renderComponent.Material.RegisterForDraw(renderComponent);
 				}
 			}
+
+			CascadedShadowMapping.StartShadowMapping();
+			for (var i = 0; i < 3; i++) {
+				CascadedShadowMapping.SetDepthTextureTarget(i);
+				ShadowComponent.SHADOW_MATERIAL.DrawAll();
+			}
+			CascadedShadowMapping.EndShadowMapping();
+
+			DeferredRendering.StartGBufferRendering();
 			
 			MaterialManager.DrawAll();
+
+			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+			GL.ClearColor(new Color4(0, 0, 0, 0));
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+			DeferredRendering.DrawFullscreenIBL(IBLData);
+			DeferredRendering.CopyDepthToMainScreen();
+			
+			Skybox.Skybox.Draw();
+			
+			DeferredRendering.PingPongBlurGlowAndDraw();
+			
 		}
 
 		private static HashSet<RenderComponent> GetInFrustum() {

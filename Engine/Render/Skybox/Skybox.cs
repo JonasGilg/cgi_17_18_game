@@ -1,7 +1,6 @@
 ﻿using System;
 using Engine.Model;
 using Engine.Texture;
-using Engine.Render;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Render.Skybox {
@@ -19,14 +18,14 @@ namespace Engine.Render.Skybox {
 
 			SKYBOX_MODEL = ModelLoaderObject3D.Load("data/objects/Skybox.obj");
 			PROGRAMM = ShaderLoader.LoadShader("Render/Skybox/Skybox_VS.glsl", "Render/Skybox/Skybox_FS.glsl");
-			String debugBox = "";
+			const string debugBox = "";
 			SKY_BOX_TEXTURE = TextureManager.LoadCubemap(new[] {
-				"data/textures/skybox/"+debugBox+"skybox_right1.png",
-				"data/textures/skybox/"+debugBox+"skybox_left2.png",
-				"data/textures/skybox/"+debugBox+"skybox_top3.png",
-				"data/textures/skybox/"+debugBox+"skybox_bottom4.png",
-				"data/textures/skybox/"+debugBox+"skybox_front5.png",
-				"data/textures/skybox/"+debugBox+"skybox_back6.png"
+				"data/textures/skybox/" + debugBox + "skybox_right1.png",
+				"data/textures/skybox/" + debugBox + "skybox_left2.png",
+				"data/textures/skybox/" + debugBox + "skybox_top3.png",
+				"data/textures/skybox/" + debugBox + "skybox_bottom4.png",
+				"data/textures/skybox/" + debugBox + "skybox_front5.png",
+				"data/textures/skybox/" + debugBox + "skybox_back6.png"
 			});
 
 			GL.LinkProgram(PROGRAMM);
@@ -37,9 +36,6 @@ namespace Engine.Render.Skybox {
 		public static void Draw() {
 			RENDER_TIMING.Start();
 
-			GL.Disable(EnableCap.DepthTest);
-			GL.DepthMask(false);
-
 			GL.UseProgram(PROGRAMM);
 
 			var perspectiveProjection =
@@ -47,6 +43,7 @@ namespace Engine.Render.Skybox {
 			GL.UniformMatrix4(VIEW_PROJECTION_LOCATION, false, ref perspectiveProjection);
 
 			GL.BindVertexArray(SKYBOX_MODEL.VAO);
+			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.TextureCubeMap, SKY_BOX_TEXTURE);
 
 			GL.DepthFunc(DepthFunction.Lequal);
@@ -54,9 +51,6 @@ namespace Engine.Render.Skybox {
 			GL.DepthFunc(DepthFunction.Less);
 
 			GL.BindVertexArray(0);
-			
-			GL.DepthMask(true);
-			GL.Enable(EnableCap.DepthTest);
 
 			RENDER_TIMING.Stop();
 		}

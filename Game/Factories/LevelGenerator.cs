@@ -30,22 +30,21 @@ namespace Game.Utils {
                 new Vector4(.950f, .950f, .950f, 0f),
                 new Vector4(.950f, .950f, .950f, 0f));
 
-            //planets
+			//planets
 
-            List<Planet> planets = new List<Planet>();
-            for (var i = 1; i < 3; i++) {
-                var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
-                    AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(10000.0 * i, 0, 0),
-                    new Vector3d(1000.0), new Vector3d(0, 0.5, 0), sun);
-                
-                GameObject.Instantiate(planet);
-                planets.Add(planet);
-                
-            }
+			List<Planet> planets = new List<Planet>();
+			for (var i = 1; i < 3; i++) {
+				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
+					AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(10000.0 * i, 0, 0),
+					new Vector3d(1000.0), new Vector3d(0, 0.5, 0), sun);
 
-            planets.First().activateMarker();
-            //planets.Last().activateMarker();
-            
+				GameObject.Instantiate(planet);
+				planets.Add(planet);
+			}
+
+			planets.First().activateMarker();
+			//planets.Last().activateMarker();
+
 
             //the player
             GamePlayEngine.ResetSpaceShip();
@@ -61,25 +60,25 @@ namespace Game.Utils {
                 }
             });
 
-            //black hole
-            var blackHole = new BlackHole {
-                TransformComponent = {
-                    Scale = new Vector3d(100),
-                    Position = startingPoint + new Vector3d(1000.0, 0.0, 0.0),
-                    Orientation = Quaterniond.Identity
-                }
-            };
-			
-            GameObject.Instantiate(blackHole);
-            
-            //metal chunks
-            MetalChunkFactory.GenerateLine(startingPoint + new Vector3d(500, 0, 1000), startingPoint + new Vector3d(500, 800, 1000), MetalType.Copper, 10);
+			//black hole
+			var blackHole = new BlackHole {
+				TransformComponent = {
+					Scale = new Vector3d(100),
+					Position = startingPoint + new Vector3d(1000.0, 0.0, 0.0),
+					Orientation = Quaterniond.Identity
+				}
+			};
 
-            MetalChunkFactory.GenerateRing(startingPoint + new Vector3d(200, 0, 0), new Vector3d(0, 0, 45), MetalType.Gold, 10, 100);
-			
-            //MetalChunkFactory.GenerateEye(startingPoint + new Vector3d(0, 200, 0),new Vector3d(45,90,0),MetalType.Silver, 16, 100.0, MetalType.Gold);
-        }
-        
+			GameObject.Instantiate(blackHole);
+
+			//metal chunks
+			MetalChunkFactory.GenerateLine(startingPoint + new Vector3d(500, 0, 1000), startingPoint + new Vector3d(500, 800, 1000), MetalType.Copper, 10);
+
+			MetalChunkFactory.GenerateRing(startingPoint + new Vector3d(200, 0, 0), new Vector3d(0, 0, 45), MetalType.Gold, 10, 100);
+
+			//MetalChunkFactory.GenerateEye(startingPoint + new Vector3d(0, 200, 0),new Vector3d(45,90,0),MetalType.Silver, 16, 100.0, MetalType.Gold);
+		}
+
 
         //############################################# LEVEL 1 #############################################
         public static void GenerateLevel1() {

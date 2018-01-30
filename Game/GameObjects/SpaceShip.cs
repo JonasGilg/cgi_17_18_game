@@ -1,5 +1,4 @@
-﻿using System;
-using Engine;
+﻿using Engine;
 using Engine.Collision;
 using Engine.Component;
 using Engine.GUI;
@@ -18,6 +17,7 @@ namespace Game.GameObjects {
 		public readonly MoveComponent moveComponent;
 		private readonly CameraComponent cameraComponent;
 		private readonly RenderComponent renderComponent;
+		private readonly ShadowComponent shadowComponent;
 		private readonly MoveInputComponent moveInputComponent;
 		public readonly SphereCollider CollisionComponent;
 		private readonly FiringComponent firingComponent;
@@ -50,7 +50,7 @@ namespace Game.GameObjects {
 					ColorTexture = TextureManager.LoadTexture("data/textures/SpaceShip/SpaceShip.png"),
 					NormalTexture = TextureManager.LoadTexture("data/textures/SpaceShip/NormalMap.png"),
 					MetalnessTexture = TextureManager.LoadTexture("data/textures/SpaceShip/Metalness.png"),
-					RoughnessTexture = TextureManager.LoadTexture("data/textures/SpaceShip/Blur.png"),
+					RoughnessTexture = TextureManager.LoadTexture("data/textures/SpaceShip/Roughness.png"),
 					AOTexture = TextureManager.LoadTexture("data/textures/SpaceShip/AmbientOcclusion.png"),
 					GlowTexture = TextureManager.LoadTexture("data/textures/SpaceShip/Blur.png"),
 					Shininess = 16.0
@@ -58,6 +58,7 @@ namespace Game.GameObjects {
 				this
 			);
 			
+			shadowComponent = new ShadowComponent(renderComponent, this);
 
 			CollisionComponent = new SphereCollider(this, renderComponent.Model, collision => {
 				IO.PrintAsync(ToString() + " collided with " + collision.otherGameObject.ToString());
@@ -92,6 +93,7 @@ namespace Game.GameObjects {
 			moveComponent.Update();
 			base.Update();
 			renderComponent.Update();
+			shadowComponent.Update();
 			//Console.Out.WriteLine(renderComponent.AABB.Center.ToString());
 			cameraComponent.Update();
 			firingComponent.Update();
