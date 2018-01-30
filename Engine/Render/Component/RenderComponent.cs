@@ -10,7 +10,7 @@ namespace Engine.Component {
 		public readonly Model3D Model;
 		public AxisAlignedBoundingBox AABB;
 		public BaseMaterial Material;
-		public readonly MaterialSettings MaterialSettings;
+		public MaterialSettings MaterialSettings;
 
 		public RenderComponent(Model3D model, BaseMaterial material, MaterialSettings materialSettings, GameObject gameObject) : base(gameObject) {
 			Model = model;

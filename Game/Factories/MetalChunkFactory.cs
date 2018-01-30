@@ -22,21 +22,20 @@ namespace Game.Utils {
         /// <param name="type"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public static MetalChunk GenerateSingle(Vector3d position, MetalType type, double scale = 5.0) {
-            var chunk = new MetalChunk(type) {
+        public static Ring GenerateSingle(Vector3d position, PointType type, double scale = 5.0) {
+            var chunk = new PointRing(type) {
                 TransformComponent = {
                     Scale = new Vector3d(scale),
                     Position = position,
                     Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitX, Math.PI/2)
                     
                 },
-                MoveComponent = { AngularVelocity = new Vector3d(0,4.0,0) }
+                moveComponent = { AngularVelocity = new Vector3d(0,4.0,0) }
                 
             };
             
        
             GameObject.Instantiate(chunk);
-            GamePlayEngine.registerSupplyRing(chunk);
             return chunk;
         }
         
@@ -52,8 +51,8 @@ namespace Game.Utils {
         /// Returns a list of the generated metal chunks.
         /// The returned list is empty if count is 0 oder less.
         /// </returns>
-        public static List<MetalChunk> GenerateLine(Vector3d startPosition, Vector3d endPosition, MetalType type, int count, double scale = 5.0 ) {
-            var chunks = new List<MetalChunk>();
+        public static List<Ring> GenerateLine(Vector3d startPosition, Vector3d endPosition, PointType type, int count, double scale = 5.0 ) {
+            var chunks = new List<Ring>();
             if (count < 1) return chunks; //nothing to generate if count is 0
             
             //calculate positions
@@ -98,8 +97,8 @@ namespace Game.Utils {
         /// Returns a list of the generated metal chunks.
         /// The returned list is empty if count is 0 oder less.
         /// </returns>
-        public static List<MetalChunk> GenerateRing(Vector3d center, Vector3d eulerAngle, MetalType type, int count, double radius, double scale = 5.0 ) {
-            var chunks = new List<MetalChunk>();
+        public static List<Ring> GenerateRing(Vector3d center, Vector3d eulerAngle, PointType type, int count, double radius, double scale = 5.0 ) {
+            var chunks = new List<Ring>();
             if (count < 1) return chunks; //nothing to generate if count is 0
             
             
@@ -109,11 +108,7 @@ namespace Game.Utils {
                 chunks.Add( GenerateSingle(rotatedPos, type, scale) );
             }
             
-            var ring = new MetalChunkShape(chunks) {
-                TransformComponent = {
-                    Position = center
-                }
-            };
+            
 
             return chunks;
         }
@@ -134,17 +129,13 @@ namespace Game.Utils {
         /// Returns a list of the generated metal chunks.
         /// The returned list is empty if count is 0 oder less.
         /// </returns>
-        public static List<MetalChunk> GenerateEye(Vector3d center, Vector3d eulerAngle, MetalType ringType, int ringCount, double radius, MetalType eyeType, double ringScale = 5.0, double eyeScale = 5.0 ) {
-            var chunks = new List<MetalChunk>();
+        public static List<Ring> GenerateEye(Vector3d center, Vector3d eulerAngle, PointType ringType, int ringCount, double radius, PointType eyeType, double ringScale = 5.0, double eyeScale = 5.0 ) {
+            var chunks = new List<Ring>();
             
             chunks.AddRange(GenerateRing(center,eulerAngle,ringType,ringCount,radius,ringScale));
             chunks.Add(GenerateSingle(center,eyeType,eyeScale));
             
-            var eye = new MetalChunkShape(chunks) {
-                TransformComponent = {
-                    Position = center
-                }
-            };
+           
 
             return chunks;
         }
@@ -158,8 +149,8 @@ namespace Game.Utils {
         /// Returns a list of the generated metal chunks.
         /// The returned list is empty if count is 0 oder less.
         /// </returns>
-        public static List<MetalChunk> GenerateOnPositions(Dictionary<Vector3d,MetalType> positionsAndTypes, double scale = 5.0 ) {
-            var chunks = new List<MetalChunk>();
+        public static List<Ring> GenerateOnPositions(Dictionary<Vector3d,PointType> positionsAndTypes, double scale = 5.0 ) {
+            var chunks = new List<Ring>();
             if (positionsAndTypes.Count < 1) return chunks;
 
             foreach (var positionAndType in positionsAndTypes) {

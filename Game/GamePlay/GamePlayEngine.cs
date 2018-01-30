@@ -10,11 +10,11 @@ namespace Game.GamePlay {
 	public static class GamePlayEngine {
 
 		public static HudTextElement hudLevelIndicatorText = HUD.CreateHudTextElement("",new Vector2(0.7f,0.9f));
-		public static List<MetalChunk>SUPPLY_RING_LIST = new List<MetalChunk>();
+		public static List<Ring>SUPPLY_RING_LIST = new List<Ring>();
 
 		public static FinishMarker currentFinishMarker;
 
-		public static void registerSupplyRing(MetalChunk ring) {
+		public static void registerSupplyRing(Ring ring) {
 			SUPPLY_RING_LIST.Add(ring);
 			HUD.AddHudObjectMarker(ring.objectMarker);
 		}
@@ -72,8 +72,8 @@ namespace Game.GamePlay {
 			}
 		}
 
-		public static void supplyRingCollected(MetalChunk chunk) {
-			Statistics.IncreaseScore(chunk.points);
+		public static void supplyRingCollected(GoalRing chunk) {
+			Statistics.IncreaseScore();
 			SUPPLY_RING_LIST.Remove(chunk);
 			HUD.RemoveHudObjectMarker(chunk.objectMarker.ID);
 			GameObject.Destroy(chunk);
