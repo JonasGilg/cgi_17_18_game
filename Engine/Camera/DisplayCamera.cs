@@ -10,6 +10,7 @@ namespace Engine {
 		public static Vector3d Position => activeCamera.Position;
 		public static Matrix4d Transformation => activeCamera.LookAtMatrix;
 		public static Matrix4d PerspectiveProjection => perspectiveProjection;
+		public static CameraComponent.Plane[] Planes => activeCamera.Planes;
 
 		static DisplayCamera() {
 			perspectiveProjection = Matrix4d.Identity;

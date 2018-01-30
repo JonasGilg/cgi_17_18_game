@@ -40,8 +40,6 @@ namespace Engine {
 		public static void RenderWorld() {
 			RENDER_STATS.Start();
 
-			//TODO better perfomance possible if skybox is rendered last (that needs a refactoring of the shader though)
-			Skybox.Draw();
 			RenderEngine.Draw();
 			PostProcessing.DrawMaterials();
 

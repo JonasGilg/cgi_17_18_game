@@ -7,5 +7,5 @@ uniform mat4 viewProjection;
 
 void main() {
     TexCoords = aPos;
-    gl_Position = viewProjection * vec4(aPos, 1.0);
+    gl_Position = (viewProjection * vec4(aPos, 1.0)).xyww;
 }

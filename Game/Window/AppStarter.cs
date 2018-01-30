@@ -3,6 +3,7 @@ using Engine;
 using Engine.GUI;
 using Engine.Material;
 using Engine.Render;
+ using Engine.Texture;
  using Engine.Util;
  using Game.GameObjects;
  using Game.GamePlay;
@@ -31,10 +32,15 @@ namespace Game.Window {
 			
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 			
-			LevelGenerator.GenerateLevel1();
+			GamePlayEngine.LoadLevel(2);
+
+			RenderEngine.IBLData = new IBLData {
+				IrradianceCubeTexture = TextureManager.LoadIBLIrradianceMap("data/textures/IBL/Diffuse_Irradiance/skybox", "png"),
+				SpecularCubeTexture = TextureManager.LoadIBLSpecularMap("data/textures/IBL/Specular/skybox", "png")
+			};
 			
 			CascadedShadowMapping.Init(4096, 2048, 1024, 15, 20, 90, 1);
-			CascadedShadowMapping.SetLightDirection(Vector3d.UnitX);
+			CascadedShadowMapping.SetLightDirection(-Vector3d.UnitX);
 			DeferredRendering.Init(Width, Height);
 
 			GL.Enable(EnableCap.DepthTest);
@@ -80,13 +86,6 @@ IO.PrintAsync(TimingRegistry.GetStatsText());
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			Time.UpdateRenderTime(e.Time);
 			Statistics.UpdateTimeSpent();
-
-			DeferredRendering.StartGBufferRendering();
-			GL.CullFace(CullFaceMode.Front);
-			
-			MaterialManager.GetMaterial(Material.PBR).DrawAll();
-			RenderEngine.Draw();
-			DeferredRendering.CopyDepthToMainScreen();
 			
 			fpsCounter.Text = ((int) (1 / Time.AverageRenderTime())).ToString() + "FPS";
 
@@ -94,6 +93,7 @@ IO.PrintAsync(TimingRegistry.GetStatsText());
 
 			World.RenderWorld();
 			HUD.Draw();
+			
 			SwapBuffers();
 		}
 
@@ -102,6 +102,7 @@ IO.PrintAsync(TimingRegistry.GetStatsText());
 		protected override void OnResize(EventArgs e) {
 			GL.Viewport(0, 0, Width, Height);
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
+			DeferredRendering.Resize(Width, Height);
 		}
 
 		[STAThread]

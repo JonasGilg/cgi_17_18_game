@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Engine.Local;
 using Engine.Model;
 using Engine.Postprocessing;
@@ -13,6 +14,7 @@ namespace Engine.Render {
 		public static int GNormalBuffer;
 		public static int GMetalnessShadowBuffer;
 		public static int GGlowBuffer;
+		public static int DepthRenderBuffer;
 
 		private static Model3D fullscreenQuad;
 		private static Model3D pointLightObject;
@@ -20,8 +22,6 @@ namespace Engine.Render {
 		private static int gFramebufferName;
 		private static int width;
 		private static int height;
-
-		private static SimpleLighting simpleLighting;
 
 		private static ImageBasedLighting ibl;
 
@@ -40,20 +40,17 @@ namespace Engine.Render {
 			width = screenWidth;
 			height = screenHeight;
 
-			simpleLighting = new SimpleLighting();
 			ibl = new ImageBasedLighting();
 			pointLight = new PointLight();
 
 			horizontalBlurMaterial = new BlurHorizontalMaterial();
 			verticalBlurMaterial = new BlurVerticalMaterial();
 
-			// the fullscreen quad object
 			fullscreenQuad = new Model3D();
 			fullscreenQuad.AddTriangle(new Vector3(1, -1, 0), new Vector3(-1, -1, 0), new Vector3(1, 1, 0), new Vector2(1, 0), new Vector2(0, 0), new Vector2(1, 1));
 			fullscreenQuad.AddTriangle(new Vector3(-1, -1, 0), new Vector3(1, 1, 0), new Vector3(-1, 1, 0), new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, 1));
 			fullscreenQuad.CreateVAO();
 
-			//point light object
 			pointLightObject = ModelLoaderObject3D.Load("data/objects/sphere.obj", 1.0f, true);
 
 			gFramebufferName = 0;
@@ -61,36 +58,57 @@ namespace Engine.Render {
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, gFramebufferName);
 
 			GL.GenTextures(1, out GColorRoughnessBuffer);
+			GL.GenTextures(1, out GPositionBuffer);
+			GL.GenTextures(1, out GNormalBuffer);
+			GL.GenTextures(1, out GMetalnessShadowBuffer);
+			GL.GenTextures(1, out GGlowBuffer);
+			GL.GenRenderbuffers(1, out DepthRenderBuffer);
+			GL.GenFramebuffers(1, out pingPongFbo0);
+			GL.GenTextures(1, out pingPongBuffer0);
+			GL.GenFramebuffers(1, out pingPongFbo1);
+			GL.GenTextures(1, out pingPongBuffer1);
+			
+			Resize(width, height);
+			
+			var eCode = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
+			if (eCode != FramebufferErrorCode.FramebufferComplete) {
+				Console.WriteLine("GBuffer init wrong" + eCode.ToString());
+			}
+			else {
+				Console.WriteLine("GBuffer init Correct");
+			}
+		}
+
+		public static void Resize(int newWidth, int newHeight) {
+			width = newWidth;
+			height = newHeight;
+
 			GL.BindTexture(TextureTarget.Texture2D, GColorRoughnessBuffer);
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, screenWidth, screenHeight, 0, PixelFormat.Rgba, PixelType.UnsignedInt8888, IntPtr.Zero);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedInt8888, IntPtr.Zero);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
 			GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, GColorRoughnessBuffer, 0);
 
-			GL.GenTextures(1, out GPositionBuffer);
 			GL.BindTexture(TextureTarget.Texture2D, GPositionBuffer);
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb32f, screenWidth, screenHeight, 0, PixelFormat.Rgb, PixelType.Float, IntPtr.Zero);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb32f, width, height, 0, PixelFormat.Rgb, PixelType.Float, IntPtr.Zero);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
 			GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment1, GPositionBuffer, 0);
 
-			GL.GenTextures(1, out GNormalBuffer);
 			GL.BindTexture(TextureTarget.Texture2D, GNormalBuffer);
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb16f, screenWidth, screenHeight, 0, PixelFormat.Rgb, PixelType.Float, IntPtr.Zero);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb16f, width, height, 0, PixelFormat.Rgb, PixelType.Float, IntPtr.Zero);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
 			GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment2, GNormalBuffer, 0);
 
-			GL.GenTextures(1, out GMetalnessShadowBuffer);
 			GL.BindTexture(TextureTarget.Texture2D, GMetalnessShadowBuffer);
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb16f, screenWidth, screenHeight, 0, PixelFormat.Rg, PixelType.UnsignedByte, IntPtr.Zero);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb16f, width, height, 0, PixelFormat.Rg, PixelType.UnsignedByte, IntPtr.Zero);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
 			GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment3, GMetalnessShadowBuffer, 0);
 
-			GL.GenTextures(1, out GGlowBuffer);
 			GL.BindTexture(TextureTarget.Texture2D, GGlowBuffer);
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, screenWidth, screenHeight, 0, PixelFormat.Rgb, PixelType.UnsignedByte, IntPtr.Zero);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, IntPtr.Zero);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
 			GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment4, GGlowBuffer, 0);
@@ -99,44 +117,28 @@ namespace Engine.Render {
 			DrawBuffersEnum[] drawEnum = {DrawBuffersEnum.ColorAttachment0, DrawBuffersEnum.ColorAttachment1, DrawBuffersEnum.ColorAttachment2, DrawBuffersEnum.ColorAttachment3, DrawBuffersEnum.ColorAttachment4};
 			GL.DrawBuffers(5, drawEnum);
 
-			GL.GenRenderbuffers(1, out int depthrenderbuffer);
-			GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, depthrenderbuffer);
-			GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.DepthComponent, screenWidth, screenHeight);
-			GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, depthrenderbuffer);
+			GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, DepthRenderBuffer);
+			GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.DepthComponent, width, height);
+			GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, DepthRenderBuffer);
 
 
-			// Ping-Pong Buffer 0
-			GL.GenFramebuffers(1, out pingPongFbo0);
-			GL.GenTextures(1, out pingPongBuffer0);
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, pingPongFbo0);
 			GL.BindTexture(TextureTarget.Texture2D, pingPongBuffer0);
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, screenWidth, screenHeight, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.ClampToEdge);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.ClampToEdge);
 			GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, pingPongBuffer0, 0);
 
-			// Ping-Pong Buffer 1
-			GL.GenFramebuffers(1, out pingPongFbo1);
-			GL.GenTextures(1, out pingPongBuffer1);
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, pingPongFbo1);
 			GL.BindTexture(TextureTarget.Texture2D, pingPongBuffer1);
-			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, screenWidth, screenHeight, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.ClampToEdge);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.ClampToEdge);
 			GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, pingPongBuffer1, 0);
-
-
-			var eCode = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
-			if (eCode != FramebufferErrorCode.FramebufferComplete) {
-				Console.WriteLine("GBuffer init wrong" + eCode.ToString());
-			}
-			else {
-				Console.WriteLine("GBuffer init Correct");
-			}
 		}
 
 		public static void StartGBufferRendering() {
@@ -168,44 +170,12 @@ namespace Engine.Render {
 			GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, gFramebufferName);
 			GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
 			GL.BlitFramebuffer(0, 0, width, height, 0, 0, width, height, ClearBufferMask.DepthBufferBit, BlitFramebufferFilter.Nearest);
-			
+
 			// reeset render target to main screen
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 
 			// enable z-buffer again
 			GL.Enable(EnableCap.DepthTest);
-		}
-
-		public static void DrawDebugFullscreen(int mode) {
-			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-
-			GL.ClearColor(new Color4(1, 0, 0, 0));
-			GL.Disable(EnableCap.DepthTest);
-
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-			GL.Disable(EnableCap.CullFace);
-
-			GL.Viewport(0, 0, width, height);
-
-			switch (mode) {
-				case 0:
-					simpleLighting.Draw(fullscreenQuad, GColorRoughnessBuffer);
-					break;
-				case 1:
-					simpleLighting.Draw(fullscreenQuad, GNormalBuffer);
-					break;
-				case 2:
-					simpleLighting.Draw(fullscreenQuad, GPositionBuffer);
-					break;
-				case 3:
-					simpleLighting.Draw(fullscreenQuad, GMetalnessShadowBuffer);
-					break;
-				default:
-					simpleLighting.Draw(fullscreenQuad, GGlowBuffer);
-					break;
-			}
-
-			GL.Enable(EnableCap.CullFace);
 		}
 
 		public static void DrawPointLight(Vector3d pos, Vector3 color, float radius) {

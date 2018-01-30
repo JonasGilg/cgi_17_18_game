@@ -66,11 +66,11 @@
     <Compile Include="GUI\HudObjectMarker.cs" />
     <Compile Include="GUI\HUDTextElement.cs" />
     <Compile Include="Light\BaseLighting.cs" />
-    <Compile Include="Light\CascadedShadowMapping.cs" />
     <Compile Include="Light\IBL\ImageBasedLighting.cs" />
     <Compile Include="Light\Light.cs" />
     <Compile Include="Light\Local\PointLight.cs" />
-    <Compile Include="Light\Simple\SimpleLighting.cs" />
+    <Compile Include="Light\Shadow\CascadedShadowMapping.cs" />
+    <Compile Include="Light\Shadow\ShadowComponent.cs" />
     <Compile Include="Model\FastNoise.cs" />
     <Compile Include="Model\Model3D.cs" />
     <Compile Include="Model\ModelLoaderObject3D.cs" />
@@ -86,6 +86,7 @@
     <Compile Include="Render\Material\PostProcessing\PostProcessing.cs" />
     <Compile Include="Render\Material\PostProcessing\PostProcessingMaterial.cs" />
     <Compile Include="Render\Material\PostProcessing\TestEffect.cs" />
+    <Compile Include="Render\Material\Shadow\CastShadowMaterial.cs" />
     <Compile Include="Render\Material\SunLavaflow\SunLavaflowMaterial.cs" />
     <Compile Include="Render\ObjectMarker\HudObjectMarkerRenderer.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -134,12 +135,6 @@
     <Content Include="Light\Local\PointLight_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Light\Simple\Simple_FS.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Light\Simple\Simple_VS.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="PostProcessing\Blur\BlurFullscreen_FS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -174,6 +169,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Render\Material\PostProcessing\test_effect_VS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Material\Shadow\CastShadow_FS.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Render\Material\Shadow\CastShadow_VS.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Render\Material\SunLavaflow\SunLavaflow_FS.glsl">
