@@ -33,9 +33,7 @@ namespace Engine.GUI {
 		private static void drawObjectMarker() {
 			foreach (var objectMarker in HUD_OBJECT_MARKER_ELEMENTS) {
 				HudObjectMarkerRenderer.Draw(objectMarker.Value);
-//				var worldDistance = (int) ( (objectMarker.Value.GameObject.TransformComponent.WorldPosition - DisplayCamera.Position).Length 
-//				                            - objectMarker.Value.GameObject.Radius);
-//				TextRenderer2D.DrawString( $"DISTANCE: {worldDistance}KM",new Vector2(0.3f,-0.9f));
+
 			}
 		}
 		// END: OBJECT MARKER

@@ -8,6 +8,8 @@ using OpenTK;
 namespace Game.GamePlay {
 	public static class GamePlayEngine {
 
+		public static HudTextElement hudLevelIndicatorText = HUD.CreateHudTextElement("",new Vector2(0.7f,0.9f));
+
 		public static SpaceShip playerSpaceship = new SpaceShip {
 			TransformComponent = {
 				Scale = new Vector3d(0.02f),
@@ -39,6 +41,7 @@ namespace Game.GamePlay {
             
 			World.ClearWorld();
 			CurrentLevelIndex = index;
+			hudLevelIndicatorText.Text = $"LEVEL: {CurrentLevelIndex}";
 			LEVELS[index]();
 		}
 

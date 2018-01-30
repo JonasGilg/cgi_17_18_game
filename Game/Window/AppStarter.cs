@@ -29,10 +29,11 @@ namespace Game.Window {
 			base.OnLoad(e);
 			HUD.AddHudTextElement(upsCounter);
 			HUD.AddHudTextElement(fpsCounter);
+			HUD.AddHudTextElement(GamePlayEngine.hudLevelIndicatorText);
 			
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 			
-			GamePlayEngine.LoadLevel(2);
+			GamePlayEngine.LoadLevel(0);
 
 			RenderEngine.IBLData = new IBLData {
 				IrradianceCubeTexture = TextureManager.LoadIBLIrradianceMap("data/textures/IBL/Diffuse_Irradiance/skybox", "png"),

@@ -1,6 +1,7 @@
 ﻿using Engine;
 using Engine.Collision;
 using Engine.Component;
+using Engine.GUI;
 using Engine.Material;
 using Engine.Model;
 using Engine.Render;
@@ -22,6 +23,8 @@ namespace Game.GameObjects {
         private readonly RenderComponent renderComponent;
         public readonly SphereCollider CollisionComponent;
 
+        public readonly HudObjectMarker HudMarker;
+
         public FinishMarker() {
             MoveComponent = new MoveComponent(this) {
                 AngularVelocity = new Vector3d(0,0.75,0)
@@ -41,6 +44,8 @@ namespace Game.GameObjects {
                     GamePlayEngine.LoadNextLevel();
                 }
             });
+            HudMarker = HUD.CreateHudObjectMarker(this);
+            HUD.AddHudObjectMarker(HudMarker);
             
         }
         

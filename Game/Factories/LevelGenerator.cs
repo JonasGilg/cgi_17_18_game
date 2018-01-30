@@ -48,9 +48,9 @@ namespace Game.Utils {
 
             //the player
             GamePlayEngine.ResetSpaceShip();
-            GamePlayEngine.spaceship.TransformComponent.Position = startingPoint;
-            GamePlayEngine.spaceship.TransformComponent.Orientation = startOrientation;
-            GameObject.Instantiate(GamePlayEngine.spaceship);
+            GamePlayEngine.playerSpaceship.TransformComponent.Position = startingPoint;
+            GamePlayEngine.playerSpaceship.TransformComponent.Orientation = startOrientation;
+            GameObject.Instantiate(GamePlayEngine.playerSpaceship);
             
             //finish
             GameObject.Instantiate(new FinishMarker {
@@ -94,7 +94,7 @@ namespace Game.Utils {
             
             //the player
             GamePlayEngine.ResetSpaceShip();
-            GameObject.Instantiate(GamePlayEngine.spaceship);
+            GameObject.Instantiate(GamePlayEngine.playerSpaceship);
 
             MetalChunkFactory.GenerateOnPositions(new Dictionary<Vector3d, MetalType> {
                 {new Vector3d(200,0,0),MetalType.Copper},
@@ -136,7 +136,7 @@ namespace Game.Utils {
             
             //the player
             GamePlayEngine.ResetSpaceShip();
-            GameObject.Instantiate(GamePlayEngine.spaceship);
+            GameObject.Instantiate(GamePlayEngine.playerSpaceship);
 
             MetalChunkFactory.GenerateSingle(new Vector3d(200,0,0),MetalType.Copper );
             MetalChunkFactory.GenerateSingle(new Vector3d(350,0,50),MetalType.Copper );
@@ -190,7 +190,7 @@ namespace Game.Utils {
             
             //the player
             GamePlayEngine.ResetSpaceShip();
-            GameObject.Instantiate(GamePlayEngine.spaceship);
+            GameObject.Instantiate(GamePlayEngine.playerSpaceship);
             
             
             //finish
@@ -216,7 +216,7 @@ namespace Game.Utils {
             
             //the player
             GamePlayEngine.ResetSpaceShip();
-            GameObject.Instantiate(GamePlayEngine.spaceship);
+            GameObject.Instantiate(GamePlayEngine.playerSpaceship);
             
             
             //finish
@@ -242,7 +242,7 @@ namespace Game.Utils {
             
             //the player
             GamePlayEngine.ResetSpaceShip();
-            GameObject.Instantiate(GamePlayEngine.spaceship);
+            GameObject.Instantiate(GamePlayEngine.playerSpaceship);
             
             
             //finish
@@ -268,7 +268,7 @@ namespace Game.Utils {
             
             //the player
             GamePlayEngine.ResetSpaceShip();
-            GameObject.Instantiate(GamePlayEngine.spaceship);
+            GameObject.Instantiate(GamePlayEngine.playerSpaceship);
             
             
             //finish
