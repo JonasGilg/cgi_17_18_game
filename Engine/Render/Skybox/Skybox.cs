@@ -20,12 +20,12 @@ namespace Engine.Render.Skybox {
 			PROGRAMM = ShaderLoader.LoadShader("Render/Skybox/Skybox_VS.glsl", "Render/Skybox/Skybox_FS.glsl");
 			const string debugBox = "";
 			SKY_BOX_TEXTURE = TextureManager.LoadCubemap(new[] {
-				"data/textures/skybox/" + debugBox + "skybox_right1_modified.png",
-				"data/textures/skybox/" + debugBox + "skybox_left2.png",
-				"data/textures/skybox/" + debugBox + "skybox_top3.png",
-				"data/textures/skybox/" + debugBox + "skybox_bottom4.png",
-				"data/textures/skybox/" + debugBox + "skybox_front5.png",
-				"data/textures/skybox/" + debugBox + "skybox_back6.png"
+				"data/textures/skybox/bright/" + debugBox + "skybox_bright_right1.png",
+				"data/textures/skybox/bright/" + debugBox + "skybox_bright_left2.png",
+				"data/textures/skybox/bright/" + debugBox + "skybox_bright_top3.png",
+				"data/textures/skybox/bright/" + debugBox + "skybox_bright_bottom4.png",
+				"data/textures/skybox/bright/" + debugBox + "skybox_bright_front5.png",
+				"data/textures/skybox/bright/" + debugBox + "skybox_bright_back6.png"
 			});
 
 			GL.LinkProgram(PROGRAMM);
