@@ -7,7 +7,20 @@ namespace Engine.Render {
 			Vector3d.Transform(ref vec, ref quat, out var result);
 			return result;
 		}
-		
+
+		public static Vector3d ReflectionVector3D(Vector3d a, Vector3d norm) {
+			Vector3d result = Vector3d.One;
+			var aNormal = a.Normalized();
+			var normNormal = norm.Normalized();
+			double dotProd = Vector3d.Dot(aNormal, normNormal);
+			
+			
+			return new Vector3d(
+				aNormal.X - 2 * normNormal.X * dotProd,
+				aNormal.Y - 2 * normNormal.Y * dotProd,
+				aNormal.Z - 2 * normNormal.Z * dotProd
+			                    );
+		}
 		public static Vector3d ToRadiansVector3D(this Vector3d degreesVector) => new Vector3d(
 			degreesVector.X.ToRadians(),
 			degreesVector.Y.ToRadians(),
