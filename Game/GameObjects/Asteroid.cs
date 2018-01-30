@@ -20,16 +20,13 @@ namespace Game.GameObjects {
 
 		
 
-		public Asteroid(Model3D model, int textureId, GameObject referenceObject = null) {
+		public Asteroid(Model3D model, MaterialSettings materialSettings, GameObject referenceObject = null) {
 			MoveComponent = referenceObject != null ? new GravityMovement(this, 0.0) : new MoveComponent(this);
 			
 			renderComponent = new RenderComponent(
 				model,
-				MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
-				new MaterialSettings {
-					ColorTexture = textureId,
-					Shininess = 1
-				},
+				MaterialManager.GetMaterial(Material.PBR),
+				materialSettings,
 				this
 			);
 			HealthComponent = new HealthComponent(this,ASTEROID_HP);
