@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Engine;
 using Engine.GUI;
 using Game.GameObjects;
@@ -9,6 +10,14 @@ namespace Game.GamePlay {
 	public static class GamePlayEngine {
 
 		public static HudTextElement hudLevelIndicatorText = HUD.CreateHudTextElement("",new Vector2(0.7f,0.9f));
+		public static List<MetalChunk>SUPPLY_RING_LIST = new List<MetalChunk>();
+
+		public static FinishMarker currentFinishMarker;
+
+		public static void registerSupplyRing(MetalChunk ring) {
+			SUPPLY_RING_LIST.Add(ring);
+			HUD.AddHudObjectMarker(ring.objectMarker);
+		}
 
 		public static SpaceShip playerSpaceship = new SpaceShip {
 			TransformComponent = {
@@ -40,6 +49,7 @@ namespace Game.GamePlay {
 			if (index == CurrentLevelIndex || index >= LEVELS.Length) return;
             
 			World.ClearWorld();
+			SUPPLY_RING_LIST.Clear();
 			CurrentLevelIndex = index;
 			hudLevelIndicatorText.Text = $"LEVEL: {CurrentLevelIndex}";
 			LEVELS[index]();
@@ -60,6 +70,18 @@ namespace Game.GamePlay {
 			else {
 				GameObject.Destroy(gameObject);
 			}
+		}
+
+		public static void supplyRingCollected(MetalChunk chunk) {
+			Statistics.IncreaseScore(chunk.points);
+			SUPPLY_RING_LIST.Remove(chunk);
+			HUD.RemoveHudObjectMarker(chunk.objectMarker.ID);
+			GameObject.Destroy(chunk);
+			if (SUPPLY_RING_LIST.Count == 0) showFinishMarker();
+		}
+
+		private static void showFinishMarker() {
+			GameObject.Instantiate(currentFinishMarker);
 		}
 	}
 }

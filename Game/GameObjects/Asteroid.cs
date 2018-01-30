@@ -12,6 +12,7 @@ using Game.Components;
 namespace Game.GameObjects {
 	public class Asteroid : GameObject {
 		private static int ASTEROID_HP = 20;
+		private static int ASTEROID_DMG = 25;
 		public readonly MoveComponent MoveComponent;
 		private readonly RenderComponent renderComponent;
 		public readonly SphereCollider CollisionComponent;
@@ -36,10 +37,20 @@ namespace Game.GameObjects {
 			
 			CollisionComponent = new SphereCollider(this, renderComponent.Model,
 				message => {
-				
-					if (message.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT, out var componentList)) {
-						for (int i = 0; i < componentList.Count; i++) {
-								((HealthComponent) componentList[i]).takeDamage(25);
+					//damage
+					if (message.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT, out var healtComponents)) {
+						for (int i = 0; i < healtComponents.Count; i++) {
+								((HealthComponent) healtComponents[i]).takeDamage(ASTEROID_DMG);
+						}	
+					}
+					//bouncing!
+					if (message.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.MOVE_COMPONENT, out var moveComponents)) {
+						for (int i = 0; i < moveComponents.Count; i++) {
+						
+							var normalVector = message.OtherCollisonComponent.GameObject.TransformComponent.WorldPosition - TransformComponent.WorldPosition;
+							var moveVector = ((MoveComponent) moveComponents[i]).LinearVelocity;
+							var reflexionVektor = Math3D.ReflectionVector3D(moveVector, normalVector);
+							((MoveComponent) moveComponents[i]).LinearVelocity  = reflexionVektor*moveVector.Length;
 						}	
 					}
 				}

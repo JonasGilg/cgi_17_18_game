@@ -38,7 +38,7 @@ namespace Game.GameObjects {
             optionalComponents.Add(ComponentType.HEALTH_COMPONENT,new List<Component>{HealthComponent});
             
             CollisionComponent = new SphereCollider(this, renderComponent.Model,
-                null,
+                   null,
                 activeMessage => {
                     if (activeMessage.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT,
                         out var componentList)) {
@@ -47,6 +47,7 @@ namespace Game.GameObjects {
 							
                         }
                     }
+                    GameObject.Destroy(this);
             });
             
         }

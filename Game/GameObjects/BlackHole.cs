@@ -6,6 +6,9 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
+using Engine.Util;
+using Game.Components;
+using OpenTK;
 
 namespace Game.GameObjects {
     public class BlackHole : GameObject{
@@ -25,9 +28,19 @@ namespace Game.GameObjects {
             
             
             MoveComponent = new MoveComponent(this);
-            
+
             CollisionComponent = new SphereCollider(this, RenderComponent.Model,
-                collision => { /*Console.WriteLine(collision.GameObject.ToString() + " collided with a black hole");*/ });
+                passive => {
+                    IO.PrintAsync("Blackhole got hit");
+                    
+
+                },
+                active => {
+                    TransformComponent.Scale *= new Vector3d(1.1);
+                    Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
+                    GameObject.Destroy(active.OtherCollisonComponent.GameObject);
+                },
+                null);
             
         }
 

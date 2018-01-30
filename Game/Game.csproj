@@ -93,6 +93,7 @@
     <Content Include="data\BlenderFiles\SpaceShip\SpaceShip.pdn" />
     <Content Include="data\BlenderFiles\SpaceShip\SpaceShipModified.blend" />
     <Content Include="data\BlenderFiles\SpaceShip\UV.png" />
+    <Content Include="data\BlenderFiles\SupplyRing.blend" />
     <Content Include="data\Font\CrystalFont.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -133,6 +134,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\objects\Sphere.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\objects\SupplyRing.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\textures\asteroids\asteroid_0.png">
@@ -787,6 +791,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\textures\sun.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\textures\supplyRing\gold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

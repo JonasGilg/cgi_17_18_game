@@ -39,11 +39,9 @@ namespace Game.Utils {
 					new Vector3d(1000.0), new Vector3d(0, 0.5, 0), sun);
 
 				GameObject.Instantiate(planet);
-				planets.Add(planet);
 			}
 
-			planets.First().activateMarker();
-			//planets.Last().activateMarker();
+			
 
 
             //the player
@@ -53,12 +51,13 @@ namespace Game.Utils {
             GameObject.Instantiate(GamePlayEngine.playerSpaceship);
             
             //finish
-            GameObject.Instantiate(new FinishMarker {
+            var finishMarker = new FinishMarker {
                 TransformComponent = {
-                    Position = startingPoint + new Vector3d(500,-500,500),
+                    Position = startingPoint + new Vector3d(500, -500, 500),
                     Scale = new Vector3d(200)
                 }
-            });
+            };
+            GamePlayEngine.currentFinishMarker = finishMarker;
 
 			//black hole
 			var blackHole = new BlackHole {
@@ -72,12 +71,14 @@ namespace Game.Utils {
 			GameObject.Instantiate(blackHole);
 
 			//metal chunks
-			MetalChunkFactory.GenerateLine(startingPoint + new Vector3d(500, 0, 1000), startingPoint + new Vector3d(500, 800, 1000), MetalType.Copper, 10);
+			//MetalChunkFactory.GenerateLine(startingPoint + new Vector3d(500, 0, 1000), startingPoint + new Vector3d(500, 800, 1000), MetalType.Copper, 10,15.0);
 
-			MetalChunkFactory.GenerateRing(startingPoint + new Vector3d(200, 0, 0), new Vector3d(0, 0, 45), MetalType.Gold, 10, 100);
+			//MetalChunkFactory.GenerateRing(startingPoint + new Vector3d(200, 0, 0), new Vector3d(0, 0, 45), MetalType.Gold, 10, 100, 20.0);
 
 			//MetalChunkFactory.GenerateEye(startingPoint + new Vector3d(0, 200, 0),new Vector3d(45,90,0),MetalType.Silver, 16, 100.0, MetalType.Gold);
-		}
+
+            MetalChunkFactory.GenerateSingle(startingPoint + new Vector3d(0, 200, 200), MetalType.Gold, 50.0);
+        }
 
 
         //############################################# LEVEL 1 #############################################

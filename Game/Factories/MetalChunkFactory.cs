@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Engine;
 using Engine.Component;
+using Engine.GUI;
 using Engine.Render;
 using Game.GameObjects;
+using Game.GamePlay;
 using OpenTK;
 
 namespace Game.Utils {
@@ -24,10 +27,16 @@ namespace Game.Utils {
                 TransformComponent = {
                     Scale = new Vector3d(scale),
                     Position = position,
-                    Orientation = Quaterniond.Identity
-                }
+                    Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitX, Math.PI/2)
+                    
+                },
+                MoveComponent = { AngularVelocity = new Vector3d(0,4.0,0) }
+                
             };
+            
+       
             GameObject.Instantiate(chunk);
+            GamePlayEngine.registerSupplyRing(chunk);
             return chunk;
         }
         

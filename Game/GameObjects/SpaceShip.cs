@@ -41,6 +41,7 @@ namespace Game.GameObjects {
 			HUD.AddHudTextElement(healthPoints);
 			
 			moveComponent = new MoveComponent(this);
+			optionalComponents.Add(ComponentType.MOVE_COMPONENT, new List<Component>{moveComponent});
 			cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);
 			renderComponent = new RenderComponent(
 				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj"),
@@ -68,7 +69,8 @@ namespace Game.GameObjects {
 
 			CollisionComponent = new SphereCollider(this, renderComponent.Model, 
 				passiveMessage => {
-					IO.PrintAsync("PASSIVE: "+ToString() + " <-- " + passiveMessage.OtherCollisonComponent.GameObject.ToString());
+					//IO.PrintAsync("PASSIVE: "+ToString() + " <-- " + passiveMessage.OtherCollisonComponent.GameObject.ToString());
+					
 					if (passiveMessage.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT,
 						out var componentList)) {
 						for (int i = 0; i < componentList.Count; i++) {
@@ -78,7 +80,7 @@ namespace Game.GameObjects {
 					}
 				},
 				activeMessage => {
-					IO.PrintAsync("ACTIVE: " + ToString() + " --> " + activeMessage.OtherCollisonComponent.GameObject.ToString());
+					//IO.PrintAsync("ACTIVE: " + ToString() + " --> " + activeMessage.OtherCollisonComponent.GameObject.ToString());
 					if (activeMessage.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT,
 						out var componentList)) {
 						for (int i = 0; i < componentList.Count; i++) {
@@ -86,6 +88,8 @@ namespace Game.GameObjects {
 							
 						}
 					}
+					//bouncing
+					
 				}
 				);
 
