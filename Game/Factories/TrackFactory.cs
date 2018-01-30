@@ -31,7 +31,7 @@ namespace Game.Utils {
 			/////TODO ////
 			var angleStep = MathHelper.TwoPi / density;
 
-			var directionStep = direction.Normalized() * distanceStep;
+			
 
 			var stepFraction = distanceStep / density;
 			///////////////////////////////
@@ -39,7 +39,7 @@ namespace Game.Utils {
 			var currentPosition = startPosition;
 			addCheckpoint(currentPosition);
 
-			var rotationMatrix = Quaterniond.FromAxisAngle(direction, angleStep);
+			//var rotationMatrix = Quaterniond.FromAxisAngle(direction, angleStep);
 			//build the helix
 			//from radius=0 -> maxRadius in 1 turn
 			var radiusGrowthStep = maxRadius / density;
@@ -100,7 +100,7 @@ namespace Game.Utils {
 			
 
 
-			addCheckpoint(currentPosition);
+			addCheckpoint(currentPosition+s);
 			return resList;
 		}
 
