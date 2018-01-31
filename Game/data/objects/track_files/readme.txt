@@ -1,0 +1,1 @@
+Track Files are .obj format with ONLY position vectors

@@ -10,14 +10,10 @@ namespace Game.GamePlay {
 	public static class GamePlayEngine {
 
 		public static HudTextElement hudLevelIndicatorText = HUD.CreateHudTextElement("",new Vector2(0.7f,0.9f));
-		public static List<GoalRing>GOAL_RING_LIST = new List<GoalRing>();
-
+		
 		public static FinishMarker currentFinishMarker;
 
-		public static void registerGoalRing(GoalRing ring) {
-			GOAL_RING_LIST.Add(ring);
-			HUD.AddHudObjectMarker(ring.objectMarker);
-		}
+		
 
 		public static SpaceShip playerSpaceship = new SpaceShip {
 			TransformComponent = {
@@ -55,6 +51,7 @@ namespace Game.GamePlay {
 			CurrentLevelIndex = index;
 			hudLevelIndicatorText.Text = $"LEVEL: {CurrentLevelIndex}";
 			LEVELS[index]();
+			HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
 		}
 
 		public static void LoadNextLevel() {
@@ -73,13 +70,25 @@ namespace Game.GamePlay {
 				GameObject.Destroy(gameObject);
 			}
 		}
+		public static Queue<GoalRing>GOAL_RING_LIST = new Queue<GoalRing>();
+		public static void registerGoalRing(GoalRing ring) {
+			GOAL_RING_LIST.Enqueue(ring);
+			
+		}
 
-		public static void supplyRingCollected(GoalRing chunk) {
-			Statistics.IncreaseScore();
-			GOAL_RING_LIST.Remove(chunk);
-			HUD.RemoveHudObjectMarker(chunk.objectMarker.ID);
-			GameObject.Destroy(chunk);
-			if (GOAL_RING_LIST.Count == 0) showFinishMarker();
+		public static void checkPointPassed(GoalRing chunk) {
+			if (GOAL_RING_LIST.Peek().Equals(chunk)) {
+				GOAL_RING_LIST.Dequeue();
+				HUD.RemoveHudObjectMarker(chunk.objectMarker.ID);
+				GameObject.Destroy(chunk);
+				if (GOAL_RING_LIST.Count == 0) {
+					showFinishMarker();
+				}
+				else {
+					HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
+				}
+			}
+			
 		}
 
 		private static void showFinishMarker() {

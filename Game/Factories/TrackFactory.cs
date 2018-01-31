@@ -1,129 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using Engine.Render;
 using Game.GameObjects;
 using OpenTK;
 
 namespace Game.Utils {
-
-	
-
-	
-	public struct RaceTrack {
-		public List<Item> TrackList;
-	}
-	
 	public static class TrackFactory {
+		private static string LEVEL1_FILE_PATH = "data/objects/track_files/track1/track1_waypoints.obj";
 		private static int NUMBER_OF_ELEMENTS=0;
-		private static int CHECKPOINT_FREQUENCY = 20;
+		private static int CHECKPOINT_FREQUENCY = 16;
 		private const double DIAMETER = 50.0;
-		private static List<Item> TRACK_LIST;
-	
-		public static List<Item> generateTrackList(double length) {
-			TRACK_LIST = new List<Item>();
-			
-			var startpoint = new Vector3d(0,1000.0,500.0);
-			TRACK_LIST.AddRange(createHelix(startpoint, Vector3d.UnitY, 1000, 1000, 20, 20,true));
-			
 
-			return TRACK_LIST;
+		public static Vector3d createWayPoints() {
+			var wayPoints = loadWayPoints(LEVEL1_FILE_PATH);
+			
+			NUMBER_OF_ELEMENTS=0;
+
+			foreach (var pos in wayPoints) {
+				createAddRing(pos);
+			}
+
+			return wayPoints.Peek();
 		}
-
-		public static List<Item> createHelix(Vector3d startPosition,Vector3d direction, double maxRadius, double distanceStep, int steps, int density = 20, bool clockwise = true) {
-			/////TODO ////
-			var angleStep = MathHelper.TwoPi / density;
-
-			
-
-			var stepFraction = distanceStep / density;
-			///////////////////////////////
-			var resList = new List<Item>();
-			var currentPosition = startPosition;
-			addCheckpoint(currentPosition);
-
-			//var rotationMatrix = Quaterniond.FromAxisAngle(direction, angleStep);
-			//build the helix
-			//from radius=0 -> maxRadius in 1 turn
-			var radiusGrowthStep = maxRadius / density;
-			float currentAngle = 0;
-			double currentRadius = radiusGrowthStep;
-			while(currentAngle<MathHelper.TwoPi){
-				
-				currentPosition += new Vector3d(
-					currentRadius*Math.Cos(currentAngle),
-					currentRadius*Math.Sin(currentAngle),
-					MathHelper.TwoPi*stepFraction
-					);
-				
-				
-				createAddRing(currentPosition);
-				currentAngle += angleStep;
-				currentRadius += radiusGrowthStep;
-			}
-			
-			currentAngle = 0;
-			currentRadius = maxRadius;
-			for (int i = 1; i < steps-1; i++) {
-				while (currentAngle < MathHelper.TwoPi) {
-					currentPosition += new Vector3d(
-						currentRadius * Math.Cos(currentAngle),
-						currentRadius * Math.Sin(currentAngle),
-						MathHelper.TwoPi * stepFraction
-					);
-
-
-					createAddGoldRing(currentPosition);
-					currentAngle += angleStep;
-					
-				}
-
-				currentAngle = 0;
-				
-			}
-
-			currentAngle = 0;
-			currentRadius = maxRadius;
-			while(currentAngle<MathHelper.TwoPi){
-				
-				currentPosition += new Vector3d(
-					currentRadius*Math.Cos(currentAngle),
-					currentRadius*Math.Sin(currentAngle),
-					MathHelper.TwoPi*stepFraction
-				);
-				
-				
-				createAddGoldRing(currentPosition);
-				currentAngle += angleStep;
-				currentRadius -= radiusGrowthStep;
-			}
-				
-				
-			
-			
-
-
-			addCheckpoint(currentPosition+(direction.Normalized()*stepFraction));
-			return resList;
-		}
-
+		
 		private static void createAddRing(Vector3d pos) {
 			if (NUMBER_OF_ELEMENTS % CHECKPOINT_FREQUENCY == 0) {
-				addCheckpoint(pos);
+				createCheckpoint(pos);
 			}
 			else {
-				addRing(pos);
+				//TODO other RingTypes
+				createGoldRing(pos);
 			}
+
+			NUMBER_OF_ELEMENTS++;
 		}
 
 		private static void addCheckpoint(Vector3d pos) {
 			NUMBER_OF_ELEMENTS++;
-			TRACK_LIST.Add(createCheckpoint(pos));
-		}
-
-		private static void addRing(Vector3d pos) {
-			NUMBER_OF_ELEMENTS++;
-			//TODO randomize the PointRings a bit... now only gold rings
-			TRACK_LIST.Add(createGoldRing(pos));
+			createCheckpoint(pos);
 		}
 
 		private static PointRing createGoldRing(Vector3d pos) {
@@ -131,10 +47,32 @@ namespace Game.Utils {
 		}
 
 		private static GoalRing createCheckpoint(Vector3d pos) {
-			return GoalRingFactory.GenerateSingle(pos, DIAMETER);
+			return GoalRingFactory.GenerateSingle(pos, DIAMETER*2);
 		}
-		
-		
-		
+
+	
+		private static Queue<Vector3d> loadWayPoints(string filePath, float scale = 5000f) {
+			var input = File.ReadLines(filePath);
+			Queue<Vector3d> v = new Queue<Vector3d>();
+			foreach (var line in input) {
+				var parts = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+				if (parts.Length > 0) {
+					Vector3 vec3;
+					switch (parts[0]) {
+						case "v":
+							vec3 = new Vector3(float.Parse(parts[1], CultureInfo.InvariantCulture) * scale,
+								float.Parse(parts[2], CultureInfo.InvariantCulture) * scale,
+								float.Parse(parts[3], CultureInfo.InvariantCulture) * scale);
+
+
+							v.Enqueue(vec3.ToDouble());
+							break;
+					}
+				}
+			}
+
+			return v;
+
+		}
 	}
 }

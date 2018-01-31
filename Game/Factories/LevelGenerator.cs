@@ -11,8 +11,8 @@ using OpenTK;
 
 namespace Game.Utils {
     public static class LevelGenerator {
-        private static readonly Vector3d startingPoint = new Vector3d(-500.0, 0.0, 0.0);
-        private static readonly Quaterniond startOrientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, -1.5);
+        private static Vector3d startingPoint = new Vector3d(0.0, 0.0, 0.0);
+        private static Quaterniond startOrientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, -1.5);
 
         public static void GenerateRACETRACK_1() {
             Light.SetSpotLight(Vector3d.Zero, 
@@ -26,19 +26,19 @@ namespace Game.Utils {
             GamePlayEngine.playerSpaceship.TransformComponent.Orientation = startOrientation;
             GameObject.Instantiate(GamePlayEngine.playerSpaceship);
             
-            List<Planet> planets = new List<Planet>();
-            for (var i = 1; i < 3; i++) {
-                var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
-                    AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(10000.0 * i, 0, 0),
-                    new Vector3d(1000.0), new Vector3d(0, 0.5, 0));
-
-                GameObject.Instantiate(planet);
-            }
+            //GENERATE THE TRACK WITH CHECKPOINTS
             
-            var itemList = TrackFactory.generateTrackList(20000.0);
-            for (int i = 0; i < itemList.Count; i++) {
-                
-            }
+            startingPoint = TrackFactory.createWayPoints();
+            
+            
+            
+            List<Planet> planets = new List<Planet>();
+            planets.Add(PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) 2,
+                AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(3000.0, 500, 1000),
+                new Vector3d(1000.0), new Vector3d(0, 0.5, 0)));
+            
+           
+            
             
             var finishMarker = new FinishMarker {
                 TransformComponent = {
@@ -49,7 +49,7 @@ namespace Game.Utils {
             GamePlayEngine.currentFinishMarker = finishMarker;
             
         }
-        
+        /*
         public static void GenerateLevel0() {
             //sun
             var sun = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.SUN, new Vector3d(0, 0, 0), new Vector3d(2000.0),
@@ -124,6 +124,7 @@ namespace Game.Utils {
             GameObject.Instantiate(goalRing);
             GamePlayEngine.registerGoalRing(goalRing);
         }
+        */
 
            /*
         //############################################# LEVEL 1 #############################################
