@@ -32,6 +32,7 @@ namespace Engine.Component {
 			else {
 				rotation = Vector2d.Lerp(rotation, Vector2d.Zero, Time.DeltaTimeUpdate * 10);
 			}
+			
 
 			zoom = Math1D.Clamp(zoom + Mouse.ScrollDelta / 10, 0.5, 2);
 

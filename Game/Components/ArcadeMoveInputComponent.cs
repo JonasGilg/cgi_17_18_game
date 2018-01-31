@@ -22,10 +22,14 @@ namespace Game.Components {
 		
 		public override void Update() {
 			base.Update();
-
+			
 			if (Keyboard.Down(Key.W)) {
 				var translateForward = TransformComponent.Orientation.Rotate(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0));
 				MoveComponent.LinearVelocity += translateForward * MOVEMENT_MULTIPLIER;
+			}
+			else if (MoveComponent.LinearVelocity.Length >= 0) {
+				MoveComponent.LinearVelocity =
+					Vector3d.Lerp(MoveComponent.LinearVelocity, Vector3d.Zero, Time.DeltaTimeUpdate);
 			}
 
 			if (Keyboard.Down(Key.S)) {
