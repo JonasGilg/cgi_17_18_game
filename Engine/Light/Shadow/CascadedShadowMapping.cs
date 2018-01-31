@@ -77,7 +77,7 @@ namespace Engine {
 		public static void StartShadowMapping() {
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebufferName);
 			GL.Enable(EnableCap.CullFace);
-			GL.CullFace(CullFaceMode.Back);
+			//GL.CullFace(CullFaceMode.Back);
 
 			cameraStartPosition = DisplayCamera.Position;
 			nearNormal = DisplayCamera.Planes[0].Normal;

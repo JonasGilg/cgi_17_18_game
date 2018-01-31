@@ -32,8 +32,8 @@ void main() {
 	vec3 albedo = c.rgb;
 	float roughness = c.a;
 	
-	vec3 matalAndShadow = texture(gMetalAndShadow, texcoord).rgb;
-	float metallic = matalAndShadow.r;
+	vec3 metalAndShadow = texture(gMetalAndShadow, texcoord).rgb;
+	float metallic = metalAndShadow.r;
 
 	vec3 F0 = vec3(0.04, 0.04, 0.04); 
     F0 = mix(F0, albedo, metallic);
@@ -53,7 +53,10 @@ void main() {
 	vec2 envBRDF  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
 	vec3 specular = prefilteredColor * (F * envBRDF.x + envBRDF.y);
   
-	vec3 ambient = (kD * diffuse + specular) * matalAndShadow.g;
-
-	outputColor =  vec4(ambient + diffuse + specular + glow, 1);
+	vec3 color = (kD * diffuse + specular) * metalAndShadow.g;
+	
+	color = color / (color + vec3(1));
+	color = pow(color, vec3(1.0 / 2.2)) + glow; 
+	
+	outputColor = vec4(color + diffuse + specular, 1);
 }
