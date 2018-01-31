@@ -40,8 +40,8 @@ namespace Game.Window {
 				SpecularCubeTexture = TextureManager.LoadIBLSpecularMap("data/textures/IBL/Specular/skybox_bright", "png")
 			};
 			
-			CascadedShadowMapping.Init(4096, 2048, 1024, 15, 20, 90, 1);
-			CascadedShadowMapping.SetLightDirection(new Vector3d(100, 8, 10));
+			CascadedShadowMapping.Init(4096, 2048, 1024, 5000, 10000, 30000, 1);
+			CascadedShadowMapping.SetLightDirection(new Vector3d(2000, 90, 140));
 			DeferredRendering.Init(Width, Height);
 
 			GL.Enable(EnableCap.DepthTest);
