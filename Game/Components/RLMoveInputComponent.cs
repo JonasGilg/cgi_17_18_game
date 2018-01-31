@@ -72,6 +72,8 @@ namespace Game.Components {
 				var rollRight = TransformComponent.Orientation.Rotate(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0));
 				MoveComponent.AngularVelocity += rollRight;
 			}
+			
+			MoveComponent.LinearVelocity = Vector3d.Lerp(MoveComponent.LinearVelocity, Vector3d.Zero, Time.DeltaTimeUpdate);
 		}
 	}
 }

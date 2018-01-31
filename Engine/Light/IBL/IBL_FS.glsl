@@ -58,5 +58,5 @@ void main() {
 	color = color / (color + vec3(1));
 	color = pow(color, vec3(1.0 / 2.2)) + glow; 
 	
-	outputColor = vec4(color + diffuse + specular, 1);
+	outputColor = vec4(color + kD * diffuse + specular, 1);
 }

@@ -12,13 +12,13 @@ namespace Game.Components {
 		public ArcadeMoveInputComponent(GameObject gameObject, TransformComponent transformComponent,
 			MoveComponent moveComponent) : base(gameObject, transformComponent, moveComponent) { }
 
-		private const double maxSpeed = 1000.0;
-		private const double maxRotationSpeed = Math.PI / 180.0;
+		private const double MAX_SPEED = 1000.0;
+		private const double MAX_ROTATION_SPEED = Math.PI / 180.0;
 
-		private const double accelaration = 10.0;
-		private const double rotationAccelaration = Math.PI / 180.0 / 10.0;
+		private const double ACCELARATION = 10.0;
+		private const double ROTATION_ACCELARATION = Math.PI / 180.0 / 10.0;
 
-		private const double rotationDampening = rotationAccelaration;
+		private const double ROTATION_DAMPENING = ROTATION_ACCELARATION;
 		
 		public override void Update() {
 			base.Update();
@@ -27,7 +27,7 @@ namespace Game.Components {
 				var translateForward = TransformComponent.Orientation.Rotate(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0));
 				MoveComponent.LinearVelocity += translateForward * MOVEMENT_MULTIPLIER;
 			}
-			else if (MoveComponent.LinearVelocity.Length >= 0) {
+			else if (MoveComponent.LinearVelocity.LengthSquared > 0) {
 				MoveComponent.LinearVelocity =
 					Vector3d.Lerp(MoveComponent.LinearVelocity, Vector3d.Zero, Time.DeltaTimeUpdate);
 			}

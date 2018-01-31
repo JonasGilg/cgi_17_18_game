@@ -18,7 +18,7 @@ namespace Game.GamePlay {
 
 		public static SpaceShip playerSpaceship = new SpaceShip {
 			TransformComponent = {
-				Scale = new Vector3d(0.02f),
+				Scale = new Vector3d(1f),
 				Position = Vector3d.Zero,
 				Orientation = Quaterniond.Identity
 			}

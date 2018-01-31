@@ -38,7 +38,7 @@ namespace Game.GameObjects {
 
 			moveComponent = new MoveComponent(this);
 			optionalComponents.Add(ComponentType.MOVE_COMPONENT, new List<Component> {moveComponent});
-			cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-0.3, 0.05, 0.0), this);
+			cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-15, 1.5, 0.0), this);
 			renderComponent = new RenderComponent(
 				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj"),
 				MaterialManager.GetMaterial(Material.PBR),
@@ -54,7 +54,7 @@ namespace Game.GameObjects {
 			);
 			shadowComponent = new ShadowComponent(renderComponent, this);
 			optionalComponents.Add(ComponentType.RENDER_COMPONENT, new List<Component> {renderComponent});
-			moveInputComponent = new ArcadeMoveInputComponent(this, TransformComponent, moveComponent);
+			moveInputComponent = new RLSpaceMovementComponent(this, TransformComponent, moveComponent);
 
 			firingComponent = new FiringComponent(this);
 
