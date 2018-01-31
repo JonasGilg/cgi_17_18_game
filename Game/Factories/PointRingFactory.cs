@@ -112,6 +112,7 @@ namespace Game.Utils {
 
             return chunks;
         }
+        
 
         /// <summary>
         /// Generates a ring of metal chunks with a chunk in its center.
@@ -158,6 +159,46 @@ namespace Game.Utils {
             }
             
             return chunks;
+        }
+        
+        public static Asteroid GenerateSingleAsteroid(Vector3d position, double scale = 10.0) {
+            var asteroid = AsteroidFactory.GenerateAsteroid(AsteroidFactory.AsteroidType.STANDARD);
+            asteroid.TransformComponent.Scale = new Vector3d(scale);
+            asteroid.TransformComponent.Position = position;
+            asteroid.MoveComponent.AngularVelocity = new Vector3d(0,4.0,0);
+            
+       
+            GameObject.Instantiate(asteroid);
+            return asteroid;
+        }
+        
+        //generiert einen ring aus Asteroiden
+        public static List<Asteroid> GenerateAsteroidRing(Vector3d center, Vector3d eulerAngle, int count, double radius, double scale = 5.0 ) {
+            var asteroids = new List<Asteroid>();
+            if (count < 1) return asteroids; //nothing to generate if count is 0
+            
+            
+            for (int i = 0; i < count; i++) {
+                var pos = new Vector3d(radius * Math.Cos(i * Math.PI * 2 / count), radius * Math.Sin(i * Math.PI * 2 / count), center.Z);
+                var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
+                asteroids.Add( GenerateSingleAsteroid(rotatedPos, scale) );
+            }
+            
+            
+
+            return asteroids;
+        }
+        
+        //Generiert einen Ring aus Asteroiden mit einem Point Ring im Centrum
+        public static List<GameObject> GeneratePointRingWithAsteroidRing(Vector3d center, Vector3d eulerAngle, PointType pointType, int asteroidCount, double radius, double asteroidScale = 5.0, double pointRingScale = 5.0 ) {
+            var objs = new List<GameObject>();
+            
+            objs.AddRange(GenerateAsteroidRing(center,eulerAngle,asteroidCount,radius,asteroidScale));
+            objs.Add(GenerateSingle(center,pointType,pointRingScale));
+            
+           
+
+            return objs;
         }
     }
 }
