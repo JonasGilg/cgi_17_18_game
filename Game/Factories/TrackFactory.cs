@@ -20,8 +20,8 @@ namespace Game.Utils {
 		public static List<Item> generateTrackList(double length) {
 			TRACK_LIST = new List<Item>();
 			
-			var startpoint = new Vector3d(200.0,0,0);
-			TRACK_LIST.AddRange(createHelix(startpoint, Vector3d.UnitX, 1000, 1000, 20, 20,true));
+			var startpoint = new Vector3d(0,1000.0,500.0);
+			TRACK_LIST.AddRange(createHelix(startpoint, Vector3d.UnitY, 1000, 1000, 20, 20,true));
 			
 
 			return TRACK_LIST;
@@ -100,7 +100,7 @@ namespace Game.Utils {
 			
 
 
-			addCheckpoint(currentPosition+s);
+			addCheckpoint(currentPosition+(direction.Normalized()*stepFraction));
 			return resList;
 		}
 
