@@ -43,37 +43,39 @@ namespace Game.Components {
 				MoveComponent.LinearVelocity += translateDown * MOVEMENT_MULTIPLIER;
 			}
 
+			MoveComponent.LinearVelocity = Vector3d.Lerp(MoveComponent.LinearVelocity, Vector3d.Zero, Time.DeltaTimeUpdate);
+			
 			if (Keyboard.Down(Key.A)) {
 				var yawLeft = TransformComponent.Orientation.Rotate(new Vector3d(0.0, Time.DeltaTimeUpdate, 0.0));
-				MoveComponent.AngularVelocity += yawLeft;
+				MoveComponent.AngularVelocity += yawLeft * ROTATION_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.D)) {
 				var yawRight = TransformComponent.Orientation.Rotate(new Vector3d(0.0, -Time.DeltaTimeUpdate, 0.0));
-				MoveComponent.AngularVelocity += yawRight;
+				MoveComponent.AngularVelocity += yawRight * ROTATION_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.Up)) {
 				var forwardUp = TransformComponent.Orientation.Rotate(new Vector3d(0.0, 0.0, -Time.DeltaTimeUpdate));
-				MoveComponent.AngularVelocity += forwardUp;
+				MoveComponent.AngularVelocity += forwardUp * ROTATION_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.Down)) {
 				var pitchDown = TransformComponent.Orientation.Rotate(new Vector3d(0.0, 0.0, Time.DeltaTimeUpdate));
-				MoveComponent.AngularVelocity += pitchDown;
+				MoveComponent.AngularVelocity += pitchDown * ROTATION_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.Left)) {
 				var rollLeft = TransformComponent.Orientation.Rotate(new Vector3d(-Time.DeltaTimeUpdate, 0.0, 0.0));
-				MoveComponent.AngularVelocity += rollLeft;
+				MoveComponent.AngularVelocity += rollLeft * ROTATION_MULTIPLIER;
 			}
 
 			if (Keyboard.Down(Key.Right)) {
 				var rollRight = TransformComponent.Orientation.Rotate(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0));
-				MoveComponent.AngularVelocity += rollRight;
+				MoveComponent.AngularVelocity += rollRight * ROTATION_MULTIPLIER;
 			}
-			
-			MoveComponent.LinearVelocity = Vector3d.Lerp(MoveComponent.LinearVelocity, Vector3d.Zero, Time.DeltaTimeUpdate);
+
+			MoveComponent.AngularVelocity = Vector3d.Lerp(MoveComponent.AngularVelocity, Vector3d.Zero, Time.DeltaTimeUpdate);
 		}
 	}
 }
