@@ -166,15 +166,11 @@ namespace Engine.Render {
 		}
 
 		public static void CopyDepthToMainScreen() {
-			// copy depth to main screen
 			GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, gFramebufferName);
 			GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
 			GL.BlitFramebuffer(0, 0, width, height, 0, 0, width, height, ClearBufferMask.DepthBufferBit, BlitFramebufferFilter.Nearest);
 
-			// reeset render target to main screen
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-
-			// enable z-buffer again
 			GL.Enable(EnableCap.DepthTest);
 		}
 
@@ -200,8 +196,8 @@ namespace Engine.Render {
 
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 			horizontalBlurMaterial.Draw(fullscreenQuad, pingPongBuffer1);
+			
 			GL.Disable(EnableCap.Blend);
-
 			GL.Enable(EnableCap.CullFace);
 		}
 	}

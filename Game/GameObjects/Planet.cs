@@ -1,37 +1,43 @@
-﻿using System;
-using System.Runtime.Remoting.Messaging;
-using Engine;
+﻿using Engine;
 using Engine.Collision;
 using Engine.Component;
 using Engine.GUI;
 using Engine.Material;
 using Engine.Model;
 using Engine.Render;
+using Engine.Texture;
 using Game.Components;
 
 namespace Game.GameObjects {
 	public class Planet : GameObject {
 		private static readonly Model3D PLANET_MODEL = ModelLoaderObject3D.Load("data/objects/Planet.obj");
-
+		private static readonly int NORMAL_ID = TextureManager.LoadTexture("data/textures/defaultNormalMap.png");
+		private static readonly int METALNESS_ID = TextureManager.LoadTexture("data/textures/simpleBlack.png");
+		private static readonly int ROUGHNESS_ID = TextureManager.LoadTexture("data/textures/simpleBlack.png");
+		private static readonly int AO_ID = TextureManager.LoadTexture("data/textures/simpleWhite.png");
+		private static readonly int BLUR_ID = TextureManager.LoadTexture("data/textures/simpleBlack.png");
+		
 		public readonly RenderComponent RenderComponent;
+		private readonly ShadowComponent shadowComponent;
 		public readonly MoveComponent MoveComponent;
-		public readonly CollisionComponent CollisionComponent;
-
-		
-		
+		private readonly CollisionComponent collisionComponent;
 
 		public Planet(int textureId, GameObject referenceObject = null) {
 			RenderComponent = new RenderComponent(
 				PLANET_MODEL,
-				MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
+				MaterialManager.GetMaterial(Material.PBR),
 				new MaterialSettings {
 					ColorTexture = textureId,
-					Shininess = 0.0
+					NormalTexture = NORMAL_ID,
+					MetalnessTexture = METALNESS_ID,
+					RoughnessTexture = ROUGHNESS_ID,
+					AOTexture = AO_ID,
+					GlowTexture = BLUR_ID
 				},
 				this
 			);
 
-			
+			shadowComponent = new ShadowComponent(RenderComponent, this);
 
 			if (referenceObject != null) {
 				MoveComponent = new GravityMovement(this, 0.0);
@@ -40,7 +46,7 @@ namespace Game.GameObjects {
 				MoveComponent = new MoveComponent(this);
 			}
 			
-			CollisionComponent = new SphereCollider(this, RenderComponent.Model,
+			collisionComponent = new SphereCollider(this, RenderComponent.Model,
 				message => {
 				
 					if (message.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT, out var componentList)) {
@@ -71,24 +77,24 @@ namespace Game.GameObjects {
 		public override void Awake() {
 			base.Awake();
 			RenderEngine.RegisterRenderComponent(RenderComponent);
-			CollisionEngine.Register(CollisionComponent);
+			CollisionEngine.Register(collisionComponent);
 			
 			Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
 			RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
 			TransformComponent.UpdateWorldMatrix();
-			
 		}
 
 		public override void Update() {
 			MoveComponent.Update();
 			base.Update();
 			RenderComponent.Update();
+			shadowComponent.Update();
 		}
 		
 		protected override void OnDestroy() {
 			//TODO BIIIG explosion
 			RenderEngine.UnregisterRenderComponent(RenderComponent);
-			CollisionEngine.Unregister(CollisionComponent);
+			CollisionEngine.Unregister(collisionComponent);
 			HUD.RemoveHudObjectMarker(objectMarker.ID);
 		}
 

@@ -32,11 +32,5 @@ namespace Engine.Material.Shadow {
 		protected override void PreDraw() => GL.UseProgram(Program);
 
 		protected override void PostDraw() => GL.ActiveTexture(TextureUnit.Texture0);
-
-		public void DrawDirect(Model3D model) {
-			PreDraw();
-			Draw(model, new MaterialSettings());
-			PostDraw();
-		}
 	}
 }

@@ -15,6 +15,7 @@ namespace Game.GameObjects {
 		private static int ASTEROID_DMG = 25;
 		public readonly MoveComponent MoveComponent;
 		private readonly RenderComponent renderComponent;
+		private readonly ShadowComponent shadowComponent;
 		public readonly SphereCollider CollisionComponent;
 		public readonly HealthComponent HealthComponent;
 
@@ -29,6 +30,8 @@ namespace Game.GameObjects {
 				materialSettings,
 				this
 			);
+			shadowComponent = new ShadowComponent(renderComponent, this);
+			
 			HealthComponent = new HealthComponent(this,ASTEROID_HP);
 			optionalComponents.Add(ComponentType.HEALTH_COMPONENT,new List<Component>{HealthComponent});
 			
@@ -70,6 +73,7 @@ namespace Game.GameObjects {
 			MoveComponent.Update();
 			base.Update();
 			renderComponent.Update();
+			shadowComponent.Update();
 		}
 
 		protected override void OnDestroy() {
