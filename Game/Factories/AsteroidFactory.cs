@@ -106,6 +106,29 @@ namespace Game.Utils {
 			return asteroids;
 		}
 		
+		public static List<Asteroid> GenerateAsteroidTorus(Vector3d center, Vector3d eulerAngle, int count, int innerRadius, int outerRadius, int ringHeight, double scale = 5.0 ) {
+			var asteroids = new List<Asteroid>();
+			if (count < 1) return asteroids; //nothing to generate if count is 0
+            
+			var rand = new Random();
+			var heightVariance = ringHeight / 2;
+            
+			for (int i = 0; i < count; i++) {
+				var radius = rand.Next(innerRadius, outerRadius);
+				var pos = new Vector3d(radius * Math.Cos(i * Math.PI * 2 / count),
+					radius * Math.Sin(i * Math.PI * 2 / count),
+					rand.Next( ((int)center.Z) - heightVariance, ((int)center.Z) + heightVariance));
+				
+				//rotate by given vector
+				var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
+				asteroids.Add( GenerateSingleAsteroid(rotatedPos, scale) );
+			}
+            
+            
+
+			return asteroids;
+		}
+		
 		public static Asteroid GenerateSingleAsteroid(Vector3d position, double scale = 10.0) {
 			var asteroid = AsteroidFactory.GenerateAsteroid(AsteroidFactory.AsteroidType.STANDARD);
 			asteroid.TransformComponent.Scale = new Vector3d(scale);

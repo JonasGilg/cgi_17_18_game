@@ -14,7 +14,8 @@ namespace Game.Utils {
 			SUN,
 			NEPTUN,
 			JUPITER,
-			REDPLANET
+			REDPLANET,
+			EARTHLIKE
 		}
 
 		private static readonly Random RANDOM = new Random(100);
@@ -23,7 +24,8 @@ namespace Game.Utils {
 			{PlanetTexture.SUN, "data/textures/sun.png"},
 			{PlanetTexture.NEPTUN, "data/textures/planets/neptunemap.jpg"},
 			{PlanetTexture.JUPITER, "data/textures/planets/2k_jupiter.jpg"},
-			{PlanetTexture.REDPLANET, "data/textures/planets/red_planet.jpg"}
+			{PlanetTexture.REDPLANET, "data/textures/planets/red_planet.jpg"},
+			{PlanetTexture.EARTHLIKE, "data/textures/planets/earthlike.png"}
 		};
 
 

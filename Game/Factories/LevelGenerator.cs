@@ -33,13 +33,15 @@ namespace Game.Utils {
             
             
             List<Planet> planets = new List<Planet>();
-            planets.Add(PlanetFactory.GeneratePlanetWithAsteroidBeld(PlanetFactory.PlanetTexture.REDPLANET,
+            planets.Add(PlanetFactory.GeneratePlanetWithAsteroidBeld(PlanetFactory.PlanetTexture.EARTHLIKE,
                 AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(3000.0, 500, 1000),
                 new Vector3d(1000.0), new Vector3d(0, 0.5, 0)));
             
             planets.Add(PlanetFactory.GeneratePlanetWithAsteroidBeld(PlanetFactory.PlanetTexture.NEPTUN,
                 AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(20000.0, -3000, -9000),
                 new Vector3d(1000.0), new Vector3d(0, 0.5, 0)));
+
+            AsteroidFactory.GenerateAsteroidTorus(new Vector3d(-800, 0, 0), new Vector3d(0, 90, 0), 120, 300, 400, 100);
             
             
             var finishMarker = new FinishMarker {
