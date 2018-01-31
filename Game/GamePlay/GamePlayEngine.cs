@@ -14,7 +14,9 @@ namespace Game.GamePlay {
 		
 		public static FinishMarker currentFinishMarker;
 
-		
+		static GamePlayEngine() {
+			HUD.AddHudTextElement(HudCheckpointTextElement);
+		}
 
 		public static SpaceShip playerSpaceship = new SpaceShip {
 			TransformComponent = {
@@ -45,8 +47,8 @@ namespace Game.GamePlay {
 		};
 
 		public static int maxCheckpoints;
+		
 		public static void LoadLevel(int index) {
-			if (index == CurrentLevelIndex || index >= LEVELS.Length) return;
             
 			World.ClearWorld();
 			GOAL_RING_LIST.Clear();
@@ -55,7 +57,7 @@ namespace Game.GamePlay {
 			LEVELS[index]();
 			maxCheckpoints = GOAL_RING_LIST.Count;
 			HudCheckpointTextElement.Text = $"{0}/{maxCheckpoints}";
-			HUD.AddHudTextElement(HudCheckpointTextElement);
+			
 			HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
 			
 		}
@@ -63,6 +65,11 @@ namespace Game.GamePlay {
 		public static void LoadNextLevel() {
 			LoadLevel(CurrentLevelIndex+1);
 		}
+
+		public static void RestartLevel() {
+			LoadLevel(CurrentLevelIndex);
+		}
+		
 		public static void GameOver() {
 			GameObject.Destroy(playerSpaceship);
 			HUD.AddHudTextElement(HUD.CreateHudTextElement("GAME OVER", new Vector2(-0.5f, 0.5f), 2000f));
