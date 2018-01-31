@@ -49,7 +49,7 @@ namespace Game.Utils {
 
 		public static Planet GeneratePlanetWithAsteroidBeld(PlanetTexture planetTexture,
 			AsteroidFactory.AsteroidType asteroidType, int numberAsteroids, Vector3d position, Vector3d scale,
-			Vector3d rotation, GameObject referenceObject) {
+			Vector3d rotation) {
 			//TODO randomize angle, distance, speed, size, etc
 			var planet = GeneratePlanet(planetTexture, position, scale, rotation);
 

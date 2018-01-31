@@ -26,6 +26,15 @@ namespace Game.Utils {
             GamePlayEngine.playerSpaceship.TransformComponent.Orientation = startOrientation;
             GameObject.Instantiate(GamePlayEngine.playerSpaceship);
             
+            List<Planet> planets = new List<Planet>();
+            for (var i = 1; i < 3; i++) {
+                var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
+                    AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(10000.0 * i, 0, 0),
+                    new Vector3d(1000.0), new Vector3d(0, 0.5, 0));
+
+                GameObject.Instantiate(planet);
+            }
+            
             var itemList = TrackFactory.generateTrackList(20000.0);
             for (int i = 0; i < itemList.Count; i++) {
                 
@@ -63,7 +72,7 @@ namespace Game.Utils {
 			for (var i = 1; i < 3; i++) {
 				var planet = PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) i,
 					AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(10000.0 * i, 0, 0),
-					new Vector3d(1000.0), new Vector3d(0, 0.5, 0), sun);
+					new Vector3d(1000.0), new Vector3d(0, 0.5, 0));
 
 				GameObject.Instantiate(planet);
 			}
