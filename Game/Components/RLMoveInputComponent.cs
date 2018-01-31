@@ -57,22 +57,22 @@ namespace Game.Components {
 
 			if (Keyboard.Down(Key.Up)) {
 				var forwardUp = TransformComponent.Orientation.Rotate(new Vector3d(0.0, 0.0, -Time.DeltaTimeUpdate));
-				MoveComponent.AngularVelocity += forwardUp * ROTATION_MULTIPLIER;
+				MoveComponent.AngularVelocity += forwardUp * ROTATION_MULTIPLIER * 2;
 			}
 
 			if (Keyboard.Down(Key.Down)) {
 				var pitchDown = TransformComponent.Orientation.Rotate(new Vector3d(0.0, 0.0, Time.DeltaTimeUpdate));
-				MoveComponent.AngularVelocity += pitchDown * ROTATION_MULTIPLIER;
+				MoveComponent.AngularVelocity += pitchDown * ROTATION_MULTIPLIER * 2;
 			}
 
 			if (Keyboard.Down(Key.Left)) {
 				var rollLeft = TransformComponent.Orientation.Rotate(new Vector3d(-Time.DeltaTimeUpdate, 0.0, 0.0));
-				MoveComponent.AngularVelocity += rollLeft * ROTATION_MULTIPLIER;
+				MoveComponent.AngularVelocity += rollLeft * ROTATION_MULTIPLIER * 2;
 			}
 
 			if (Keyboard.Down(Key.Right)) {
 				var rollRight = TransformComponent.Orientation.Rotate(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0));
-				MoveComponent.AngularVelocity += rollRight * ROTATION_MULTIPLIER;
+				MoveComponent.AngularVelocity += rollRight * ROTATION_MULTIPLIER * 2;
 			}
 
 			MoveComponent.AngularVelocity = Vector3d.Lerp(MoveComponent.AngularVelocity, Vector3d.Zero, Time.DeltaTimeUpdate);
