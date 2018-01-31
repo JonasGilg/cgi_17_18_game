@@ -26,12 +26,12 @@ namespace Game.Utils {
 			return chunk;
 		}
 		
-		//Generiert einen Ring aus Asteroiden mit einem Goal Ring im Centrum
-		public static List<GameObject> GeneratePointRingWithAsteroidRing(Vector3d center, Vector3d eulerAngle, int asteroidCount, double radius, double asteroidScale = 5.0, double goalRingScale = 5.0 ) {
+		
+		public static List<GameObject> GenerateGoalRingWithAsteroidRing(Vector3d center, Vector3d eulerAngle, int asteroidCount, double radius, double asteroidScale = 5.0, double pointRingScale = 5.0 ) {
 			var objs = new List<GameObject>();
             
-			objs.AddRange(PointRingFactory.GenerateAsteroidRing(center,eulerAngle,asteroidCount,radius,asteroidScale));
-			objs.Add(GenerateSingle(center,goalRingScale));
+			objs.AddRange(AsteroidFactory.GenerateAsteroidRing(center,eulerAngle,asteroidCount,radius,asteroidScale));
+			objs.Add(GenerateSingle(center,pointRingScale));
             
            
 

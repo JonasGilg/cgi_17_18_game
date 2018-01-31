@@ -14,6 +14,8 @@ namespace Game.Utils {
 	}
 	
 	public static class TrackFactory {
+		private static int NUMBER_OF_ELEMENTS=0;
+		private static int CHECKPOINT_FREQUENCY = 20;
 		private const double DIAMETER = 50.0;
 		private static List<Item> TRACK_LIST;
 	
@@ -54,7 +56,7 @@ namespace Game.Utils {
 					);
 				
 				
-				createAddGoldRing(currentPosition);
+				createAddRing(currentPosition);
 				currentAngle += angleStep;
 				currentRadius += radiusGrowthStep;
 			}
@@ -104,12 +106,24 @@ namespace Game.Utils {
 			return resList;
 		}
 
-		private static void createAddGoldRing(Vector3d pos) {
-			TRACK_LIST.Add(createGoldRing(pos));
+		private static void createAddRing(Vector3d pos) {
+			if (NUMBER_OF_ELEMENTS % CHECKPOINT_FREQUENCY == 0) {
+				addCheckpoint(pos);
+			}
+			else {
+				addRing(pos);
+			}
 		}
 
 		private static void addCheckpoint(Vector3d pos) {
+			NUMBER_OF_ELEMENTS++;
 			TRACK_LIST.Add(createCheckpoint(pos));
+		}
+
+		private static void addRing(Vector3d pos) {
+			NUMBER_OF_ELEMENTS++;
+			//TODO randomize the PointRings a bit... now only gold rings
+			TRACK_LIST.Add(createGoldRing(pos));
 		}
 
 		private static PointRing createGoldRing(Vector3d pos) {
