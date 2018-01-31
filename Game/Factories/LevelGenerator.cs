@@ -37,7 +37,9 @@ namespace Game.Utils {
                 AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(3000.0, 500, 1000),
                 new Vector3d(1000.0), new Vector3d(0, 0.5, 0)));
             
-           
+            planets.Add(PlanetFactory.GeneratePlanetWithAsteroidBeld(PlanetFactory.PlanetTexture.NEPTUN,
+                AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(20000.0, -3000, -9000),
+                new Vector3d(1000.0), new Vector3d(0, 0.5, 0)));
             
             
             var finishMarker = new FinishMarker {
