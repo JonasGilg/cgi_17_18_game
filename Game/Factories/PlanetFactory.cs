@@ -13,7 +13,8 @@ namespace Game.Utils {
 		public enum PlanetTexture {
 			SUN,
 			NEPTUN,
-			JUPITER
+			JUPITER,
+			REDPLANET
 		}
 
 		private static readonly Random RANDOM = new Random(100);
@@ -21,7 +22,8 @@ namespace Game.Utils {
 		private static readonly Dictionary<PlanetTexture, string> PLANET_TEXTURES = new Dictionary<PlanetTexture, string> {
 			{PlanetTexture.SUN, "data/textures/sun.png"},
 			{PlanetTexture.NEPTUN, "data/textures/planets/neptunemap.jpg"},
-			{PlanetTexture.JUPITER, "data/textures/planets/2k_jupiter.jpg"}
+			{PlanetTexture.JUPITER, "data/textures/planets/2k_jupiter.jpg"},
+			{PlanetTexture.REDPLANET, "data/textures/planets/red_planet.jpg"}
 		};
 
 

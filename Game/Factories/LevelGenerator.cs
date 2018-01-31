@@ -33,7 +33,7 @@ namespace Game.Utils {
             
             
             List<Planet> planets = new List<Planet>();
-            planets.Add(PlanetFactory.GeneratePlanetWithAsteroidBeld((PlanetFactory.PlanetTexture) 2,
+            planets.Add(PlanetFactory.GeneratePlanetWithAsteroidBeld(PlanetFactory.PlanetTexture.REDPLANET,
                 AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(3000.0, 500, 1000),
                 new Vector3d(1000.0), new Vector3d(0, 0.5, 0)));
             
