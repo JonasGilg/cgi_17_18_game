@@ -13,7 +13,7 @@ namespace Game.Utils {
 		private static int CHECKPOINT_FREQUENCY = 16;
 		private const double DIAMETER = 50.0;
 
-		public static Vector3d createWayPoints(string filePath) {
+		public static Vector3d createWayPoints() {
 			var wayPoints = loadWayPoints(LEVEL1_FILE_PATH);
 			
 			NUMBER_OF_ELEMENTS=0;
