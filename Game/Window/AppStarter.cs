@@ -75,6 +75,9 @@ namespace Game.Window {
 				Time.DecreaseGameSpeed();
 				Console.Out.WriteLine($"{Time.GameSpeed.ToString("N2")}");
 			}
+			if (EngineKeyboard.Pressed(Key.R)) {
+				GamePlayEngine.RestartLevel();
+			}
 
 #if(DEBUG)
 IO.PrintAsync(TimingRegistry.GetStatsText());
