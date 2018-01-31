@@ -8,12 +8,12 @@ using OpenTK;
 
 namespace Game.Utils {
 	public static class TrackFactory {
-		private static string LEVEL1_FILE_PATH = "data/objects/track_files/track1/track1_waypoints.obj";
+		private static string LEVEL1_FILE_PATH = "data/objects/track_files/track2/track_waypoints.obj";
 		private static int NUMBER_OF_ELEMENTS=0;
 		private static int CHECKPOINT_FREQUENCY = 16;
 		private const double DIAMETER = 50.0;
 
-		public static Vector3d createWayPoints() {
+		public static Vector3d createWayPoints(string filePath) {
 			var wayPoints = loadWayPoints(LEVEL1_FILE_PATH);
 			
 			NUMBER_OF_ELEMENTS=0;

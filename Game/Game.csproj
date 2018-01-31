@@ -93,6 +93,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="data\BlenderFiles\level\FULL_LEVEL.blend" />
+    <Content Include="data\BlenderFiles\level\FULL_LEVEL.blend1" />
+    <Content Include="data\BlenderFiles\level\TRACK1.blend" />
+    <Content Include="data\BlenderFiles\level\TRACK1.blend1" />
     <Content Include="data\BlenderFiles\Neptune.blend" />
     <Content Include="data\BlenderFiles\SpaceShip\BumpMap.png" />
     <Content Include="data\BlenderFiles\SpaceShip\SpaceShip.blend" />
@@ -150,6 +154,9 @@
     </Content>
     <Content Include="data\objects\track_files\readme.txt" />
     <Content Include="data\objects\track_files\track1\track1_waypoints.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\objects\track_files\track2\track_waypoints.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\textures\asteroids\PBR\About these PBR files.txt" />
