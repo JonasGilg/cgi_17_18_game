@@ -47,7 +47,7 @@ namespace Game.Utils {
 		}
 
 		private static GoalRing createCheckpoint(Vector3d pos) {
-			return GoalRingFactory.GenerateSingle(pos, DIAMETER*2);
+			return GoalRingFactory.GenerateSingle(pos, DIAMETER*3);
 		}
 
 	

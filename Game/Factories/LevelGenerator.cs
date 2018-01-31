@@ -12,7 +12,7 @@ using OpenTK;
 namespace Game.Utils {
     public static class LevelGenerator {
         private static Vector3d startingPoint = new Vector3d(0.0, 0.0, 0.0);
-        private static Quaterniond startOrientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, -1.5);
+        private static Quaterniond startOrientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0);
 
         public static void GenerateRACETRACK_1() {
             Light.SetSpotLight(Vector3d.Zero, 
@@ -22,7 +22,7 @@ namespace Game.Utils {
                 new Vector4(.950f, .950f, .950f, 0f));
             
             GamePlayEngine.ResetSpaceShip();
-            GamePlayEngine.playerSpaceship.TransformComponent.Position = startingPoint;
+            GamePlayEngine.playerSpaceship.TransformComponent.Position = startingPoint + new Vector3d(-400,0,0);
             GamePlayEngine.playerSpaceship.TransformComponent.Orientation = startOrientation;
             GameObject.Instantiate(GamePlayEngine.playerSpaceship);
             
@@ -42,7 +42,7 @@ namespace Game.Utils {
             
             var finishMarker = new FinishMarker {
                 TransformComponent = {
-                    Position = startingPoint,
+                    Position = new Vector3d(-4000.0,4776,285),
                     Scale = new Vector3d(200)
                 }
             };

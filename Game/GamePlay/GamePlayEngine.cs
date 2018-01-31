@@ -10,6 +10,7 @@ namespace Game.GamePlay {
 	public static class GamePlayEngine {
 
 		public static HudTextElement hudLevelIndicatorText = HUD.CreateHudTextElement("",new Vector2(0.7f,0.9f));
+		public static HudTextElement HudCheckpointTextElement = HUD.CreateHudTextElement("",new Vector2(0.0f,0.9f));
 		
 		public static FinishMarker currentFinishMarker;
 
@@ -43,6 +44,7 @@ namespace Game.GamePlay {
 			*/
 		};
 
+		public static int maxCheckpoints;
 		public static void LoadLevel(int index) {
 			if (index == CurrentLevelIndex || index >= LEVELS.Length) return;
             
@@ -51,7 +53,11 @@ namespace Game.GamePlay {
 			CurrentLevelIndex = index;
 			hudLevelIndicatorText.Text = $"LEVEL: {CurrentLevelIndex}";
 			LEVELS[index]();
+			maxCheckpoints = GOAL_RING_LIST.Count;
+			HudCheckpointTextElement.Text = $"{0}/{maxCheckpoints}";
+			HUD.AddHudTextElement(HudCheckpointTextElement);
 			HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
+			
 		}
 
 		public static void LoadNextLevel() {
@@ -74,11 +80,14 @@ namespace Game.GamePlay {
 		public static void registerGoalRing(GoalRing ring) {
 			GOAL_RING_LIST.Enqueue(ring);
 			
+			
 		}
-
+		
 		public static void checkPointPassed(GoalRing chunk) {
 			if (GOAL_RING_LIST.Peek().Equals(chunk)) {
+				//TODO sound queue!
 				GOAL_RING_LIST.Dequeue();
+				HudCheckpointTextElement.Text = $"{maxCheckpoints-GOAL_RING_LIST.Count}/{maxCheckpoints}";
 				HUD.RemoveHudObjectMarker(chunk.objectMarker.ID);
 				GameObject.Destroy(chunk);
 				if (GOAL_RING_LIST.Count == 0) {
