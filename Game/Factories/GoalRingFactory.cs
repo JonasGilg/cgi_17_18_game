@@ -32,11 +32,10 @@ namespace Game.Utils {
 
 			var checkPoint = GenerateSingle(center, pointRingScale);
 			
-			var ring_radius = pointRingScale *2;
-			var asteroid_radius = pointRingScale * 0.5;
-			var toOrbitVector = direction * ring_radius;
-			var asteroidRing =
-				AsteroidFactory.GenerateAsteroidRingForCheckpoint(checkPoint, asteroid_radius, rotationV, toOrbitVector);
+			
+			
+			
+				AsteroidFactory.GenerateAsteroidRingForCheckpoint(checkPoint, rotationV, direction);
 			
 			
             
