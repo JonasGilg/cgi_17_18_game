@@ -114,7 +114,7 @@ namespace Game.Components {
 		}
 
 		public String healthPointStatus() {
-			return $"HP: {currentHP}/{maxHP}";
+			return $"{currentHP}/{maxHP}";
 		}
 	}
 }

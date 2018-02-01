@@ -31,7 +31,7 @@ namespace Game.GameObjects {
 
 		public SpaceShip() {
 			speed = HUD.CreateHudTextElement("", new Vector2(0, -0.9f),TextAnchor.CENTER);
-			position = HUD.CreateHudTextElement("", new Vector2(-0.95f, -0.88f));
+			position = HUD.CreateHudTextElement("", new Vector2(-0.95f, -0.88f), TextAnchor.TOP_LEFT,0.75f);
 			healthPoints = HUD.CreateHudTextElement("", new Vector2(0, -0.8f),TextAnchor.CENTER);
 			HUD.AddHudTextElement(speed);
 			HUD.AddHudTextElement(position);
@@ -110,7 +110,6 @@ namespace Game.GameObjects {
 
 		public override void Awake() {
 			base.Awake();
-			IO.PrintAsync("ship awake");
 			RenderEngine.RegisterRenderComponent(renderComponent);
 			CollisionEngine.Register(CollisionComponent);
 

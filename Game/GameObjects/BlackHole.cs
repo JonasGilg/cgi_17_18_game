@@ -16,6 +16,7 @@ namespace Game.GameObjects {
         public readonly RenderComponent RenderComponent;
         public readonly MoveComponent MoveComponent;
         public readonly CollisionComponent CollisionComponent;
+        public readonly BlackHoleInfluenceZone influenceZone = null;
 
         public BlackHole() {
             RenderComponent = new RenderComponent(

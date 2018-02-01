@@ -44,7 +44,7 @@ namespace Engine.Render {
 					textlenght += charDimensions.W * scale;
 					textheight = Math.Max(textheight, charDimensions.H * scale);
 				}
-				position.Y -= textheight / 2;
+				position.Y += textheight / 2;
 				position.X -= textlenght / 2;
 			}
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Media;
 using Engine;
 using Engine.GUI;
+using Engine.Util;
 using Game.GameObjects;
 using Game.Utils;
 using OpenTK;
@@ -68,7 +69,11 @@ namespace Game.GamePlay {
 		}
 
 		public static void LoadNextLevel() => LoadLevel(CurrentLevelIndex + 1);
-		public static void RestartLevel() => LoadLevel(CurrentLevelIndex);
+
+		public static void RestartLevel() {
+			IO.PrintAsync("Restarting Level");
+			LoadLevel(CurrentLevelIndex);
+		}
 
 		public static void GameOver() {
 			PLAYER_SPACESHIP.Destroy();
@@ -78,8 +83,8 @@ namespace Game.GamePlay {
 		public static void GameWon() {
 			Statistics.Stop();
 			GameWonTextElement.Enabled = true;
-			Statistics.ScoreTextElement.Position = new Vector2(-0.45f,-0.2f);
-			Statistics.TimeSpentTextElement.Position = new Vector2(-0.45f,-0.3f);
+			Statistics.ScoreTextElement.Position = new Vector2(0,-0.3f);
+			Statistics.TimeSpentTextElement.Position = new Vector2(0,-0.4f);
 		}
 
 		public static void RemoveObjectFromWorld(GameObject gameObject) {
