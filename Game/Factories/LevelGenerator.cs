@@ -25,7 +25,7 @@ namespace Game.Utils {
 			};
 		}
 
-        private static void obstacleCreation(int lvlNumber) {
+        private static void ObstacleCreation(int lvlNumber) {
             
             List<Vector3d> positions = new List<Vector3d>() {
                 new Vector3d(22571,983,-13391
@@ -76,7 +76,7 @@ namespace Game.Utils {
             
             //HELIX 
             var planet4 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.REDPLANET, positions[8], new Vector3d(3000), new Vector3d(0.3));
-            var planet5 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.EARTHLIKE, positions[9], new Vector3d(3000), new Vector3d(0.3));
+            var planet5 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.EARTHLIKE, positions[9], new Vector3d(5000), new Vector3d(0.3));
             
             //after helix
             var planet6= PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, positions[10], new Vector3d(5000), new Vector3d(0.3));

@@ -27,11 +27,13 @@ namespace Game.Utils {
 		}
 		
 		
-		public static List<GameObject> GenerateGoalRingWithAsteroidRing(Vector3d center, Vector3d eulerAngle, int asteroidCount, double radius, double asteroidScale = 5.0, double pointRingScale = 5.0 ) {
+		public static List<GameObject> GenerateGoalRingWithAsteroidRing(Vector3d center, double pointRingScale, Quaterniond rotationQuaterniond) {
 			var objs = new List<GameObject>();
-            
-			objs.AddRange(AsteroidFactory.GenerateAsteroidRing(center,eulerAngle,asteroidCount,radius,asteroidScale));
 			objs.Add(GenerateSingle(center,pointRingScale));
+			var ring_radius = pointRingScale *2;
+			var asteroid_radius = pointRingScale * 0.5;
+			objs.AddRange(AsteroidFactory.GenerateAsteroidRing(center,ring_radius,asteroid_radius, rotationQuaterniond));
+			
             
            
 

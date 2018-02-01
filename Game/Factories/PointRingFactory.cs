@@ -157,18 +157,6 @@ namespace Game.Utils {
 		}
 
 
-		//generiert einen ring aus Asteroiden
-
-
-		//Generiert einen Ring aus Asteroiden mit einem Point Ring im Centrum
-		public static List<GameObject> GeneratePointRingWithAsteroidRing(Vector3d center, Vector3d eulerAngle, PointType pointType, int asteroidCount, double radius, double asteroidScale = 5.0, double pointRingScale = 5.0) {
-			var objs = new List<GameObject>();
-
-			objs.AddRange(AsteroidFactory.GenerateAsteroidRing(center, eulerAngle, asteroidCount, radius, asteroidScale));
-			objs.Add(GenerateSingle(center, pointType, pointRingScale));
-
-
-			return objs;
-		}
+	
 	}
 }

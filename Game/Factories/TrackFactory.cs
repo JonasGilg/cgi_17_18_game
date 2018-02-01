@@ -13,6 +13,8 @@ namespace Game.Utils {
 		private static readonly string LEVEL_1_FILE_PATH = "data/objects/track_files/track2/track_waypoints.obj";
 		
 		private static int NUMBER_OF_ELEMENTS=0;
+		
+		private static List<Vector3d> WAYPOINTS;
 		private static int CHECKPOINT_FREQUENCY = 16;
 		private const double DIAMETER = 50.0;
 		
@@ -29,36 +31,41 @@ namespace Game.Utils {
 
 			return result;
 		}
+		
+		private static List<int> LEVEL_1_SPECIAL_CHECKPOINTS = new List<int> {2,5, 6, 8, 9, 15, 16, 20, 21, 22};
+		
 		public static List<Vector3d> createTrackPoints(string file_path) {
 			var wayPoints = loadWayPoints(file_path);
-			
-			NUMBER_OF_ELEMENTS=0;
+
+			var created_checkPoints = 0;
+			WAYPOINTS = wayPoints;
 
 			for (int i = 0; i < wayPoints.Count; i++) {
-				createAddRing(wayPoints[i]);
+				if (i % CHECKPOINT_FREQUENCY == 0) {
+					if (LEVEL_1_SPECIAL_CHECKPOINTS.Contains(created_checkPoints+1)) {
+						//special checkpoint now
+						
+						
+						createRingCheckpoint(wayPoints[i],wayPoints[i-1],wayPoints[i+1]);
+					}
+					else {
+						createCheckpoint(wayPoints[i]);
+					}
+					created_checkPoints++;
+				}
+				else {
+					createGoldRing(wayPoints[i]);
+				}
+				
+				
 			}
 				
 			
 
 			return wayPoints;
 		}
-		
-		private static void createAddRing(Vector3d pos) {
-			if (NUMBER_OF_ELEMENTS % CHECKPOINT_FREQUENCY == 0) {
-				createCheckpoint(pos);
-			}
-			else {
-				//TODO other RingTypes
-				createGoldRing(pos);
-			}
 
-			NUMBER_OF_ELEMENTS++;
-		}
 
-		private static void addCheckpoint(Vector3d pos) {
-			NUMBER_OF_ELEMENTS++;
-			createCheckpoint(pos);
-		}
 
 		private static PointRing createGoldRing(Vector3d pos) {
 			return PointRingFactory.GenerateSingle(pos, PointType.Gold, DIAMETER);
@@ -66,6 +73,22 @@ namespace Game.Utils {
 
 		private static GoalRing createCheckpoint(Vector3d pos) {
 			return GoalRingFactory.GenerateSingle(pos, DIAMETER*3);
+		}
+
+		private static void createRingCheckpoint(Vector3d pos, Vector3d prev, Vector3d next) {
+
+			var a = prev - pos;
+			var b = next - pos;
+
+			var crossProd = Vector3d.Cross(a, b);
+			var winkel = Math.Acos(Vector3d.Dot(a, b) / (a.Length * b.Length))/2;
+
+			var rotationQuad = Quaterniond.FromAxisAngle(crossProd, winkel);
+
+
+
+
+			GoalRingFactory.GenerateGoalRingWithAsteroidRing(pos, DIAMETER * 3, rotationQuad);
 		}
 
 	

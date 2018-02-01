@@ -84,19 +84,18 @@ namespace Game.Utils {
 			return asteroid;
 		}
 
-		public static List<Asteroid> GenerateAsteroidRing(Vector3d center, Vector3d eulerAngle, int count, double radius, double scale = 5.0) {
-			var asteroids = new List<Asteroid>();
-			if (count < 1) return asteroids; //nothing to generate if count is 0
+		public static List<Asteroid> GenerateAsteroidRing(Vector3d center, double ring_radius, double asteroid_radius, Quaterniond rotationQuaterniond) {
 
+			var number = 6;
+			var angleStep = MathHelper.TwoPi / 6;
 
-			for (int i = 0; i < count; i++) {
-				var pos = new Vector3d(radius * Math.Cos(i * Math.PI * 2 / count), radius * Math.Sin(i * Math.PI * 2 / count), center.Z);
-				var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
-				asteroids.Add(GenerateSingleAsteroid(rotatedPos, scale));
+			for (int i = 0; i < 1; i++) {
+				var finalPos = center;
+				
+				GenerateSingleAsteroid(finalPos, asteroid_radius);
 			}
-
-
-			return asteroids;
+			
+			return new List<Asteroid>();
 		}
 
 		public static List<Asteroid> GenerateAsteroidTorus(Vector3d center, Vector3d eulerAngle, int count, int innerRadius, int outerRadius, int ringHeight, double scale = 5.0) {
