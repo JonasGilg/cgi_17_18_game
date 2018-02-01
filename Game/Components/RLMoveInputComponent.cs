@@ -91,7 +91,7 @@ namespace Game.Components {
 				AddAngularVelocityInObjectSpace(0, 0, -angularSpeed);
 
 			if (Math.Abs(Mouse.CursorDelta.X) > 0.001)
-				AddAngularVelocityInObjectSpace(Time.DeltaTimeUpdate * Mouse.CursorDelta.X * 0.5, 0, 0);
+				AddAngularVelocityInObjectSpace(Time.DeltaTimeUpdate * Mouse.CursorDelta.X * 0.8, 0, 0);
 			else if (Keyboard.Down(Key.Left))
 				AddAngularVelocityInObjectSpace(-angularSpeed, 0, 0);
 			else if (Keyboard.Down(Key.Right))
