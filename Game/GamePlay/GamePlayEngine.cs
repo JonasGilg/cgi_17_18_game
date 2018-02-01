@@ -26,16 +26,16 @@ namespace Game.GamePlay {
 			}
 		};
 
-		public static void ResetSpaceShip() {
-			playerSpaceship.TransformComponent.Position = Vector3d.Zero;
-			playerSpaceship.TransformComponent.Orientation = Quaterniond.Identity;
+		public static void ResetSpaceShip(Vector3d startPosition, Quaterniond startOrientation) {
+			playerSpaceship.TransformComponent.Position = startPosition;
+			playerSpaceship.TransformComponent.Orientation = startOrientation;
 			playerSpaceship.moveComponent.LinearVelocity = Vector3d.Zero;
 			playerSpaceship.moveComponent.AngularVelocity = Vector3d.Zero;
 		}
 		
 		public static int CurrentLevelIndex = -1;
 		public static Action[] LEVELS = {
-			LevelGenerator.GenerateRACETRACK_1,
+			
 			/*
 			LevelGenerator.GenerateLevel1,
 			LevelGenerator.GenerateLevel2,
@@ -54,7 +54,7 @@ namespace Game.GamePlay {
 			GOAL_RING_LIST.Clear();
 			CurrentLevelIndex = index;
 			hudLevelIndicatorText.Text = $"LEVEL: {CurrentLevelIndex}";
-			LEVELS[index]();
+			LevelGenerator.startLevel(index);
 			maxCheckpoints = GOAL_RING_LIST.Count;
 			HudCheckpointTextElement.Text = $"{0}/{maxCheckpoints}";
 			

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -8,21 +9,38 @@ using OpenTK;
 
 namespace Game.Utils {
 	public static class TrackFactory {
-		private static string LEVEL1_FILE_PATH = "data/objects/track_files/track2/track_waypoints.obj";
+		
+		private static readonly string LEVEL_1_FILE_PATH = "data/objects/track_files/track2/track_waypoints.obj";
+		
 		private static int NUMBER_OF_ELEMENTS=0;
 		private static int CHECKPOINT_FREQUENCY = 16;
 		private const double DIAMETER = 50.0;
+		
+		
+		
+		public static RaceTrack GenerateRaceTrack(int number) {
+			var result = new RaceTrack();
+			var waypoints = createTrackPoints(LEVEL_1_FILE_PATH);
+			var richtungsV = waypoints[1] - waypoints[0];
+			result.startPoint = richtungsV * -1;
+			result.startOrientation = Quaterniond.FromAxisAngle(richtungsV,0);
+			result.finishPoint = waypoints[waypoints.Count - 2] - waypoints[waypoints.Count - 1] * -1 * 3; //3 times as far away from last as last from one before last
+			
 
-		public static Vector3d createWayPoints() {
-			var wayPoints = loadWayPoints(LEVEL1_FILE_PATH);
+			return result;
+		}
+		public static List<Vector3d> createTrackPoints(string file_path) {
+			var wayPoints = loadWayPoints(file_path);
 			
 			NUMBER_OF_ELEMENTS=0;
 
-			foreach (var pos in wayPoints) {
-				createAddRing(pos);
+			for (int i = 0; i < wayPoints.Count; i++) {
+				createAddRing(wayPoints[i]);
 			}
+				
+			
 
-			return wayPoints.Peek();
+			return wayPoints;
 		}
 		
 		private static void createAddRing(Vector3d pos) {
@@ -51,9 +69,10 @@ namespace Game.Utils {
 		}
 
 	
-		private static Queue<Vector3d> loadWayPoints(string filePath, float scale = 5000f) {
+		private static List<Vector3d> loadWayPoints(string filePath, float scale = 5000f) {
 			var input = File.ReadLines(filePath);
-			Queue<Vector3d> v = new Queue<Vector3d>();
+			var v = new List<Vector3d>();
+			
 			foreach (var line in input) {
 				var parts = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 				if (parts.Length > 0) {
@@ -65,7 +84,7 @@ namespace Game.Utils {
 								float.Parse(parts[3], CultureInfo.InvariantCulture) * scale);
 
 
-							v.Enqueue(vec3.ToDouble());
+							v.Add(vec3.ToDouble());
 							break;
 					}
 				}
@@ -74,5 +93,12 @@ namespace Game.Utils {
 			return v;
 
 		}
+	}
+
+	public struct RaceTrack {
+		public List<Vector3d> WAYPOINTS;
+		public Vector3d startPoint;
+		public Vector3d finishPoint;
+		public Quaterniond startOrientation;
 	}
 }

@@ -14,44 +14,40 @@ namespace Game.Utils {
         private static Vector3d startingPoint = new Vector3d(0.0, 0.0, 0.0);
         private static Quaterniond startOrientation = Quaterniond.FromAxisAngle(Vector3d.UnitY, 0);
 
-        public static void GenerateRACETRACK_1() {
-            Light.SetSpotLight(Vector3d.Zero, 
-                //           r      g      b      a
-                new Vector4(.010f, .010f, .010f, 0f),
-                new Vector4(.950f, .950f, .950f, 0f),
-                new Vector4(.950f, .950f, .950f, 0f));
+        
+        
+        
+        public static void startLevel(int number) {
+            var raceTrack = TrackFactory.GenerateRaceTrack(number);
+
+            //obstacleCreation(number);
             
-            GamePlayEngine.ResetSpaceShip();
-            GamePlayEngine.playerSpaceship.TransformComponent.Position = startingPoint + new Vector3d(-400,0,0);
-            GamePlayEngine.playerSpaceship.TransformComponent.Orientation = startOrientation;
+            GamePlayEngine.ResetSpaceShip(raceTrack.startPoint, raceTrack.startOrientation);
+            
             GameObject.Instantiate(GamePlayEngine.playerSpaceship);
             
-            //GENERATE THE TRACK WITH CHECKPOINTS
-            
-            startingPoint = TrackFactory.createWayPoints();
-            
-            
-            
-            List<Planet> planets = new List<Planet>();
-            planets.Add(PlanetFactory.GeneratePlanetWithAsteroidBeld(PlanetFactory.PlanetTexture.EARTHLIKE,
-                AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(3000.0, 500, 1000),
-                new Vector3d(1000.0), new Vector3d(0, 0.5, 0)));
-            
-            planets.Add(PlanetFactory.GeneratePlanetWithAsteroidBeld(PlanetFactory.PlanetTexture.NEPTUN,
-                AsteroidFactory.AsteroidType.STANDARD, 30, new Vector3d(20000.0, -3000, -9000),
-                new Vector3d(1000.0), new Vector3d(0, 0.5, 0)));
-
-            AsteroidFactory.GenerateAsteroidTorus(new Vector3d(-800, 0, 0), new Vector3d(0, 90, 0), 120, 300, 400, 100);
-            
-            
-            var finishMarker = new FinishMarker {
+            GamePlayEngine.currentFinishMarker = new FinishMarker {
                 TransformComponent = {
-                    Position = new Vector3d(-4000.0,4776,285),
+                    Position = raceTrack.finishPoint,
                     Scale = new Vector3d(200)
                 }
             };
-            GamePlayEngine.currentFinishMarker = finishMarker;
+
+        }
+
+        private static void obstacleCreation(int lvlNumber) {
             
+            List<Vector3d> positions = new List<Vector3d>() {
+                new Vector3d(6000,0,0),
+                new Vector3d(0,0,0),
+                new Vector3d(0,0,0),
+                new Vector3d(0,0,0),
+                
+            };
+
+            var planet1 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.EARTHLIKE, positions[1],
+                new Vector3d(1000), Vector3d.UnitX);
+
         }
         
         
