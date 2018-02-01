@@ -20,7 +20,7 @@ namespace Game.Utils {
         public static void startLevel(int number) {
             var raceTrack = TrackFactory.GenerateRaceTrack(number);
 
-            //obstacleCreation(number);
+            obstacleCreation(number);
             
             GamePlayEngine.ResetSpaceShip(raceTrack.startPoint, raceTrack.startOrientation);
             
@@ -38,16 +38,44 @@ namespace Game.Utils {
         private static void obstacleCreation(int lvlNumber) {
             
             List<Vector3d> positions = new List<Vector3d>() {
-                new Vector3d(6000,0,0),
-                new Vector3d(0,0,0),
-                new Vector3d(0,0,0),
-                new Vector3d(0,0,0),
+                new Vector3d(21933,47,-9307
+                ),
+                new Vector3d(30823,-289,8655),
+                
+                //blackholes [2+]
+                new Vector3d(30567,-4757,16459),
+                new Vector3d(24471,-2921,16051),
+                new Vector3d(19277,-2740,12924),
+                new Vector3d(37693,-3927,12120),
+                
+                new Vector3d(1920,-3239,11316),
+                
+                
+                //helix entry obstacle [7+]
+                new Vector3d(-25632,3500,9850),
+                
+
+                new Vector3d(-25685,5778,-6895),
                 
             };
 
-            var planet1 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.EARTHLIKE, positions[1],
-                new Vector3d(1000), Vector3d.UnitX);
-
+            var planet1 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.EARTHLIKE, positions[0],
+                new Vector3d(3000), Vector3d.UnitX);
+            
+            var planet2 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.REDPLANET, positions[1],
+                new Vector3d(3000), Vector3d.UnitX);
+            
+            var black1 = PlanetFactory.GenerateBlackhole(positions[2], new Vector3d(700));
+            var black2 = PlanetFactory.GenerateBlackhole(positions[3], new Vector3d(700));
+            var black3 = PlanetFactory.GenerateBlackhole(positions[4], new Vector3d(1200));
+            var black4 = PlanetFactory.GenerateBlackhole(positions[5], new Vector3d(800));
+            
+            var planet3 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, positions[6],
+                new Vector3d(4500), Vector3d.UnitX);
+            
+            //HELIX 
+            var planet4 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, positions[7], new Vector3d(3000), Vector3d.UnitX);
+            var planet5 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.EARTHLIKE, positions[8], new Vector3d(3000), Vector3d.UnitX);
         }
         
         

@@ -8,6 +8,7 @@ using Engine.Render;
 using Engine.Texture;
 using Engine.Util;
 using Game.Components;
+using Game.GamePlay;
 using OpenTK;
 
 namespace Game.GameObjects {
@@ -38,7 +39,9 @@ namespace Game.GameObjects {
                 active => {
                     TransformComponent.Scale *= new Vector3d(1.1);
                     Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
-                    GameObject.Destroy(active.OtherCollisonComponent.GameObject);
+                    GamePlayEngine.RemoveObjectFromWorld(active.OtherCollisonComponent.GameObject);
+
+                   
                 },
                 null);
             

@@ -28,6 +28,13 @@ namespace Game.Utils {
 			{PlanetTexture.EARTHLIKE, "data/textures/planets/earthlike.png"}
 		};
 
+		public static BlackHole GenerateBlackhole(Vector3d position, Vector3d scale) {
+			var bh = new BlackHole();
+			bh.TransformComponent.Position = position;
+			bh.TransformComponent.Scale = scale;
+			GameObject.Instantiate(bh);
+			return bh;
+		}
 
 		public static Planet GeneratePlanet(PlanetTexture planetTexture, Vector3d position, Vector3d scale,
 			Vector3d rotation) {

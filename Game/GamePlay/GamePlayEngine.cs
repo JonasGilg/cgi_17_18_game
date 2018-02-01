@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Media;
 using Engine;
 using Engine.GUI;
 using Game.GameObjects;
@@ -92,7 +93,7 @@ namespace Game.GamePlay {
 		
 		public static void checkPointPassed(GoalRing chunk) {
 			if (GOAL_RING_LIST.Peek().Equals(chunk)) {
-				//TODO sound queue!
+				SystemSounds.Exclamation.Play();
 				GOAL_RING_LIST.Dequeue();
 				HudCheckpointTextElement.Text = $"{maxCheckpoints-GOAL_RING_LIST.Count}/{maxCheckpoints}";
 				HUD.RemoveHudObjectMarker(chunk.objectMarker.ID);

@@ -79,9 +79,9 @@ namespace Game.Window {
 				GamePlayEngine.RestartLevel();
 			}
 
-#if(DEBUG)
+/*#if(DEBUG)
 IO.PrintAsync(TimingRegistry.GetStatsText());
-#endif
+#endif*/
 
 			World.UpdateWorld();
 		}

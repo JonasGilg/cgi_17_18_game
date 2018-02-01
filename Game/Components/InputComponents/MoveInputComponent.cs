@@ -1,6 +1,7 @@
 ﻿using Engine;
 using Engine.Component;
 using Engine.Render;
+using Engine.Util;
 using OpenTK;
 using OpenTK.Input;
 using Keyboard = Engine.Input.Keyboard;
@@ -59,6 +60,12 @@ namespace Game.Components {
 				else {
 					MoveComponent.AngularVelocity = Vector3d.Zero;
 				}
+			}
+
+			if (Keyboard.Pressed(Key.V)) {
+				var pos = GameObject.TransformComponent.Position;
+				var formatCoord = "" + (int)pos.X + "," + (int)pos.Y + "," + (int)pos.Z;
+				IO.PrintAsync(formatCoord);
 			}
 		}
 	}
