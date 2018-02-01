@@ -17,12 +17,7 @@ namespace Game.Utils {
 
 			GamePlayEngine.PLAYER_SPACESHIP.Instantiate();
 
-			GamePlayEngine.CurrentFinishMarker = new FinishMarker {
-				TransformComponent = {
-					Position = raceTrack.finishPoint,
-					Scale = new Vector3d(200)
-				}
-			};
+	
 		}
 
         private static void ObstacleCreation(int lvlNumber) {

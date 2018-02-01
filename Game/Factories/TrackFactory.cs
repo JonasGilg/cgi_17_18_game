@@ -79,16 +79,23 @@ namespace Game.Utils {
 
 		private static void createRingCheckpoint(Vector3d pos, Vector3d prev, Vector3d next) {
 
-			var a = prev - pos;
-			var b = next - pos;
-			var crossProd = Vector3d.Cross(a, b);
-			var winkel = Math.Acos(Vector3d.Dot(a, b) / (a.Length * b.Length))/2;
-			var rotationQuad = Matrix4d.CreateFromAxisAngle(crossProd, winkel);
+			var a = next - pos;
+			var b = prev - pos;
+			var aXb = Vector3d.Cross(a, b);
+			var w = a + b;
+
+			var rotAxle = Vector3d.Cross(aXb, w);
+
+			aXb.NormalizeFast();
+			
+			
+			
+			
 
 
 
 
-			GoalRingFactory.GenerateGoalRingWithAsteroidRing(pos, DIAMETER * 3, rotationMat);
+			GoalRingFactory.GenerateGoalRingWithAsteroidRing(pos, DIAMETER * 3, rotAxle,aXb);
 		}
 
 	

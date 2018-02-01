@@ -75,7 +75,7 @@ namespace Game.Utils {
 				{AsteroidType.STANDARD, "data/objects/asteroids/asteroid_"}
 			};
 
-		public static Asteroid GenerateAsteroid(AsteroidType type) => new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(), AsteroidTextureRegistry.GetRandomMaterialSettings());
+		public static Asteroid GenerateAsteroid() => new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(), AsteroidTextureRegistry.GetRandomMaterialSettings());
 
 		public static Asteroid GenerateGravityAsteroid(GameObject referenceObject, double startAngle, double distance, double speed) {
 			var asteroid = new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(),
@@ -84,15 +84,16 @@ namespace Game.Utils {
 			return asteroid;
 		}
 
-		public static List<Asteroid> GenerateAsteroidRingForCheckpoint(GameObject parent, double ring_radius, double asteroid_radius, Matrix4d rotationMat) {
+		public static List<Asteroid> GenerateAsteroidRingForCheckpoint(GameObject parent, double asteroid_radius, Vector3d rotationAxle, Vector3d translationToOrbit) {
 
 			var number = 6;
 			var angleStep = MathHelper.TwoPi / 6;
 
-			for (int i = 0; i < 1; i++) {
-				var finalPos = Vector3d.Transform(parent.TransformComponent.Position,rotationMat);
+			
+			for (int i = 0; i < 6; i++) {
+				var finalPos = Quaterniond.FromAxisAngle(rotationAxle,angleStep*i).Rotate(translationToOrbit)+parent.TransformComponent.Position;
 				
-				GenerateSingleAsteroid(finalPos, asteroid_radius);
+				GenerateSingleAsteroid(finalPos /*asteroid_radius*/);
 			}
 			
 			return new List<Asteroid>();
@@ -135,11 +136,11 @@ namespace Game.Utils {
 			return asteroids;
 		}
 
-		public static Asteroid GenerateSingleAsteroid(Vector3d position, double scale = 10.0) {
-			var asteroid = AsteroidFactory.GenerateAsteroid(AsteroidFactory.AsteroidType.STANDARD);
+		public static Asteroid GenerateSingleAsteroid(Vector3d position, double scale = 1.0) {
+			var asteroid = GenerateAsteroid();
 			asteroid.TransformComponent.Scale = new Vector3d(scale);
 			asteroid.TransformComponent.Position = position;
-			asteroid.MoveComponent.AngularVelocity = new Vector3d(0, 4.0, 0);
+			asteroid.MoveComponent.AngularVelocity = new Vector3d(0, 0, 0);
 
 			asteroid.Instantiate();
 			return asteroid;
