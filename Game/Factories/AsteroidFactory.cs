@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine;
-using Engine.GUI;
 using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
-using Game.Components;
 using Game.GameObjects;
 using OpenTK;
 
@@ -35,29 +33,30 @@ namespace Game.Utils {
 		private const int NUM_PACKS = 5;
 		private const string PATH = "data/textures/asteroids/PBR/";
 		private static readonly Random RANDOM;
+
 		private static readonly List<string> ASTEROID_TEXTURES_DICTIONARY =
-			new List<string>(){
-				PATH+"cavefloor1/",
-				PATH+"cratered-rock/",
-				PATH+"limestone-rock/",
-				PATH+"rock_vstreaks/",
-				PATH+"slate2-tiled/"
+			new List<string> {
+				PATH + "cavefloor1/",
+				PATH + "cratered-rock/",
+				PATH + "limestone-rock/",
+				PATH + "rock_vstreaks/",
+				PATH + "slate2-tiled/"
 			};
 
 		private static readonly MaterialSettings[] ASTEROID_MATERIALS;
-		
-		static AsteroidTextureRegistry(){
+
+		static AsteroidTextureRegistry() {
 			ASTEROID_MATERIALS = new MaterialSettings[NUM_PACKS];
 			RANDOM = new Random();
 
 			for (int i = 0; i < NUM_PACKS; i++) {
 				ASTEROID_MATERIALS[i] = new MaterialSettings {
-					AOTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i]+"ao.png"),
-					ColorTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i]+"color.png"),
-					NormalTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i]+"normal.png"),
-					MetalnessTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i]+"metalness.png"),
-					RoughnessTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i]+"roughness.png"),
-					GlowTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i]+"blur.png")
+					AOTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i] + "ao.png"),
+					ColorTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i] + "color.png"),
+					NormalTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i] + "normal.png"),
+					MetalnessTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i] + "metalness.png"),
+					RoughnessTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i] + "roughness.png"),
+					GlowTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i] + "blur.png")
 				};
 			}
 		}
@@ -65,7 +64,7 @@ namespace Game.Utils {
 
 		public static MaterialSettings GetRandomMaterialSettings() => ASTEROID_MATERIALS[RANDOM.Next(NUM_PACKS)];
 	}
-	
+
 	public static class AsteroidFactory {
 		public enum AsteroidType {
 			STANDARD
@@ -76,72 +75,60 @@ namespace Game.Utils {
 				{AsteroidType.STANDARD, "data/objects/asteroids/asteroid_"}
 			};
 
-		
+		public static Asteroid GenerateAsteroid(AsteroidType type) => new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(), AsteroidTextureRegistry.GetRandomMaterialSettings());
 
-		public static Asteroid GenerateAsteroid(AsteroidType type) {
-			
-			var asteroid = new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(), AsteroidTextureRegistry.GetRandomMaterialSettings());
-			
-			return asteroid;
-		}
-
-		public static Asteroid GenerateGravityAsteroid(GameObject referenceObject,double startAngle, double distance, double speed) {
-
+		public static Asteroid GenerateGravityAsteroid(GameObject referenceObject, double startAngle, double distance, double speed) {
 			var asteroid = new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(),
 				AsteroidTextureRegistry.GetRandomMaterialSettings(), referenceObject, startAngle, distance, speed);
-			
+
 			return asteroid;
 		}
-		
-		public static List<Asteroid> GenerateAsteroidRing(Vector3d center, Vector3d eulerAngle, int count, double radius, double scale = 5.0 ) {
+
+		public static List<Asteroid> GenerateAsteroidRing(Vector3d center, Vector3d eulerAngle, int count, double radius, double scale = 5.0) {
 			var asteroids = new List<Asteroid>();
 			if (count < 1) return asteroids; //nothing to generate if count is 0
-            
-            
+
+
 			for (int i = 0; i < count; i++) {
 				var pos = new Vector3d(radius * Math.Cos(i * Math.PI * 2 / count), radius * Math.Sin(i * Math.PI * 2 / count), center.Z);
 				var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
-				asteroids.Add( GenerateSingleAsteroid(rotatedPos, scale) );
+				asteroids.Add(GenerateSingleAsteroid(rotatedPos, scale));
 			}
-            
-            
+
 
 			return asteroids;
 		}
-		
-		public static List<Asteroid> GenerateAsteroidTorus(Vector3d center, Vector3d eulerAngle, int count, int innerRadius, int outerRadius, int ringHeight, double scale = 5.0 ) {
+
+		public static List<Asteroid> GenerateAsteroidTorus(Vector3d center, Vector3d eulerAngle, int count, int innerRadius, int outerRadius, int ringHeight, double scale = 5.0) {
 			var asteroids = new List<Asteroid>();
 			if (count < 1) return asteroids; //nothing to generate if count is 0
-            
+
 			var rand = new Random();
 			var heightVariance = ringHeight / 2;
-            
+
 			for (int i = 0; i < count; i++) {
 				var radius = rand.Next(innerRadius, outerRadius);
 				var pos = new Vector3d(radius * Math.Cos(i * Math.PI * 2 / count),
 					radius * Math.Sin(i * Math.PI * 2 / count),
-					rand.Next( ((int)center.Z) - heightVariance, ((int)center.Z) + heightVariance));
-				
+					rand.Next(((int) center.Z) - heightVariance, ((int) center.Z) + heightVariance));
+
 				//rotate by given vector
 				var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
-				asteroids.Add( GenerateSingleAsteroid(rotatedPos, scale) );
+				asteroids.Add(GenerateSingleAsteroid(rotatedPos, scale));
 			}
-            
-            
+
 
 			return asteroids;
 		}
-		
+
 		public static Asteroid GenerateSingleAsteroid(Vector3d position, double scale = 10.0) {
 			var asteroid = AsteroidFactory.GenerateAsteroid(AsteroidFactory.AsteroidType.STANDARD);
 			asteroid.TransformComponent.Scale = new Vector3d(scale);
 			asteroid.TransformComponent.Position = position;
-			asteroid.MoveComponent.AngularVelocity = new Vector3d(0,4.0,0);
-            
-       		asteroid.Instantiate();
+			asteroid.MoveComponent.AngularVelocity = new Vector3d(0, 4.0, 0);
+
+			asteroid.Instantiate();
 			return asteroid;
 		}
-
-		
 	}
 }

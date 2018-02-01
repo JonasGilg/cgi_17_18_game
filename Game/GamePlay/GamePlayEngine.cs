@@ -6,6 +6,7 @@ using Engine.GUI;
 using Game.GameObjects;
 using Game.Utils;
 using OpenTK;
+using SoundPlayer = Engine.Sound.SoundPlayer;
 
 namespace Game.GamePlay {
 	public static class GamePlayEngine {
@@ -48,13 +49,15 @@ namespace Game.GamePlay {
 		};
 
 		private static int maxCheckpoints;
+		private static readonly int SOUNDTRACK_ID = SoundPlayer.LoadSound("data/sound/soundtrack/Steamtech-Mayhem.wav");
 
 		public static void LoadLevel(int index) {
+			SoundPlayer.PlayLooping(SOUNDTRACK_ID);
 			World.ClearWorld();
 			GOAL_RING_LIST.Clear();
 			CurrentLevelIndex = index;
 			HUD_LEVEL_INDICATOR_TEXT.Text = $"LEVEL: {CurrentLevelIndex}";
-			LevelGenerator.startLevel(index);
+			LevelGenerator.StartLevel(index);
 			maxCheckpoints = GOAL_RING_LIST.Count;
 			HUD_CHECKPOINT_TEXT_ELEMENT.Text = $"{0}/{maxCheckpoints}";
 
