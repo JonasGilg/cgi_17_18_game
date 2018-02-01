@@ -44,9 +44,11 @@ namespace Game.Utils {
 				if (i % CHECKPOINT_FREQUENCY == 0) {
 					if (LEVEL_1_SPECIAL_CHECKPOINTS.Contains(created_checkPoints+1)) {
 						//special checkpoint now
-						
-						
+
+						//createCheckpoint(wayPoints[i]);
+						//SUPER LAGGY!!!
 						createRingCheckpoint(wayPoints[i],wayPoints[i-1],wayPoints[i+1]);
+						
 					}
 					else {
 						createCheckpoint(wayPoints[i]);
@@ -79,16 +81,14 @@ namespace Game.Utils {
 
 			var a = prev - pos;
 			var b = next - pos;
-
 			var crossProd = Vector3d.Cross(a, b);
 			var winkel = Math.Acos(Vector3d.Dot(a, b) / (a.Length * b.Length))/2;
-
-			var rotationQuad = Quaterniond.FromAxisAngle(crossProd, winkel);
-
+			var rotationMat = Matrix4d.CreateFromAxisAngle(crossProd, winkel);
 
 
 
-			GoalRingFactory.GenerateGoalRingWithAsteroidRing(pos, DIAMETER * 3, rotationQuad);
+
+			GoalRingFactory.GenerateGoalRingWithAsteroidRing(pos, DIAMETER * 3, rotationMat);
 		}
 
 	
