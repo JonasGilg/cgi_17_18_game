@@ -72,7 +72,7 @@ namespace Game.GamePlay {
 		
 		public static void GameOver() {
 			GameObject.Destroy(playerSpaceship);
-			HUD.AddHudTextElement(HUD.CreateHudTextElement("GAME OVER", new Vector2(-0.5f, 0.5f), 2000f));
+			HUD.AddHudTextElement(HUD.CreateHudTextElement("GAME OVER", new Vector2(-0.65f,0.2f), 4f));
 		}
 
 		public static void RemoveObjectFromWorld(GameObject gameObject) {

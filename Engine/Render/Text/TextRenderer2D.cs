@@ -37,13 +37,14 @@ namespace Engine.Render {
 					Console.WriteLine($"Character: '{(int) text[i]}' is not supported!");
 					charDimensions = FONT.GetCharDimensions('?');
 				}
-				var charWidth = charDimensions.W;
+				
+				var charWidth = charDimensions.W * scale;
 
 				var vertexDownLeft = new Vector2(position.X + currX, position.Y);
 				var vertexDownRight = new Vector2(position.X + charWidth + currX, position.Y);
 				var vertexUpRight = new Vector2(position.X + charWidth + currX,
-					position.Y - (FONT.FontHeight / (float) FONT.ImageHeight));
-				var vertexUpLeft = new Vector2(position.X + currX, position.Y - (FONT.CellHeight / (float) FONT.ImageHeight));
+					position.Y - ((FONT.FontHeight / (float) FONT.ImageHeight) * scale ));
+				var vertexUpLeft = new Vector2(position.X + currX, position.Y - ((FONT.CellHeight / (float) FONT.ImageHeight) * scale));
 
 				currX += charWidth;
 
