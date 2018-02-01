@@ -38,7 +38,6 @@ namespace Game.GameObjects {
 
 			moveComponent = new MoveComponent(this);
 			optionalComponents.Add(ComponentType.MOVE_COMPONENT, new List<Component> {moveComponent});
-			cameraComponent = new ThirdPersonCameraComponent(new Vector3d(-15, 1.5, 0.0), this);
 			renderComponent = new RenderComponent(
 				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj"),
 				MaterialManager.GetMaterial(Material.PBR),
@@ -55,6 +54,7 @@ namespace Game.GameObjects {
 			shadowComponent = new ShadowComponent(renderComponent, this);
 			optionalComponents.Add(ComponentType.RENDER_COMPONENT, new List<Component> {renderComponent});
 			moveInputComponent = new RLSpaceMovementComponent(this, TransformComponent, moveComponent);
+			cameraComponent = new ThirdPersonSpringCameraComponent(moveComponent, new Vector3d(-15, 1, 0), this);
 
 			firingComponent = new FiringComponent(this);
 
@@ -65,7 +65,7 @@ namespace Game.GameObjects {
 			CollisionComponent = new SphereCollider(this, renderComponent.Model,
 				passiveMessage => {
 					//IO.PrintAsync("PASSIVE: "+ToString() + " <-- " + passiveMessage.OtherCollisonComponent.GameObject.ToString());
-
+					if (passiveMessage.OtherCollisonComponent.GameObject is Projectile) return;
 					if (passiveMessage.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT,
 						out var componentList)) {
 						for (int i = 0; i < componentList.Count; i++) {
@@ -74,6 +74,7 @@ namespace Game.GameObjects {
 					}
 				},
 				activeMessage => {
+					if (activeMessage.OtherCollisonComponent.GameObject is Projectile) return;
 					//IO.PrintAsync("ACTIVE: " + ToString() + " --> " + activeMessage.OtherCollisonComponent.GameObject.ToString());
 					if (activeMessage.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT,
 						out var componentList)) {

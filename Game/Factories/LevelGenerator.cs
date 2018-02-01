@@ -24,9 +24,9 @@ namespace Game.Utils {
             
             GamePlayEngine.ResetSpaceShip(raceTrack.startPoint, raceTrack.startOrientation);
             
-            GameObject.Instantiate(GamePlayEngine.playerSpaceship);
+            GamePlayEngine.PLAYER_SPACESHIP.Instantiate();
             
-            GamePlayEngine.currentFinishMarker = new FinishMarker {
+            GamePlayEngine.CurrentFinishMarker = new FinishMarker {
                 TransformComponent = {
                     Position = raceTrack.finishPoint,
                     Scale = new Vector3d(200)

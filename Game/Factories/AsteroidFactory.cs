@@ -138,8 +138,7 @@ namespace Game.Utils {
 			asteroid.TransformComponent.Position = position;
 			asteroid.MoveComponent.AngularVelocity = new Vector3d(0,4.0,0);
             
-       
-			GameObject.Instantiate(asteroid);
+       		asteroid.Instantiate();
 			return asteroid;
 		}
 

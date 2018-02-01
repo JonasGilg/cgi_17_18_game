@@ -1,7 +1,6 @@
 ﻿using Engine;
 using Engine.Component;
 using Engine.Render;
-using Engine.Util;
 using OpenTK;
 using OpenTK.Input;
 using Keyboard = Engine.Input.Keyboard;
@@ -13,67 +12,76 @@ namespace Game.Components {
 
 		public override void Update() {
 			base.Update();
-			
+
+			var sideSpeed = Time.DeltaTimeUpdate * SIDEWAY_SPEED;
 			var linearVelocity = GetLinearVelocityInObjectSpace();
 
 			if (Keyboard.Down(Key.W))
-				AddLinearVelocityInObjectSpace(new Vector3d(Time.DeltaTimeUpdate, 0, 0), MOVEMENT_MULTIPLIER);
+				AddLinearVelocityInObjectSpace(Time.DeltaTimeUpdate * FORWARD_SPEED, 0, 0);
 			else if (Keyboard.Down(Key.S))
-				AddLinearVelocityInObjectSpace(new Vector3d(-Time.DeltaTimeUpdate, 0, 0), 500);
-			else if (linearVelocity.X > 0)
-				AddLinearVelocityInObjectSpace(new Vector3d(-Time.DeltaTimeUpdate, 0, 0), 500);
-			else if (linearVelocity.X < 0)
-				AddLinearVelocityInObjectSpace(new Vector3d(Time.DeltaTimeUpdate, 0, 0), 500);
+				AddLinearVelocityInObjectSpace(-sideSpeed, 0, 0);
+			else if (linearVelocity.X > sideSpeed)
+				AddLinearVelocityInObjectSpace(-sideSpeed, 0, 0);
+			else if (linearVelocity.X < -sideSpeed)
+				AddLinearVelocityInObjectSpace(sideSpeed, 0, 0);
+			else
+				AddLinearVelocityInObjectSpace(-linearVelocity.X, 0, 0);
+
 
 			if (Keyboard.Down(Key.Q))
-				AddLinearVelocityInObjectSpace(new Vector3d(0.0, 0.0, -Time.DeltaTimeUpdate), 500);
+				AddLinearVelocityInObjectSpace(0.0, 0.0, -sideSpeed);
 			else if (Keyboard.Down(Key.E))
-				AddLinearVelocityInObjectSpace(new Vector3d(0.0, 0.0, Time.DeltaTimeUpdate), 500);
-			else if (linearVelocity.Z < 0)
-				AddLinearVelocityInObjectSpace(new Vector3d(0.0, 0.0, Time.DeltaTimeUpdate), 500);
-			else if (linearVelocity.Z > 0)
-				AddLinearVelocityInObjectSpace(new Vector3d(0.0, 0.0, -Time.DeltaTimeUpdate), 500);
+				AddLinearVelocityInObjectSpace(0.0, 0.0, sideSpeed);
+			else if (linearVelocity.Z < -sideSpeed)
+				AddLinearVelocityInObjectSpace(0.0, 0.0, sideSpeed);
+			else if (linearVelocity.Z > sideSpeed)
+				AddLinearVelocityInObjectSpace(0.0, 0.0, -sideSpeed);
+			else
+				AddLinearVelocityInObjectSpace(0, 0, -linearVelocity.Z);
 
 			if (Keyboard.Down(Key.Space))
-				AddLinearVelocityInObjectSpace(new Vector3d(0.0, Time.DeltaTimeUpdate, 0.0), 500);
+				AddLinearVelocityInObjectSpace(0.0, sideSpeed, 0.0);
 			else if (Keyboard.Down(Key.X))
-				AddLinearVelocityInObjectSpace(new Vector3d(0.0, -Time.DeltaTimeUpdate, 0.0), 500);
-			else if (linearVelocity.Y > 0)
-				AddLinearVelocityInObjectSpace(new Vector3d(0.0, -Time.DeltaTimeUpdate, 0.0), 500);
-			else if (linearVelocity.Y < 0)
-				AddLinearVelocityInObjectSpace(new Vector3d(0.0, Time.DeltaTimeUpdate, 0.0), 500);
+				AddLinearVelocityInObjectSpace(0.0, -sideSpeed, 0.0);
+			else if (linearVelocity.Y > sideSpeed)
+				AddLinearVelocityInObjectSpace(0.0, -sideSpeed, 0.0);
+			else if (linearVelocity.Y < -sideSpeed)
+				AddLinearVelocityInObjectSpace(0.0, sideSpeed, 0.0);
+			else
+				AddLinearVelocityInObjectSpace(0, -linearVelocity.Y, 0);
 
 			MoveComponent.LinearVelocity = Vector3d.Lerp(MoveComponent.LinearVelocity, Vector3d.Zero, Time.DeltaTimeUpdate);
 
+			var angularSpeed = Time.DeltaTimeUpdate * ROTATION_MULTIPLIER;
 			var angularVelocity = GetAngularVelocityInObjectSpace();
-
+			
 			if (Keyboard.Down(Key.A))
-				AddAngularVelocityInObjectSpace(new Vector3d(0.0, Time.DeltaTimeUpdate, 0.0), ROTATION_MULTIPLIER);
+				AddAngularVelocityInObjectSpace(0.0, angularSpeed, 0.0);
 			else if (Keyboard.Down(Key.D))
-				AddAngularVelocityInObjectSpace(new Vector3d(0.0, -Time.DeltaTimeUpdate, 0.0), ROTATION_MULTIPLIER);
+				AddAngularVelocityInObjectSpace(0.0, -angularSpeed, 0.0);
 			else if (angularVelocity.Y > 0)
-				AddAngularVelocityInObjectSpace(new Vector3d(0.0, -Time.DeltaTimeUpdate, 0.0), ROTATION_MULTIPLIER);
+				AddAngularVelocityInObjectSpace(0.0, -angularSpeed, 0.0);
 			else if (angularVelocity.Y < 0)
-				AddAngularVelocityInObjectSpace(new Vector3d(0.0, Time.DeltaTimeUpdate, 0.0), ROTATION_MULTIPLIER);
+				AddAngularVelocityInObjectSpace(0.0, angularSpeed, 0.0);
 
 			if (Keyboard.Down(Key.Up))
-				AddAngularVelocityInObjectSpace(new Vector3d(0.0, 0.0, -Time.DeltaTimeUpdate), ROTATION_MULTIPLIER);
+				AddAngularVelocityInObjectSpace(0.0, 0.0, -angularSpeed);
 			else if (Keyboard.Down(Key.Down))
-				AddAngularVelocityInObjectSpace(new Vector3d(0.0, 0.0, Time.DeltaTimeUpdate), ROTATION_MULTIPLIER);
+				AddAngularVelocityInObjectSpace(0.0, 0.0, angularSpeed);
 			else if (angularVelocity.Z < 0)
-				AddAngularVelocityInObjectSpace(new Vector3d(0.0, 0.0, Time.DeltaTimeUpdate), ROTATION_MULTIPLIER);
+				AddAngularVelocityInObjectSpace(0.0, 0.0, angularSpeed);
 			else if (angularVelocity.Z > 0)
-				AddAngularVelocityInObjectSpace(new Vector3d(0.0, 0.0, -Time.DeltaTimeUpdate), ROTATION_MULTIPLIER);
-				
+				AddAngularVelocityInObjectSpace(0.0, 0.0, -angularSpeed);
+
 			if (Keyboard.Down(Key.Left))
-				AddAngularVelocityInObjectSpace(new Vector3d(-Time.DeltaTimeUpdate, 0.0, 0.0), ROTATION_MULTIPLIER);
+				AddAngularVelocityInObjectSpace(-angularSpeed, 0.0, 0.0);
 			else if (Keyboard.Down(Key.Right))
-				AddAngularVelocityInObjectSpace(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0), ROTATION_MULTIPLIER);
-			else if(angularVelocity.X < 0)
-				AddAngularVelocityInObjectSpace(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0), ROTATION_MULTIPLIER);
-			else if(angularVelocity.X > 0)
-				AddAngularVelocityInObjectSpace(new Vector3d(-Time.DeltaTimeUpdate, 0.0, 0.0), ROTATION_MULTIPLIER);
-				
+				AddAngularVelocityInObjectSpace(angularSpeed, 0.0, 0.0);
+			else if (angularVelocity.X < 0)
+				AddAngularVelocityInObjectSpace(angularSpeed, 0.0, 0.0);
+			else if (angularVelocity.X > 0)
+				AddAngularVelocityInObjectSpace(-angularSpeed, 0.0, 0.0);
+
 			MoveComponent.AngularVelocity = Vector3d.Lerp(MoveComponent.AngularVelocity, Vector3d.Zero, Time.DeltaTimeUpdate);
 		}
 	}

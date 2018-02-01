@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Engine.Collision;
 using Engine.Material;
 using Engine.Render;
-using Engine.Render.Skybox;
 
 namespace Engine {
 	public static class World {
 		//game objects
 		private static List<GameObject> OBJECTS = new List<GameObject>();
-
-		
 
 		//stats
 		private static readonly TimingStats UPDATE_STATS = new TimingStats("World");
@@ -23,7 +17,6 @@ namespace Engine {
 			TimingRegistry.AddUpdateTiming(UPDATE_STATS);
 			TimingRegistry.AddRenderTiming(RENDER_STATS);
 		}
-
 
 		public static void UpdateWorld() {
 			UPDATE_STATS.Start();
@@ -47,9 +40,7 @@ namespace Engine {
 		}
 
 
-		public static void AddToWorld(GameObject obj) {
-			OBJECTS.Add(obj);
-		}
+		public static void AddToWorld(GameObject obj) => OBJECTS.Add(obj);
 
 		public static void RemoveFromWorld(GameObject obj) => OBJECTS.Remove(obj);
 
@@ -60,7 +51,7 @@ namespace Engine {
 			OBJECTS.CopyTo(toDelete);
 			OBJECTS = new List<GameObject>();
 			foreach (var obj in toDelete) {
-				GameObject.Destroy(obj);
+				obj.Destroy();
 			}
 		}
 

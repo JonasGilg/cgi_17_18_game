@@ -12,30 +12,28 @@ namespace Engine {
 		public Sphere BoundingSphere() => new Sphere(TransformComponent.WorldPosition, Radius);
 
 		public Dictionary<ComponentType, List<Component.Component>> optionalComponents = new Dictionary<ComponentType, List<Component.Component>>();
-		
+
 		public readonly HudObjectMarker objectMarker;
-		
+
 		protected GameObject() {
 			TransformComponent = new TransformComponent(this);
 			Radius = 0;
-			
-			objectMarker =HUD.CreateHudObjectMarker(this);
-			
+
+			objectMarker = HUD.CreateHudObjectMarker(this);
 		}
-		
+
 		public virtual void Awake() { }
 
 		public virtual void Update() => TransformComponent.Update();
 
-		public static void Instantiate(GameObject obj) {
-			obj.Awake();
-			World.AddToWorld(obj);
+		public void Instantiate() {
+			Awake();
+			World.AddToWorld(this);
 		}
 
-		public static async void Destroy(GameObject obj,int millisDelay = 0) {
-			await Task.Delay(millisDelay);
-			obj.OnDestroy();
-			World.RemoveFromWorld(obj);
+		public void Destroy() {
+			OnDestroy();
+			World.RemoveFromWorld(this);
 		}
 
 		public bool searchOptionalComponents(ComponentType type, out List<Component.Component> resultList) {

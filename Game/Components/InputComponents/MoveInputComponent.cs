@@ -8,30 +8,37 @@ using Keyboard = Engine.Input.Keyboard;
 
 namespace Game.Components {
 	public abstract class MoveInputComponent : Component {
-		protected const double MOVEMENT_MULTIPLIER = 2000;
+		protected const double FORWARD_SPEED = 2000;
+		protected const double SIDEWAY_SPEED = 500;
 		protected const double ROTATION_MULTIPLIER = 5;
 		protected readonly TransformComponent TransformComponent;
-		protected readonly MoveComponent MoveComponent;
+		public readonly MoveComponent MoveComponent;
 		
-		protected void SetVelocityInObjectSpace(Vector3d velocity) {
+		protected void SetLinearVelocityInObjectSpace(Vector3d velocity) {
 			var newVelocity = TransformComponent.Orientation.Rotate(velocity);
 			MoveComponent.LinearVelocity = newVelocity;
 		}
 
-		protected void AddLinearVelocityInObjectSpace(Vector3d velocity, double multiplier) {
+		protected void SetLinearVelocityInObjectSpace(double x, double y, double z) => SetLinearVelocityInObjectSpace(new Vector3d(x, y, z));
+
+		protected void AddLinearVelocityInObjectSpace(Vector3d velocity) {
 			var newVelocity = TransformComponent.Orientation.Rotate(velocity);
-			MoveComponent.LinearVelocity += newVelocity * multiplier;
+			MoveComponent.LinearVelocity += newVelocity;
 		}
 
-		protected Vector3d GetLinearVelocityInObjectSpace()
+		protected void AddLinearVelocityInObjectSpace(double x, double y, double z) => AddLinearVelocityInObjectSpace(new Vector3d(x, y, z));
+
+		public Vector3d GetLinearVelocityInObjectSpace()
 			=> TransformComponent.Orientation.Inverted().Rotate(MoveComponent.LinearVelocity);
 
-		protected void AddAngularVelocityInObjectSpace(Vector3d velocity, double multiplier) {
+		protected void AddAngularVelocityInObjectSpace(Vector3d velocity) {
 			var newAngularVelocity = TransformComponent.Orientation.Rotate(velocity);
-			MoveComponent.AngularVelocity += newAngularVelocity * multiplier;
+			MoveComponent.AngularVelocity += newAngularVelocity;
 		}
 
-		protected Vector3d GetAngularVelocityInObjectSpace()
+		protected void AddAngularVelocityInObjectSpace(double x, double y, double z) => AddAngularVelocityInObjectSpace(new Vector3d(x, y, z));
+
+		public Vector3d GetAngularVelocityInObjectSpace()
 			=> TransformComponent.Orientation.Inverted().Rotate(MoveComponent.AngularVelocity);
 		
 		protected MoveInputComponent(GameObject gameObject, TransformComponent transformComponent,

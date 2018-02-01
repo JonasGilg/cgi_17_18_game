@@ -15,7 +15,7 @@ namespace Game.GameObjects {
 		private static readonly int METALNESS_ID = TextureManager.LoadTexture("data/textures/simpleBlack.png");
 		private static readonly int ROUGHNESS_ID = TextureManager.LoadTexture("data/textures/simpleBlack.png");
 		private static readonly int AO_ID = TextureManager.LoadTexture("data/textures/simpleWhite.png");
-		private static readonly int BLUR_ID = TextureManager.LoadTexture("data/textures/simpleBlack.png");
+		private static readonly int BLUR_ID = TextureManager.LoadTexture("data/textures/planets/blur.png");
 		
 		public readonly RenderComponent RenderComponent;
 		private readonly ShadowComponent shadowComponent;
