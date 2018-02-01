@@ -10,8 +10,11 @@ using OpenTK;
 namespace Game.GamePlay {
 	public static class GamePlayEngine {
 		public static readonly HudTextElement HUD_LEVEL_INDICATOR_TEXT = HUD.CreateHudTextElement("", new Vector2(0.7f, 0.9f));
-		public static readonly HudTextElement HUD_CHECKPOINT_TEXT_ELEMENT = HUD.CreateHudTextElement("", new Vector2(0.0f, 0.9f));
+		public static readonly HudTextElement HUD_CHECKPOINT_TEXT_ELEMENT = HUD.CreateHudTextElement("", new Vector2(-0.075f, 0.9f));
 
+		public static HudTextElement GameOverTextElement = HUD.CreateHudTextElement("GAME OVER", new Vector2(-0.65f, 0.2f), 4f);
+		public static HudTextElement GameWonTextElement = HUD.CreateHudTextElement("YOU WIN", new Vector2(-0.45f, 0.2f), 4f);
+		
 		public static FinishMarker CurrentFinishMarker;
 
 		static GamePlayEngine() => HUD.AddHudTextElement(HUD_CHECKPOINT_TEXT_ELEMENT);
@@ -63,7 +66,14 @@ namespace Game.GamePlay {
 
 		public static void GameOver() {
 			PLAYER_SPACESHIP.Destroy();
-			HUD.AddHudTextElement(HUD.CreateHudTextElement("GAME OVER", new Vector2(-0.65f, 0.2f), 4f));
+			HUD.AddHudTextElement(GameOverTextElement);
+		}
+
+		public static void GameWon() {
+			Statistics.Stop();
+			HUD.AddHudTextElement(GameWonTextElement);
+			Statistics.ScoreTextElement.Position = new Vector2(-0.45f,-0.2f);
+			Statistics.TimeSpentTextElement.Position = new Vector2(-0.45f,-0.3f);
 		}
 
 		public static void RemoveObjectFromWorld(GameObject gameObject) {
@@ -87,7 +97,7 @@ namespace Game.GamePlay {
 				HUD.RemoveHudObjectMarker(chunk.objectMarker.ID);
 				chunk.Destroy();
 				if (GOAL_RING_LIST.Count == 0) {
-					ShowFinishMarker();
+					GameWon();
 				}
 				else {
 					HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
