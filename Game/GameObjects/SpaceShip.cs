@@ -7,6 +7,7 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
+using Engine.Util;
 using Game.Components;
 using OpenTK;
 
@@ -29,9 +30,9 @@ namespace Game.GameObjects {
 		private readonly int PASSIVE_SHIP_DAMAGE = 10;
 
 		public SpaceShip() {
-			speed = HUD.CreateHudTextElement("", new Vector2(-1f, -0.94f));
-			position = HUD.CreateHudTextElement("", new Vector2(-1f, -0.88f));
-			healthPoints = HUD.CreateHudTextElement("", new Vector2(-1f, -0.82f));
+			speed = HUD.CreateHudTextElement("", new Vector2(0, -0.9f),TextAnchor.CENTER);
+			position = HUD.CreateHudTextElement("", new Vector2(-0.95f, -0.88f));
+			healthPoints = HUD.CreateHudTextElement("", new Vector2(0, -0.8f),TextAnchor.CENTER);
 			HUD.AddHudTextElement(speed);
 			HUD.AddHudTextElement(position);
 			HUD.AddHudTextElement(healthPoints);
@@ -54,7 +55,9 @@ namespace Game.GameObjects {
 			shadowComponent = new ShadowComponent(renderComponent, this);
 			optionalComponents.Add(ComponentType.RENDER_COMPONENT, new List<Component> {renderComponent});
 			moveInputComponent = new RLSpaceMovementComponent(this, TransformComponent, moveComponent);
+			
 			cameraComponent = new ThirdPersonSpringCameraComponent(moveComponent, new Vector3d(-15, 1, 0), this);
+			DisplayCamera.SetActiveCamera(cameraComponent);
 
 			firingComponent = new FiringComponent(this);
 
@@ -101,16 +104,15 @@ namespace Game.GameObjects {
 
 			position.Text =
 				$"POSITION: {TransformComponent.WorldPosition.X:N0}, {TransformComponent.WorldPosition.Y:N0}, {TransformComponent.WorldPosition.Z:N0}";
-			speed.Text = $"   SPEED: {moveComponent.LinearVelocity.LengthFast:N2}M/S";
+			speed.Text = $"{moveComponent.LinearVelocity.LengthFast:N2}M/S";
 			healthPoints.Text = HealthComponent.healthPointStatus();
 		}
 
 		public override void Awake() {
 			base.Awake();
-
+			IO.PrintAsync("ship awake");
 			RenderEngine.RegisterRenderComponent(renderComponent);
 			CollisionEngine.Register(CollisionComponent);
-			DisplayCamera.SetActiveCamera(cameraComponent);
 
 			Radius = renderComponent.Model.Radius(Vector3d.One);
 			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
