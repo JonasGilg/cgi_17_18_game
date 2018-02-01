@@ -15,7 +15,11 @@ namespace Game.GameObjects {
         private static readonly Model3D MODEL = ModelLoaderObject3D.Load("data/objects/Planet.obj");
         private static readonly MaterialSettings MATERIAL_SETTINGS = new MaterialSettings {
             ColorTexture = TextureManager.LoadTexture("data/textures/powerfulred.png"),
-            Shininess = 1
+            NormalTexture = TextureManager.LoadTexture("data/textures/defaultNormalMap.png"),
+            MetalnessTexture = TextureManager.LoadTexture("data/textures/simpleBlack.png"),
+            RoughnessTexture = TextureManager.LoadTexture("data/textures/simpleBlack.png"),
+            AOTexture = TextureManager.LoadTexture("data/textures/simpleBlack.png"),
+            GlowTexture = TextureManager.LoadTexture("data/textures/simpleWhite.png")
         };
 
         public readonly MoveComponent MoveComponent;
@@ -29,7 +33,7 @@ namespace Game.GameObjects {
             
             renderComponent = new RenderComponent(
                 MODEL,
-                MaterialManager.GetMaterial(Material.AMBIENT_DIFFUSE_SPECULAR),
+                MaterialManager.GetMaterial(Material.PBR),
                 MATERIAL_SETTINGS,
                 this
             );
@@ -40,6 +44,7 @@ namespace Game.GameObjects {
             CollisionComponent = new SphereCollider(this, renderComponent.Model,
                    null,
                 activeMessage => {
+                    if (activeMessage.OtherCollisonComponent.GameObject is SpaceShip) return;
                     if (activeMessage.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT,
                         out var componentList)) {
                         for (int i = 0; i < componentList.Count; i++) {

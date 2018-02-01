@@ -23,10 +23,11 @@ namespace Game.Components {
                     TransformComponent = {
                         Position = GameObject.TransformComponent.Position +
                                    GameObject.TransformComponent.Orientation.Rotate(new Vector3d(GameObject.Radius,0,0)),
-                        Orientation = Quaterniond.Identity
+                        Orientation = Quaterniond.Identity,
+                        Scale = new Vector3d(7)
                     },
                     MoveComponent = {
-                        LinearVelocity = GameObject.TransformComponent.Orientation.Rotate(Vector3d.UnitX * 500) +
+                        LinearVelocity = GameObject.TransformComponent.Orientation.Rotate(Vector3d.UnitX * 2000) +
                                          ((SpaceShip) GameObject).moveComponent.LinearVelocity
                     }
                 };
