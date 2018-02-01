@@ -45,9 +45,9 @@ namespace Game.Utils {
 					if (LEVEL_1_SPECIAL_CHECKPOINTS.Contains(created_checkPoints+1)) {
 						//special checkpoint now
 
-						//createCheckpoint(wayPoints[i]);
+						createCheckpoint(wayPoints[i]);
 						//TODO SUPER LAGGY!!!
-						createRingCheckpoint(wayPoints[i],wayPoints[i-1],wayPoints[i+1]);
+						//createRingCheckpoint(wayPoints[i],wayPoints[i-1],wayPoints[i+1]);
 						
 					}
 					else {
