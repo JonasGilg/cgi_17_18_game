@@ -30,9 +30,12 @@ namespace Game.Utils {
 		};
 
 		public static BlackHole GenerateBlackhole(Vector3d position, Vector3d scale) {
-			var bh = new BlackHole();
-			bh.TransformComponent.Position = position;
-			bh.TransformComponent.Scale = scale;
+			var bh = new BlackHole {
+				TransformComponent = {
+					Position = position,
+					Scale = scale
+				}
+			};
 			bh.Instantiate();
 			return bh;
 		}
