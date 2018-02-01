@@ -6,8 +6,8 @@ using AABB = Engine.AxisAlignedBoundingBox;
 
 namespace Engine {
 	public class RecusiveOctree<T> : IOctree<T> where T : IOctreeItem<T> {
-		private const double DEFAULT_UNIVERSE_SIZE = 1_000_000;
-		private const double DEFAULT_CELL_SIZE = 10;
+		private const double DEFAULT_UNIVERSE_SIZE = 150_000;
+		private const double DEFAULT_CELL_SIZE = 100;
 
 		private readonly IOctree<T> parent;
 		private readonly IOctree<T>[] children;

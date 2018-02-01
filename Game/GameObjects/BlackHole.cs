@@ -50,7 +50,7 @@ namespace Game.GameObjects {
 
         public override void Awake() {
             base.Awake();
-            RenderEngine.RegisterRenderComponent(RenderComponent);
+            RenderEngine.RegisterStaticRenderComponent(RenderComponent);
             CollisionEngine.Register(CollisionComponent);
             
             Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
@@ -58,7 +58,7 @@ namespace Game.GameObjects {
         }
         
         protected override void OnDestroy() {
-            RenderEngine.UnregisterRenderComponent(RenderComponent);
+            RenderEngine.UnregisterStaticRenderComponent(RenderComponent);
             CollisionEngine.Unregister(CollisionComponent);
         }
 

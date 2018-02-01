@@ -110,7 +110,7 @@ namespace Game.GameObjects {
 
 		public override void Awake() {
 			base.Awake();
-			RenderEngine.RegisterRenderComponent(renderComponent);
+			RenderEngine.RegisterDynamicRenderComponent(renderComponent);
 			CollisionEngine.Register(CollisionComponent);
 
 			Radius = renderComponent.Model.Radius(Vector3d.One);
@@ -119,7 +119,7 @@ namespace Game.GameObjects {
 
 		protected override void OnDestroy() {
 			//TODO explosion animation here
-			RenderEngine.UnregisterRenderComponent(renderComponent);
+			RenderEngine.UnregisterDynamicRenderComponent(renderComponent);
 			CollisionEngine.Unregister(CollisionComponent);
 		}
 	}
