@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Engine.GUI;
 using Engine.Render;
+using Engine.Util;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -22,9 +24,29 @@ namespace Engine.Render {
 			FONT = FontManager.GetFont(fontId);
 		}
 
-		public static void DrawString(string text, Vector2 position, float scale = 1) {
+		public static void DrawString(string text, Vector2 position, TextAnchor anchor = TextAnchor.TOP_LEFT, float scale = 1) {
 			var vertices = new List<Vector2>();
 			var uvs = new List<Vector2>();
+
+			if (anchor == TextAnchor.CENTER) {
+				//position needs to be recalculated, because text must be drawn centered
+				float textlenght = 0;
+				float textheight = 0;
+				foreach (var character in text) {
+					Font.Rectangle charDimensions;
+					try {
+						charDimensions = FONT.GetCharDimensions(character);
+					}
+					catch (KeyNotFoundException e) {
+						Console.WriteLine($"Character: '{(int) character}' is not supported!");
+						charDimensions = FONT.GetCharDimensions('?');
+					}
+					textlenght += charDimensions.W * scale;
+					textheight = Math.Max(textheight, charDimensions.H * scale);
+				}
+				position.Y -= textheight / 2;
+				position.X -= textlenght / 2;
+			}
 
 			var currX = 0.0f;
 			for (var i = 0; i < text.Length; i++) {

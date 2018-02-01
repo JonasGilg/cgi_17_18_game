@@ -10,15 +10,18 @@ using SoundPlayer = Engine.Sound.SoundPlayer;
 
 namespace Game.GamePlay {
 	public static class GamePlayEngine {
-		public static readonly HudTextElement HUD_LEVEL_INDICATOR_TEXT = HUD.CreateHudTextElement("", new Vector2(0.7f, 0.9f));
-		public static readonly HudTextElement HUD_CHECKPOINT_TEXT_ELEMENT = HUD.CreateHudTextElement("", new Vector2(-0.075f, 0.9f));
+		public static readonly HudTextElement HUD_CHECKPOINT_TEXT_ELEMENT = HUD.CreateHudTextElement("", new Vector2(0, 0.9f),TextAnchor.CENTER, 2);
 
-		public static HudTextElement GameOverTextElement = HUD.CreateHudTextElement("GAME OVER", new Vector2(-0.65f, 0.2f), 4f);
-		public static HudTextElement GameWonTextElement = HUD.CreateHudTextElement("YOU WIN", new Vector2(-0.45f, 0.2f), 4f);
+		public static HudTextElement GameOverTextElement = HUD.CreateHudTextElement("GAME OVER", Vector2.Zero, TextAnchor.CENTER, 4f, false);
+		public static HudTextElement GameWonTextElement = HUD.CreateHudTextElement("YOU WIN", Vector2.Zero, TextAnchor.CENTER, 4f, false);
 		
 		public static FinishMarker CurrentFinishMarker;
 
-		static GamePlayEngine() => HUD.AddHudTextElement(HUD_CHECKPOINT_TEXT_ELEMENT);
+		static GamePlayEngine() {
+			HUD.AddHudTextElement(HUD_CHECKPOINT_TEXT_ELEMENT);
+			HUD.AddHudTextElement(GameOverTextElement);
+			HUD.AddHudTextElement(GameWonTextElement);
+		}
 
 		public static readonly SpaceShip PLAYER_SPACESHIP = new SpaceShip {
 			TransformComponent = {
@@ -56,11 +59,11 @@ namespace Game.GamePlay {
 			World.ClearWorld();
 			GOAL_RING_LIST.Clear();
 			CurrentLevelIndex = index;
-			HUD_LEVEL_INDICATOR_TEXT.Text = $"LEVEL: {CurrentLevelIndex}";
 			LevelGenerator.StartLevel(index);
 			maxCheckpoints = GOAL_RING_LIST.Count;
 			HUD_CHECKPOINT_TEXT_ELEMENT.Text = $"{0}/{maxCheckpoints}";
-
+			GameOverTextElement.Enabled = false;
+			GameWonTextElement.Enabled = false;
 			HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
 		}
 
@@ -69,12 +72,12 @@ namespace Game.GamePlay {
 
 		public static void GameOver() {
 			PLAYER_SPACESHIP.Destroy();
-			HUD.AddHudTextElement(GameOverTextElement);
+			GameOverTextElement.Enabled = true;
 		}
 
 		public static void GameWon() {
 			Statistics.Stop();
-			HUD.AddHudTextElement(GameWonTextElement);
+			GameWonTextElement.Enabled = true;
 			Statistics.ScoreTextElement.Position = new Vector2(-0.45f,-0.2f);
 			Statistics.TimeSpentTextElement.Position = new Vector2(-0.45f,-0.3f);
 		}

@@ -6,9 +6,9 @@ using OpenTK;
 namespace Engine {
     public static class Statistics {
         private static int Score = 0;
-        public static readonly HudTextElement ScoreTextElement = HUD.CreateHudTextElement("SCORE : 0", new Vector2(-1f, 0.82f));
+        public static readonly HudTextElement ScoreTextElement = HUD.CreateHudTextElement("SCORE : 0", new Vector2(0, 0.625f),TextAnchor.CENTER);
 
-        public static readonly HudTextElement TimeSpentTextElement = HUD.CreateHudTextElement("TIME SPENT : 0", new Vector2(-1f, 0.88f));
+        public static readonly HudTextElement TimeSpentTextElement = HUD.CreateHudTextElement("", new Vector2(0, 0.725f),TextAnchor.CENTER);
 
         public static bool updatingTime = true;
         public static bool scoringPoints = true;
@@ -32,7 +32,7 @@ namespace Engine {
 
         public static void UpdateTimeSpent() {
             if (updatingTime) {
-                TimeSpentTextElement.Text = $"TIME SPENT : {TimeSpan.FromSeconds(Time.TotalTime / 1000).ToString(@"hh\:mm\:ss")}";
+                TimeSpentTextElement.Text = $"{TimeSpan.FromSeconds(Time.TotalTime / 1000).ToString(@"hh\:mm\:ss")}";
             }
         }
     }

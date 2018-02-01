@@ -39,8 +39,8 @@ namespace Engine.GUI {
 		// END: OBJECT MARKER
 		//----------------------------------
 		// START: TEXT ELEMENTS
-		public static HudTextElement CreateHudTextElement(string text = "", Vector2 position = default(Vector2), float scale = 1)
-			=> new HudTextElement(elementCounter++, text, position, scale);
+		public static HudTextElement CreateHudTextElement(string text = "", Vector2 position = default(Vector2), TextAnchor anchor = TextAnchor.TOP_LEFT, float scale = 1, bool enabled = true)
+			=> new HudTextElement(elementCounter++, text, position, anchor, scale, enabled);
 
 		public static void AddHudTextElement(HudTextElement textElement) => HUD_TEXT_ELEMENTS.Add(textElement.ID, textElement);
 		
@@ -48,7 +48,9 @@ namespace Engine.GUI {
 		
 		private static void drawTextElements() {
 			foreach (var textElement in HUD_TEXT_ELEMENTS) {
-				TextRenderer2D.DrawString(textElement.Value.Text, textElement.Value.Position, textElement.Value.Scale);
+				if (textElement.Value.Enabled) {
+					TextRenderer2D.DrawString(textElement.Value.Text, textElement.Value.Position, textElement.Value.Anchor, textElement.Value.Scale);
+				}
 			}
 		}
 		// END: TEXT ELEMENTS
