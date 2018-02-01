@@ -33,7 +33,7 @@ namespace Game.Utils {
 			var bh = new BlackHole();
 			bh.TransformComponent.Position = position;
 			bh.TransformComponent.Scale = scale;
-			GameObject.Instantiate(bh);
+			bh.Instantiate();
 			return bh;
 		}
 
@@ -55,7 +55,7 @@ namespace Game.Utils {
 
 			//TODO every planet gets tagged now. But we need a List of Planets at some time anyways...  :)
 			
-			GameObject.Instantiate(result);
+			result.Instantiate();
 			return result;
 		}
 
@@ -80,7 +80,7 @@ namespace Game.Utils {
 				var component = (GravityMovement) asteroid.MoveComponent;
 				component.currentAngle = i * MathHelper.TwoPi/numberAsteroids;
 				
-				GameObject.Instantiate(asteroid);
+				asteroid.Instantiate();
 			}
 			
 			return planet;

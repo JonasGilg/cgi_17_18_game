@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Engine;
 using Engine.Collision;
 using Engine.Component;
@@ -7,7 +6,6 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
-using Engine.Util;
 using Game.Components;
 
 namespace Game.GameObjects {
@@ -24,12 +22,13 @@ namespace Game.GameObjects {
 
         public readonly MoveComponent MoveComponent;
         private readonly RenderComponent renderComponent;
-        public readonly HealthComponent HealthComponent;
-        public readonly SphereCollider CollisionComponent;
+        private readonly HealthComponent healthComponent;
+        private readonly SphereCollider collisionComponent;
 
         private double timeToDie;
-        
-        public int DAMAGE = 20;
+
+        private const int DAMAGE = 20;
+
         public Projectile() {
             MoveComponent = new MoveComponent(this);
             
@@ -40,10 +39,10 @@ namespace Game.GameObjects {
                 this
             );
             
-            HealthComponent = new HealthComponent(this,1);
-            optionalComponents.Add(ComponentType.HEALTH_COMPONENT,new List<Component>{HealthComponent});
+            healthComponent = new HealthComponent(this,1);
+            optionalComponents.Add(ComponentType.HEALTH_COMPONENT,new List<Component>{healthComponent});
             
-            CollisionComponent = new SphereCollider(this, renderComponent.Model,
+            collisionComponent = new SphereCollider(this, renderComponent.Model,
                    null,
                 activeMessage => {
                     if (activeMessage.OtherCollisonComponent.GameObject is SpaceShip) return;
@@ -54,7 +53,7 @@ namespace Game.GameObjects {
 							
                         }
                     }
-                    Destroy(this);
+                    Destroy();
             });
             
         }
@@ -62,7 +61,7 @@ namespace Game.GameObjects {
         public override void Awake() {
             base.Awake();
             RenderEngine.RegisterRenderComponent(renderComponent);
-            CollisionEngine.Register(CollisionComponent);
+            CollisionEngine.Register(collisionComponent);
             Radius = renderComponent.Model.Radius(TransformComponent.Scale);
             renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
             timeToDie = Time.TotalTime + 10 * 1000;
@@ -72,13 +71,13 @@ namespace Game.GameObjects {
             base.Update();
             MoveComponent.Update();
             renderComponent.Update();
-            if(Time.TotalTime > timeToDie) Destroy(this);
+            if(Time.TotalTime > timeToDie) Destroy();
         }
         
 
         protected override void OnDestroy() {
             RenderEngine.UnregisterRenderComponent(renderComponent);
-            CollisionEngine.Unregister(CollisionComponent);
+            CollisionEngine.Unregister(collisionComponent);
             //TODO disappear with small explosion
         }
 

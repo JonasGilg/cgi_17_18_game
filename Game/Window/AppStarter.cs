@@ -29,7 +29,7 @@ namespace Game.Window {
 			base.OnLoad(e);
 			HUD.AddHudTextElement(upsCounter);
 			HUD.AddHudTextElement(fpsCounter);
-			HUD.AddHudTextElement(GamePlayEngine.hudLevelIndicatorText);
+			HUD.AddHudTextElement(GamePlayEngine.HUD_LEVEL_INDICATOR_TEXT);
 			
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
 			

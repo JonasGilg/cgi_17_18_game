@@ -26,14 +26,14 @@ namespace Engine {
 
 		public virtual void Update() => TransformComponent.Update();
 
-		public static void Instantiate(GameObject obj) {
-			obj.Awake();
-			World.AddToWorld(obj);
+		public void Instantiate() {
+			Awake();
+			World.AddToWorld(this);
 		}
 
-		public static void Destroy(GameObject obj, int millisDelay = 0) {
-			obj.OnDestroy();
-			World.RemoveFromWorld(obj);
+		public void Destroy() {
+			OnDestroy();
+			World.RemoveFromWorld(this);
 		}
 
 		public bool searchOptionalComponents(ComponentType type, out List<Component.Component> resultList) {

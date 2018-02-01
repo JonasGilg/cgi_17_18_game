@@ -18,8 +18,8 @@ namespace Game.GameObjects {
         };
         
         protected override CollisionComponent InitCollider() => new SphereCollider(this, Model, passiveMessage => {
-            if (GamePlayEngine.playerSpaceship.Equals(passiveMessage.OtherCollisonComponent.GameObject)) {
-                GamePlayEngine.checkPointPassed(this);
+            if (GamePlayEngine.PLAYER_SPACESHIP.Equals(passiveMessage.OtherCollisonComponent.GameObject)) {
+                GamePlayEngine.CheckPointPassed(this);
             }
         });
         

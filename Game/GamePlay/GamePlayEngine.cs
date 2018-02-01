@@ -9,17 +9,14 @@ using OpenTK;
 
 namespace Game.GamePlay {
 	public static class GamePlayEngine {
+		public static readonly HudTextElement HUD_LEVEL_INDICATOR_TEXT = HUD.CreateHudTextElement("", new Vector2(0.7f, 0.9f));
+		public static readonly HudTextElement HUD_CHECKPOINT_TEXT_ELEMENT = HUD.CreateHudTextElement("", new Vector2(0.0f, 0.9f));
 
-		public static HudTextElement hudLevelIndicatorText = HUD.CreateHudTextElement("",new Vector2(0.7f,0.9f));
-		public static HudTextElement HudCheckpointTextElement = HUD.CreateHudTextElement("",new Vector2(0.0f,0.9f));
-		
-		public static FinishMarker currentFinishMarker;
+		public static FinishMarker CurrentFinishMarker;
 
-		static GamePlayEngine() {
-			HUD.AddHudTextElement(HudCheckpointTextElement);
-		}
+		static GamePlayEngine() => HUD.AddHudTextElement(HUD_CHECKPOINT_TEXT_ELEMENT);
 
-		public static SpaceShip playerSpaceship = new SpaceShip {
+		public static readonly SpaceShip PLAYER_SPACESHIP = new SpaceShip {
 			TransformComponent = {
 				Scale = new Vector3d(1f),
 				Position = Vector3d.Zero,
@@ -28,15 +25,15 @@ namespace Game.GamePlay {
 		};
 
 		public static void ResetSpaceShip(Vector3d startPosition, Quaterniond startOrientation) {
-			playerSpaceship.TransformComponent.Position = startPosition;
-			playerSpaceship.TransformComponent.Orientation = startOrientation;
-			playerSpaceship.moveComponent.LinearVelocity = Vector3d.Zero;
-			playerSpaceship.moveComponent.AngularVelocity = Vector3d.Zero;
+			PLAYER_SPACESHIP.TransformComponent.Position = startPosition;
+			PLAYER_SPACESHIP.TransformComponent.Orientation = startOrientation;
+			PLAYER_SPACESHIP.moveComponent.LinearVelocity = Vector3d.Zero;
+			PLAYER_SPACESHIP.moveComponent.AngularVelocity = Vector3d.Zero;
 		}
-		
+
 		public static int CurrentLevelIndex = -1;
-		public static Action[] LEVELS = {
-			
+
+		public static Action[] Levels = {
 			/*
 			LevelGenerator.GenerateLevel1,
 			LevelGenerator.GenerateLevel2,
@@ -47,69 +44,57 @@ namespace Game.GamePlay {
 			*/
 		};
 
-		public static int maxCheckpoints;
-		
+		private static int maxCheckpoints;
+
 		public static void LoadLevel(int index) {
-            
 			World.ClearWorld();
 			GOAL_RING_LIST.Clear();
 			CurrentLevelIndex = index;
-			hudLevelIndicatorText.Text = $"LEVEL: {CurrentLevelIndex}";
+			HUD_LEVEL_INDICATOR_TEXT.Text = $"LEVEL: {CurrentLevelIndex}";
 			LevelGenerator.startLevel(index);
 			maxCheckpoints = GOAL_RING_LIST.Count;
-			HudCheckpointTextElement.Text = $"{0}/{maxCheckpoints}";
-			
+			HUD_CHECKPOINT_TEXT_ELEMENT.Text = $"{0}/{maxCheckpoints}";
+
 			HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
-			
 		}
 
-		public static void LoadNextLevel() {
-			LoadLevel(CurrentLevelIndex+1);
-		}
+		public static void LoadNextLevel() => LoadLevel(CurrentLevelIndex + 1);
+		public static void RestartLevel() => LoadLevel(CurrentLevelIndex);
 
-		public static void RestartLevel() {
-			LoadLevel(CurrentLevelIndex);
-		}
-		
 		public static void GameOver() {
-			GameObject.Destroy(playerSpaceship);
-			HUD.AddHudTextElement(HUD.CreateHudTextElement("GAME OVER", new Vector2(-0.65f,0.2f), 4f));
+			PLAYER_SPACESHIP.Destroy();
+			HUD.AddHudTextElement(HUD.CreateHudTextElement("GAME OVER", new Vector2(-0.65f, 0.2f), 4f));
 		}
 
 		public static void RemoveObjectFromWorld(GameObject gameObject) {
-			if (gameObject.Equals(playerSpaceship)) {
+			if (gameObject.Equals(PLAYER_SPACESHIP)) {
 				GameOver();
 			}
 			else {
-				GameObject.Destroy(gameObject);
+				gameObject.Destroy();
 			}
 		}
-		public static Queue<GoalRing>GOAL_RING_LIST = new Queue<GoalRing>();
-		public static void registerGoalRing(GoalRing ring) {
-			GOAL_RING_LIST.Enqueue(ring);
-			
-			
-		}
-		
-		public static void checkPointPassed(GoalRing chunk) {
+
+		private static readonly Queue<GoalRing> GOAL_RING_LIST = new Queue<GoalRing>();
+
+		public static void RegisterGoalRing(GoalRing ring) => GOAL_RING_LIST.Enqueue(ring);
+
+		public static void CheckPointPassed(GoalRing chunk) {
 			if (GOAL_RING_LIST.Peek().Equals(chunk)) {
 				SystemSounds.Exclamation.Play();
 				GOAL_RING_LIST.Dequeue();
-				HudCheckpointTextElement.Text = $"{maxCheckpoints-GOAL_RING_LIST.Count}/{maxCheckpoints}";
+				HUD_CHECKPOINT_TEXT_ELEMENT.Text = $"{maxCheckpoints - GOAL_RING_LIST.Count}/{maxCheckpoints}";
 				HUD.RemoveHudObjectMarker(chunk.objectMarker.ID);
-				GameObject.Destroy(chunk);
+				chunk.Destroy();
 				if (GOAL_RING_LIST.Count == 0) {
-					showFinishMarker();
+					ShowFinishMarker();
 				}
 				else {
 					HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
 				}
 			}
-			
 		}
 
-		private static void showFinishMarker() {
-			GameObject.Instantiate(currentFinishMarker);
-		}
+		private static void ShowFinishMarker() => CurrentFinishMarker.Instantiate();
 	}
 }

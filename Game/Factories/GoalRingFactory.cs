@@ -20,8 +20,8 @@ namespace Game.Utils {
                 
 			};
             
-       		GamePlayEngine.registerGoalRing(chunk);
-			GameObject.Instantiate(chunk);
+       		GamePlayEngine.RegisterGoalRing(chunk);
+			chunk.Instantiate();
 			
 			return chunk;
 		}
