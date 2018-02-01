@@ -8,7 +8,7 @@ using Keyboard = Engine.Input.Keyboard;
 
 namespace Game.Components {
 	public abstract class MoveInputComponent : Component {
-		protected const double FORWARD_SPEED = 2000;
+		protected const double FORWARD_SPEED = 2500;
 		protected const double SIDEWAY_SPEED = 500;
 		protected const double ROTATION_MULTIPLIER = 5;
 		protected readonly TransformComponent TransformComponent;

@@ -42,7 +42,7 @@ namespace Game.Components {
 			
 			rot = Quaterniond.Slerp(rot, Quaterniond.FromEulerAngles(rotation.Y, rotation.X, 0) * GameObject.TransformComponent.Orientation, Time.DeltaTimeUpdate * 10);
 
-			var eyePosition = rot.Rotate(offset * (zoom + moveComponent.LinearVelocity.LengthFast / 2000)) + GameObject.TransformComponent.Position;
+			var eyePosition = rot.Rotate(offset * (zoom + moveComponent.LinearVelocity.LengthFast / 2500)) + GameObject.TransformComponent.Position;
 			
 			SetLookAt(eyePosition, GameObject.TransformComponent.Position, GameObject.TransformComponent.Orientation.Rotate(Vector3d.UnitY));
 		}
