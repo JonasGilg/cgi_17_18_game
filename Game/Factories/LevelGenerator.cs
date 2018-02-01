@@ -45,7 +45,7 @@ namespace Game.Utils {
                 //blackholes [2+]
                 new Vector3d(30567,-4757,16459),
                 new Vector3d(24471,-2921,16051),
-                new Vector3d(19277,-2740,12924),
+                new Vector3d(19277,-3100,12000),
                 new Vector3d(37693,-3927,12120),
                 
                 //neptun after bh
@@ -72,8 +72,8 @@ namespace Game.Utils {
             var planet2 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.REDPLANET, positions[1],
                 new Vector3d(3000), new Vector3d(0,0.3,0));
             //black hole field
-            var black1 = PlanetFactory.GenerateBlackhole(positions[2], new Vector3d(700));
-            var black2 = PlanetFactory.GenerateBlackhole(positions[3], new Vector3d(700));
+            var black1 = PlanetFactory.GenerateBlackhole(positions[2], new Vector3d(1200));
+            var black2 = PlanetFactory.GenerateBlackhole(positions[3], new Vector3d(1200));
             var black3 = PlanetFactory.GenerateBlackhole(positions[4], new Vector3d(1200));
             var black4 = PlanetFactory.GenerateBlackhole(positions[5], new Vector3d(800));
             ////////
