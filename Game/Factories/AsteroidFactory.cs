@@ -6,6 +6,7 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
+using Game.Components;
 using Game.GameObjects;
 using OpenTK;
 
@@ -84,9 +85,11 @@ namespace Game.Utils {
 			return asteroid;
 		}
 
-		public static Asteroid GenerateGravityAsteroid(AsteroidType type, GameObject referenceObject) {
+		public static Asteroid GenerateGravityAsteroid(GameObject referenceObject,double startAngle, double distance, double speed) {
+
+			var asteroid = new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(),
+				AsteroidTextureRegistry.GetRandomMaterialSettings(), referenceObject, startAngle, distance, speed);
 			
-			var asteroid = new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(), AsteroidTextureRegistry.GetRandomMaterialSettings(), referenceObject);
 			return asteroid;
 		}
 		

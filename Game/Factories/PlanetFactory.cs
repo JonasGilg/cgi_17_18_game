@@ -7,6 +7,7 @@ using Engine.Texture;
 using Game.Components;
 using Game.GameObjects;
 using OpenTK;
+ using OpenTK.Graphics.OpenGL;
 
 namespace Game.Utils {
 	public static class PlanetFactory {
@@ -59,8 +60,8 @@ namespace Game.Utils {
 		}
 
 		public static Planet GeneratePlanetWithAsteroidBeld(PlanetTexture planetTexture,
-			AsteroidFactory.AsteroidType asteroidType, int numberAsteroids, Vector3d position, Vector3d scale,
-			Vector3d rotation) {
+			int numberAsteroids, Vector3d position, Vector3d scale,
+			Vector3d rotation, double radius, double rotationSpeed) {
 			//TODO randomize angle, distance, speed, size, etc
 			var planet = GeneratePlanet(planetTexture, position, scale, rotation);
 
@@ -69,15 +70,15 @@ namespace Game.Utils {
 			
 			
 			for (var i = 0; i < numberAsteroids; i++) {
-				var asteroid = AsteroidFactory.GenerateGravityAsteroid(asteroidType, planet);
+				var asteroid = AsteroidFactory.GenerateGravityAsteroid(planet,0.0, radius, rotationSpeed);
 
 				asteroid.TransformComponent.Parent = planet.TransformComponent;
 				//asteroid.TransformComponent.Scale = new Vector3d(100+_random.NextDouble()*500,100+_random.NextDouble()*500,100+_random.NextDouble()*500);
-				asteroid.TransformComponent.Scale = new Vector3d(100);
+				asteroid.TransformComponent.Scale = new Vector3d(150);
 				asteroid.MoveComponent.AngularVelocity = new Vector3d(0.0, 0.5, 0.0);
 				asteroid.MoveComponent.LinearVelocity = new Vector3d(0.0, 0.0, 0.0);
 				var component = (GravityMovement) asteroid.MoveComponent;
-				component.currentAngle = i * 1.0 / 5;
+				component.currentAngle = i * MathHelper.TwoPi/numberAsteroids;
 				
 				GameObject.Instantiate(asteroid);
 			}

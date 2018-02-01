@@ -30,7 +30,7 @@ namespace Game.Utils {
                     Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitX, Math.PI/2)
                     
                 },
-                moveComponent = { AngularVelocity = new Vector3d(0,4.0,0) }
+                moveComponent = { AngularVelocity = new Vector3d(0,3.0,0) }
                 
             };
             

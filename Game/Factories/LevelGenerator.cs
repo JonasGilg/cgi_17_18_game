@@ -48,34 +48,42 @@ namespace Game.Utils {
                 new Vector3d(19277,-2740,12924),
                 new Vector3d(37693,-3927,12120),
                 
+                //neptun after bh
                 new Vector3d(1920,-3239,11316),
+                
+                
+                new Vector3d(-9343,-1042,20263),
                 
                 
                 //helix entry obstacle [7+]
                 new Vector3d(-25632,3500,9850),
-                
-
                 new Vector3d(-25685,5778,-6895),
+                
+                
                 
             };
 
             var planet1 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.EARTHLIKE, positions[0],
-                new Vector3d(3000), Vector3d.UnitX);
+                new Vector3d(3000),  new Vector3d(0,0.3,0));
             
             var planet2 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.REDPLANET, positions[1],
-                new Vector3d(3000), Vector3d.UnitX);
-            
+                new Vector3d(3000), new Vector3d(0,0.3,0));
+            //black hole field
             var black1 = PlanetFactory.GenerateBlackhole(positions[2], new Vector3d(700));
             var black2 = PlanetFactory.GenerateBlackhole(positions[3], new Vector3d(700));
             var black3 = PlanetFactory.GenerateBlackhole(positions[4], new Vector3d(1200));
             var black4 = PlanetFactory.GenerateBlackhole(positions[5], new Vector3d(800));
-            
+            ////////
+
             var planet3 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, positions[6],
-                new Vector3d(4500), Vector3d.UnitX);
+                new Vector3d(1000), Vector3d.UnitY);
+            //var planet3 = PlanetFactory.GeneratePlanetWithAsteroidBeld(PlanetFactory.PlanetTexture.NEPTUN, 30, positions[6],new Vector3d(1000), new Vector3d(0.3), 4000.0, 200.0);
+
+            //var astRing1 = AsteroidFactory.GenerateAsteroidRing(positions[7], Vector3d.UnitY, 6, 250, 150);
             
             //HELIX 
-            var planet4 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, positions[7], new Vector3d(3000), Vector3d.UnitX);
-            var planet5 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.EARTHLIKE, positions[8], new Vector3d(3000), Vector3d.UnitX);
+            var planet4 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.REDPLANET, positions[8], new Vector3d(3000), new Vector3d(0.3));
+            var planet5 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.EARTHLIKE, positions[9], new Vector3d(3000), new Vector3d(0.3));
         }
         
         

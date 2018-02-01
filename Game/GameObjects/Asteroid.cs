@@ -21,8 +21,8 @@ namespace Game.GameObjects {
 
 		
 
-		public Asteroid(Model3D model, MaterialSettings materialSettings, GameObject referenceObject = null) {
-			MoveComponent = referenceObject != null ? new GravityMovement(this, 0.0) : new MoveComponent(this);
+		public Asteroid(Model3D model, MaterialSettings materialSettings, GameObject referenceObject = null, double distance = 0.0, double speed = 0.0, double startAngle=0.0 ) {
+			MoveComponent = referenceObject != null ? new GravityMovement(this,startAngle, distance, speed) : new MoveComponent(this);
 			
 			renderComponent = new RenderComponent(
 				model,

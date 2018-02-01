@@ -22,7 +22,7 @@ namespace Game.GameObjects {
 		public readonly MoveComponent MoveComponent;
 		private readonly CollisionComponent collisionComponent;
 
-		public Planet(int textureId, GameObject referenceObject = null) {
+		public Planet(int textureId) {
 			RenderComponent = new RenderComponent(
 				PLANET_MODEL,
 				MaterialManager.GetMaterial(Material.PBR),
@@ -39,12 +39,9 @@ namespace Game.GameObjects {
 
 			shadowComponent = new ShadowComponent(RenderComponent, this);
 
-			if (referenceObject != null) {
-				MoveComponent = new GravityMovement(this, 0.0);
-			}
-			else {
-				MoveComponent = new MoveComponent(this);
-			}
+			
+			MoveComponent = new MoveComponent(this);
+			
 			
 			collisionComponent = new SphereCollider(this, RenderComponent.Model,
 				message => {

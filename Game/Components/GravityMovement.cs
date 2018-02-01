@@ -5,13 +5,15 @@ using OpenTK;
 
 namespace Game.Components {
 	public class GravityMovement : MoveComponent {
-		private const double DISTANCE = 4000;
-		private const double SPEED = 1.0 / 5.0;
+		public double DISTANCE = 4000;
+		public double SPEED = 1.0 / 5.0;
 		public double currentAngle;
 
-		public GravityMovement(GameObject gameObject, double currentAngle) : base(gameObject) {
+		public GravityMovement(GameObject gameObject, double startAngle, double distance, double speed) : base(gameObject) {
 			LinearVelocity = Vector3d.Zero;
-			this.currentAngle = currentAngle;
+			this.currentAngle = startAngle;
+			DISTANCE = distance;
+			SPEED = speed;
 		}
 
 		public override void Update() {
