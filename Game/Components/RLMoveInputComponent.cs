@@ -69,13 +69,10 @@ namespace Game.Components {
 
 			var angularSpeed = Time.DeltaTimeUpdate * ROTATION_MULTIPLIER;
 			var angularVelocity = GetAngularVelocityInObjectSpace();
-
 			
-			if (Math.Abs(Mouse.CursorDelta.X) > 0.001)
-				AddAngularVelocityInObjectSpace(0, -Time.DeltaTimeUpdate * Mouse.CursorDelta.X * 0.5, 0);
-			else if (Keyboard.Down(Key.Left))
+			if (Keyboard.Down(Key.A))
 				AddAngularVelocityInObjectSpace(0, angularSpeed, 0);
-			else if (Keyboard.Down(Key.Right))
+			else if (Keyboard.Down(Key.D))
 				AddAngularVelocityInObjectSpace(0, -angularSpeed, 0);
 			else if (angularVelocity.Y > 0)
 				AddAngularVelocityInObjectSpace(0, -angularSpeed, 0);
@@ -93,9 +90,11 @@ namespace Game.Components {
 			else if (angularVelocity.Z > 0)
 				AddAngularVelocityInObjectSpace(0, 0, -angularSpeed);
 
-			if (Keyboard.Down(Key.A))
+			if (Math.Abs(Mouse.CursorDelta.X) > 0.001)
+				AddAngularVelocityInObjectSpace(Time.DeltaTimeUpdate * Mouse.CursorDelta.X * 0.5, 0, 0);
+			else if (Keyboard.Down(Key.Left))
 				AddAngularVelocityInObjectSpace(-angularSpeed, 0, 0);
-			else if (Keyboard.Down(Key.D))
+			else if (Keyboard.Down(Key.Right))
 				AddAngularVelocityInObjectSpace(angularSpeed, 0, 0);
 			else if (angularVelocity.X < 0)
 				AddAngularVelocityInObjectSpace(angularSpeed, 0, 0);
