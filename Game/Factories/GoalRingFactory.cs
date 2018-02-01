@@ -29,10 +29,14 @@ namespace Game.Utils {
 		
 		public static List<GameObject> GenerateGoalRingWithAsteroidRing(Vector3d center, double pointRingScale, Matrix4d rotationMat) {
 			var objs = new List<GameObject>();
-			objs.Add(GenerateSingle(center,pointRingScale));
+
+			var checkPoint = GenerateSingle(center, pointRingScale);
+			objs.Add(checkPoint);
 			var ring_radius = pointRingScale *2;
 			var asteroid_radius = pointRingScale * 0.5;
-			objs.AddRange(AsteroidFactory.GenerateAsteroidRingForCheckpoint(center,ring_radius,asteroid_radius, rotationMat));
+			var asteroidRing =
+				AsteroidFactory.GenerateAsteroidRingForCheckpoint(checkPoint, ring_radius, asteroid_radius, rotationMat);
+			objs.AddRange(asteroidRing);
 			
             
            

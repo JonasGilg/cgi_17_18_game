@@ -84,13 +84,13 @@ namespace Game.Utils {
 			return asteroid;
 		}
 
-		public static List<Asteroid> GenerateAsteroidRingForCheckpoint(Vector3d center, double ring_radius, double asteroid_radius, Matrix4d rotationMat) {
+		public static List<Asteroid> GenerateAsteroidRingForCheckpoint(GameObject parent, double ring_radius, double asteroid_radius, Matrix4d rotationMat) {
 
 			var number = 6;
 			var angleStep = MathHelper.TwoPi / 6;
 
 			for (int i = 0; i < 1; i++) {
-				var finalPos = Vector3d.Transform(center,rotationMat);
+				var finalPos = Vector3d.Transform(parent.TransformComponent.Position,rotationMat);
 				
 				GenerateSingleAsteroid(finalPos, asteroid_radius);
 			}

@@ -26,7 +26,7 @@ namespace Game.Utils {
 			var richtungsV = waypoints[1] - waypoints[0];
 			result.startPoint = richtungsV * -1;
 			result.startOrientation = Quaterniond.FromAxisAngle(richtungsV,0);
-			result.finishPoint = waypoints[waypoints.Count - 2] - waypoints[waypoints.Count - 1] * -1 * 3; //3 times as far away from last as last from one before last
+			
 			
 
 			return result;
@@ -45,9 +45,9 @@ namespace Game.Utils {
 					if (LEVEL_1_SPECIAL_CHECKPOINTS.Contains(created_checkPoints+1)) {
 						//special checkpoint now
 
-						createCheckpoint(wayPoints[i]);
+						//createCheckpoint(wayPoints[i]);
 						//TODO SUPER LAGGY!!!
-						//createRingCheckpoint(wayPoints[i],wayPoints[i-1],wayPoints[i+1]);
+						createRingCheckpoint(wayPoints[i],wayPoints[i-1],wayPoints[i+1]);
 						
 					}
 					else {
@@ -83,7 +83,7 @@ namespace Game.Utils {
 			var b = next - pos;
 			var crossProd = Vector3d.Cross(a, b);
 			var winkel = Math.Acos(Vector3d.Dot(a, b) / (a.Length * b.Length))/2;
-			var rotationMat = Matrix4d.CreateFromAxisAngle(crossProd, winkel);
+			var rotationQuad = Matrix4d.CreateFromAxisAngle(crossProd, winkel);
 
 
 
@@ -121,7 +121,6 @@ namespace Game.Utils {
 	public struct RaceTrack {
 		public List<Vector3d> WAYPOINTS;
 		public Vector3d startPoint;
-		public Vector3d finishPoint;
 		public Quaterniond startOrientation;
 	}
 }
