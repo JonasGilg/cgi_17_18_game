@@ -27,6 +27,8 @@ namespace Game.GameObjects {
         public readonly HealthComponent HealthComponent;
         public readonly SphereCollider CollisionComponent;
 
+        private double timeToDie;
+        
         public int DAMAGE = 20;
         public Projectile() {
             MoveComponent = new MoveComponent(this);
@@ -52,7 +54,7 @@ namespace Game.GameObjects {
 							
                         }
                     }
-                    GameObject.Destroy(this);
+                    Destroy(this);
             });
             
         }
@@ -63,12 +65,14 @@ namespace Game.GameObjects {
             CollisionEngine.Register(CollisionComponent);
             Radius = renderComponent.Model.Radius(TransformComponent.Scale);
             renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
+            timeToDie = Time.TotalTime + 10 * 1000;
         }
 
         public override void Update() {
             base.Update();
             MoveComponent.Update();
             renderComponent.Update();
+            if(Time.TotalTime > timeToDie) Destroy(this);
         }
         
 

@@ -12,17 +12,16 @@ namespace Engine {
 		public Sphere BoundingSphere() => new Sphere(TransformComponent.WorldPosition, Radius);
 
 		public Dictionary<ComponentType, List<Component.Component>> optionalComponents = new Dictionary<ComponentType, List<Component.Component>>();
-		
+
 		public readonly HudObjectMarker objectMarker;
-		
+
 		protected GameObject() {
 			TransformComponent = new TransformComponent(this);
 			Radius = 0;
-			
-			objectMarker =HUD.CreateHudObjectMarker(this);
-			
+
+			objectMarker = HUD.CreateHudObjectMarker(this);
 		}
-		
+
 		public virtual void Awake() { }
 
 		public virtual void Update() => TransformComponent.Update();
@@ -32,8 +31,7 @@ namespace Engine {
 			World.AddToWorld(obj);
 		}
 
-		public static async void Destroy(GameObject obj,int millisDelay = 0) {
-			await Task.Delay(millisDelay);
+		public static void Destroy(GameObject obj, int millisDelay = 0) {
 			obj.OnDestroy();
 			World.RemoveFromWorld(obj);
 		}

@@ -32,7 +32,6 @@ namespace Game.Components {
                     }
                 };
                 GameObject.Instantiate(projectile);
-                GameObject.Destroy(projectile,10000);
             }
         }
     }
