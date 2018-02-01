@@ -32,7 +32,7 @@ namespace Game.Utils {
 			objs.Add(GenerateSingle(center,pointRingScale));
 			var ring_radius = pointRingScale *2;
 			var asteroid_radius = pointRingScale * 0.5;
-			objs.AddRange(AsteroidFactory.GenerateAsteroidRing(center,ring_radius,asteroid_radius, rotationMat));
+			objs.AddRange(AsteroidFactory.GenerateAsteroidRingForCheckpoint(center,ring_radius,asteroid_radius, rotationMat));
 			
             
            

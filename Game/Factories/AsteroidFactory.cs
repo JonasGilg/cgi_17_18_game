@@ -84,7 +84,7 @@ namespace Game.Utils {
 			return asteroid;
 		}
 
-		public static List<Asteroid> GenerateAsteroidRing(Vector3d center, double ring_radius, double asteroid_radius, Matrix4d rotationMat) {
+		public static List<Asteroid> GenerateAsteroidRingForCheckpoint(Vector3d center, double ring_radius, double asteroid_radius, Matrix4d rotationMat) {
 
 			var number = 6;
 			var angleStep = MathHelper.TwoPi / 6;
