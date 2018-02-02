@@ -94,19 +94,19 @@ namespace Engine.Render {
 		private readonly Stopwatch stopwatch = new Stopwatch();
 
 		public void Start() {
-/*#if(DEBUG)
+#if(DEBUG)
 			stopwatch.Restart();
-#endif*/
+#endif
 		}
 
 		public void Stop() {
-/*#if(DEBUG)
+#if(DEBUG)
 			stopwatch.Stop();
 			lastFrameTimes.Enqueue(stopwatch.ElapsedTicks);
 			if (lastFrameTimes.Count > QUEUE_SIZE) {
 				lastFrameTimes.Dequeue();
 			}
-#endif*/
+#endif
 		}
 
 		public override string ToString() => $"\t{Name}: {GetAverage():N2} clocks";

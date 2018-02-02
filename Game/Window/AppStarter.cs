@@ -1,13 +1,13 @@
-﻿﻿using System;
+﻿using System;
 using Engine;
 using Engine.GUI;
 using Engine.Material;
 using Engine.Render;
- using Engine.Texture;
- using Engine.Util;
- using Game.GameObjects;
- using Game.GamePlay;
- using Game.Utils;
+using Engine.Texture;
+using Engine.Util;
+using Game.GameObjects;
+using Game.GamePlay;
+using Game.Utils;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -17,7 +17,6 @@ using EngineMouse = Engine.Input.Mouse;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-
 		private AppStarter() : base(1280, 768, new GraphicsMode(32, 24, 8, 8), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
@@ -32,17 +31,17 @@ namespace Game.Window {
 
 			WindowState = WindowState.Fullscreen;
 			CursorVisible = false;
-			
+
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
-			
+
 			GamePlayEngine.LoadLevel(0);
 
 			RenderEngine.IBLData = new IBLData {
 				IrradianceCubeTexture = TextureManager.LoadIBLIrradianceMap("data/textures/IBL/Diffuse_Irradiance/skybox_bright", "png"),
 				SpecularCubeTexture = TextureManager.LoadIBLSpecularMap("data/textures/IBL/Specular/skybox_bright", "png")
 			};
-			
-			CascadedShadowMapping.Init(4096 * 4, 2048 * 4, 1024 * 4, 100000, 50000, 10000, 1);
+
+			CascadedShadowMapping.Init(4096, 2048, 1024, 100000, 50000, 10000, 1);
 			CascadedShadowMapping.SetLightDirection(new Vector3d(2000, 90, 140));
 			DeferredRendering.Init(Width, Height);
 
@@ -77,13 +76,14 @@ namespace Game.Window {
 				Time.DecreaseGameSpeed();
 				Console.Out.WriteLine($"{Time.GameSpeed.ToString("N2")}");
 			}
+
 			if (EngineKeyboard.Pressed(Key.R)) {
 				GamePlayEngine.RestartLevel();
 			}
 
-/*#if(DEBUG)
-IO.PrintAsync(TimingRegistry.GetStatsText());
-#endif*/
+#if(DEBUG)
+			IO.PrintAsync(TimingRegistry.GetStatsText());
+#endif
 
 			World.UpdateWorld();
 		}
@@ -92,14 +92,14 @@ IO.PrintAsync(TimingRegistry.GetStatsText());
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			Time.UpdateRenderTime(e.Time);
 			Statistics.UpdateTimeSpent();
-			
+
 			fpsCounter.Text = ((int) (1 / Time.AverageRenderTime())).ToString() + "FPS";
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit | ClearBufferMask.DepthBufferBit);
 
 			World.RenderWorld();
 			HUD.Draw();
-			
+
 			SwapBuffers();
 		}
 
