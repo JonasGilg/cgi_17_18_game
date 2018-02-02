@@ -11,7 +11,9 @@ using Game.Components;
 namespace Game.GameObjects {
     public class Projectile : GameObject{
         private static readonly Model3D MODEL = ModelLoaderObject3D.Load("data/objects/Planet.obj");
-        private static readonly MaterialSettings MATERIAL_SETTINGS = new MaterialSettings {
+        private static MaterialSettings MATERIAL_SETTINGS;
+        
+        public static void LoadTextTures() => MATERIAL_SETTINGS = new MaterialSettings {
             ColorTexture = TextureManager.LoadTexture("data/textures/powerfulred.png"),
             NormalTexture = TextureManager.LoadTexture("data/textures/defaultNormalMap.png"),
             MetalnessTexture = TextureManager.LoadTexture("data/textures/simpleBlack.png"),

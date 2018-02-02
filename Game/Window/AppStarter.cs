@@ -34,8 +34,8 @@ namespace Game.Window {
 			CursorVisible = false;
 
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);
-
-			GamePlayEngine.LoadLevel(0);
+			Projectile.LoadTextTures();
+			GamePlayEngine.LoadLevel();
 
 			RenderEngine.IBLData = new IBLData {
 				IrradianceCubeTexture = TextureManager.LoadIBLIrradianceMap("data/textures/IBL/Diffuse_Irradiance/skybox_bright", "png"),

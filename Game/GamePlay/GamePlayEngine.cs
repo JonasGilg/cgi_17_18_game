@@ -45,27 +45,15 @@ namespace Game.GamePlay {
 			PLAYER_SPACESHIP.MoveComponent.AngularVelocity = Vector3d.Zero;
 		}
 
-		public static int CurrentLevelIndex = -1;
-
-		public static Action[] Levels = {
-			/*
-			LevelGenerator.GenerateLevel1,
-			LevelGenerator.GenerateLevel2,
-			LevelGenerator.GenerateLevel3,
-			LevelGenerator.GenerateLevel4,
-			LevelGenerator.GenerateLevel5,
-			LevelGenerator.GenerateLevel6
-			*/
-		};
+		
 
 		private static int maxCheckpoints;
 
-		public static void LoadLevel(int index) {
+		public static void LoadLevel() {
 			Soundtrack.PlaySoundTrack("data/sound/soundtrack/soundtrack.wav");
 			World.ClearWorld();
 			GOAL_RING_LIST.Clear();
-			CurrentLevelIndex = index;
-			LevelGenerator.StartLevel(index);
+			LevelGenerator.StartLevel();
 			maxCheckpoints = GOAL_RING_LIST.Count;
 			HUD_CHECKPOINT_TEXT_ELEMENT.Text = $"{0}/{maxCheckpoints}";
 			GAME_OVER_TEXT_ELEMENT.Enabled = false;
@@ -73,12 +61,10 @@ namespace Game.GamePlay {
 			HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
 		}
 
-		public static void LoadNextLevel() => LoadLevel(CurrentLevelIndex + 1);
-
 		public static void RestartLevel() {
 			IO.PrintAsync("Restarting Level");
 
-			LoadLevel(CurrentLevelIndex);
+			LoadLevel();
 			Time.ResetGameTime();
 		}
 

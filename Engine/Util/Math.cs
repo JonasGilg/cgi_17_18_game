@@ -13,15 +13,15 @@ namespace Engine.Render {
 
 			var dot = Vector3d.Dot(Vector3d.UnitX, forwardVector);
 
-			if (Math.Abs(dot - (-1.0f)) < 0.000001f) {
-				return new Quaterniond(0, 1, 0, 3.1415926535897932f);
+			if (Math.Abs(dot + 1.0) < 0.000001) {
+				return new Quaterniond(0, 1, 0, 3.1415926535897932);
 			}
 
-			if (Math.Abs(dot - (1.0f)) < 0.000001f) {
+			if (Math.Abs(dot - 1.0) < 0.000001) {
 				return Quaterniond.Identity;
 			}
 
-			var rotAngle = (float) Math.Acos(dot);
+			var rotAngle = Math.Acos(dot);
 			var rotAxis = Vector3d.Cross(Vector3d.UnitX, forwardVector);
 			rotAxis = Vector3d.Normalize(rotAxis);
 			return Quaterniond.FromAxisAngle(rotAxis, rotAngle);

@@ -98,13 +98,13 @@ namespace Game.GameObjects {
 			moveInputComponent.Update();
 			MoveComponent.Update();
 			base.Update();
-			renderComponent.Update();
+			
 			shadowComponent.Update();
 			//Console.Out.WriteLine(renderComponent.AABB.Center.ToString());
 			cameraComponent.Update();
 			firingComponent.Update();
 			healthComponent.Update();
-
+			renderComponent.Update();
 			position.Text =
 				$"({TransformComponent.WorldPosition.X:N0}| {TransformComponent.WorldPosition.Y:N0}| {TransformComponent.WorldPosition.Z:N0})";
 			speed.Text = $"{MoveComponent.LinearVelocity.LengthFast:N2}M/S";

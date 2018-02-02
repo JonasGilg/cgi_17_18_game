@@ -18,7 +18,7 @@ namespace Game.Utils {
 		private const double DIAMETER = 50.0;
 
 
-		public static RaceTrack GenerateRaceTrack(int number) {
+		public static RaceTrack GenerateRaceTrack() {
 			var result = new RaceTrack();
 			var waypoints = CreateTrackPoints(LEVEL_1_FILE_PATH);
 			var richtungsV = waypoints[1] - waypoints[0];
