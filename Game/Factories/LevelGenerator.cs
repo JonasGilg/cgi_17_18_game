@@ -55,7 +55,7 @@ namespace Game.Utils {
                 new Vector3d(3000),  new Vector3d(0,0.3,0));
             
             var planet2 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.REDPLANET, positions[1],
-                new Vector3d(3000), new Vector3d(0,0.3,0));
+                new Vector3d(3000 /*3000*/), new Vector3d(0,0.3,0));
             //black hole field
             var black1 = PlanetFactory.GenerateBlackhole(positions[2], new Vector3d(1200));
             var black2 = PlanetFactory.GenerateBlackhole(positions[3], new Vector3d(1200));
@@ -64,10 +64,8 @@ namespace Game.Utils {
             ////////
 
             var planet3 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, positions[6],
-                new Vector3d(4000.0), Vector3d.UnitY);
-            //var planet3 = PlanetFactory.GeneratePlanetWithAsteroidBeld(PlanetFactory.PlanetTexture.NEPTUN, 30, positions[6],new Vector3d(1000), new Vector3d(0.3), 4000.0, 200.0);
-
-            //var astRing1 = AsteroidFactory.GenerateAsteroidRing(positions[7], Vector3d.UnitY, 6, 250, 150);
+                new Vector3d(4000/*4000.0*/), Vector3d.UnitY);
+            
             
             //HELIX 
             var planet4 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.REDPLANET, positions[8], new Vector3d(3000), new Vector3d(0.3));

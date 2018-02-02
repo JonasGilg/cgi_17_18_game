@@ -137,6 +137,7 @@
     <Content Include="data\objects\asteroids\strawberry.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\objects\navigation_arrow_fixed.obj" />
     <Content Include="data\objects\Planet.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

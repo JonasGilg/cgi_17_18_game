@@ -1,4 +1,6 @@
-﻿using Engine;
+﻿using System;
+using System.Runtime.Remoting.Messaging;
+using Engine;
 using Engine.Collision;
 using Engine.Component;
 using Engine.GUI;
@@ -51,8 +53,8 @@ namespace Game.GameObjects {
 							((HealthComponent) componentList[i]).instaKill();
 						}	
 					}
-				}
-				//noActive,
+				},
+				null//noActive,
 				//noPhysics
 			);
 			

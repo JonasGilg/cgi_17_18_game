@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Engine.Component;
 using Engine.GUI;
 using Engine.Render;
+using Engine.Util;
 
 namespace Engine {
 	public abstract class GameObject {
@@ -27,6 +28,7 @@ namespace Engine {
 		public virtual void Update() => TransformComponent.Update();
 
 		public void Instantiate() {
+			
 			Awake();
 			World.AddToWorld(this);
 		}

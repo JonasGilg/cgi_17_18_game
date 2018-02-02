@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine;
+using Engine.Util;
 using Game.GameObjects;
 using Game.GamePlay;
 using OpenTK;
@@ -32,10 +33,11 @@ namespace Game.Utils {
 
 			var checkPoint = GenerateSingle(center, pointRingScale);
 			
+			//IO.PrintAsync("RING LOCATION: "+center);
 			
 			
 			
-				AsteroidFactory.GenerateAsteroidRingForCheckpoint(checkPoint, rotationV, direction);
+				AsteroidFactory.GenerateAsteroidRingForCheckpoint(checkPoint, rotationV, direction, pointRingScale);
 			
 			
             

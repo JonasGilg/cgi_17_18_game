@@ -5,6 +5,7 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
+using Engine.Util;
 using Game.GameObjects;
 using OpenTK;
 
@@ -84,16 +85,16 @@ namespace Game.Utils {
 			return asteroid;
 		}
 
-		public static List<Asteroid> GenerateAsteroidRingForCheckpoint(GameObject parent, Vector3d rotationAxle, Vector3d direction) {
+		public static List<Asteroid> GenerateAsteroidRingForCheckpoint(GameObject parent, Vector3d rotationAxle, Vector3d direction, double scale) {
 
 			var number = 6;
 			var angleStep = MathHelper.TwoPi / 6;
-
-			
+			var distanceFromCenter = 700;
+			scale *= 0.6;
 			for (int i = 0; i < 6; i++) {
-				var finalPos = Quaterniond.FromAxisAngle(rotationAxle,angleStep*i).Rotate(direction*300)+parent.TransformComponent.Position;
+				var finalPos = Quaterniond.FromAxisAngle(rotationAxle,angleStep*i).Rotate(direction*distanceFromCenter)+parent.TransformComponent.Position;
 				
-				GenerateSingleAsteroid(finalPos /*asteroid_radius*/);
+				GenerateSingleAsteroid(finalPos, scale);
 			}
 			
 			return new List<Asteroid>();
@@ -143,6 +144,7 @@ namespace Game.Utils {
 			asteroid.MoveComponent.AngularVelocity = new Vector3d(0, 0, 0);
 
 			asteroid.Instantiate();
+			//IO.PrintAsync(""+asteroid.TransformComponent.WorldPosition);
 			return asteroid;
 		}
 	}

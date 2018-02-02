@@ -40,7 +40,6 @@ namespace Engine.Collision {
                         //PASSIVE
                         passiveComponent.PassiveCollisionFunctions(new CollisionMessage(activeComponent));
                         
-                        
                     }
                 }
             }
