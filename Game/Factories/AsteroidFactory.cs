@@ -67,14 +67,6 @@ namespace Game.Utils {
 	}
 
 	public static class AsteroidFactory {
-		public enum AsteroidType {
-			STANDARD
-		}
-
-		private static readonly Dictionary<AsteroidType, string> ASTEROID_MODEL_DICTIONARY =
-			new Dictionary<AsteroidType, string> {
-				{AsteroidType.STANDARD, "data/objects/asteroids/asteroid_"}
-			};
 
 		public static Asteroid GenerateAsteroid() => new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(), AsteroidTextureRegistry.GetRandomMaterialSettings());
 
@@ -85,7 +77,7 @@ namespace Game.Utils {
 			return asteroid;
 		}
 
-		public static List<Asteroid> GenerateAsteroidRingForCheckpoint(GameObject parent, Vector3d rotationAxle, Vector3d direction, double scale) {
+		public static void GenerateAsteroidRingForCheckpoint(GameObject parent, Vector3d rotationAxle, Vector3d direction, double scale) {
 
 			var number = 6;
 			var angleStep = MathHelper.TwoPi / 6;
@@ -97,7 +89,7 @@ namespace Game.Utils {
 				GenerateSingleAsteroid(finalPos, scale);
 			}
 			
-			return new List<Asteroid>();
+			
 		}
 		
 		public static List<Asteroid> GenerateAsteroidRing(Vector3d center, Vector3d eulerAngle, int count, double radius, double scale = 5.0) {
@@ -132,8 +124,6 @@ namespace Game.Utils {
 				var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
 				asteroids.Add(GenerateSingleAsteroid(rotatedPos, scale));
 			}
-
-
 			return asteroids;
 		}
 

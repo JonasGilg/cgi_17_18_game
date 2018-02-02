@@ -13,14 +13,10 @@ namespace Engine.Collision {
         
 
         public static void Register(CollisionComponent component) {
-            
             PASSIVE_COLLISION_COMPONENTS.Add(component);
-
             if (component.ActiveCollisionFunctions != null) {
                 ACTIVE_COLLISION_COMPONENTS.Add(component);
             }
-            
-            
         }
 
         public static void Unregister(CollisionComponent component) {
@@ -29,7 +25,7 @@ namespace Engine.Collision {
         }
         
         public static void CheckCollisions() {
-            var start = Time.TotalTime;
+            
             for (int i = 0; i < ACTIVE_COLLISION_COMPONENTS.Count; i++) {
                 CollisionComponent activeComponent = ACTIVE_COLLISION_COMPONENTS[i];
                 CollisionComponent passiveComponent;
@@ -45,14 +41,6 @@ namespace Engine.Collision {
                     }
                 }
             }
-
-            var end = Time.TotalTime-start;
-            
-
-
-
-
-
         }
         
     }
