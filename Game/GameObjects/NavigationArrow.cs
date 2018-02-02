@@ -42,13 +42,11 @@ namespace Game.GameObjects {
 
         public override void Update() {
             base.Update();
-            TransformComponent.Position = GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Position + new Vector3d(0,GamePlayEngine.PLAYER_SPACESHIP.Radius , 0);
+            TransformComponent.Position =  GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Position + 
+                                           GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Orientation.Rotate(new Vector3d(0,GamePlayEngine.PLAYER_SPACESHIP.Radius, 0));
 
-            var v1 = GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Position;
-            var v2 = GamePlayEngine.CurrentGoal?.TransformComponent.Position ?? Vector3d.Zero;
-            TransformComponent.Position =  v1 + GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Orientation.Rotate(new Vector3d(0,GamePlayEngine.PLAYER_SPACESHIP.Radius, 0));
-
-            TransformComponent.Orientation = Math3D.LookAt(TransformComponent.Position,v2);
+            TransformComponent.Orientation = Math3D.LookAt(TransformComponent.Position,GamePlayEngine.CurrentGoal?.TransformComponent.Position ?? Vector3d.Zero);
+            
             RenderComponent.Update();
         }
         
