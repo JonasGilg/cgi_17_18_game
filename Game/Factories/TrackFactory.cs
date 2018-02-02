@@ -32,30 +32,32 @@ namespace Game.Utils {
 			return result;
 		}
 		
-		private static List<int> LEVEL_1_SPECIAL_CHECKPOINTS = new List<int> {1,3, 5, 7, 8, 14, 15, 19, 20, 21};
+		
 		
 		public static List<Vector3d> createTrackPoints(string file_path) {
 			var wayPoints = loadWayPoints(file_path);
-
-			var created_checkPoints = 0;
+			List<int> LEVEL_1_SPECIAL_CHECKPOINTS = new List<int> {1,3, 5, 7, 8,9,14, 17, 19, 20, 23,24,25,26,27,29};
+			int checkpointNumber = 0;
 			WAYPOINTS = wayPoints;
 
 			for (int i = 0; i < wayPoints.Count; i++) {
 				if (i % CHECKPOINT_FREQUENCY == 0) {
 					
 					
-					if (LEVEL_1_SPECIAL_CHECKPOINTS.Contains(created_checkPoints)) {
+					if (LEVEL_1_SPECIAL_CHECKPOINTS.Contains(checkpointNumber)) {
 						//special checkpoint now
 
-						createCheckpoint(wayPoints[i]);
+						//createCheckpoint(wayPoints[i]);
 						//TODO SUPER LAGGY!!!
-						//createRingCheckpoint(wayPoints[i],wayPoints[i-1],wayPoints[i+1]);
+						createRingCheckpoint(wayPoints[i],wayPoints[i-1],wayPoints[i+1]);
 						
 					}
 					else {
 						createCheckpoint(wayPoints[i]);
 					}
-					created_checkPoints++;
+
+					checkpointNumber++;
+
 				}
 				else {
 					createGoldRing(wayPoints[i]);

@@ -89,7 +89,7 @@ namespace Game.Utils {
 
 			var number = 6;
 			var angleStep = MathHelper.TwoPi / 6;
-			var distanceFromCenter = 700;
+			var distanceFromCenter = 650;
 			scale *= 0.6;
 			for (int i = 0; i < 6; i++) {
 				var finalPos = Quaterniond.FromAxisAngle(rotationAxle,angleStep*i).Rotate(direction*distanceFromCenter)+parent.TransformComponent.Position;

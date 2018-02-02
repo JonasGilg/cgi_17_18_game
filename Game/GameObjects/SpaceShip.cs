@@ -77,6 +77,7 @@ namespace Game.GameObjects {
 					}
 				},
 				activeMessage => {
+					//IO.PrintAsync("Spaceship ACTIVE triggered");
 					if (activeMessage.OtherCollisonComponent.GameObject is Projectile) return;
 					//IO.PrintAsync("ACTIVE: " + ToString() + " --> " + activeMessage.OtherCollisonComponent.GameObject.ToString());
 					if (activeMessage.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT,

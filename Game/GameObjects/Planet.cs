@@ -8,6 +8,7 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
+using Engine.Util;
 using Game.Components;
 
 namespace Game.GameObjects {
@@ -47,7 +48,6 @@ namespace Game.GameObjects {
 			
 			collisionComponent = new SphereCollider(this, RenderComponent.Model,
 				message => {
-				
 					if (message.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT, out var componentList)) {
 						for (int i = 0; i < componentList.Count; i++) {
 							((HealthComponent) componentList[i]).instaKill();

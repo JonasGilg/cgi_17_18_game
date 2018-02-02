@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Engine.Render;
+using Engine.Util;
 
 namespace Engine.Collision {
     public static class CollisionEngine {
@@ -27,7 +29,7 @@ namespace Engine.Collision {
         }
         
         public static void CheckCollisions() {
-
+            var start = Time.TotalTime;
             for (int i = 0; i < ACTIVE_COLLISION_COMPONENTS.Count; i++) {
                 CollisionComponent activeComponent = ACTIVE_COLLISION_COMPONENTS[i];
                 CollisionComponent passiveComponent;
@@ -43,11 +45,14 @@ namespace Engine.Collision {
                     }
                 }
             }
+
+            var end = Time.TotalTime-start;
             
-            
-            
-            
-            
+
+
+
+
+
         }
         
     }
