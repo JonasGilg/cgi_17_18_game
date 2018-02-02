@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Media;
 using Engine;
 using Engine.GUI;
+using Engine.Render;
 using Engine.Sound;
 using Engine.Util;
 using Game.GameObjects;
@@ -78,7 +79,9 @@ namespace Game.GamePlay {
 
 		public static void RestartLevel() {
 			IO.PrintAsync("Restarting Level");
+
 			LoadLevel(CurrentLevelIndex);
+			Time.ResetGameTime();
 		}
 
 		public static void GameOver() {

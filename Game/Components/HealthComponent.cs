@@ -15,7 +15,7 @@ namespace Game.Components {
 		//invulnerabilitystats
 		public bool CanBeInvulnerable;
 		private int invulnerabilityTime = 2000; //milliseconds
-		private double invulnerableTill;
+		private double invulnerableTill=0.0;
 		public bool IsVulnerable => invulnerableTill < Time.TotalTime;
 
 		private readonly double INVULNERABILITY_EFFECT_FREQUENZY = 100.0;
