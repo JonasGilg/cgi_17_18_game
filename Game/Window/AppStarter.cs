@@ -30,7 +30,7 @@ namespace Game.Window {
 			HUD.AddHudTextElement(upsCounter);
 			HUD.AddHudTextElement(fpsCounter);
 
-			WindowState = WindowState.Fullscreen;
+			WindowState = WindowState.Normal;
 			CursorVisible = false;
 
 			DisplayCamera.SetWidthHeightFov(Width, Height, 75);

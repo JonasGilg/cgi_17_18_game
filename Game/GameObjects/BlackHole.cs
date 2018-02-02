@@ -16,7 +16,7 @@ namespace Game.GameObjects {
         public readonly RenderComponent RenderComponent;
         public readonly MoveComponent MoveComponent;
         public readonly CollisionComponent CollisionComponent;
-        public readonly BlackHoleInfluenceZone influenceZone = null;
+        public readonly BlackHoleInfluenceZone influenceZone;
 
         public BlackHole() {
             RenderComponent = new RenderComponent(
@@ -37,27 +37,32 @@ namespace Game.GameObjects {
                     
                 },
                 active => {
+                    if (active.OtherCollisonComponent.GameObject is BlackHoleInfluenceZone) return;
                     TransformComponent.Scale *= new Vector3d(1.1);
                     Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
                     GamePlayEngine.RemoveObjectFromWorld(active.OtherCollisonComponent.GameObject);
 
                    
-                });
+                }
+            );
+
+            influenceZone = new BlackHoleInfluenceZone(this);
             
         }
 
         public override void Awake() {
             base.Awake();
-            RenderEngine.RegisterStaticRenderComponent(RenderComponent);
-            CollisionEngine.Register(CollisionComponent);
-            
             Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
             RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
+            RenderEngine.RegisterStaticRenderComponent(RenderComponent);
+            CollisionEngine.Register(CollisionComponent);
+            influenceZone.Instantiate();
         }
         
         protected override void OnDestroy() {
             RenderEngine.UnregisterStaticRenderComponent(RenderComponent);
             CollisionEngine.Unregister(CollisionComponent);
+            influenceZone.Destroy();
         }
 
         public override void Update() {
