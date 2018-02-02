@@ -6,7 +6,7 @@ using OpenTK;
 namespace Game.Components {
 	public class GravityMovement : MoveComponent {
 		public double DISTANCE = 4000;
-		public double SPEED = 1.0 / 2;
+		public double SPEED = 1.0;
 		public double currentAngle;
 		public Vector3d Axis;
 		public Vector3d Direction;
