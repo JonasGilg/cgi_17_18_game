@@ -13,7 +13,7 @@ namespace Game.Components {
 		public RLSpaceMovementComponent(GameObject gameObject, TransformComponent transformComponent,
 			MoveComponent moveComponent) : base(gameObject, transformComponent, moveComponent) { }
 
-		private const double CONTROLLER_SENS = 0.05;
+		private const double CONTROLLER_SENS = 0.1;
 		
 		public override void Update() {
 			base.Update();
