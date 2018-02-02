@@ -62,7 +62,7 @@ namespace Game.GamePlay {
 		private static int maxCheckpoints;
 
 		public static void LoadLevel(int index) {
-			Soundtrack.PlaySoundTrack("data/sound/soundtrack/Steamtech-Mayhem.wav");
+			Soundtrack.PlaySoundTrack("data/sound/soundtrack/soundtrack.wav");
 			World.ClearWorld();
 			GOAL_RING_LIST.Clear();
 			CurrentLevelIndex = index;
@@ -89,6 +89,7 @@ namespace Game.GamePlay {
 		}
 
 		public static void GameWon() {
+			Soundtrack.PlaySoundTrack("data/sound/soundtrack/victory_ambient.wav");
 			Statistics.Stop();
 			GameWonTextElement.Enabled = true;
 			Statistics.ScoreTextElement.Position = new Vector2(0,-0.3f);
