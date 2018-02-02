@@ -28,6 +28,7 @@ namespace Game.GameObjects {
 
 
 		private readonly int PASSIVE_SHIP_DAMAGE = 10;
+		private const int SPACE_SHIP_HP = 3;
 
 		public SpaceShip() {
 			speed = HUD.CreateHudTextElement("", new Vector2(0, -0.9f),TextAnchor.CENTER);
@@ -61,7 +62,7 @@ namespace Game.GameObjects {
 
 			firingComponent = new FiringComponent(this);
 
-			HealthComponent = new HealthComponent(this, 2000, true);
+			HealthComponent = new HealthComponent(this, SPACE_SHIP_HP, true);
 			optionalComponents.Add(ComponentType.HEALTH_COMPONENT, new List<Component> {HealthComponent});
 
 

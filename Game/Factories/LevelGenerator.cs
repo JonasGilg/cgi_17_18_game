@@ -70,7 +70,7 @@ namespace Game.Utils {
             
             //HELIX 
             var planet4 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.REDPLANET, positions[8], new Vector3d(3000), new Vector3d(0.3));
-	        var asteroidbelt = AsteroidFactory.GenerateAsteroidTorus(positions[8], Vector3d.UnitX, 20, 5000, 6000,1000,150);
+	       
             var planet5 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.EARTHLIKE, positions[9], new Vector3d(5000), new Vector3d(0.3));
             
             //after helix
