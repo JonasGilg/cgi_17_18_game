@@ -32,7 +32,7 @@ namespace Game.GameObjects {
         public override void Awake() {
             base.Awake();
             RenderEngine.RegisterDynamicRenderComponent(RenderComponent);
-            IO.PrintAsync($"NavigationArrow awake");
+            //IO.PrintAsync($"NavigationArrow awake");
             Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
             RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
         }
@@ -43,7 +43,7 @@ namespace Game.GameObjects {
 
         public override void Update() {
             base.Update();
-            IO.PrintAsync($"NavigationArrow- position {TransformComponent.Position}");
+            //IO.PrintAsync($"NavigationArrow- position {TransformComponent.Position}");
             TransformComponent.Position = GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Position + new Vector3d(0,GamePlayEngine.PLAYER_SPACESHIP.Radius , 0);
             RenderComponent.Update();
         }
