@@ -106,7 +106,7 @@ namespace Game.GameObjects {
 			HealthComponent.Update();
 
 			position.Text =
-				$"POSITION: {TransformComponent.WorldPosition.X:N0}, {TransformComponent.WorldPosition.Y:N0}, {TransformComponent.WorldPosition.Z:N0}";
+				$"({TransformComponent.WorldPosition.X:N0}| {TransformComponent.WorldPosition.Y:N0}| {TransformComponent.WorldPosition.Z:N0})";
 			speed.Text = $"{moveComponent.LinearVelocity.LengthFast:N2}M/S";
 			healthPoints.Text = HealthComponent.healthPointStatus();
 		}

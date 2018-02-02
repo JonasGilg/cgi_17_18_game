@@ -23,7 +23,7 @@ namespace Engine.Render {
 			private set => deltaTimeRender = value;
 		}
 
-		private static readonly double START_TIME;
+		private static double START_TIME;
 
 		private static double CurrentTime => DateTime.Now.ToUniversalTime()
 			.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
@@ -37,6 +37,10 @@ namespace Engine.Render {
 		public static double AverageRenderTime() => LAST_RENDERS.Average();
 
 		static Time() {
+			START_TIME = CurrentTime;
+		}
+
+		public static void ResetGameTime() {
 			START_TIME = CurrentTime;
 		}
 
