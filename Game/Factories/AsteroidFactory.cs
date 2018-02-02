@@ -124,6 +124,8 @@ namespace Game.Utils {
 				var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
 				asteroids.Add(GenerateSingleAsteroid(rotatedPos, scale));
 			}
+
+
 			return asteroids;
 		}
 
