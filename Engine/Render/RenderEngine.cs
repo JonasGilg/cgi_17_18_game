@@ -8,23 +8,35 @@ using OpenTK.Graphics.OpenGL;
 namespace Engine.Render {
 	public static class RenderEngine {
 		private static readonly IOctree<RenderComponent> RENDER_OCTREE;
+		private static readonly ISet<RenderComponent> DYNAMIC_OBJECTS;
 
 		public static IBLData IBLData;
 
 		static RenderEngine() {
 			RENDER_OCTREE = new RecusiveOctree<RenderComponent>();
+			DYNAMIC_OBJECTS = new HashSet<RenderComponent>();
 		}
 
-		public static void RegisterRenderComponent(RenderComponent renderComponent)
+		public static void RegisterStaticRenderComponent(RenderComponent renderComponent)
 			=> RENDER_OCTREE.Insert(renderComponent);
 
-		public static void UnregisterRenderComponent(RenderComponent renderComponent)
+		public static void RegisterDynamicRenderComponent(RenderComponent renderComponent)
+			=> DYNAMIC_OBJECTS.Add(renderComponent);
+
+		public static void UnregisterStaticRenderComponent(RenderComponent renderComponent)
 			=> RENDER_OCTREE.Remove(renderComponent);
 
-		public static void Draw() {
-			var inView = RENDER_OCTREE.Items();
+		public static void UnregisterDynamicRenderComponent(RenderComponent renderComponent)
+			=> DYNAMIC_OBJECTS.Remove(renderComponent);
 
-			foreach (var renderComponent in inView) {
+		public static void Draw() {
+			foreach (var renderComponent in RENDER_OCTREE.Items()) {
+				if (DisplayCamera.IsSphereInFrustum(renderComponent.GetBoundingSphere()) != Intersect.OUTSIDE) {
+					renderComponent.Material.RegisterForDraw(renderComponent);
+				}
+			}
+
+			foreach (var renderComponent in DYNAMIC_OBJECTS) {
 				if (DisplayCamera.IsSphereInFrustum(renderComponent.GetBoundingSphere()) != Intersect.OUTSIDE) {
 					renderComponent.Material.RegisterForDraw(renderComponent);
 				}
@@ -35,10 +47,11 @@ namespace Engine.Render {
 				CascadedShadowMapping.SetDepthTextureTarget(i);
 				ShadowComponent.SHADOW_MATERIAL.DrawAll();
 			}
+
 			CascadedShadowMapping.EndShadowMapping();
 
 			DeferredRendering.StartGBufferRendering();
-			
+
 			MaterialManager.DrawAll();
 
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
@@ -47,20 +60,19 @@ namespace Engine.Render {
 
 			DeferredRendering.DrawFullscreenIBL(IBLData);
 			DeferredRendering.CopyDepthToMainScreen();
-			
+
 			Skybox.Skybox.Draw();
-			
+
 			DeferredRendering.PingPongBlurGlowAndDraw();
-			
 		}
 
-		private static HashSet<RenderComponent> GetInFrustum() {
-			var inside = new HashSet<RenderComponent>();
-			GetInFrustumRecursive(inside, RENDER_OCTREE);
+		private static ISet<RenderComponent> GetInFrustum() {
+			ISet<RenderComponent> inside = new HashSet<RenderComponent>();
+			GetInFrustumRecursive(ref inside, RENDER_OCTREE);
 			return inside;
 		}
 
-		private static void GetInFrustumRecursive(ISet<RenderComponent> inside, IOctree<RenderComponent> tree) {
+		private static void GetInFrustumRecursive(ref ISet<RenderComponent> inside, IOctree<RenderComponent> tree) {
 			for (var i = 0; i < tree.Children().Length; i++) {
 				var child = tree.Children()[i];
 				if (child != null) {
@@ -71,8 +83,9 @@ namespace Engine.Render {
 							inside.Add(child.Items().ElementAt(j));
 						}
 					}
+					
 					else if (intersect == Intersect.OVERLAP) {
-						GetInFrustumRecursive(inside, child);
+						GetInFrustumRecursive(ref inside, child);
 					}
 				}
 			}

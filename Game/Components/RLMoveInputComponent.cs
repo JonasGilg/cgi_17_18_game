@@ -12,20 +12,6 @@ namespace Game.Components {
 		public RLSpaceMovementComponent(GameObject gameObject, TransformComponent transformComponent,
 			MoveComponent moveComponent) : base(gameObject, transformComponent, moveComponent) { }
 
-		private Vector3d velocity = Vector3d.Zero;
-
-		private void AddVelocity(double x, double y, double z) {
-			velocity.X = Math1D.Clamp(velocity.X + x, -1, 1);
-			velocity.Y = Math1D.Clamp(velocity.Y + y, -1, 1);
-			velocity.Z = Math1D.Clamp(velocity.Z + z, -1, 1);
-		}
-
-		private Vector3d CalcSpeed(double speedMedian) => new Vector3d(
-			Math.Cos(Math.PI * velocity.X + Math.PI) * speedMedian + speedMedian,
-			Math.Cos(Math.PI * velocity.Y + Math.PI) * speedMedian + speedMedian,
-			Math.Cos(Math.PI * velocity.Z + Math.PI) * speedMedian + speedMedian
-		);
-
 		public override void Update() {
 			base.Update();
 
@@ -69,7 +55,7 @@ namespace Game.Components {
 
 			var angularSpeed = Time.DeltaTimeUpdate * ROTATION_MULTIPLIER;
 			var angularVelocity = GetAngularVelocityInObjectSpace();
-
+			
 			if (Keyboard.Down(Key.A))
 				AddAngularVelocityInObjectSpace(0, angularSpeed, 0);
 			else if (Keyboard.Down(Key.D))
@@ -79,7 +65,7 @@ namespace Game.Components {
 			else if (angularVelocity.Y < 0)
 				AddAngularVelocityInObjectSpace(0, angularSpeed, 0);
 
-			if (Math.Abs(Mouse.CursorDelta.Y) > 0001)
+			if (Math.Abs(Mouse.CursorDelta.Y) > 0.001 && !Mouse.Down(MouseButton.Right))
 				AddAngularVelocityInObjectSpace(0, 0, Time.DeltaTimeUpdate * Mouse.CursorDelta.Y);
 			else if (Keyboard.Down(Key.Up))
 				AddAngularVelocityInObjectSpace(0, 0, -angularSpeed);
@@ -90,8 +76,8 @@ namespace Game.Components {
 			else if (angularVelocity.Z > 0)
 				AddAngularVelocityInObjectSpace(0, 0, -angularSpeed);
 
-			if (Math.Abs(Mouse.CursorDelta.X) > 0001)
-				AddAngularVelocityInObjectSpace(Time.DeltaTimeUpdate * Mouse.CursorDelta.X, 0, 0);
+			if (Math.Abs(Mouse.CursorDelta.X) > 0.001 && !Mouse.Down(MouseButton.Right))
+				AddAngularVelocityInObjectSpace(Time.DeltaTimeUpdate * Mouse.CursorDelta.X * 0.8, 0, 0);
 			else if (Keyboard.Down(Key.Left))
 				AddAngularVelocityInObjectSpace(-angularSpeed, 0, 0);
 			else if (Keyboard.Down(Key.Right))

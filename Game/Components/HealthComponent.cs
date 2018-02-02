@@ -81,7 +81,7 @@ namespace Game.Components {
 					if (getsRendered) {
 						if (GameObject.searchOptionalComponents(ComponentType.RENDER_COMPONENT, out var resultList)) {
 							for (int i = 0; i < resultList.Count; i++) {
-								RenderEngine.UnregisterRenderComponent((RenderComponent)resultList[i]);
+								RenderEngine.UnregisterStaticRenderComponent((RenderComponent)resultList[i]);
 							}
 						}
 						getsRendered = false;
@@ -89,7 +89,7 @@ namespace Game.Components {
 					else {
 						if (GameObject.searchOptionalComponents(ComponentType.RENDER_COMPONENT, out var resultList)) {
 							for (int i = 0; i < resultList.Count; i++) {
-								RenderEngine.RegisterRenderComponent((RenderComponent)resultList[i]);
+								RenderEngine.RegisterStaticRenderComponent((RenderComponent)resultList[i]);
 							}
 						}
 						getsRendered = true;
@@ -100,7 +100,7 @@ namespace Game.Components {
 			else if (IsVulnerable && !getsRendered) {
 				if (GameObject.searchOptionalComponents(ComponentType.RENDER_COMPONENT, out var resultList)) {
 					for (int i = 0; i < resultList.Count; i++) {
-						RenderEngine.RegisterRenderComponent((RenderComponent)resultList[i]);
+						RenderEngine.RegisterStaticRenderComponent((RenderComponent)resultList[i]);
 					}
 				}
 				getsRendered = true;
