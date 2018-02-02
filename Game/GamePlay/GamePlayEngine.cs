@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Media;
 using Engine;
 using Engine.GUI;
 using Engine.Render;
@@ -12,38 +11,38 @@ using OpenTK;
 
 namespace Game.GamePlay {
 	public static class GamePlayEngine {
-		public static readonly HudTextElement HUD_CHECKPOINT_TEXT_ELEMENT = HUD.CreateHudTextElement("", new Vector2(0, 0.9f),TextAnchor.CENTER, 2);
+		private static readonly HudTextElement HUD_CHECKPOINT_TEXT_ELEMENT = HUD.CreateHudTextElement("", new Vector2(0, 0.9f),TextAnchor.CENTER, 2);
 
-		public static HudTextElement GameOverTextElement = HUD.CreateHudTextElement("GAME OVER", Vector2.Zero, TextAnchor.CENTER, 4f, false);
-		public static HudTextElement GameWonTextElement = HUD.CreateHudTextElement("YOU WIN", Vector2.Zero, TextAnchor.CENTER, 4f, false);
-		
-		public static FinishMarker CurrentFinishMarker;
+		private static readonly HudTextElement GAME_OVER_TEXT_ELEMENT = HUD.CreateHudTextElement("GAME OVER", Vector2.Zero, TextAnchor.CENTER, 4f, false);
+		private static readonly HudTextElement GAME_WON_TEXT_ELEMENT = HUD.CreateHudTextElement("YOU WIN", Vector2.Zero, TextAnchor.CENTER, 4f, false);
 
 		static GamePlayEngine() {
 			HUD.AddHudTextElement(HUD_CHECKPOINT_TEXT_ELEMENT);
-			HUD.AddHudTextElement(GameOverTextElement);
-			HUD.AddHudTextElement(GameWonTextElement);
+			HUD.AddHudTextElement(GAME_OVER_TEXT_ELEMENT);
+			HUD.AddHudTextElement(GAME_WON_TEXT_ELEMENT);
 		}
 
-		public static readonly SpaceShip PLAYER_SPACESHIP = new SpaceShip {
+		public static readonly NavigationArrow NAVIGATION_ARROW = new NavigationArrow {
 			TransformComponent = {
-				Scale = new Vector3d(1f),
+				Scale = new Vector3d(1),
 				Position = Vector3d.Zero,
 				Orientation = Quaterniond.Identity
 			}
 		};
 
-		public static readonly NavigationArrow NAVIGATION_ARROW = new NavigationArrow {
+		public static readonly SpaceShip PLAYER_SPACESHIP = new SpaceShip {
 			TransformComponent = {
-				Position = PLAYER_SPACESHIP.TransformComponent.Position
+				Scale = new Vector3d(1),
+				Position = Vector3d.Zero,
+				Orientation = Quaterniond.Identity
 			}
 		};
 
 		public static void ResetSpaceShip(Vector3d startPosition, Quaterniond startOrientation) {
 			PLAYER_SPACESHIP.TransformComponent.Position = startPosition;
 			PLAYER_SPACESHIP.TransformComponent.Orientation = startOrientation;
-			PLAYER_SPACESHIP.moveComponent.LinearVelocity = Vector3d.Zero;
-			PLAYER_SPACESHIP.moveComponent.AngularVelocity = Vector3d.Zero;
+			PLAYER_SPACESHIP.MoveComponent.LinearVelocity = Vector3d.Zero;
+			PLAYER_SPACESHIP.MoveComponent.AngularVelocity = Vector3d.Zero;
 		}
 
 		public static int CurrentLevelIndex = -1;
@@ -69,8 +68,8 @@ namespace Game.GamePlay {
 			LevelGenerator.StartLevel(index);
 			maxCheckpoints = GOAL_RING_LIST.Count;
 			HUD_CHECKPOINT_TEXT_ELEMENT.Text = $"{0}/{maxCheckpoints}";
-			GameOverTextElement.Enabled = false;
-			GameWonTextElement.Enabled = false;
+			GAME_OVER_TEXT_ELEMENT.Enabled = false;
+			GAME_WON_TEXT_ELEMENT.Enabled = false;
 			HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
 		}
 
@@ -83,15 +82,18 @@ namespace Game.GamePlay {
 			Time.ResetGameTime();
 		}
 
-		public static void GameOver() {
+		private static void GameOver() {
 			PLAYER_SPACESHIP.Destroy();
-			GameOverTextElement.Enabled = true;
+			GAME_OVER_TEXT_ELEMENT.Enabled = true;
 		}
+		
+		private static readonly Sound VICTORY_SOUND = new Sound("data/sound/victory.wav");
 
-		public static void GameWon() {
+		private static void GameWon() {
 			Soundtrack.PlaySoundTrack("data/sound/soundtrack/victory_ambient.wav");
+			VICTORY_SOUND.Play();
 			Statistics.Stop();
-			GameWonTextElement.Enabled = true;
+			GAME_WON_TEXT_ELEMENT.Enabled = true;
 			Statistics.ScoreTextElement.Position = new Vector2(0,-0.3f);
 			Statistics.TimeSpentTextElement.Position = new Vector2(0,-0.4f);
 		}
@@ -120,7 +122,7 @@ namespace Game.GamePlay {
 
 		public static void RegisterGoalRing(GoalRing ring) => GOAL_RING_LIST.Enqueue(ring);
 
-		private static readonly Sound CHECKPOINT_PASSED_SOUND = new Sound("data/sound/checkpoint.wav");//SoundLoader.LoadSound("data/sound/checkpoint.wav");
+		private static readonly Sound CHECKPOINT_PASSED_SOUND = new Sound("data/sound/checkpoint.wav");
 		
 		public static void CheckPointPassed(GoalRing chunk) {
 			if (GOAL_RING_LIST.Peek().Equals(chunk)) {

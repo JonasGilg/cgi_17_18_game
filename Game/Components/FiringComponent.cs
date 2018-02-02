@@ -22,7 +22,7 @@ namespace Game.Components {
 					},
 					MoveComponent = {
 						LinearVelocity = GameObject.TransformComponent.Orientation.Rotate(Vector3d.UnitX * 2000) +
-						                 ((SpaceShip) GameObject).moveComponent.LinearVelocity
+						                 ((SpaceShip) GameObject).MoveComponent.LinearVelocity
 					}
 				};
 				projectile.Instantiate();

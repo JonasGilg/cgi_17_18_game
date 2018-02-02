@@ -13,21 +13,21 @@ using OpenTK;
 
 namespace Game.GameObjects {
 	public class SpaceShip : GameObject {
-		public readonly MoveComponent moveComponent;
+		public readonly MoveComponent MoveComponent;
 		private readonly CameraComponent cameraComponent;
 		private readonly RenderComponent renderComponent;
 		private readonly ShadowComponent shadowComponent;
 		private readonly MoveInputComponent moveInputComponent;
-		public readonly SphereCollider CollisionComponent;
+		private readonly SphereCollider collisionComponent;
 		private readonly FiringComponent firingComponent;
-		public readonly HealthComponent HealthComponent;
+		private readonly HealthComponent healthComponent;
 
 		private readonly HudTextElement speed;
 		private readonly HudTextElement position;
 		private readonly HudTextElement healthPoints;
 
 
-		private readonly int PASSIVE_SHIP_DAMAGE = 10;
+		private const int PASSIVE_SHIP_DAMAGE = 10;
 		private const int SPACE_SHIP_HP = 3;
 
 		public SpaceShip() {
@@ -38,8 +38,8 @@ namespace Game.GameObjects {
 			HUD.AddHudTextElement(position);
 			HUD.AddHudTextElement(healthPoints);
 
-			moveComponent = new MoveComponent(this);
-			optionalComponents.Add(ComponentType.MOVE_COMPONENT, new List<Component> {moveComponent});
+			MoveComponent = new MoveComponent(this);
+			optionalComponents.Add(ComponentType.MOVE_COMPONENT, new List<Component> {MoveComponent});
 			renderComponent = new RenderComponent(
 				ModelLoaderObject3D.Load("data/objects/SpaceShip.obj"),
 				MaterialManager.GetMaterial(Material.PBR),
@@ -55,18 +55,18 @@ namespace Game.GameObjects {
 			);
 			shadowComponent = new ShadowComponent(renderComponent, this);
 			optionalComponents.Add(ComponentType.RENDER_COMPONENT, new List<Component> {renderComponent});
-			moveInputComponent = new RLSpaceMovementComponent(this, TransformComponent, moveComponent);
+			moveInputComponent = new RLSpaceMovementComponent(this, TransformComponent, MoveComponent);
 			
-			cameraComponent = new ThirdPersonSpringCameraComponent(moveComponent, new Vector3d(-15, 1, 0), this);
+			cameraComponent = new ThirdPersonSpringCameraComponent(MoveComponent, new Vector3d(-15, 1, 0), this);
 			DisplayCamera.SetActiveCamera(cameraComponent);
 
 			firingComponent = new FiringComponent(this);
 
-			HealthComponent = new HealthComponent(this, SPACE_SHIP_HP, true);
-			optionalComponents.Add(ComponentType.HEALTH_COMPONENT, new List<Component> {HealthComponent});
+			healthComponent = new HealthComponent(this, SPACE_SHIP_HP, true);
+			optionalComponents.Add(ComponentType.HEALTH_COMPONENT, new List<Component> {healthComponent});
 
 
-			CollisionComponent = new SphereCollider(this, renderComponent.Model,
+			collisionComponent = new SphereCollider(this, renderComponent.Model,
 				passiveMessage => {
 					//IO.PrintAsync("PASSIVE: "+ToString() + " <-- " + passiveMessage.OtherCollisonComponent.GameObject.ToString());
 					if (passiveMessage.OtherCollisonComponent.GameObject is Projectile) return;
@@ -96,25 +96,25 @@ namespace Game.GameObjects {
 
 		public override void Update() {
 			moveInputComponent.Update();
-			moveComponent.Update();
+			MoveComponent.Update();
 			base.Update();
 			renderComponent.Update();
 			shadowComponent.Update();
 			//Console.Out.WriteLine(renderComponent.AABB.Center.ToString());
 			cameraComponent.Update();
 			firingComponent.Update();
-			HealthComponent.Update();
+			healthComponent.Update();
 
 			position.Text =
 				$"({TransformComponent.WorldPosition.X:N0}| {TransformComponent.WorldPosition.Y:N0}| {TransformComponent.WorldPosition.Z:N0})";
-			speed.Text = $"{moveComponent.LinearVelocity.LengthFast:N2}M/S";
-			healthPoints.Text = HealthComponent.healthPointStatus();
+			speed.Text = $"{MoveComponent.LinearVelocity.LengthFast:N2}M/S";
+			healthPoints.Text = healthComponent.healthPointStatus();
 		}
 
 		public override void Awake() {
 			base.Awake();
 			RenderEngine.RegisterDynamicRenderComponent(renderComponent);
-			CollisionEngine.Register(CollisionComponent);
+			CollisionEngine.Register(collisionComponent);
 			
 			Radius = renderComponent.Model.Radius(Vector3d.One);
 			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
@@ -123,7 +123,7 @@ namespace Game.GameObjects {
 		protected override void OnDestroy() {
 			//TODO explosion animation here
 			RenderEngine.UnregisterDynamicRenderComponent(renderComponent);
-			CollisionEngine.Unregister(CollisionComponent);
+			CollisionEngine.Unregister(collisionComponent);
 		}
 	}
 }
