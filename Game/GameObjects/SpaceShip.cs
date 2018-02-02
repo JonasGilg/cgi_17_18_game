@@ -20,7 +20,7 @@ namespace Game.GameObjects {
 		private readonly MoveInputComponent moveInputComponent;
 		private readonly SphereCollider collisionComponent;
 		private readonly FiringComponent firingComponent;
-		private readonly HealthComponent healthComponent;
+		public readonly HealthComponent healthComponent;
 
 		private readonly HudTextElement speed;
 		private readonly HudTextElement position;

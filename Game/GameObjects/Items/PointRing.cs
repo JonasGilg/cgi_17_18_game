@@ -48,7 +48,7 @@ namespace Game.GameObjects {
                     points = 5;
                     break;
                 case PointType.Gold:
-                    points = 20;
+                    points = 10;
                     break;
             }
             renderComponent.MaterialSettings = PointRingTextureRegistry.MATERIAL_SETTINGS[pointType];

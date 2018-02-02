@@ -74,6 +74,14 @@ namespace Game.Utils {
             
             //after helix
             var planet6 = PlanetFactory.GeneratePlanet(PlanetFactory.PlanetTexture.NEPTUN, positions[10], new Vector3d(5000), new Vector3d(0.3));
+	        
+	        //medikits
+	        /*new MediKit {
+		        TransformComponent = {
+			        Position = new Vector3d(23500,-1300,320),
+			        Scale = new Vector3d(50)
+		        }
+	        }.Instantiate();*/
         }
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -32,9 +31,10 @@ namespace Game.Utils {
 
 		public static List<Vector3d> CreateTrackPoints(string filePath) {
 			var wayPoints = LoadWayPoints(filePath);
-			var level1SpecialCheckpoints = new List<int> {1, 3, 5, 7, 8, 9, 14, 17, 19, 20, 23, 24, 25, 26, 27, 29};
+			var level1SpecialCheckpoints = new List<int> {1, 3, 5, 7, 8, 9, 14, 17, 19, 20, 23, 24, 25, 26, 27};
 			var checkpointNumber = 0;
 			waypoints = wayPoints;
+			GoalRing lastCheckPoint = null;
 
 			for (var i = 0; i < wayPoints.Count; i++) {
 				if (i % CHECKPOINT_FREQUENCY == 0) {
@@ -46,15 +46,28 @@ namespace Game.Utils {
 						CreateRingCheckpoint(wayPoints[i],wayPoints[i-1],wayPoints[i+1]);
 					}
 					else {
-						CreateCheckpoint(wayPoints[i]);
+						lastCheckPoint = CreateCheckpoint(wayPoints[i]);
 					}
 
 					checkpointNumber++;
+					
 				}
 				else {
-					CreateGoldRing(wayPoints[i]);
+					switch (checkpointNumber) {
+						case var n when n > 20 :
+							PointRingFactory.GenerateSingle(wayPoints[i], PointType.Gold, DIAMETER);
+							break;
+						case var n when n > 10 :
+							PointRingFactory.GenerateSingle(wayPoints[i], PointType.Silver, DIAMETER);
+							break;
+						default :
+							PointRingFactory.GenerateSingle(wayPoints[i], PointType.Copper, DIAMETER);
+							break;
+					}
 				}
 			}
+			//make the last GoalRing the largest
+			lastCheckPoint.TransformComponent.Scale *= 4;
 
 			return wayPoints;
 		}
