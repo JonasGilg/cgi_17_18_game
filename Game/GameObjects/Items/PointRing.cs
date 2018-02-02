@@ -2,6 +2,7 @@
 using Engine;
 using Engine.Component;
 using Engine.Material;
+using Engine.Sound;
 using Engine.Texture;
 using Engine.Util;
 
@@ -53,9 +54,12 @@ namespace Game.GameObjects {
             renderComponent.MaterialSettings = PointRingTextureRegistry.MATERIAL_SETTINGS[pointType];
         }
 
+        private static readonly Sound RING_SOUND = new Sound("data/sound/goldring.wav");
+        
         protected override CollisionComponent InitCollider() => new SphereCollider(this, Model, passiveMessage => {
             //IO.PrintAsync("points collected");
             Statistics.IncreaseScore(points);
+            RING_SOUND.Play();
             Destroy();
         });
 
