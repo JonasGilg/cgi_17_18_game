@@ -31,14 +31,14 @@ namespace Game.GameObjects {
 
         public override void Awake() {
             base.Awake();
-            RenderEngine.RegisterRenderComponent(RenderComponent);
+            RenderEngine.RegisterDynamicRenderComponent(RenderComponent);
             IO.PrintAsync($"NavigationArrow awake");
             Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
             RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
         }
         
         protected override void OnDestroy() {
-            RenderEngine.UnregisterRenderComponent(RenderComponent);
+            RenderEngine.UnregisterDynamicRenderComponent(RenderComponent);
         }
 
         public override void Update() {
