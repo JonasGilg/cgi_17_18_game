@@ -35,7 +35,6 @@ namespace Game.GameObjects {
                 passive => {
                     IO.PrintAsync("Blackhole got hit");
                     
-
                 },
                 active => {
                     TransformComponent.Scale *= new Vector3d(1.1);
@@ -43,14 +42,13 @@ namespace Game.GameObjects {
                     GamePlayEngine.RemoveObjectFromWorld(active.OtherCollisonComponent.GameObject);
 
                    
-                },
-                null);
+                });
             
         }
 
         public override void Awake() {
             base.Awake();
-            RenderEngine.RegisterRenderComponent(RenderComponent);
+            RenderEngine.RegisterStaticRenderComponent(RenderComponent);
             CollisionEngine.Register(CollisionComponent);
             
             Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
@@ -58,7 +56,7 @@ namespace Game.GameObjects {
         }
         
         protected override void OnDestroy() {
-            RenderEngine.UnregisterRenderComponent(RenderComponent);
+            RenderEngine.UnregisterStaticRenderComponent(RenderComponent);
             CollisionEngine.Unregister(CollisionComponent);
         }
 

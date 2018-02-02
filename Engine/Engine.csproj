@@ -52,7 +52,6 @@
     <Compile Include="Collision\Component\BoxColliderColComponent.cs" />
     <Compile Include="Collision\Component\CollisionComponent.cs" />
     <Compile Include="Collision\Component\DefaultPhysicsMaterial.cs" />
-    <Compile Include="Collision\Component\PassiveCollision.cs" />
     <Compile Include="Collision\Component\SphereCollider.cs" />
     <Compile Include="Collision\PhysicsMaterial.cs" />
     <Compile Include="Component\Component.cs" />

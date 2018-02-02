@@ -75,7 +75,7 @@ namespace Game.GameObjects {
 
 		public override void Awake() {
 			base.Awake();
-			RenderEngine.RegisterRenderComponent(RenderComponent);
+			RenderEngine.RegisterStaticRenderComponent(RenderComponent);
 			CollisionEngine.Register(collisionComponent);
 			
 			Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
@@ -92,7 +92,7 @@ namespace Game.GameObjects {
 		
 		protected override void OnDestroy() {
 			//TODO BIIIG explosion
-			RenderEngine.UnregisterRenderComponent(RenderComponent);
+			RenderEngine.UnregisterStaticRenderComponent(RenderComponent);
 			CollisionEngine.Unregister(collisionComponent);
 			HUD.RemoveHudObjectMarker(objectMarker.ID);
 		}

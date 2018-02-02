@@ -16,6 +16,7 @@ namespace Game.Utils {
 			GamePlayEngine.ResetSpaceShip(raceTrack.startPoint, raceTrack.startOrientation);
 
 			GamePlayEngine.PLAYER_SPACESHIP.Instantiate();
+			GamePlayEngine.NAVIGATION_ARROW.Instantiate();
 
 	
 		}

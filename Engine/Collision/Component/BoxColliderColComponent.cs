@@ -1,5 +1,4 @@
 ﻿using Engine.Collision;
-using Engine.Collision.Component;
 using Engine.Model;
 using OpenTK;
 

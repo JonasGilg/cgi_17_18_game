@@ -23,7 +23,7 @@ namespace Game.GameObjects {
 
         public override void Awake() {
             base.Awake();
-            RenderEngine.RegisterRenderComponent(renderComponent);
+            RenderEngine.RegisterStaticRenderComponent(renderComponent);
             CollisionEngine.Register(collisionComponent);
             Radius = renderComponent.Model.Radius(TransformComponent.Scale);
             renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
@@ -37,7 +37,7 @@ namespace Game.GameObjects {
         
         protected override void OnDestroy() {
             //TODO chunk should disappear with a small effect (e.g light)
-            RenderEngine.UnregisterRenderComponent(renderComponent);
+            RenderEngine.UnregisterStaticRenderComponent(renderComponent);
             CollisionEngine.Unregister(collisionComponent);
         }
 

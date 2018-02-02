@@ -32,6 +32,12 @@ namespace Game.GamePlay {
 			}
 		};
 
+		public static readonly NavigationArrow NAVIGATION_ARROW = new NavigationArrow {
+			TransformComponent = {
+				Position = PLAYER_SPACESHIP.TransformComponent.Position
+			}
+		};
+
 		public static void ResetSpaceShip(Vector3d startPosition, Quaterniond startOrientation) {
 			PLAYER_SPACESHIP.TransformComponent.Position = startPosition;
 			PLAYER_SPACESHIP.TransformComponent.Orientation = startOrientation;

@@ -12,8 +12,8 @@ namespace Engine.GUI {
 
 		public string Text;
 		public Vector2 Position;
-		public float Scale;
-		public TextAnchor Anchor;
+		public readonly float Scale;
+		public readonly TextAnchor Anchor;
 
 		internal HudTextElement(int id, string text, Vector2 position, TextAnchor anchor = TextAnchor.TOP_LEFT, float scale = 1, bool enabled = true) {
 			ID = id;

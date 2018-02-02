@@ -156,7 +156,9 @@
     <Content Include="data\objects\SupplyRing.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\objects\track_files\navigation_arrow.obj" />
+    <Content Include="data\objects\track_files\navigation_arrow.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\objects\track_files\readme.txt" />
     <Content Include="data\objects\track_files\track1\track1_waypoints.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
