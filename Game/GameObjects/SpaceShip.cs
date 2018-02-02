@@ -89,6 +89,7 @@ namespace Game.GameObjects {
 					//bouncing
 				}
 			);
+
 		}
 
 		public override void Update() {
@@ -112,7 +113,7 @@ namespace Game.GameObjects {
 			base.Awake();
 			RenderEngine.RegisterRenderComponent(renderComponent);
 			CollisionEngine.Register(CollisionComponent);
-
+			
 			Radius = renderComponent.Model.Radius(Vector3d.One);
 			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
 		}

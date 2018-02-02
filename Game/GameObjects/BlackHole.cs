@@ -35,7 +35,6 @@ namespace Game.GameObjects {
                 passive => {
                     IO.PrintAsync("Blackhole got hit");
                     
-
                 },
                 active => {
                     TransformComponent.Scale *= new Vector3d(1.1);
@@ -43,8 +42,7 @@ namespace Game.GameObjects {
                     GamePlayEngine.RemoveObjectFromWorld(active.OtherCollisonComponent.GameObject);
 
                    
-                },
-                null);
+                });
             
         }
 

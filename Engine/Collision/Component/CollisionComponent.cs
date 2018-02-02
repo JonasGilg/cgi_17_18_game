@@ -1,6 +1,5 @@
 ﻿using System;
 using Engine.Collision;
-using Engine.Collision.Component;
 using Engine.Component;
 using Engine.Model;
 using Engine.Render;
@@ -12,7 +11,6 @@ namespace Engine {
 	
 	public abstract class CollisionComponent : Component.Component, IOctreeItem<CollisionComponent> {
 		
-		private readonly Model3D model3D;
 		private readonly AxisAlignedBoundingBox aabb;
 		public PhysicsMaterial PhysicsMaterial;
 
@@ -26,7 +24,6 @@ namespace Engine {
 			ExecuteFunction activeCollisionFunctions = null,
 			PhysicsMaterial physicsMaterial = null
 		) : base(gameObject) {
-			model3D = model;
 			aabb = model.AABB;
 			
 			PhysicsMaterial = physicsMaterial ?? new DefaultPhysicsMaterial();
