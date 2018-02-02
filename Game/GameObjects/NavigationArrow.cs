@@ -11,7 +11,7 @@ using OpenTK;
 namespace Game.GameObjects {
     public class NavigationArrow : GameObject{
         public readonly RenderComponent RenderComponent;
-        public static Model3D model = ModelLoaderObject3D.Load("data/objects/track_files/navigation_arrow.obj");
+        public static Model3D model = ModelLoaderObject3D.Load("data/objects/navigation_arrow_fixed.obj");
 
         public NavigationArrow(){
             RenderComponent = new RenderComponent(
