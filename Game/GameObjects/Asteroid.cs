@@ -9,11 +9,12 @@ using Engine.Model;
 using Engine.Render;
 using Engine.Util;
 using Game.Components;
+using OpenTK;
 
 namespace Game.GameObjects {
 	public class Asteroid : GameObject {
 		private static int ASTEROID_HP = 20;
-		private static int ASTEROID_DMG = 25;
+		private static int ASTEROID_DMG = 1;
 		public readonly MoveComponent MoveComponent;
 		private readonly RenderComponent renderComponent;
 		private readonly ShadowComponent shadowComponent;
@@ -22,8 +23,16 @@ namespace Game.GameObjects {
 
 		
 
-		public Asteroid(Model3D model, MaterialSettings materialSettings, GameObject referenceObject = null, double distance = 0.0, double speed = 0.0, double startAngle=0.0 ) {
-			MoveComponent = referenceObject != null ? new GravityMovement(this,startAngle, distance, speed) : new MoveComponent(this);
+		public Asteroid(Model3D model, MaterialSettings materialSettings, Vector3d rotationAxis, Vector3d direction, GameObject parent = null, double startAngle = 0.0, double distance = 0.0 ) {
+			
+			if (parent != null) {
+				TransformComponent.Parent = parent.TransformComponent;
+				MoveComponent = new GravityMovement(this, rotationAxis, direction, startAngle, distance);
+			}
+			else {
+				MoveComponent = new MoveComponent(this);
+			}
+			
 			
 			renderComponent = new RenderComponent(
 				model,

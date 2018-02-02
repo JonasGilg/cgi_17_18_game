@@ -103,6 +103,17 @@ namespace Game.GamePlay {
 
 		private static readonly Queue<GoalRing> GOAL_RING_LIST = new Queue<GoalRing>();
 
+		public static GoalRing CurrentGoal {
+			get {
+				try {
+					return GOAL_RING_LIST.Peek();
+				}
+				catch (InvalidOperationException e) {
+					return null;
+				}
+			}
+		}
+
 		public static void RegisterGoalRing(GoalRing ring) => GOAL_RING_LIST.Enqueue(ring);
 
 		private static readonly Sound CHECKPOINT_PASSED_SOUND = new Sound("data/sound/checkpoint.wav");//SoundLoader.LoadSound("data/sound/checkpoint.wav");
@@ -122,7 +133,5 @@ namespace Game.GamePlay {
 				}
 			}
 		}
-
-		private static void ShowFinishMarker() => CurrentFinishMarker.Instantiate();
 	}
 }

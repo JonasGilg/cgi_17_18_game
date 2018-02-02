@@ -1,10 +1,10 @@
-﻿using Engine;
+﻿using System;
+using Engine;
 using Engine.Component;
 using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
-using Engine.Util;
 using Game.GamePlay;
 using OpenTK;
 
@@ -32,7 +32,6 @@ namespace Game.GameObjects {
         public override void Awake() {
             base.Awake();
             RenderEngine.RegisterDynamicRenderComponent(RenderComponent);
-            //IO.PrintAsync($"NavigationArrow awake");
             Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
             RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
         }
@@ -43,9 +42,14 @@ namespace Game.GameObjects {
 
         public override void Update() {
             base.Update();
-            //IO.PrintAsync($"NavigationArrow- position {TransformComponent.Position}");
-            TransformComponent.Position = GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Position + new Vector3d(0,GamePlayEngine.PLAYER_SPACESHIP.Radius , 0);
+            TransformComponent.Position =  GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Position + 
+                                           GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Orientation.Rotate(new Vector3d(0,GamePlayEngine.PLAYER_SPACESHIP.Radius, 0));
+
+            TransformComponent.Orientation = Math3D.LookAt(TransformComponent.Position,GamePlayEngine.CurrentGoal?.TransformComponent.Position ?? Vector3d.Zero);
+            
             RenderComponent.Update();
         }
+        
+        
     }
 }

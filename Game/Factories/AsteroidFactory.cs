@@ -6,6 +6,7 @@ using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
 using Engine.Util;
+using Game.Components;
 using Game.GameObjects;
 using OpenTK;
 
@@ -67,83 +68,32 @@ namespace Game.Utils {
 	}
 
 	public static class AsteroidFactory {
-		public enum AsteroidType {
-			STANDARD
-		}
 
-		private static readonly Dictionary<AsteroidType, string> ASTEROID_MODEL_DICTIONARY =
-			new Dictionary<AsteroidType, string> {
-				{AsteroidType.STANDARD, "data/objects/asteroids/asteroid_"}
-			};
+		
 
-		public static Asteroid GenerateAsteroid() => new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(), AsteroidTextureRegistry.GetRandomMaterialSettings());
-
-		public static Asteroid GenerateGravityAsteroid(GameObject referenceObject, double startAngle, double distance, double speed) {
+		public static Asteroid GenerateGravityAsteroid(GameObject parent, Vector3d rotationAxis, Vector3d direction, double startAngle, double distance) {
 			var asteroid = new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(),
-				AsteroidTextureRegistry.GetRandomMaterialSettings(), referenceObject, startAngle, distance, speed);
-
+				AsteroidTextureRegistry.GetRandomMaterialSettings(), rotationAxis, direction, parent, startAngle, distance);
 			return asteroid;
 		}
 
-		public static List<Asteroid> GenerateAsteroidRingForCheckpoint(GameObject parent, Vector3d rotationAxle, Vector3d direction, double scale) {
+		public static void GenerateAsteroidRingForCheckpoint(GameObject parent, Vector3d rotationAxis, Vector3d direction, double scale) {
 			const int number = 6;
 			const float angleStep = MathHelper.TwoPi / 6;
 			const int distanceFromCenter = 650;
 			scale *= 0.6;
 			for (var i = 0; i < number; i++) {
-				var finalPos = Quaterniond.FromAxisAngle(rotationAxle, angleStep * i).Rotate(direction * distanceFromCenter) + parent.TransformComponent.Position;
-				GenerateSingleAsteroid(finalPos, scale);
+				var finalPos = Quaterniond.FromAxisAngle(rotationAxis, angleStep * i).Rotate(direction * distanceFromCenter) + parent.TransformComponent.Position;
+				var ast = GenerateGravityAsteroid(parent, rotationAxis, direction, angleStep * i, distanceFromCenter);
+				ast.TransformComponent.Position = finalPos;
+				ast.TransformComponent.Scale = new Vector3d(scale);
+				ast.Instantiate();
 			}
-
-			return new List<Asteroid>();
+			
 		}
 
-		public static List<Asteroid> GenerateAsteroidRing(Vector3d center, Vector3d eulerAngle, int count, double radius, double scale = 5.0) {
-			var asteroids = new List<Asteroid>();
-			if (count < 1) return asteroids; //nothing to generate if count is 0
+		
 
-
-			for (int i = 0; i < count; i++) {
-				var pos = new Vector3d(radius * Math.Cos(i * Math.PI * 2 / count), radius * Math.Sin(i * Math.PI * 2 / count), center.Z);
-				var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
-				asteroids.Add(GenerateSingleAsteroid(rotatedPos, scale));
-			}
-
-
-			return asteroids;
-		}
-
-		public static List<Asteroid> GenerateAsteroidTorus(Vector3d center, Vector3d eulerAngle, int count, int innerRadius, int outerRadius, int ringHeight, double scale = 5.0) {
-			var asteroids = new List<Asteroid>();
-			if (count < 1) return asteroids; //nothing to generate if count is 0
-
-			var rand = new Random();
-			var heightVariance = ringHeight / 2;
-
-			for (int i = 0; i < count; i++) {
-				var radius = rand.Next(innerRadius, outerRadius);
-				var pos = new Vector3d(radius * Math.Cos(i * Math.PI * 2 / count),
-					radius * Math.Sin(i * Math.PI * 2 / count),
-					rand.Next(((int) center.Z) - heightVariance, ((int) center.Z) + heightVariance));
-
-				//rotate by given vector
-				var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
-				asteroids.Add(GenerateSingleAsteroid(rotatedPos, scale));
-			}
-
-
-			return asteroids;
-		}
-
-		public static Asteroid GenerateSingleAsteroid(Vector3d position, double scale = 1.0) {
-			var asteroid = GenerateAsteroid();
-			asteroid.TransformComponent.Scale = new Vector3d(scale);
-			asteroid.TransformComponent.Position = position;
-			asteroid.MoveComponent.AngularVelocity = new Vector3d(0, 0, 0);
-
-			asteroid.Instantiate();
-			//IO.PrintAsync(""+asteroid.TransformComponent.WorldPosition);
-			return asteroid;
-		}
+		
 	}
 }

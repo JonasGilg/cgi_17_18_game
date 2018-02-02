@@ -76,7 +76,7 @@ namespace Game.Utils {
 
 			var rotAxle = Vector3d.Cross(aXb, w);
 
-			aXb.NormalizeFast();
+			aXb.Normalize();
 
 			GoalRingFactory.GenerateGoalRingWithAsteroidRing(pos, DIAMETER * 3, rotAxle, aXb);
 		}
