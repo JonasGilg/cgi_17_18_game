@@ -1,3 +1,4 @@
+using Engine.Render;
 using OpenTK;
 using OpenTK.Input;
 
@@ -36,5 +37,19 @@ namespace Engine.Input {
 		public static double ScrollDelta { get; private set; }
 	}
 
-	public static class Controller { }
+	public static class Controller {
+		private static GamePadState previousState;
+		private static GamePadState currentState;
+
+		public static void Update(GamePadState newState) {
+			previousState = currentState;
+			currentState = newState;
+		}
+
+		public static Vector2d LeftStick => currentState.ThumbSticks.Left.ToDouble();
+		public static Vector2d RightStick => currentState.ThumbSticks.Right.ToDouble();
+
+		public static double RightTrigger => currentState.Triggers.Right;
+		public static double LeftTrigger => currentState.Triggers.Left;
+	}
 }
