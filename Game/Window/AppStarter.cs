@@ -52,6 +52,8 @@ namespace Game.Window {
 			GL.CullFace(CullFaceMode.Front);
 		}
 
+		private bool showDebug = false;
+
 		protected override void OnUpdateFrame(FrameEventArgs e) {
 			EngineKeyboard.Update(Keyboard.GetState());
 			EngineMouse.Update(Mouse.GetState());
@@ -81,8 +83,11 @@ namespace Game.Window {
 				GamePlayEngine.RestartLevel();
 			}
 
+			if (EngineKeyboard.Pressed(Key.F9)) showDebug = !showDebug;
+
 #if(DEBUG)
-			IO.PrintAsync(TimingRegistry.GetStatsText());
+			if(showDebug)
+				IO.PrintAsync(TimingRegistry.GetStatsText());
 #endif
 
 			World.UpdateWorld();

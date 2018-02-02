@@ -59,10 +59,9 @@ namespace Game.GamePlay {
 		};
 
 		private static int maxCheckpoints;
-		//private static readonly Sound SOUNDTRACK = SoundLoader.LoadSound("data/sound/soundtrack/Steamtech-Mayhem.wav");
 
 		public static void LoadLevel(int index) {
-			//SOUNDTRACK.PlayLooping();
+			Soundtrack.PlaySoundTrack("data/sound/soundtrack/Steamtech-Mayhem.wav");
 			World.ClearWorld();
 			GOAL_RING_LIST.Clear();
 			CurrentLevelIndex = index;
@@ -106,11 +105,11 @@ namespace Game.GamePlay {
 
 		public static void RegisterGoalRing(GoalRing ring) => GOAL_RING_LIST.Enqueue(ring);
 
-		//private static readonly Sound CHECKPOINT_PASSED_SOUND = SoundLoader.LoadSound("data/sound/checkpoint.wav");
+		private static readonly Sound CHECKPOINT_PASSED_SOUND = new Sound("data/sound/checkpoint.wav");//SoundLoader.LoadSound("data/sound/checkpoint.wav");
 		
 		public static void CheckPointPassed(GoalRing chunk) {
 			if (GOAL_RING_LIST.Peek().Equals(chunk)) {
-				//CHECKPOINT_PASSED_SOUND.Play();
+				CHECKPOINT_PASSED_SOUND.Play();
 				GOAL_RING_LIST.Dequeue();
 				HUD_CHECKPOINT_TEXT_ELEMENT.Text = $"{maxCheckpoints - GOAL_RING_LIST.Count}/{maxCheckpoints}";
 				HUD.RemoveHudObjectMarker(chunk.objectMarker.ID);

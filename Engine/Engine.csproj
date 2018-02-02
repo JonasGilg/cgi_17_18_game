@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
       <HintPath>..\packages\OpenTK.3.0.0-pre\lib\net20\OpenTK.dll</HintPath>
     </Reference>
@@ -101,8 +104,11 @@
     <Compile Include="Render\Material\NormalMapping\NormalMappingMaterial.cs" />
     <Compile Include="Render\Material\Simpletexture\SimpleTextureMaterial.cs" />
     <Compile Include="Render\ShaderLoader.cs" />
-    <Compile Include="Sound\SoundLoader.cs" />
+    <Compile Include="Sound\CachedSound.cs" />
+    <Compile Include="Sound\ChachedSoundSampleProvider.cs" />
+    <Compile Include="Sound\SoundEngine.cs" />
     <Compile Include="Sound\Sound.cs" />
+    <Compile Include="Sound\Soundtrack.cs" />
     <Compile Include="Texture\TextureManager.cs" />
     <Compile Include="Util\AxisAlignedBoundingBox.cs" />
     <Compile Include="Util\DataStructure\IOctree.cs" />
