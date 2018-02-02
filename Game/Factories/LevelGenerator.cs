@@ -13,7 +13,7 @@ namespace Game.Utils {
 
 			ObstacleCreation(number);
 
-			GamePlayEngine.ResetSpaceShip(raceTrack.startPoint, raceTrack.startOrientation);
+			GamePlayEngine.ResetSpaceShip(raceTrack.StartPoint, raceTrack.StartOrientation);
 
 			GamePlayEngine.PLAYER_SPACESHIP.Instantiate();
 			GamePlayEngine.NAVIGATION_ARROW.Instantiate();

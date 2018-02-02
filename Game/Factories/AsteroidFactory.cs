@@ -77,21 +77,21 @@ namespace Game.Utils {
 			return asteroid;
 		}
 
-		public static void GenerateAsteroidRingForCheckpoint(GameObject parent, Vector3d rotationAxle, Vector3d direction, double scale) {
-
-			var number = 6;
-			var angleStep = MathHelper.TwoPi / 6;
-			var distanceFromCenter = 650;
+		public static List<Asteroid> GenerateAsteroidRingForCheckpoint(GameObject parent, Vector3d rotationAxle, Vector3d direction, double scale) {
+			const int number = 6;
+			const float angleStep = MathHelper.TwoPi / 6;
+			const int distanceFromCenter = 650;
 			scale *= 0.6;
-			for (int i = 0; i < 6; i++) {
-				var finalPos = Quaterniond.FromAxisAngle(rotationAxle,angleStep*i).Rotate(direction*distanceFromCenter)+parent.TransformComponent.Position;
-				
+			for (var i = 0; i < number; i++) {
+				var finalPos = Quaterniond.FromAxisAngle(rotationAxle, angleStep * i).Rotate(direction * distanceFromCenter) + parent.TransformComponent.Position;
 				GenerateSingleAsteroid(finalPos, scale);
 			}
+
+			return new List<Asteroid>();
 			
 			
 		}
-		
+
 		public static List<Asteroid> GenerateAsteroidRing(Vector3d center, Vector3d eulerAngle, int count, double radius, double scale = 5.0) {
 			var asteroids = new List<Asteroid>();
 			if (count < 1) return asteroids; //nothing to generate if count is 0
