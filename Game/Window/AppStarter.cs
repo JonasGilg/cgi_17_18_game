@@ -1,6 +1,7 @@
 ﻿using System;
 using Engine;
 using Engine.GUI;
+using Engine.Input;
 using Engine.Material;
 using Engine.Render;
 using Engine.Texture;
@@ -57,6 +58,7 @@ namespace Game.Window {
 		protected override void OnUpdateFrame(FrameEventArgs e) {
 			EngineKeyboard.Update(Keyboard.GetState());
 			EngineMouse.Update(Mouse.GetState());
+			Controller.Update(GamePad.GetState(0));
 			Time.UpdateUpdateTime(e.Time);
 
 			upsCounter.Text = $"{((int) (1 / Time.AverageUpdateTime())).ToString()}UPS";

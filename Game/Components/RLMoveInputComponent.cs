@@ -1,6 +1,7 @@
 ﻿using System;
 using Engine;
 using Engine.Component;
+using Engine.Input;
 using Engine.Render;
 using OpenTK;
 using OpenTK.Input;
@@ -18,10 +19,14 @@ namespace Game.Components {
 			var sideSpeed = Time.DeltaTimeUpdate * SIDEWAY_SPEED;
 			var linearVelocity = GetLinearVelocityInObjectSpace();
 
-			if (Keyboard.Down(Key.W))
+			var triggerState = Controller.RightTrigger - Controller.LeftTrigger;
+			
+			if(Math.Abs(triggerState) > double.Epsilon)
+				AddLinearVelocityInObjectSpace(Time.DeltaTimeUpdate * FORWARD_SPEED * triggerState, 0, 0);
+			else if (Keyboard.Down(Key.W))
 				AddLinearVelocityInObjectSpace(Time.DeltaTimeUpdate * FORWARD_SPEED, 0, 0);
 			else if (Keyboard.Down(Key.S))
-				AddLinearVelocityInObjectSpace(-sideSpeed, 0, 0);
+				AddLinearVelocityInObjectSpace(-Time.DeltaTimeUpdate * FORWARD_SPEED, 0, 0);
 			else if (linearVelocity.X > sideSpeed)
 				AddLinearVelocityInObjectSpace(-sideSpeed, 0, 0);
 			else if (linearVelocity.X < -sideSpeed)
@@ -56,7 +61,9 @@ namespace Game.Components {
 			var angularSpeed = Time.DeltaTimeUpdate * ROTATION_MULTIPLIER;
 			var angularVelocity = GetAngularVelocityInObjectSpace();
 			
-			if (Keyboard.Down(Key.A))
+			if(Math.Abs(Controller.RightStick.X) > 0.001)
+				AddAngularVelocityInObjectSpace(0, -Time.DeltaTimeUpdate * Controller.RightStick.X * 5, 0);
+			else if (Keyboard.Down(Key.A))
 				AddAngularVelocityInObjectSpace(0, angularSpeed, 0);
 			else if (Keyboard.Down(Key.D))
 				AddAngularVelocityInObjectSpace(0, -angularSpeed, 0);
@@ -65,7 +72,9 @@ namespace Game.Components {
 			else if (angularVelocity.Y < 0)
 				AddAngularVelocityInObjectSpace(0, angularSpeed, 0);
 
-			if (Math.Abs(Mouse.CursorDelta.Y) > 0.001 && !Mouse.Down(MouseButton.Right))
+			if(Math.Abs(Controller.LeftStick.Y) > 0.001)
+				AddAngularVelocityInObjectSpace(0, 0, -Time.DeltaTimeUpdate * Controller.LeftStick.Y * 5);
+			else if (Math.Abs(Mouse.CursorDelta.Y) > 0.001 && !Mouse.Down(MouseButton.Right))
 				AddAngularVelocityInObjectSpace(0, 0, Time.DeltaTimeUpdate * Mouse.CursorDelta.Y);
 			else if (Keyboard.Down(Key.Up))
 				AddAngularVelocityInObjectSpace(0, 0, -angularSpeed);
@@ -75,8 +84,10 @@ namespace Game.Components {
 				AddAngularVelocityInObjectSpace(0, 0, angularSpeed);
 			else if (angularVelocity.Z > 0)
 				AddAngularVelocityInObjectSpace(0, 0, -angularSpeed);
-
-			if (Math.Abs(Mouse.CursorDelta.X) > 0.001 && !Mouse.Down(MouseButton.Right))
+			
+			if(Math.Abs(Controller.LeftStick.X) > 0.001)
+				AddAngularVelocityInObjectSpace(Time.DeltaTimeUpdate * Controller.LeftStick.X * 4, 0, 0);
+			else if (Math.Abs(Mouse.CursorDelta.X) > 0.001 && !Mouse.Down(MouseButton.Right))
 				AddAngularVelocityInObjectSpace(Time.DeltaTimeUpdate * Mouse.CursorDelta.X * 0.8, 0, 0);
 			else if (Keyboard.Down(Key.Left))
 				AddAngularVelocityInObjectSpace(-angularSpeed, 0, 0);
