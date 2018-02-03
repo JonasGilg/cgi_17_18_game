@@ -5,8 +5,6 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
-using Engine.Util;
-using Game.Components;
 using Game.GameObjects;
 using OpenTK;
 
@@ -31,7 +29,6 @@ namespace Game.Utils {
 	}
 
 	internal static class AsteroidTextureRegistry {
-		//# of folders in textures/asteroid/PBR
 		private const int NUM_PACKS = 5;
 		private const string PATH = "data/textures/asteroids/PBR/";
 		private static readonly Random RANDOM;
@@ -51,7 +48,7 @@ namespace Game.Utils {
 			ASTEROID_MATERIALS = new MaterialSettings[NUM_PACKS];
 			RANDOM = new Random();
 
-			for (int i = 0; i < NUM_PACKS; i++) {
+			for (var i = 0; i < NUM_PACKS; i++) {
 				ASTEROID_MATERIALS[i] = new MaterialSettings {
 					AOTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i] + "ao.png"),
 					ColorTexture = TextureManager.LoadTexture(ASTEROID_TEXTURES_DICTIONARY[i] + "color.png"),
@@ -63,15 +60,11 @@ namespace Game.Utils {
 			}
 		}
 
-
 		public static MaterialSettings GetRandomMaterialSettings() => ASTEROID_MATERIALS[RANDOM.Next(NUM_PACKS)];
 	}
 
 	public static class AsteroidFactory {
-
-		
-
-		public static Asteroid GenerateGravityAsteroid(GameObject parent, Vector3d rotationAxis, Vector3d direction, double startAngle, double distance) {
+		private static Asteroid GenerateGravityAsteroid(GameObject parent, Vector3d rotationAxis, Vector3d direction, double startAngle, double distance) {
 			var asteroid = new Asteroid(AsteroidModelRegistry.GetRandomAsteroidModel(),
 				AsteroidTextureRegistry.GetRandomMaterialSettings(), rotationAxis, direction, parent, startAngle, distance);
 			return asteroid;
@@ -89,11 +82,6 @@ namespace Game.Utils {
 				ast.TransformComponent.Scale = new Vector3d(scale);
 				ast.Instantiate();
 			}
-			
 		}
-
-		
-
-		
 	}
 }

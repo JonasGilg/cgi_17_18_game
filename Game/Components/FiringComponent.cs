@@ -12,7 +12,6 @@ namespace Game.Components {
 
 		public override void Update() {
 			if (Keyboard.Pressed(Key.F)) {
-				//var shipRadius = GameObject.Radius / GameObject.TransformComponent.Scale.X; // the radius of the ship must be scaled back
 				var projectile = new Projectile {
 					TransformComponent = {
 						Position = GameObject.TransformComponent.Position +

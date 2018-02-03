@@ -8,10 +8,9 @@
 			GameObject = gameObject;
 		}
 
-
 		public abstract void Update();
 	}
-	//TODO this is actually super annoying and pastafari. Component handling in GameObject needs a proper refactoring
+
 	public enum ComponentType {
 		GENERAL_COMPONENT,
 		HEALTH_COMPONENT,

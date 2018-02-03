@@ -30,7 +30,7 @@ namespace Engine.Render {
 		public static Vector3d ReflectionVector3D(Vector3d a, Vector3d norm) {
 			a += new Vector3d(double.Epsilon);
 			norm += new Vector3d(double.Epsilon);
-			
+
 			var aNormal = a.Normalized();
 			var normNormal = norm.Normalized();
 			var dotProd = Vector3d.Dot(aNormal, normNormal);
@@ -73,9 +73,9 @@ namespace Engine.Render {
 		public static Vector2d ToDouble(this Vector2 vec) => new Vector2d(vec.X, vec.Y);
 
 		public static float Distance(Vector3 first, Vector3 second) {
-			float deltaX = second.X - first.X;
-			float deltaY = second.Y - first.Y;
-			float deltaZ = second.Z - first.Z;
+			var deltaX = second.X - first.X;
+			var deltaY = second.Y - first.Y;
+			var deltaZ = second.Z - first.Z;
 
 			return (float) Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 		}
@@ -92,7 +92,8 @@ namespace Engine.Render {
 
 		public static double ToDegrees(this double radians) => radians * 180 / Math.PI;
 
-		public static double Clamp(double val, double min, double max) => val < min ? min :
-			val > max ? max : val;
+		public static double Clamp(double val, double min, double max)
+			=> val < min ? min :
+				val > max ? max : val;
 	}
 }

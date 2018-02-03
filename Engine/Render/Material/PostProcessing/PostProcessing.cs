@@ -2,14 +2,12 @@
 
 namespace Engine.Material {
     public static class PostProcessing {
-        public static List<PostProcessingMaterial> Effects;
+        private static readonly List<PostProcessingMaterial> EFFECTS;
 
-        static PostProcessing() {
-            Effects = new List<PostProcessingMaterial>();
-            //Effects.Add(new TestEffect());
-        }
+        static PostProcessing() => EFFECTS = new List<PostProcessingMaterial>();
+
         public static void DrawMaterials() {
-            foreach (var material in Effects) {
+            foreach (var material in EFFECTS) {
                 material.Draw();
             }
         }

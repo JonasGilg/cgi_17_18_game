@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine.GUI;
-using Engine.Render;
-using Engine.Util;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -29,7 +27,6 @@ namespace Engine.Render {
 			var uvs = new List<Vector2>();
 
 			if (anchor == TextAnchor.CENTER) {
-				//position needs to be recalculated, because text must be drawn centered
 				float textlenght = 0;
 				float textheight = 0;
 				foreach (var character in text) {
@@ -41,16 +38,17 @@ namespace Engine.Render {
 						Console.WriteLine($"Character: '{(int) character}' is not supported!");
 						charDimensions = FONT.GetCharDimensions('?');
 					}
+
 					textlenght += charDimensions.W * scale;
 					textheight = Math.Max(textheight, charDimensions.H * scale);
 				}
+
 				position.Y += textheight / 2;
 				position.X -= textlenght / 2;
 			}
 
 			var currX = 0.0f;
 			for (var i = 0; i < text.Length; i++) {
-
 				Font.Rectangle charDimensions;
 				try {
 					charDimensions = FONT.GetCharDimensions(text[i]);
@@ -59,13 +57,13 @@ namespace Engine.Render {
 					Console.WriteLine($"Character: '{(int) text[i]}' is not supported!");
 					charDimensions = FONT.GetCharDimensions('?');
 				}
-				
+
 				var charWidth = charDimensions.W * scale;
 
 				var vertexDownLeft = new Vector2(position.X + currX, position.Y);
 				var vertexDownRight = new Vector2(position.X + charWidth + currX, position.Y);
 				var vertexUpRight = new Vector2(position.X + charWidth + currX,
-					position.Y - ((FONT.FontHeight / (float) FONT.ImageHeight) * scale ));
+					position.Y - ((FONT.FontHeight / (float) FONT.ImageHeight) * scale));
 				var vertexUpLeft = new Vector2(position.X + currX, position.Y - ((FONT.CellHeight / (float) FONT.ImageHeight) * scale));
 
 				currX += charWidth;
@@ -121,7 +119,7 @@ namespace Engine.Render {
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 			GL.Disable(EnableCap.DepthTest);
-			
+
 			GL.DrawArrays(PrimitiveType.Triangles, 0, vertices.Count);
 
 			GL.Enable(EnableCap.DepthTest);

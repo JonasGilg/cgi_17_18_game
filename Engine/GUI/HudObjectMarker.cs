@@ -1,6 +1,4 @@
-﻿﻿using System;
-using System.Drawing;
-using System.Linq;
+﻿using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -35,24 +33,22 @@ namespace Engine.GUI {
 			1.0f, 1.0f, 0.0f
 		};
 
-		public readonly uint[] indicies = {
+		public readonly uint[] Indicies = {
 			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
 		};
 
-
 		public int VertexBufferSize() => (verticies.Length * Vector3.SizeInBytes);
 
-		public int IndexBufferSize() => (indicies.Length * sizeof(uint));
-
+		public int IndexBufferSize() => (Indicies.Length * sizeof(uint));
 
 		public HudObjectMarker(int id, GameObject gameObject) {
-			this.ID = id;
+			ID = id;
 			GameObject = gameObject;
 
-			createVAO();
+			CreateVAO();
 		}
 
-		public void createVAO() {
+		private void CreateVAO() {
 			// generate the VBO for the "interleaved" data
 			GL.GenBuffers(1, out int allBufferVBO);
 
@@ -73,7 +69,7 @@ namespace Engine.GUI {
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBuffer);
 
 			// index data is uploaded to grpahics mamory
-			GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(sizeof(uint) * indicies.Length), indicies,
+			GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(sizeof(uint) * Indicies.Length), Indicies,
 				BufferUsageHint.StaticDraw);
 
 			// BindBuffer to 0, so the following commands do not overwrite the current element buffer (state machine)

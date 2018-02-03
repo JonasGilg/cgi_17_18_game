@@ -1,7 +1,6 @@
 ﻿using System;
 using Engine.Model;
 using Engine.Render;
-using Engine.Util;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -23,8 +22,10 @@ namespace Engine.Local {
 		private readonly int screenHeightLocation;
 
 		public PointLight() {
-			Program = ShaderCompiler.CreateShaderProgram("Light/Local/PointLight_VS.glsl",
-				"Light/Local/PointLight_FS.glsl");
+			Program = ShaderLoader.LoadShader(
+				"Light/Local/PointLight_VS.glsl",
+				"Light/Local/PointLight_FS.glsl"
+			);
 
 			GL.BindAttribLocation(Program, 0, "in_position");
 			GL.BindAttribLocation(Program, 1, "in_normal");

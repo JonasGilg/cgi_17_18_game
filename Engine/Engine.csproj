@@ -118,7 +118,6 @@
     <Compile Include="Util\IO.cs" />
     <Compile Include="Util\Math.cs" />
     <Compile Include="Util\Output.cs" />
-    <Compile Include="Util\ShaderCompiler.cs" />
     <Compile Include="Util\Sphere.cs" />
     <Compile Include="Util\Time.cs" />
   </ItemGroup>

@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Engine;
-using Engine.Component;
-using Engine.GUI;
 using Engine.Render;
 using Game.GameObjects;
-using Game.GamePlay;
 using OpenTK;
 
 namespace Game.Utils {
@@ -28,7 +23,7 @@ namespace Game.Utils {
 					Position = position,
 					Orientation = Quaterniond.FromAxisAngle(Vector3d.UnitX, Math.PI / 2)
 				},
-				moveComponent = {AngularVelocity = new Vector3d(0, 3.0, 0)}
+				MoveComponent = {AngularVelocity = new Vector3d(0, 3.0, 0)}
 			};
 
 			chunk.Instantiate();
@@ -49,28 +44,24 @@ namespace Game.Utils {
 		/// </returns>
 		public static List<Ring> GenerateLine(Vector3d startPosition, Vector3d endPosition, PointType type, int count, double scale = 5.0) {
 			var chunks = new List<Ring>();
-			if (count < 1) return chunks; //nothing to generate if count is 0
+			if (count < 1) return chunks;
 
-			//calculate positions
 			var positions = new List<Vector3d>();
 
-			switch (count) {
-				case 1: // just use the position in the middle of the start and end position
-					positions.Add(Math3D.InMiddleOf(startPosition, endPosition));
-					break;
-				default: // use start and end positions and the positions on equal distances in between 
-					positions.Add(startPosition);
+			if (count == 1) {
+				positions.Add(Math3D.InMiddleOf(startPosition, endPosition));
+			}
+			else {
+				positions.Add(startPosition);
 
-					if (count > 2) {
-						//this block is only useful when count is greater than 2
-						var equiDistance = (endPosition - startPosition) / (count - 1);
-						for (int i = 1; i < count - 1; i++) {
-							positions.Add(startPosition + (equiDistance * i));
-						}
+				if (count > 2) {
+					var equiDistance = (endPosition - startPosition) / (count - 1);
+					for (var i = 1; i < count - 1; i++) {
+						positions.Add(startPosition + (equiDistance * i));
 					}
+				}
 
-					positions.Add(endPosition);
-					break;
+				positions.Add(endPosition);
 			}
 
 			foreach (var pos in positions) {
@@ -94,17 +85,15 @@ namespace Game.Utils {
 		/// Returns a list of the generated metal chunks.
 		/// The returned list is empty if count is 0 oder less.
 		/// </returns>
-		public static List<Ring> GenerateRing(Vector3d center, Vector3d eulerAngle, PointType type, int count, double radius, double scale = 5.0) {
+		private static List<Ring> GenerateRing(Vector3d center, Vector3d eulerAngle, PointType type, int count, double radius, double scale = 5.0) {
 			var chunks = new List<Ring>();
-			if (count < 1) return chunks; //nothing to generate if count is 0
+			if (count < 1) return chunks;
 
-
-			for (int i = 0; i < count; i++) {
+			for (var i = 0; i < count; i++) {
 				var pos = new Vector3d(radius * Math.Cos(i * Math.PI * 2 / count), radius * Math.Sin(i * Math.PI * 2 / count), center.Z);
 				var rotatedPos = Quaterniond.FromEulerAngles(eulerAngle.ToRadiansVector3D()).Rotate(pos) + center;
 				chunks.Add(GenerateSingle(rotatedPos, type, scale));
 			}
-
 
 			return chunks;
 		}
@@ -132,7 +121,6 @@ namespace Game.Utils {
 			chunks.AddRange(GenerateRing(center, eulerAngle, ringType, ringCount, radius, ringScale));
 			chunks.Add(GenerateSingle(center, eyeType, eyeScale));
 
-
 			return chunks;
 		}
 
@@ -155,8 +143,5 @@ namespace Game.Utils {
 
 			return chunks;
 		}
-
-
-	
 	}
 }

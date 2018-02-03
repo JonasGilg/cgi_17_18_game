@@ -1,20 +1,14 @@
-﻿using Engine.Collision;
-using Engine.Model;
+﻿using Engine.Model;
 
 namespace Engine {
 	public class SphereCollider : CollisionComponent {
 		public SphereCollider(GameObject gameObject,
 			Model3D model,
 			ExecuteFunction passiveCollisionFunctions = null,
-			ExecuteFunction activeCollisionFunctions = null,
-			
-			PhysicsMaterial physicsMaterial = null)
-			: base(gameObject, model,
-				passiveCollisionFunctions,
-				activeCollisionFunctions,
-				physicsMaterial) {
-			
-		}
+			ExecuteFunction activeCollisionFunctions = null
+		) : base(gameObject, model,
+			passiveCollisionFunctions,
+			activeCollisionFunctions) { }
 
 		public override bool IsColliding(CollisionComponent otherCollider) {
 			switch (otherCollider) {

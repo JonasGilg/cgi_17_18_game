@@ -5,7 +5,7 @@ namespace Engine.GUI {
 		TOP_LEFT,
 		CENTER
 	}
-	
+
 	public class HudTextElement {
 		public readonly int ID;
 		public bool Enabled;

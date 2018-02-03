@@ -1,26 +1,23 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Engine.Component;
 using Engine.GUI;
 using Engine.Render;
-using Engine.Util;
 
 namespace Engine {
 	public abstract class GameObject {
-		public TransformComponent TransformComponent;
+		public readonly TransformComponent TransformComponent;
 		public double Radius;
 		public Sphere BoundingSphere() => new Sphere(TransformComponent.WorldPosition, Radius);
 
-		public Dictionary<ComponentType, List<Component.Component>> optionalComponents = new Dictionary<ComponentType, List<Component.Component>>();
+		public readonly Dictionary<ComponentType, List<Component.Component>> OptionalComponents = new Dictionary<ComponentType, List<Component.Component>>();
 
-		public readonly HudObjectMarker objectMarker;
+		public readonly HudObjectMarker ObjectMarker;
 
 		protected GameObject() {
 			TransformComponent = new TransformComponent(this);
 			Radius = 0;
 
-			objectMarker = HUD.CreateHudObjectMarker(this);
+			ObjectMarker = HUD.CreateHudObjectMarker(this);
 		}
 
 		public virtual void Awake() { }
@@ -28,7 +25,6 @@ namespace Engine {
 		public virtual void Update() => TransformComponent.Update();
 
 		public void Instantiate() {
-			
 			Awake();
 			World.AddToWorld(this);
 		}
@@ -38,8 +34,8 @@ namespace Engine {
 			World.RemoveFromWorld(this);
 		}
 
-		public bool searchOptionalComponents(ComponentType type, out List<Component.Component> resultList) {
-			if (!optionalComponents.TryGetValue(type, out resultList)) {
+		public bool SearchOptionalComponents(ComponentType type, out List<Component.Component> resultList) {
+			if (!OptionalComponents.TryGetValue(type, out resultList)) {
 				return false;
 			}
 

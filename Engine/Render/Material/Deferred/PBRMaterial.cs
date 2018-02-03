@@ -1,7 +1,6 @@
 ﻿using System;
 using Engine.Model;
 using Engine.Render;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Engine.Material.Deferred {
@@ -32,19 +31,15 @@ namespace Engine.Material.Deferred {
 		private readonly int lightDirectionLocation;
 
 		public PBRMaterial() {
-			// Shader-Programm wird aus den externen Files generiert...
 			CreateShaderProgram("Render/Material/Deferred/PBR_VS.glsl",
 				"Render/Material/Deferred/PBR_FS.glsl");
 
-			// GL.BindAttribLocation, gibt an welcher Index in unserer Datenstruktur welchem "in" Parameter auf unserem Shader zugeordnet wird
-			// folgende Befehle müssen aufgerufen werden...
 			GL.BindAttribLocation(Program, 0, "in_position");
 			GL.BindAttribLocation(Program, 1, "in_normal");
 			GL.BindAttribLocation(Program, 2, "in_uv");
 			GL.BindAttribLocation(Program, 3, "in_tangent");
 			GL.BindAttribLocation(Program, 4, "in_bitangent");
 
-			// ...bevor das Shader-Programm "gelinkt" wird.
 			GL.LinkProgram(Program);
 
 			modelMatrixLocation = GL.GetUniformLocation(Program, "model_matrix");
@@ -71,7 +66,6 @@ namespace Engine.Material.Deferred {
 			shadowTextureLocation3 = GL.GetUniformLocation(Program, "shadowmap_texture3");
 
 			lightDirectionLocation = GL.GetUniformLocation(Program, "light_direction");
-			//cameraPositionLocation = GL.GetUniformLocation(Program, "camera_position");
 		}
 
 		protected override void Draw(Model3D model3D, MaterialSettings materialSettings) {
@@ -119,7 +113,6 @@ namespace Engine.Material.Deferred {
 
 			GL.Uniform3(lightDirectionLocation, CascadedShadowMapping.LightDirection.ToFloat());
 
-			// Das Objekt wird gezeichnet
 			GL.DrawElements(PrimitiveType.Triangles, model3D.Indices.Count, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
 			GL.BindVertexArray(0);
@@ -128,7 +121,6 @@ namespace Engine.Material.Deferred {
 		protected override void PreDraw() {
 			GL.UseProgram(Program);
 
-			// Farb-Textur wird "gebunden"
 			GL.Uniform1(colorTextureLocation, 0);
 			GL.Uniform1(normalTextureLocation, 1);
 			GL.Uniform1(metalnessTextureLocation, 2);
@@ -149,14 +141,6 @@ namespace Engine.Material.Deferred {
 			GL.BindTexture(TextureTarget.Texture2D, CascadedShadowMapping.Cascades[2].DepthTexture);
 		}
 
-		protected override void PostDraw() {
-			GL.ActiveTexture(TextureUnit.Texture0);
-		}
-
-		public void DrawDirect(Model3D model3D, MaterialSettings materialSettings) {
-			PreDraw();
-			Draw(model3D, materialSettings);
-			PostDraw();
-		}
+		protected override void PostDraw() => GL.ActiveTexture(TextureUnit.Texture0);
 	}
 }

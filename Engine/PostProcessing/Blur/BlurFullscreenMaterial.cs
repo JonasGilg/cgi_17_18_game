@@ -1,8 +1,8 @@
 ﻿using System;
 using Engine.Model;
+using Engine.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using Engine.Util;
 
 namespace Engine.Postprocessing {
 	public class BlurFullscreenMaterial : BasePostprocessing {
@@ -10,7 +10,7 @@ namespace Engine.Postprocessing {
 		private readonly int targetLocation;
 
 		public BlurFullscreenMaterial() {
-			Program = ShaderCompiler.CreateShaderProgram("PostProcessing/Blur/BlurFullscreen_VS.glsl", "PostProcessing/Blur/BlurFullscreen_FS.glsl");
+			Program = ShaderLoader.LoadShader("PostProcessing/Blur/BlurFullscreen_VS.glsl", "PostProcessing/Blur/BlurFullscreen_FS.glsl");
 
 			GL.BindAttribLocation(Program, 0, "in_position");
 			GL.BindAttribLocation(Program, 1, "in_normal");

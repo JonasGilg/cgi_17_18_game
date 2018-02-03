@@ -32,8 +32,6 @@ namespace Engine {
 		}
 
 		internal void CreateViewFrustumPlanes(Matrix4d mat) {
-			// by Mohrmann
-			// left
 			var plane = new Plane {
 				Normal = {
 					X = mat.M14 + mat.M11,
@@ -44,7 +42,6 @@ namespace Engine {
 			};
 			Planes[(int) PlaneEnum.LEFT_PLANE] = plane;
 
-			// right
 			plane = new Plane {
 				Normal = {
 					X = mat.M14 - mat.M11,
@@ -55,7 +52,6 @@ namespace Engine {
 			};
 			Planes[(int) PlaneEnum.RIGHT_PLANE] = plane;
 
-			// bottom
 			plane = new Plane {
 				Normal = {
 					X = mat.M14 + mat.M12,
@@ -66,7 +62,6 @@ namespace Engine {
 			};
 			Planes[(int) PlaneEnum.BOTTOM_PLANE] = plane;
 
-			// top
 			plane = new Plane {
 				Normal = {
 					X = mat.M14 - mat.M12,
@@ -77,7 +72,6 @@ namespace Engine {
 			};
 			Planes[(int) PlaneEnum.TOP_PLANE] = plane;
 
-			// near
 			plane = new Plane {
 				Normal = {
 					X = mat.M14 + mat.M13,
@@ -88,7 +82,6 @@ namespace Engine {
 			};
 			Planes[(int) PlaneEnum.NEAR_PLANE] = plane;
 
-			// far
 			plane = new Plane {
 				Normal = {
 					X = mat.M14 - mat.M13,
@@ -99,78 +92,6 @@ namespace Engine {
 			};
 			Planes[(int) PlaneEnum.FAR_PLANE] = plane;
 
-
-			/*
-			// gamedevs.org
-			// left
-			var plane = new Plane {
-				Normal = {
-					X = mat.M41 + mat.M11,
-					Y = mat.M42 + mat.M12,
-					Z = mat.M43 + mat.M13
-				},
-				D = (mat.M44 + mat.M14)
-			};
-			planes[(int) PlaneEnum.LEFT_PLANE] = plane;
-
-			// right
-			plane = new Plane {
-				Normal = {
-					X = mat.M41 - mat.M11,
-					Y = mat.M42 - mat.M12,
-					Z = mat.M43 - mat.M13
-				},
-				D = (mat.M44 - mat.M14)
-			};
-			planes[(int) PlaneEnum.RIGHT_PLANE] = plane;
-
-			// bottom
-			plane = new Plane {
-				Normal = {
-					X = mat.M41 + mat.M21,
-					Y = mat.M42 + mat.M22,
-					Z = mat.M43 + mat.M23
-				},
-				D = (mat.M44 + mat.M24)
-			};
-			planes[(int) PlaneEnum.BOTTOM_PLANE] = plane;
-
-			// top
-			plane = new Plane {
-				Normal = {
-					X = mat.M41 - mat.M21,
-					Y = mat.M42 - mat.M22,
-					Z = mat.M43 - mat.M23
-				},
-				D = (mat.M44 - mat.M24)
-			};
-			planes[(int) PlaneEnum.TOP_PLANE] = plane;
-
-			// near
-			plane = new Plane {
-				Normal = {
-					X = mat.M41 + mat.M31,
-					Y = mat.M42 + mat.M32,
-					Z = mat.M43 + mat.M33
-				},
-				D = (mat.M44 + mat.M34)
-			};
-			planes[(int) PlaneEnum.NEAR_PLANE] = plane;
-
-			// far
-			plane = new Plane {
-				Normal = {
-					X = mat.M41 - mat.M31,
-					Y = mat.M42 - mat.M32,
-					Z = mat.M43 - mat.M33
-				},
-				D = (mat.M44 - mat.M34)
-			};
-			planes[(int) PlaneEnum.FAR_PLANE] = plane;
-			*/
-
-
-			// normalize
 			for (var i = 0; i < 6; i++) {
 				plane = Planes[i];
 

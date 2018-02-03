@@ -4,14 +4,13 @@ using Engine;
 using Engine.GUI;
 using Engine.Render;
 using Engine.Sound;
-using Engine.Util;
 using Game.GameObjects;
 using Game.Utils;
 using OpenTK;
 
 namespace Game.GamePlay {
 	public static class GamePlayEngine {
-		private static readonly HudTextElement HUD_CHECKPOINT_TEXT_ELEMENT = HUD.CreateHudTextElement("", new Vector2(0, 0.9f),TextAnchor.CENTER, 2);
+		private static readonly HudTextElement HUD_CHECKPOINT_TEXT_ELEMENT = HUD.CreateHudTextElement("", new Vector2(0, 0.9f), TextAnchor.CENTER, 2);
 
 		private static readonly HudTextElement GAME_OVER_TEXT_ELEMENT = HUD.CreateHudTextElement("GAME OVER", Vector2.Zero, TextAnchor.CENTER, 4f, false);
 		private static readonly HudTextElement GAME_WON_TEXT_ELEMENT = HUD.CreateHudTextElement("YOU WIN", Vector2.Zero, TextAnchor.CENTER, 4f, false);
@@ -45,8 +44,6 @@ namespace Game.GamePlay {
 			PLAYER_SPACESHIP.MoveComponent.AngularVelocity = Vector3d.Zero;
 		}
 
-		
-
 		private static int maxCheckpoints;
 
 		public static void LoadLevel() {
@@ -58,12 +55,10 @@ namespace Game.GamePlay {
 			HUD_CHECKPOINT_TEXT_ELEMENT.Text = $"{0}/{maxCheckpoints}";
 			GAME_OVER_TEXT_ELEMENT.Enabled = false;
 			GAME_WON_TEXT_ELEMENT.Enabled = false;
-			HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
+			HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().ObjectMarker);
 		}
 
 		public static void RestartLevel() {
-			IO.PrintAsync("Restarting Level");
-
 			LoadLevel();
 			Time.ResetGameTime();
 		}
@@ -72,7 +67,7 @@ namespace Game.GamePlay {
 			PLAYER_SPACESHIP.Destroy();
 			GAME_OVER_TEXT_ELEMENT.Enabled = true;
 		}
-		
+
 		private static readonly Sound VICTORY_SOUND = new Sound("data/sound/victory.wav");
 
 		private static void GameWon() {
@@ -80,8 +75,8 @@ namespace Game.GamePlay {
 			VICTORY_SOUND.Play();
 			Statistics.Stop();
 			GAME_WON_TEXT_ELEMENT.Enabled = true;
-			Statistics.ScoreTextElement.Position = new Vector2(0,-0.3f);
-			Statistics.TimeSpentTextElement.Position = new Vector2(0,-0.4f);
+			Statistics.SCORE_TEXT_ELEMENT.Position = new Vector2(0, -0.3f);
+			Statistics.TIME_SPENT_TEXT_ELEMENT.Position = new Vector2(0, -0.4f);
 		}
 
 		public static void RemoveObjectFromWorld(GameObject gameObject) {
@@ -109,19 +104,19 @@ namespace Game.GamePlay {
 		public static void RegisterGoalRing(GoalRing ring) => GOAL_RING_LIST.Enqueue(ring);
 
 		private static readonly Sound CHECKPOINT_PASSED_SOUND = new Sound("data/sound/checkpoint.wav");
-		
+
 		public static void CheckPointPassed(GoalRing chunk) {
 			if (GOAL_RING_LIST.Peek().Equals(chunk)) {
 				CHECKPOINT_PASSED_SOUND.Play();
 				GOAL_RING_LIST.Dequeue();
 				HUD_CHECKPOINT_TEXT_ELEMENT.Text = $"{maxCheckpoints - GOAL_RING_LIST.Count}/{maxCheckpoints}";
-				HUD.RemoveHudObjectMarker(chunk.objectMarker.ID);
+				HUD.RemoveHudObjectMarker(chunk.ObjectMarker.ID);
 				chunk.Destroy();
 				if (GOAL_RING_LIST.Count == 0) {
 					GameWon();
 				}
 				else {
-					HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().objectMarker);
+					HUD.AddHudObjectMarker(GOAL_RING_LIST.Peek().ObjectMarker);
 				}
 			}
 		}

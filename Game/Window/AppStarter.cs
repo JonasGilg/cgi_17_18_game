@@ -2,13 +2,10 @@
 using Engine;
 using Engine.GUI;
 using Engine.Input;
-using Engine.Material;
 using Engine.Render;
 using Engine.Texture;
-using Engine.Util;
 using Game.GameObjects;
 using Game.GamePlay;
-using Game.Utils;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -18,7 +15,7 @@ using EngineMouse = Engine.Input.Mouse;
 
 namespace Game.Window {
 	internal class AppStarter : GameWindow {
-		private AppStarter() : base(1280, 768, new GraphicsMode(32, 24, 8, 8), "Space Game", GameWindowFlags.Default,
+		private AppStarter() : base(1600, 900, new GraphicsMode(32, 24, 8, 8), "Space Game", GameWindowFlags.Default,
 			DisplayDevice.Default,
 			3, 0, GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug) { }
 
@@ -53,7 +50,7 @@ namespace Game.Window {
 			GL.CullFace(CullFaceMode.Front);
 		}
 
-		private bool showDebug = false;
+		private bool showDebug;
 
 		protected override void OnUpdateFrame(FrameEventArgs e) {
 			EngineKeyboard.Update(Keyboard.GetState());
@@ -91,10 +88,8 @@ namespace Game.Window {
 			if(showDebug)
 				IO.PrintAsync(TimingRegistry.GetStatsText());
 #endif
-
 			World.UpdateWorld();
 		}
-
 
 		protected override void OnRenderFrame(FrameEventArgs e) {
 			Time.UpdateRenderTime(e.Time);

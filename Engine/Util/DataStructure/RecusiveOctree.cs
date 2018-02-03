@@ -40,7 +40,7 @@ namespace Engine {
 
 		public void Insert(T item) {
 			items.Add(item);
-			
+
 			if (treeCurrDepth < treeMaxDepth) {
 				for (var i = 0; i < children.Length; i++) {
 					var offset = aabb.HalfDimension;
@@ -51,10 +51,12 @@ namespace Engine {
 						childMin.X += offset.X;
 						childMax.X += offset.X;
 					}
+
 					if ((i / 2) % 2 == 1) {
 						childMin.Y += offset.Y;
 						childMax.Y += offset.Y;
 					}
+
 					if (i >= 4) {
 						childMin.Z += offset.Z;
 						childMax.Z += offset.Z;
@@ -87,24 +89,12 @@ namespace Engine {
 			}
 		}
 
-		/*public void UpdateItem(T item) {
-			for (int i = 0; i < Children.Length; i++) {
-				var child = Children[i];
-				if (child != null) {
-					if (child.Items.Contains(item)) {
-						if(child.)
-					}
-				}
-			}
-		}*/
-
 		public ISet<T> Items() => items;
 		public IOctree<T> Parent() => parent;
 		public IOctree<T>[] Children() => children;
 		public bool IsLeaf() => treeCurrDepth == treeMaxDepth;
 		public AxisAlignedBoundingBox BoundingBox() => aabb;
 
-		//TODO precompute sphere
 		public Sphere BoundingSphere() => new Sphere(aabb.Center, aabb.Max.LengthFast);
 	}
 }

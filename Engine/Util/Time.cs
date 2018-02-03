@@ -23,12 +23,12 @@ namespace Engine.Render {
 			private set => deltaTimeRender = value;
 		}
 
-		private static double START_TIME;
+		private static double startTime;
 
 		private static double CurrentTime => DateTime.Now.ToUniversalTime()
 			.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
 
-		public static double TotalTime => CurrentTime - START_TIME;
+		public static double TotalTime => CurrentTime - startTime;
 
 		private static readonly Queue<double> LAST_UPDATES = new Queue<double>(QUEUE_SIZE);
 		private static readonly Queue<double> LAST_RENDERS = new Queue<double>(QUEUE_SIZE);
@@ -36,13 +36,9 @@ namespace Engine.Render {
 		public static double AverageUpdateTime() => LAST_UPDATES.Average();
 		public static double AverageRenderTime() => LAST_RENDERS.Average();
 
-		static Time() {
-			START_TIME = CurrentTime;
-		}
+		static Time() => startTime = CurrentTime;
 
-		public static void ResetGameTime() {
-			START_TIME = CurrentTime;
-		}
+		public static void ResetGameTime() => startTime = CurrentTime;
 
 		public static void UpdateUpdateTime(double deltaTime) {
 			DeltaTimeUpdate = deltaTime;
@@ -84,12 +80,12 @@ namespace Engine.Render {
 	public class TimingStats {
 		private const int QUEUE_SIZE = 10;
 
-		public readonly string Name;
+		private readonly string name;
 
 		private readonly Queue<double> lastFrameTimes = new Queue<double>(QUEUE_SIZE);
 
 		public TimingStats(string name) {
-			Name = name;
+			this.name = name;
 			lastFrameTimes.Enqueue(0);
 		}
 
@@ -113,6 +109,6 @@ namespace Engine.Render {
 #endif
 		}
 
-		public override string ToString() => $"\t{Name}: {GetAverage():N2} clocks";
+		public override string ToString() => $"\t{name}: {GetAverage():N2} clocks";
 	}
 }

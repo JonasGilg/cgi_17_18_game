@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using Engine.Local;
 using Engine.Model;
 using Engine.Postprocessing;
@@ -67,16 +66,8 @@ namespace Engine.Render {
 			GL.GenTextures(1, out pingPongBuffer0);
 			GL.GenFramebuffers(1, out pingPongFbo1);
 			GL.GenTextures(1, out pingPongBuffer1);
-			
+
 			Resize(width, height);
-			
-			var eCode = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
-			if (eCode != FramebufferErrorCode.FramebufferComplete) {
-				Console.WriteLine("GBuffer init wrong" + eCode.ToString());
-			}
-			else {
-				Console.WriteLine("GBuffer init Correct");
-			}
 		}
 
 		public static void Resize(int newWidth, int newHeight) {
@@ -120,7 +111,6 @@ namespace Engine.Render {
 			GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, DepthRenderBuffer);
 			GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.DepthComponent, width, height);
 			GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, DepthRenderBuffer);
-
 
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, pingPongFbo0);
 			GL.BindTexture(TextureTarget.Texture2D, pingPongBuffer0);
@@ -196,7 +186,7 @@ namespace Engine.Render {
 
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 			horizontalBlurMaterial.Draw(fullscreenQuad, pingPongBuffer1);
-			
+
 			GL.Disable(EnableCap.Blend);
 			GL.Enable(EnableCap.CullFace);
 		}

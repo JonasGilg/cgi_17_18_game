@@ -58,7 +58,7 @@
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\InputComponents\ArcadeMoveInputComponent.cs" />
     <Compile Include="Components\InputComponents\MoveInputComponent.cs" />
-    <Compile Include="Components\RLMoveInputComponent.cs" />
+    <Compile Include="Components\InputComponents\RLMoveInputComponent.cs" />
     <Compile Include="Components\ThirdPersonSpringCameraComponent.cs" />
     <Compile Include="Factories\GoalRingFactory.cs" />
     <Compile Include="Factories\LevelGenerator.cs" />

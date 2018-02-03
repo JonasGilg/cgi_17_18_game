@@ -75,7 +75,6 @@ namespace Engine.Material {
 		protected override void Draw(Model3D model, MaterialSettings materialSettings) {
 			GL.BindVertexArray(model.VAO);
 
-
 			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.Texture2D, materialSettings.ColorTexture);
 

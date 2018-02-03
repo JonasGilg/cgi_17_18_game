@@ -40,7 +40,6 @@ namespace Engine.Component {
 		private TransformComponent parent;
 		public readonly List<TransformComponent> Children;
 
-
 		public TransformComponent Parent {
 			get => parent;
 			set {
@@ -54,10 +53,9 @@ namespace Engine.Component {
 			}
 		}
 
-		public void UpdateLocalMatrix() {
-			LocalMatrix = Matrix4d.Scale(Scale) * Matrix4d.CreateFromQuaternion(Orientation) *
-			              Matrix4d.CreateTranslation(Position);
-		}
+		public void UpdateLocalMatrix()
+			=> LocalMatrix = Matrix4d.Scale(Scale) * Matrix4d.CreateFromQuaternion(Orientation) *
+			                 Matrix4d.CreateTranslation(Position);
 
 		public void UpdateWorldMatrix() {
 			UpdateLocalMatrix();
@@ -70,8 +68,6 @@ namespace Engine.Component {
 			}
 		}
 
-		public override void Update() {
-			UpdateWorldMatrix();
-		}
+		public override void Update() => UpdateWorldMatrix();
 	}
 }

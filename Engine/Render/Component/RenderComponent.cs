@@ -6,7 +6,7 @@ namespace Engine.Component {
 	public class RenderComponent : Component, IOctreeItem<RenderComponent> {
 		private static int idCounter;
 		private readonly int id = idCounter++;
-		
+
 		public readonly Model3D Model;
 		public AxisAlignedBoundingBox AABB;
 		public BaseMaterial Material;
@@ -20,10 +20,7 @@ namespace Engine.Component {
 			MaterialSettings = materialSettings;
 		}
 
-		public override void Update() {
-			/*RenderEngine.UnregisterRenderComponent(this);
-			RenderEngine.RegisterRenderComponent(this);*/
-		}
+		public override void Update() { }
 
 		public AxisAlignedBoundingBox GetAABB() => AABB + GameObject.TransformComponent.WorldPosition;
 		public Sphere GetBoundingSphere() => new Sphere(GameObject.TransformComponent.WorldPosition, GameObject.Radius);

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.Remoting.Messaging;
-using Engine;
+﻿using Engine;
 using Engine.Collision;
 using Engine.Component;
 using Engine.GUI;
@@ -8,7 +6,6 @@ using Engine.Material;
 using Engine.Model;
 using Engine.Render;
 using Engine.Texture;
-using Engine.Util;
 using Game.Components;
 
 namespace Game.GameObjects {
@@ -19,7 +16,7 @@ namespace Game.GameObjects {
 		private static readonly int ROUGHNESS_ID = TextureManager.LoadTexture("data/textures/simpleBlack.png");
 		private static readonly int AO_ID = TextureManager.LoadTexture("data/textures/simpleWhite.png");
 		private static readonly int BLUR_ID = TextureManager.LoadTexture("data/textures/planets/blur.png");
-		
+
 		public readonly RenderComponent RenderComponent;
 		private readonly ShadowComponent shadowComponent;
 		public readonly MoveComponent MoveComponent;
@@ -42,42 +39,27 @@ namespace Game.GameObjects {
 
 			shadowComponent = new ShadowComponent(RenderComponent, this);
 
-			
 			MoveComponent = new MoveComponent(this);
-			
-			
+
 			collisionComponent = new SphereCollider(this, RenderComponent.Model,
 				message => {
-					if (message.OtherCollisonComponent.GameObject.searchOptionalComponents(ComponentType.HEALTH_COMPONENT, out var componentList)) {
-						for (int i = 0; i < componentList.Count; i++) {
-							((HealthComponent) componentList[i]).instaKill();
-						}	
+					if (message.OtherCollisonComponent.GameObject.SearchOptionalComponents(ComponentType.HEALTH_COMPONENT, out var componentList)) {
+						for (var i = 0; i < componentList.Count; i++) {
+							((HealthComponent) componentList[i]).InstaKill();
+						}
 					}
-				},
-				null//noActive,
-				//noPhysics
+				}
 			);
-			
-			
-			
-			
-		}
-		
-		public void activateMarker() {
-			HUD.AddHudObjectMarker(objectMarker);
 		}
 
-		public void deactivateMarker() {
-			HUD.RemoveHudObjectMarker(objectMarker.ID);
-		}
-
-		
+		public void ActivateMarker() => HUD.AddHudObjectMarker(ObjectMarker);
+		public void DeactivateMarker() => HUD.RemoveHudObjectMarker(ObjectMarker.ID);
 
 		public override void Awake() {
 			base.Awake();
 			RenderEngine.RegisterStaticRenderComponent(RenderComponent);
 			CollisionEngine.Register(collisionComponent);
-			
+
 			Radius = RenderComponent.Model.Radius(TransformComponent.Scale);
 			RenderComponent.AABB = RenderComponent.AABB * TransformComponent.Scale;
 			TransformComponent.UpdateWorldMatrix();
@@ -89,16 +71,13 @@ namespace Game.GameObjects {
 			RenderComponent.Update();
 			shadowComponent.Update();
 		}
-		
+
 		protected override void OnDestroy() {
-			//TODO BIIIG explosion
 			RenderEngine.UnregisterStaticRenderComponent(RenderComponent);
 			CollisionEngine.Unregister(collisionComponent);
-			HUD.RemoveHudObjectMarker(objectMarker.ID);
+			HUD.RemoveHudObjectMarker(ObjectMarker.ID);
 		}
 
-		public override string ToString() {
-			return TransformComponent.WorldPosition.ToString();
-		}
+		public override string ToString() => TransformComponent.WorldPosition.ToString();
 	}
 }

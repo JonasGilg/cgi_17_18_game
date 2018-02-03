@@ -1,40 +1,29 @@
-﻿using System;
-using Engine.Collision;
-using Engine.Component;
+﻿using Engine.Collision;
 using Engine.Model;
 using Engine.Render;
 
 namespace Engine {
-	
-
 	public delegate void ExecuteFunction(CollisionMessage collisionMessage);
-	
+
 	public abstract class CollisionComponent : Component.Component, IOctreeItem<CollisionComponent> {
-		
 		private readonly AxisAlignedBoundingBox aabb;
-		public PhysicsMaterial PhysicsMaterial;
 
 		public readonly ExecuteFunction ActiveCollisionFunctions;
 		public readonly ExecuteFunction PassiveCollisionFunctions;
-		
+
 		protected CollisionComponent(
 			GameObject gameObject,
 			Model3D model,
 			ExecuteFunction passiveCollisionFunctions = null,
-			ExecuteFunction activeCollisionFunctions = null,
-			PhysicsMaterial physicsMaterial = null
+			ExecuteFunction activeCollisionFunctions = null
 		) : base(gameObject) {
 			aabb = model.AABB;
-			
-			PhysicsMaterial = physicsMaterial ?? new DefaultPhysicsMaterial();
+
 			ActiveCollisionFunctions = activeCollisionFunctions;
-			PassiveCollisionFunctions =  col =>{ };
+			PassiveCollisionFunctions = col => { };
 			if (passiveCollisionFunctions != null) {
 				PassiveCollisionFunctions = passiveCollisionFunctions;
 			}
-			
-			
-			
 		}
 
 		public override void Update() { }

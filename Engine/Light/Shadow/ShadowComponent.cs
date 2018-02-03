@@ -8,8 +8,6 @@ namespace Engine {
 		private readonly RenderComponent renderComponent;
 		public ShadowComponent(RenderComponent renderComponent, GameObject gameObject) : base(gameObject) => this.renderComponent = renderComponent;
 
-		public override void Update() {
-			SHADOW_MATERIAL.RegisterForDraw(renderComponent);
-		}
+		public override void Update() => SHADOW_MATERIAL.RegisterForDraw(renderComponent);
 	}
 }

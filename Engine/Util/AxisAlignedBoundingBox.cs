@@ -40,10 +40,10 @@ namespace Engine {
 
 		public Vector3d GetMinOrMax(bool max) => max ? Max : Min;
 
-		public bool IsInside(Vector3d point) => ((point.X > Min.X) && (point.X < Max.X) && (point.Y > Min.Y) &&
+		private bool IsInside(Vector3d point) => ((point.X > Min.X) && (point.X < Max.X) && (point.Y > Min.Y) &&
 		                                         (point.Y < Max.Y) && (point.Z > Min.Z) && (point.Z < Max.Z));
 
-		public bool IsInside(AxisAlignedBoundingBox other) => IsInside(other.Min) && IsInside(other.Max);
+		private bool IsInside(AxisAlignedBoundingBox other) => IsInside(other.Min) && IsInside(other.Max);
 
 		public bool Overlaps(AxisAlignedBoundingBox other) {
 			var x = Math.Abs(Center.X - other.Center.X) <= (HalfDimension.X + other.HalfDimension.X);

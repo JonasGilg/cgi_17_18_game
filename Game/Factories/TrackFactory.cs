@@ -8,78 +8,63 @@ using OpenTK;
 
 namespace Game.Utils {
 	public static class TrackFactory {
-		private static readonly string LEVEL_1_FILE_PATH = "data/objects/track_files/track2/track_waypoints.obj";
+		private const string LEVEL_1_FILE_PATH = "data/objects/track_files/track2/track_waypoints.obj";
 
-		private static int numberOfElements = 0;
-
-		private static List<Vector3d> waypoints;
-		private static int CHECKPOINT_FREQUENCY = 16;
+		private const int CHECKPOINT_FREQUENCY = 16;
 		private const double DIAMETER = 50.0;
 
 
 		public static RaceTrack GenerateRaceTrack() {
 			var result = new RaceTrack();
-			var waypoints = CreateTrackPoints(LEVEL_1_FILE_PATH);
-			var richtungsV = waypoints[1] - waypoints[0];
+			var wps = CreateTrackPoints(LEVEL_1_FILE_PATH);
+			var richtungsV = wps[1] - wps[0];
 			result.StartPoint = richtungsV * -1;
 			result.StartOrientation = Quaterniond.FromAxisAngle(richtungsV, 0);
-
 
 			return result;
 		}
 
 
-		public static List<Vector3d> CreateTrackPoints(string filePath) {
+		private static List<Vector3d> CreateTrackPoints(string filePath) {
 			var wayPoints = LoadWayPoints(filePath);
 			var level1SpecialCheckpoints = new List<int> {1, 3, 5, 7, 8, 9, 14, 17, 19, 20, 23, 24, 25, 26, 27};
 			var checkpointNumber = 0;
-			waypoints = wayPoints;
 			GoalRing lastCheckPoint = null;
 
 			for (var i = 0; i < wayPoints.Count; i++) {
 				if (i % CHECKPOINT_FREQUENCY == 0) {
 					if (level1SpecialCheckpoints.Contains(checkpointNumber)) {
-						//special checkpoint now
-
-						//createCheckpoint(wayPoints[i]);
-						//TODO SUPER LAGGY!!!
-						CreateRingCheckpoint(wayPoints[i],wayPoints[i-1],wayPoints[i+1]);
+						CreateRingCheckpoint(wayPoints[i], wayPoints[i - 1], wayPoints[i + 1]);
 					}
 					else {
 						lastCheckPoint = CreateCheckpoint(wayPoints[i]);
 					}
 
 					checkpointNumber++;
-					
 				}
 				else {
 					switch (checkpointNumber) {
-						case var n when n > 20 :
-							PointRingFactory.GenerateSingle(wayPoints[i], PointType.Gold, DIAMETER);
+						case var n when n > 20:
+							PointRingFactory.GenerateSingle(wayPoints[i], PointType.GOLD, DIAMETER);
 							break;
-						case var n when n > 10 :
-							PointRingFactory.GenerateSingle(wayPoints[i], PointType.Silver, DIAMETER);
+						case var n when n > 10:
+							PointRingFactory.GenerateSingle(wayPoints[i], PointType.SILVER, DIAMETER);
 							break;
-						default :
-							PointRingFactory.GenerateSingle(wayPoints[i], PointType.Copper, DIAMETER);
+						default:
+							PointRingFactory.GenerateSingle(wayPoints[i], PointType.COPPER, DIAMETER);
 							break;
 					}
 				}
 			}
-			//make the last GoalRing the largest
-			lastCheckPoint.TransformComponent.Scale *= 4;
+
+			if (lastCheckPoint != null) lastCheckPoint.TransformComponent.Scale *= 4;
 
 			return wayPoints;
 		}
 
+		private static PointRing CreateGoldRing(Vector3d pos) => PointRingFactory.GenerateSingle(pos, PointType.GOLD, DIAMETER);
 
-		private static PointRing CreateGoldRing(Vector3d pos) {
-			return PointRingFactory.GenerateSingle(pos, PointType.Gold, DIAMETER);
-		}
-
-		private static GoalRing CreateCheckpoint(Vector3d pos) {
-			return GoalRingFactory.GenerateSingle(pos, DIAMETER * 3);
-		}
+		private static GoalRing CreateCheckpoint(Vector3d pos) => GoalRingFactory.GenerateSingle(pos, DIAMETER * 3);
 
 		private static void CreateRingCheckpoint(Vector3d pos, Vector3d prev, Vector3d next) {
 			var a = next - pos;
@@ -120,7 +105,6 @@ namespace Game.Utils {
 	}
 
 	public struct RaceTrack {
-		public List<Vector3d> Waypoints;
 		public Vector3d StartPoint;
 		public Quaterniond StartOrientation;
 	}

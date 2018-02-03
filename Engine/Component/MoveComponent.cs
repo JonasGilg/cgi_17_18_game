@@ -13,9 +13,7 @@ namespace Engine {
 			ApplyAngularVelocity();
 		}
 
-		private void ApplyLinearVelocity() {
-			GameObject.TransformComponent.Position += LinearVelocity * Time.DeltaTimeUpdate;
-		}
+		private void ApplyLinearVelocity() => GameObject.TransformComponent.Position += LinearVelocity * Time.DeltaTimeUpdate;
 
 		private void ApplyAngularVelocity() {
 			var angularChange = AngularVelocity * Time.DeltaTimeUpdate;

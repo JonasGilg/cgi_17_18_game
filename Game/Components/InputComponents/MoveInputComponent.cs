@@ -13,7 +13,7 @@ namespace Game.Components {
 		protected const double ROTATION_MULTIPLIER = 5;
 		protected readonly TransformComponent TransformComponent;
 		public readonly MoveComponent MoveComponent;
-		
+
 		protected void SetLinearVelocityInObjectSpace(Vector3d velocity) {
 			var newVelocity = TransformComponent.Orientation.Rotate(velocity);
 			MoveComponent.LinearVelocity = newVelocity;
@@ -40,7 +40,7 @@ namespace Game.Components {
 
 		public Vector3d GetAngularVelocityInObjectSpace()
 			=> TransformComponent.Orientation.Inverted().Rotate(MoveComponent.AngularVelocity);
-		
+
 		protected MoveInputComponent(GameObject gameObject, TransformComponent transformComponent,
 			MoveComponent moveComponent) : base(gameObject) {
 			TransformComponent = transformComponent;
@@ -71,7 +71,7 @@ namespace Game.Components {
 
 			if (Keyboard.Pressed(Key.V)) {
 				var pos = GameObject.TransformComponent.Position;
-				var formatCoord = "" + (int)pos.X + "," + (int)pos.Y + "," + (int)pos.Z;
+				var formatCoord = "" + (int) pos.X + "," + (int) pos.Y + "," + (int) pos.Z;
 				IO.PrintAsync(formatCoord);
 			}
 		}

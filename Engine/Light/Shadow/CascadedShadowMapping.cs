@@ -137,8 +137,6 @@ namespace Engine {
 			GL.CullFace(CullFaceMode.Front);
 		}
 
-		public static void SetLightDirection(Vector3d direction) {
-			LightDirection = direction.Normalized();
-		}
+		public static void SetLightDirection(Vector3d direction) => LightDirection = direction.Normalized();
 	}
 }

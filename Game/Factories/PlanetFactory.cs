@@ -1,13 +1,8 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using Engine;
-using Engine.GUI;
+﻿using System.Collections.Generic;
 using Engine.Material;
 using Engine.Texture;
-using Game.Components;
 using Game.GameObjects;
 using OpenTK;
- using OpenTK.Graphics.OpenGL;
 
 namespace Game.Utils {
 	public static class PlanetFactory {
@@ -18,8 +13,6 @@ namespace Game.Utils {
 			REDPLANET,
 			EARTHLIKE
 		}
-
-		private static readonly Random RANDOM = new Random(100);
 
 		private static readonly Dictionary<PlanetTexture, string> PLANET_TEXTURES = new Dictionary<PlanetTexture, string> {
 			{PlanetTexture.SUN, "data/textures/sun.png"},
@@ -50,17 +43,13 @@ namespace Game.Utils {
 				},
 				MoveComponent = {AngularVelocity = rotation}
 			};
-			
-			//special case for the sun
+
 			if (planetTexture == PlanetTexture.SUN) {
 				result.RenderComponent.Material = MaterialManager.GetMaterial(Material.SUN_LAVAFLOW);
 			}
 
-			//TODO every planet gets tagged now. But we need a List of Planets at some time anyways...  :)
-			
 			result.Instantiate();
 			return result;
 		}
-
 	}
 }

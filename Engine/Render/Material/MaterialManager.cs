@@ -19,7 +19,7 @@ namespace Engine.Material {
 
 		static MaterialManager() {
 			MATERIALS = new BaseMaterial[Enum.GetNames(typeof(Material)).Length];
-			
+
 			MATERIALS[(int) Material.PBR] = new PBRMaterial();
 			MATERIALS[(int) Material.AMBIENT_DIFFUSE_SPECULAR] = new AmbientDiffuseSpecularMaterial();
 			MATERIALS[(int) Material.NORMAL_MAPPING] = new NormalMappingMaterial();

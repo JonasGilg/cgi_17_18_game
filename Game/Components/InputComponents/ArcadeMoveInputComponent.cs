@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.AccessControl;
 using Engine;
 using Engine.Component;
 using Engine.Render;
@@ -19,10 +18,10 @@ namespace Game.Components {
 		private const double ROTATION_ACCELARATION = Math.PI / 180.0 / 10.0;
 
 		private const double ROTATION_DAMPENING = ROTATION_ACCELARATION;
-		
+
 		public override void Update() {
 			base.Update();
-			
+
 			if (Keyboard.Down(Key.W)) {
 				var translateForward = TransformComponent.Orientation.Rotate(new Vector3d(Time.DeltaTimeUpdate, 0.0, 0.0));
 				MoveComponent.LinearVelocity += translateForward * FORWARD_SPEED;

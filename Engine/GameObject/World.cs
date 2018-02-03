@@ -5,13 +5,10 @@ using Engine.Render;
 
 namespace Engine {
 	public static class World {
-		//game objects
 		private static List<GameObject> OBJECTS = new List<GameObject>();
 
-		//stats
 		private static readonly TimingStats UPDATE_STATS = new TimingStats("World");
 		private static readonly TimingStats RENDER_STATS = new TimingStats("World");
-
 
 		static World() {
 			TimingRegistry.AddUpdateTiming(UPDATE_STATS);
@@ -39,14 +36,11 @@ namespace Engine {
 			RENDER_STATS.Stop();
 		}
 
-
 		public static void AddToWorld(GameObject obj) => OBJECTS.Add(obj);
 
 		public static void RemoveFromWorld(GameObject obj) => OBJECTS.Remove(obj);
 
 		public static void ClearWorld() {
-			//Removing objects directly from the OBJECTS list results in a ModificationException
-			//workaround: copy all elements to an array, assign empty list to OBJECTS and delete the elements in the created array
 			var toDelete = new GameObject[OBJECTS.Count];
 			OBJECTS.CopyTo(toDelete);
 			OBJECTS = new List<GameObject>();
@@ -54,6 +48,5 @@ namespace Engine {
 				obj.Destroy();
 			}
 		}
-
 	}
 }

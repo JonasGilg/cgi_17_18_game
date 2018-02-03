@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using OpenTK;
 
 namespace Engine.Model {
@@ -11,7 +9,6 @@ namespace Engine.Model {
 		public static Model3D Load(string filePath, float scale = 1.0f,
 			bool doAverageTangets = false,
 			bool createVAO = true) {
-			
 			var model = new Model3D();
 
 			var v = new List<Vector3>();
@@ -19,7 +16,7 @@ namespace Engine.Model {
 			var vn = new List<Vector3>();
 
 			var input = File.ReadLines(filePath);
-			
+
 			foreach (var line in input) {
 				var parts = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 				if (parts.Length > 0) {

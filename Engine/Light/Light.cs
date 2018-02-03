@@ -2,20 +2,16 @@
 
 namespace Engine {
 	public static class Light {
-		public static Vector3 LightDirection;
 		public static Vector3d LightOrigin;
-		public static bool IsDirectional;
 
 		public static Vector4 LightAmbient;
 		public static Vector4 LightDiffuse;
 		public static Vector4 LightSpecular;
 
-		public static void SetDirectionalLight(Vector3 direction, Vector4 ambient, Vector4 diffuse, Vector4 specular) {
-			LightDirection = Vector3.Normalize(direction);
+		public static void SetDirectionalLight(Vector4 ambient, Vector4 diffuse, Vector4 specular) {
 			LightAmbient = ambient;
 			LightDiffuse = diffuse;
 			LightSpecular = specular;
-			IsDirectional = true;
 		}
 
 		public static void SetSpotLight(Vector3d origin, Vector4 ambient, Vector4 diffuse, Vector4 specular) {
@@ -23,8 +19,6 @@ namespace Engine {
 			LightAmbient = ambient;
 			LightDiffuse = diffuse;
 			LightSpecular = specular;
-
-			IsDirectional = false;
 		}
 	}
 }

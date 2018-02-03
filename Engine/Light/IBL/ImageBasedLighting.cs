@@ -1,7 +1,7 @@
 ﻿using System;
 using Engine.Model;
+using Engine.Render;
 using Engine.Texture;
-using Engine.Util;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -10,7 +10,7 @@ namespace Engine {
 		public int IrradianceCubeTexture;
 		public int SpecularCubeTexture;
 	}
-	
+
 	public class ImageBasedLighting : BaseLighting {
 		private readonly int gColorRoughnessLocation;
 		private readonly int gNormalLocation;
@@ -29,7 +29,7 @@ namespace Engine {
 		public ImageBasedLighting() {
 			iblLookupTexture = TextureManager.LoadTexture("Light/IBL/ibl_brdf_lut.png");
 
-			Program = ShaderCompiler.CreateShaderProgram("Light/IBL/IBL_VS.glsl", "Light/IBL/IBL_FS.glsl");
+			Program = ShaderLoader.LoadShader("Light/IBL/IBL_VS.glsl", "Light/IBL/IBL_FS.glsl");
 
 			GL.BindAttribLocation(Program, 0, "in_position");
 			GL.BindAttribLocation(Program, 1, "in_normal");

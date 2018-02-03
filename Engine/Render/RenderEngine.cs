@@ -73,11 +73,11 @@ namespace Engine.Render {
 			SHADOW_MAPPING.Stop();
 
 			DeferredRendering.StartGBufferRendering();
-			
+
 			MATERIAL_RENDER.Start();
 			MaterialManager.DrawAll();
 			MATERIAL_RENDER.Stop();
-			
+
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 			GL.ClearColor(new Color4(0, 0, 0, 0));
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
