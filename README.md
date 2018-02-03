@@ -20,7 +20,7 @@
 
 ## Goal
 
-- Collect Points by collecting bronze, silver and gold rings.  
-- Follow the checkpoints marked by purple rings.  
+- Get points by collecting bronze, silver and gold rings.  
+- Follow the checkpoints marked by purple rings to finish.  
 - Beware of asteroids, planets and black holes!  
 - BLACK HOLES SUCK YOU IN!!!
