@@ -35,8 +35,7 @@ namespace Game.GameObjects {
 			RenderEngine.RegisterDynamicRenderComponent(renderComponent);
 			Radius = renderComponent.Model.Radius(TransformComponent.Scale);
 			renderComponent.AABB = renderComponent.AABB * TransformComponent.Scale;
-			TransformComponent.Position = GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Position +
-			                              GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Orientation.Rotate(new Vector3d(GamePlayEngine.PLAYER_SPACESHIP.Radius / 2, GamePlayEngine.PLAYER_SPACESHIP.Radius, 0) * 1.1);
+			
 		}
 
 		protected override void OnDestroy() => RenderEngine.UnregisterDynamicRenderComponent(renderComponent);
@@ -44,7 +43,8 @@ namespace Game.GameObjects {
 		public override void Update() {
 			base.Update();
 
-			TransformComponent.Position += GamePlayEngine.PLAYER_SPACESHIP.MoveComponent.LinearVelocity * Time.DeltaTimeUpdate;
+			TransformComponent.Position = GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Position +
+			                              GamePlayEngine.PLAYER_SPACESHIP.TransformComponent.Orientation.Rotate(new Vector3d(GamePlayEngine.PLAYER_SPACESHIP.Radius / 2, GamePlayEngine.PLAYER_SPACESHIP.Radius, 0) * 1.1);
 			TransformComponent.Orientation = Math3D.LookAt(TransformComponent.Position, GamePlayEngine.CurrentGoal?.TransformComponent.Position ?? Vector3d.Zero);
 		}
 	}
